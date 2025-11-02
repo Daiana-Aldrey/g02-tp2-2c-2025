@@ -1,0 +1,135 @@
+@startuml
+class Jugador{
+-nombre:String
+-caminos:list
+-gestorDePiezas: GestorDePiezas
+-recursos:list
+-cartas:list
++solicitarIntercambio(oferta:list, recursoSolicitado:String)
++incrementarRecurso(recurso,incremento)
+}
+
+class GestorDePiezas{
+-cantCaminos
+-cantCiudades
+-cantAsentamientos
+-caminos:list
+-asentamientos:list
+-ciudades: list
++caminoMasLargo()
++puntajeDePiezas()
++eliminarPieza(pieza)
++incorporarPieza(pieza,ubicacion)
+}
+
+Abstract class Pieza{
+-ubicacion:list
+-jugadorPerteneciente:JUgador
++enPuerto:boolean
++validarColocacion(ubicacion)
++colocar(ubicacion)
++costoConstruccion()
+}
+
+class Camino{
++Validarcolocacion(ubicacion)
++costoConstruccion()
+}
+
+class Ciudad{
++validarColocacion(ubicacion)
++costoConstruccion()
+}
+
+class Asentamiento{
++validarColocacion(ubicacion)
++costoConstruccion()
+}
+
+class Recurso{
+-tipo:string
+-cantidad:int
++incrementar(cantidad):void
++decrementar(cantidad): void
++sosTipo(unTipo): bool
+}
+
+Abstract class Terreno {
+-numero:int
+-tieneLadron:boolean
+-piezasAdyacentes:list
++repartirRecurso()
++bloquearConLadron()
++liberarDeLadron()
++agregarPiezaAdyacente()
++eliminarPiezaAdyacente()
+}
+
+class Bosque{
++repartirRecurso()
+}
+
+class Colina{
++repartirRecurso()
+}
+
+class Pastizal{
++repartirRecurso()
+}
+
+class Campo{
++repartirRecurso()
+}
+
+class Montaña{
++repartirRecurso()
+}
+
+class GestorJuego{
+-rondas:int
+-jugadores:list
+-terrenos:list
++validarDistancia(piezaNueva)
++tirarDado()
++incrementarRonda()
++verificarGanador()
+}
+
+
+Abstract class Carta{
+-cantidad
++usar()
+}
+
+class Caballero{
++usar()
+}
+
+class PuntosDeVictoria{
++usar()
+}
+
+class Progreso{
++usar()
+}
+
+Carta <|-- Caballero
+Carta <|-- PuntosDeVictoria
+Carta <|-- Progreso
+GestorJuego o-- Jugador
+GestorJuego o-- Terreno
+Terreno <|-- Bosque
+Terreno <|-- Pastizal
+Terreno <|-- Campo
+Terreno <|-- Montaña
+Terreno <|-- Colina
+Terreno ..> Recurso
+Jugador --> Recurso
+Jugador --> GestorDePiezas
+Jugador --> Carta
+GestorDePiezas o-- Pieza
+Pieza <|-- Camino
+Pieza <|-- Asentamiento
+Pieza <|-- Ciudad
+
+@enduml
