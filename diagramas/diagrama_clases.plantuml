@@ -1,25 +1,67 @@
 @startuml
+class GestorDeJuego{
+-rondas:int
+-jugadores:list
+-tablero:Tablero
+-ladron:Ladron
++inicializarPartida()
++tirarDado()
++cosecharRecursos()
++verificarLadron)
++incrementarRonda()
++verificarGanador()
+}
+
+class Tablero{
+-puertos:list
+-terrenos:list
+-validarDistancia(piezaNueva)
++agregarPieza(pieza)
+}
+
+Interface Puerto{
++intercambiar()
+}
+
+class PuertoGenerico{
++intercambiar(jugador,oferta,recurso)
+}
+
+class PuertoEspecifico{
+-recursoAceptado:String
++intercambiar(jugador,recursoSolicitado)
+}
+
+class Ladron{
+-ubicacion
++robar()
++enDesierto():boolean
+}
+
 class Jugador{
 -nombre:String
 -caminos:list
 -gestorDePiezas: GestorDePiezas
 -recursos:list
 -cartas:list
++Jugador(gestorDePiezas):void
 +solicitarIntercambio(oferta:list, recursoSolicitado:String)
 +incrementarRecurso(recurso,incremento)
 }
 
 class GestorDePiezas{
+-tablero:Tablero
 -cantCaminos
 -cantCiudades
 -cantAsentamientos
 -caminos:list
 -asentamientos:list
 -ciudades: list
-+caminoMasLargo()
-+puntajeDePiezas()
-+eliminarPieza(pieza)
-+incorporarPieza(pieza,ubicacion)
++GestorDePiezas(tableroEnJuego):void
++caminoMasLargo(): list
++puntajeDePiezas():int
++eliminarPieza(pieza):void
++incorporarPieza(pieza,ubicacion):void
 }
 
 Abstract class Pieza{
@@ -85,16 +127,6 @@ class Montaña{
 +repartirRecurso()
 }
 
-class GestorJuego{
--rondas:int
--jugadores:list
--terrenos:list
-+validarDistancia(piezaNueva)
-+tirarDado()
-+incrementarRonda()
-+verificarGanador()
-}
-
 
 Abstract class Carta{
 -cantidad
@@ -116,8 +148,13 @@ class Progreso{
 Carta <|-- Caballero
 Carta <|-- PuntosDeVictoria
 Carta <|-- Progreso
-GestorJuego o-- Jugador
-GestorJuego o-- Terreno
+GestorDeJuego o-- Tablero
+GestorDeJuego o-- Jugador
+GestorDeJuego --> Ladron
+Puerto <|.. PuertoEspecifico
+Puerto <|.. PuertoGenerico
+Tablero o-- Puerto
+Tablero o-- Terreno
 Terreno <|-- Bosque
 Terreno <|-- Pastizal
 Terreno <|-- Campo
@@ -127,9 +164,9 @@ Terreno ..> Recurso
 Jugador --> Recurso
 Jugador --> GestorDePiezas
 Jugador --> Carta
+GestorDePiezas --> Tablero
 GestorDePiezas o-- Pieza
 Pieza <|-- Camino
 Pieza <|-- Asentamiento
 Pieza <|-- Ciudad
-
 @enduml
