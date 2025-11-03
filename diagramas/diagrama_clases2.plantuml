@@ -1,0 +1,140 @@
+@startuml
+class Jugador {
+-nombre: String
+-piezas: list<Pieza>
+-recursos: list<String>
+-cartas: list<Carta>
+-puntosDeVictoria: int
++tirarDados()
++solicitarIntercambio(oferta: list<String>, recursoSolicitado: list<String>)
++solicitarIntercambioMaritimo(oferta: list<String>, recursoSolicitado: String)
++agregarRecursos(recursos: list<String>)
++devolverRecursos(recursos: list<String>)
++puntajeDePiezas(): int
++eliminarPieza(pieza: Pieza)
++incorporarPieza(pieza: Pieza, ubicacion: Ubicacion)
++construirPieza(pieza: Pieza)
++moverLadron()
+}
+
+Abstract class Pieza {
+-ubicacion: Ubicacion
+-jugadorPerteneciente: Jugador
+-costoContruccion: list<String>
++agregarRecursos(recursos: list<String>)
++enPuerto(): Boolean
++validarColocacion(ubicacion: Ubicacion)
++colocar(ubicacion: Ubicacion)
++costoConstruccion()
+}
+
+class Camino {
++ValidarColocacion(ubicacion: Ubicacion)
++costoConstruccion()
+}
+
+class Ciudad {
++validarColocacion(ubicacion: Ubicacion)
++costoConstruccion()
+}
+
+class Asentamiento {
++validarColocacion(ubicacion: Ubicacion)
++costoConstruccion()
+}
+
+Abstract class Terreno {
+-numero: int
+-tieneLadron: Boolean
+-piezasAdyacentes: list<Piezas>
+-recursoAOtorgar: String
++repartirRecurso()
++bloquearConLadron()
++liberarDeLadron()
++agregarPiezaAdyacente()
++eliminarPiezaAdyacente()
+}
+
+class Bosque {
++repartirRecurso()
+}
+
+class Colina {
++repartirRecurso()
+}
+
+class Pastizal {
++repartirRecurso()
+}
+
+class Campo {
++repartirRecurso()
+}
+
+class Montaña {
++repartirRecurso()
+}
+
+class Ladron {
+-ubicacion: Ubicacion
++robar()
++enDesierto():boolean
++moverLadron(ubicacion: Ubicacion)
+}
+
+class Tablero {
+-piezas: list<Pieza>
+-terrenos: list<Terreno>
+-validarDistancia(piezaNueva: Pieza)
++agregarPieza(pieza: Pieza)
++eliminarPieza(pieza: Pieza)
+}
+
+class GestorJuego {
+-rondas: int
+-jugadores: list<Jugador>
+-terrenos: list<Terreno>
+-recursos: list<Strings>
++empezarPartida(cantidadDeJugadores: int)
++distribuirTerrenos()
++validarDistancia(piezaNueva: Pieza)
++validarJugadorEnTurno(): Boolean
++incrementarRonda()
++verificarGanador()
+}
+
+Abstract class Carta {
+-cantidad: int
++usar()
+}
+
+class Caballero {
++usar()
+}
+
+class PuntosDeVictoria {
++usar()
+}
+
+class Progreso {
++usar()
+}
+
+Carta <|-- Caballero
+Carta <|-- PuntosDeVictoria
+Carta <|-- Progreso
+GestorJuego o-- Jugador
+GestorJuego o-- Terreno
+Terreno <|-- Bosque
+Terreno <|-- Pastizal
+Terreno <|-- Campo
+Terreno <|-- Montaña
+Terreno <|-- Colina
+Jugador --> GestorDePiezas
+Jugador --> Carta
+GestorDePiezas o-- Pieza
+Pieza <|-- Camino
+Pieza <|-- Asentamiento
+Pieza <|-- Ciudad
+
+@enduml
