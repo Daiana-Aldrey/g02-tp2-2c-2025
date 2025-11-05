@@ -1,0 +1,31 @@
+@startuml
+title Secuencia: Calcular puntaje TOTAL
+
+actor TestCalculo as T
+participant Jugador as J
+participant GestorDePiezas as GP
+participant "Carta c" as C
+
+T -> J : calcularPuntajeTotal()
+activate J
+
+J -> GP : puntajeDePiezas()
+activate GP
+GP --> J : pvPiezas:int
+deactivate GP
+
+
+'J -> J : cartas = obtenerCartas() al final no pusimos esta
+
+loop por cada c en cartas
+  J -> C : Obtenerpuntaje()
+  activate C
+  C --> J : puntosCarta:int
+  ' (0|1)
+  deactivate C
+  J -> J : pvCartas += puntosCarta
+end
+
+J --> T : total:int = pvPiezas + pvCartas
+deactivate J
+@enduml

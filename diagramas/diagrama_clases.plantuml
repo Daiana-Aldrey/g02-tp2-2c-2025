@@ -47,6 +47,7 @@ class Jugador{
 +Jugador(gestorDePiezas):void
 +solicitarIntercambio(oferta:list, recursoSolicitado:String)
 +incrementarRecurso(recurso,incremento)
++calcularPuntajeTotal():int
 }
 
 class GestorDePiezas{
@@ -131,18 +132,25 @@ class Montaña{
 Abstract class Carta{
 -cantidad
 +usar()
++obtenerpuntaje():int
 }
 
 class Caballero{
 +usar()
++obtenerpuntaje():int
+
 }
 
 class PuntosDeVictoria{
 +usar()
++obtenerpuntaje():int
+
 }
 
 class Progreso{
 +usar()
++obtenerpuntaje():int
+
 }
 
 Carta <|-- Caballero
