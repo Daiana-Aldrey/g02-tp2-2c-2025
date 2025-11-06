@@ -8,9 +8,11 @@ Trabajo Práctico número 2 de la materia Algoritmos y Programación III de FIUB
 ## Grupo {2}
 
 * **Integrante 1** - [Aldrey Daiana](https://github.com/Daiana-Aldrey)
-* **Integrante 2** - [integrante2](https://github.com/integrante2)
-* **Integrante 3** - [integrante3](https://github.com/integrante3)
-* **Integrante 4** - [integrante4](https://github.com/integrante4)
+* **Integrante 2** - [Amarilla Carolina](https://github.com/amarillacarolina)
+* **Integrante 3** - [Rojas Joselin](https://github.com/JoselinFIUBA)
+* **Integrante 4** - [Lucia Povis](https://github.com/LuciaPoviss)
+* **Integrante 5** - [Gianfranco](https://github.com/GianfrancoTurco)
+
 
 Corrector: **{Joaquin Gomez y Mateo Castaño}**
 
