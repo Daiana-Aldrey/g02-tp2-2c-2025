@@ -1,12 +1,12 @@
 @startuml
-class GestorDeJuego{
+class Juego{
 -rondas:int
 -jugadores:list
 -tablero:Tablero
 -ladron:Ladron
 +inicializarPartida()
 +tirarDado()
-+cosecharRecursos()
++cosecharRecursos(numTerreno)
 +verificarLadron)
 +incrementarRonda()
 +verificarGanador()
@@ -15,12 +15,19 @@ class GestorDeJuego{
 class Tablero{
 -puertos:list
 -terrenos:list
+-piezas:list
 -validarDistancia(piezaNueva)
 +agregarPieza(pieza)
++cosecharTerreno(numTerreno): void
 }
 
-Interface Puerto{
+
+Interface Intercambio{
 +intercambiar()
+}
+
+class Banco {
++intercambiarRecurso(recurso,cantidad)
 }
 
 class PuertoGenerico{
@@ -41,36 +48,26 @@ class Ladron{
 class Jugador{
 -nombre:String
 -caminos:list
--gestorDePiezas: GestorDePiezas
+-piezas:list
 -recursos:list
 -cartas:list
+-Puertos:list<Puerto>
 +Jugador(gestorDePiezas):void
-+solicitarIntercambio(oferta:list, recursoSolicitado:String)
++proponerIntercambio(oferta:list<Recurso>, recursoSolicitado:list<Recurso>)
++intercambiar(oferta:list<Recurso>, recursoSolicitado:list<Recurso>)
 +incrementarRecurso(recurso,incremento)
-+calcularPuntajeTotal():int
++decrementarRecurso(recurso,decremento)
++calcularPuntajePiezas(): int
 }
 
-class GestorDePiezas{
--tablero:Tablero
--cantCaminos
--cantCiudades
--cantAsentamientos
--caminos:list
--asentamientos:list
--ciudades: list
-+GestorDePiezas(tableroEnJuego):void
-+caminoMasLargo(): list
-+puntajeDePiezas():int
-+eliminarPieza(pieza):void
-+incorporarPieza(pieza,ubicacion):void
-}
-
-Abstract class Pieza{
--ubicacion:list
--jugadorPerteneciente:JUgador
-+enPuerto:boolean
-+validarColocacion(ubicacion)
-+colocar(ubicacion)
+Abstract class Pieza {
+-ubicacion: Ubicacion
+-costoContruccion: list<String>
+-propietario: Jugador
++agregarRecursos(recursos: list<String>)
++enPuerto(): Boolean
++validarColocacion(ubicacion: Ubicacion)
++colocar(ubicacion: Ubicacion)
 +costoConstruccion()
 }
 
@@ -101,6 +98,7 @@ Abstract class Terreno {
 -numero:int
 -tieneLadron:boolean
 -piezasAdyacentes:list
++esMiNumero(numero):bool
 +repartirRecurso()
 +bloquearConLadron()
 +liberarDeLadron()
@@ -132,48 +130,42 @@ class Montaña{
 Abstract class Carta{
 -cantidad
 +usar()
-+obtenerpuntaje():int
 }
 
 class Caballero{
 +usar()
-+obtenerpuntaje():int
-
 }
 
 class PuntosDeVictoria{
 +usar()
-+obtenerpuntaje():int
-
 }
 
 class Progreso{
 +usar()
-+obtenerpuntaje():int
-
 }
+
 
 Carta <|-- Caballero
 Carta <|-- PuntosDeVictoria
 Carta <|-- Progreso
-GestorDeJuego o-- Tablero
-GestorDeJuego o-- Jugador
-GestorDeJuego --> Ladron
-Puerto <|.. PuertoEspecifico
-Puerto <|.. PuertoGenerico
-Tablero o-- Puerto
+Juego o-- Tablero
+Juego o-- Jugador
+Juego --> Ladron
+Intercambio <|.. Banco
+Intercambio <|.. PuertoEspecifico
+Intercambio <|.. PuertoGenerico
+Juego --> Intercambio
 Tablero o-- Terreno
+Tablero --> Pieza
 Terreno <|-- Bosque
 Terreno <|-- Pastizal
 Terreno <|-- Campo
 Terreno <|-- Montaña
 Terreno <|-- Colina
 Terreno ..> Recurso
+Jugador --> Pieza
 Jugador --> Recurso
-Jugador --> GestorDePiezas
 Jugador --> Carta
-GestorDePiezas --> Tablero
-GestorDePiezas o-- Pieza
 Pieza <|-- Camino
 Pieza <|-- Asentamiento
 Pieza <|-- Ciudad
