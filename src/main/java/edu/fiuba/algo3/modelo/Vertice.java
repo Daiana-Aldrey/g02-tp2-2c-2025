@@ -5,18 +5,18 @@ import java.util.List;
 
 public class Vertice {
     private Integer nombre;
+    private int numVertice;
     private List<Vertice> adyacetes;
     private boolean disponible;
     private boolean pieza;
 
     public Vertice(Integer nombre) {
         adyacetes = new ArrayList<>();
-
         this.nombre = nombre;
         disponible = true;
         pieza = false;
     }
-
+    
     // Post: agrega un vértice adyacente a la lista de "adyacentes".
     public void agregarVerticeAdyacente(Vertice vertice) {
         adyacetes.add(vertice);
