@@ -17,8 +17,9 @@ public abstract class Pieza {
     
     public abstract List<Recurso> costoDeConstruccion();
 
-    public void agregarRecursos(String mineral, int i) {
-        System.out.println("Agregando recursos de " + mineral + ": " + i);
+    public void agregarRecursos(String tipo, int cantidad) {
+        propietario.recibirRecurso(tipo, cantidad);
+        System.out.println("Agregando recursos de " + tipo + ": " + cantidad);
     }
 }
     

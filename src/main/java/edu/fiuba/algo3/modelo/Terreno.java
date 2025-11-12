@@ -2,7 +2,7 @@ package edu.fiuba.algo3.modelo;
 
 import java.util.List;
 
-public class Terreno {
+public abstract class Terreno {
     private int fichaDeNumero;
 
     public Terreno(int ficha){
@@ -12,12 +12,14 @@ public class Terreno {
         return resultadoDados == fichaDeNumero;
     }
 
+    public abstract String tipoRecurso();
+
     public void cosecharRecursos(List<Pieza> edificios) {
         for (Pieza edificio : edificios) {
             //if (edificio.esCasa())
-            edificio.agregarRecursos("mineral",1);
+            edificio.agregarRecursos(this.tipoRecurso(),1);
             //else {
-            //edificio.agregarRecursos("mineral",2); }
+            //edificio.agregarRecursos(this.tipoRecurso(),2); }
         }
     }
 }

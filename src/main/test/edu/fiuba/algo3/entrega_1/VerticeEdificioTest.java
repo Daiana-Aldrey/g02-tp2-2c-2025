@@ -50,7 +50,7 @@ public class VerticeEdificioTest {
     @Test
     public void verticeAgregaUnTerrenoAdyacenteCorrectamente() {
         VerticeEdificio vertice1 = new VerticeEdificio(1);
-        VerticeTerreno vertice2 = new VerticeTerreno('A',new Terreno(8));
+        VerticeTerreno vertice2 = new VerticeTerreno('A',new Bosque(8));
 
         vertice1.agregarVerticeAdyacente(vertice2);
 
