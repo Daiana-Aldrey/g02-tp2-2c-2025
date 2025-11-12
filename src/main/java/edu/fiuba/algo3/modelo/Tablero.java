@@ -78,7 +78,13 @@ public final class Tablero {
     	return piezas.size() == 0 ;
     }	
     	
-    public colocarPieza (int num_vertice) {
+    public void colocarPieza (int num_vertice, Pieza pieza) {
+        grafo.colocarPieza(num_vertice, pieza);
+    }
+
+    public void cosechar(int resultadoDado) {
+        grafo.cosechaCompatibles(resultadoDado);
     }
 }
+
 

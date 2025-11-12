@@ -17,6 +17,7 @@ public class Juego {
 		this.maxTurno = cantJugadores;
 		this.tablero = Tablero.getInstance();
 		this.banco = new Banco();
+        this.ronda = new Ronda();
 		
 		validarCantJugadores(cantJugadores);
 		for(int i = 0; i < cantJugadores; i++)	{

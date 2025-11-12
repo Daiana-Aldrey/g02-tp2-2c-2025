@@ -17,12 +17,12 @@ public class Jugador {
 		
 	}
 	
-	public Poblado  elegirPrimerPoblado() {
+	public Poblado elegirPrimerPoblado() {
 		Scanner scanner = new Scanner(System.in);
 
         System.out.println(nombre + ", elige el número del vértice donde quieres colocar tu primer poblado:");
         int numVertice = scanner.nextInt();
-		Poblado nuevoPoblado = new Poblado(this, numVertice);
+		Poblado nuevoPoblado = new Poblado(this);
 		poblados.add(nuevoPoblado);
 		
 		return nuevoPoblado;

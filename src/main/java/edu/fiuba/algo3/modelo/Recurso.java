@@ -17,4 +17,9 @@ public class Recurso extends Carta {
 			throw new IllegalArgumentException("No posees cantidad suficiente de " + nombre);
 	    }
 	}
+
+    @Override
+    public void usar() {
+        System.out.println("Usando recurso " + nombre);
+    }
 }

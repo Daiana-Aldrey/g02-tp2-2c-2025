@@ -7,15 +7,18 @@ public abstract class Pieza {
     
     
     // ver si es conveniente hacer algo asi y crear clase ubicacion
-   /* public static Pieza(TipoPieza tipo, Jugador propietario, Ubicacion ubicacion) {
+   /* public static Pieza(TipoPieza tipo, Jugador propietario) {
         return switch (tipo) {
-            case POBLADO -> new Poblado(propietario, ubicacion);
-            case CAMINO  -> new Camino(propietario, ubicacion);
-            case CIUDAD  -> new Ciudad(propietario, ubicacion);
+            case POBLADO -> new Poblado(propietario);
+            case CAMINO  -> new Camino(propietario);
+            case CIUDAD  -> new Ciudad(propietario);
         };
     }*/
     
     public abstract List<Recurso> costoDeConstruccion();
-    
-}    
+
+    public void agregarRecursos(String mineral, int i) {
+        System.out.println("Agregando recursos de " + mineral + ": " + i);
+    }
+}
     

@@ -1,7 +1,6 @@
 package edu.fiuba.algo3.entrega_1;
 
-import edu.fiuba.algo3.modelo.Grafo;
-import edu.fiuba.algo3.modelo.Vertice;
+import edu.fiuba.algo3.modelo.*;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -21,13 +20,12 @@ public class GrafoTest {
     @Test
     public void grafoEncuentraElVerticeBuscado() {
         Grafo grafo = new Grafo();
-        Vertice verticeBuscado = new Vertice(2);
+        VerticeEdificio verticeEdificioBuscado = new VerticeEdificio(2);
 
-        grafo.agregarVertice(1);
-        grafo.agregarVertice(verticeBuscado);
+        grafo.agregarVertice(verticeEdificioBuscado);
 
-        Vertice encontrado = grafo.buscarVertice(2);
-        Assertions.assertEquals(verticeBuscado, encontrado);
+        VerticeEdificio encontrado = grafo.buscarVertice(2);
+        Assertions.assertEquals(verticeEdificioBuscado, encontrado);
     }
 
     @Test
@@ -50,7 +48,10 @@ public class GrafoTest {
         grafo.agregarVertice(2);
         grafo.agregarArista(1,2);
 
-        assertTrue(grafo.hayArista(1,2));
+        VerticeEdificio vertice1 = grafo.buscarVertice(1);
+        VerticeEdificio vertice2 = grafo.buscarVertice(2);
+
+        assertTrue(grafo.hayArista(vertice1, vertice2));
     }
 
     @Test
@@ -65,5 +66,30 @@ public class GrafoTest {
         assertThrows(RuntimeException.class, () -> {
             grafo.agregarArista(2,1);
         });
+    }
+
+    @Test
+    public void seIntentaAgregarPiezaEnUnVerticeNoDisponibleYLanzaExcepcion() {
+        Grafo grafo = new Grafo();
+        Pieza pieza = new Poblado(new Jugador("Luis"));
+        grafo.agregarVertice(1);
+
+        grafo.colocarPieza(1,pieza);
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            grafo.colocarPieza(1,pieza);
+        });
+    }
+
+    @Test
+    public void grafoEncuentraElVerticeTerrenoBuscado() {
+        Grafo grafo = new Grafo();
+        VerticeTerreno buscado = new VerticeTerreno('A', new Terreno(9));
+
+        grafo.agregarVertice(buscado);
+
+        VerticeTerreno encontrado = grafo.buscarVertice('A');
+
+        Assertions.assertEquals(buscado, encontrado);
     }
 }
