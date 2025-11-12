@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="main/java"/>
+	<classpathentry kind="src" path="main/test"/>
+	<classpathentry kind="lib" path="/home/daiana/Downloads/openjfx-21.0.9_linux-x64_bin-sdk/javafx-sdk-21.0.9/lib/javafx.base.jar">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/home/daiana/Downloads/openjfx-21.0.9_linux-x64_bin-sdk/javafx-sdk-21.0.9/lib/javafx.controls.jar">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/home/daiana/Downloads/openjfx-21.0.9_linux-x64_bin-sdk/javafx-sdk-21.0.9/lib/javafx.fxml.jar">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/home/daiana/Downloads/openjfx-21.0.9_linux-x64_bin-sdk/javafx-sdk-21.0.9/lib/javafx.graphics.jar">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/home/daiana/Downloads/openjfx-21.0.9_linux-x64_bin-sdk/javafx-sdk-21.0.9/lib/javafx.media.jar">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/home/daiana/Downloads/openjfx-21.0.9_linux-x64_bin-sdk/javafx-sdk-21.0.9/lib/javafx.swing.jar">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/home/daiana/Downloads/openjfx-21.0.9_linux-x64_bin-sdk/javafx-sdk-21.0.9/lib/javafx.web.jar">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/home/daiana/Downloads/openjfx-21.0.9_linux-x64_bin-sdk/javafx-sdk-21.0.9/lib/javafx-swt.jar">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/home/daiana/Downloads/jason-simple-111/json-simple-1.1.1.jar">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/5"/>
+	<classpathentry kind="output" path="main/bin"/>
+</classpath>

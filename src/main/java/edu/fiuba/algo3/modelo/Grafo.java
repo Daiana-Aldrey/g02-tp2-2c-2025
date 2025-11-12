@@ -102,7 +102,8 @@ public class Grafo {
             throw new IllegalArgumentException("No se puede poner la pieza en el vertice");
         }
         verticeEncontrado.colocarPieza(pieza);
-    }
+    } 
+   
 
     public void cosechaCompatibles(int resultadoDado) {
         List<VerticeTerreno> terrenosConFichaDeNumero = algunTerrenoCompatible(resultadoDado);

@@ -18,16 +18,15 @@ public class Jugador {
 		this.caminos = new ArrayList<Camino>();
 		this.recursos = new ArrayList<Recurso>();
 	}
+	 
 	
-	public Poblado elegirPrimerPoblado() {
-		Scanner scanner = new Scanner(System.in);
-
-        System.out.println(nombre + ", elige el número del vértice donde quieres colocar tu primer poblado:");
-        int numVertice = scanner.nextInt();
-		Poblado nuevoPoblado = new Poblado(this);
-		poblados.add(nuevoPoblado);
-		
-		return nuevoPoblado;
+	public void elegirColocazionPieza(String tipo) {
+        Pieza pieza = Pieza.crear(tipo, this);
+		pieza.colocar();
+	}
+	
+	public void turno() {
+		 System.out.println("opciones de jugador en su turno");
 	}
 
     public void recibirRecurso(String tipo, int cantidad) {

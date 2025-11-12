@@ -12,10 +12,10 @@ public final class Tablero {
     // unica instancia creada al cargar la clase
     private static final Tablero INSTANCE = new Tablero();
 
-
     // nadie puede hacer "new Tablero()"
     private Tablero() {
         grafo = new Grafo();
+        piezas = new ArrayList();
     }
 
     // metodo de acceso global
@@ -80,10 +80,21 @@ public final class Tablero {
     	
     public void colocarPieza (int num_vertice, Pieza pieza) {
         grafo.colocarPieza(num_vertice, pieza);
+        piezas.add(pieza);
     }
 
     public void cosechar(int resultadoDado) {
         grafo.cosechaCompatibles(resultadoDado);
+    }
+    
+    public void mostrarPiezas() {
+    	for(int i = 0; i < piezas.size(); i++) {
+    		 System.out.println("Pieza en vertice:" + piezas.get(i).ubicacion());
+    	}
+    }
+    
+    public int cantidadPiezas() {
+    	return piezas.size();
     }
 }
 
