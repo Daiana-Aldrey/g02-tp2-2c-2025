@@ -9,6 +9,12 @@ public class Recurso extends Carta {
         this.cantidad = 0;
 	}
 	
+	public Recurso(String nombre, int cantidad) {
+	    this.nombre = nombre;
+        this.cantidad = cantidad;
+	}
+	
+	
 	public void usar(int cantidadUsada) {
 		cantidad = cantidad - cantidadUsada;
 	}
@@ -35,5 +41,18 @@ public class Recurso extends Carta {
     @Override
     public void usar() {
         System.out.println("Usando recurso " + nombre);
+    }
+    
+    public boolean puedeCubrir(Recurso costo) {
+    	//NO SE COMO HACER ESTO SIN VIOLAR TELL DON'T ASK (PREGUNTAR)
+        return this.sosTipo(costo.nombre()) && this.cantidad >= costo.cantidad(); 
+    }
+
+    public int cantidad() {
+        return cantidad;
+    }
+
+    public String nombre(){
+        return nombre;
     }
 }

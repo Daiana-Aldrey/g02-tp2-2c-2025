@@ -14,7 +14,12 @@ public class Poblado extends Pieza {
 
     @Override
     public List<Recurso> costoDeConstruccion() {
-        return List.of();
+    	return List.of(
+    	        new Recurso("MADERA", 1),
+    	        new Recurso("LADRILLO", 1),
+    	        new Recurso("LANA", 1),
+    	        new Recurso("GRANO", 1)
+    	    );
     }
     
     private void preguntarPosicion() {
@@ -27,7 +32,7 @@ public class Poblado extends Pieza {
     public void colocar() {
     	preguntarPosicion();
     	Tablero tablero = Tablero.getInstance();
-    	tablero.colocarPieza(ubicacion, this);
+    	tablero.colocarEdificio(ubicacion, this);
     }
 
     public void colocarPiezaFija(int ubicacion) {

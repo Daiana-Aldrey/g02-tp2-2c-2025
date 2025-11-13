@@ -42,7 +42,7 @@ public class JuegoTest {
         List<String> nombres = List.of("Juli", "Valen", "Sofi");
         Juego juego = new Juego(3, nombres);
 
-        juego.inicializarPoblados();
+        juego.inicializarPiezas();
         Assertions.assertEquals(3, tablero.cantidadPiezas());
     }
     

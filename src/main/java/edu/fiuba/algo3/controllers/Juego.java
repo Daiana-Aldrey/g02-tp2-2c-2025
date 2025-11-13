@@ -45,23 +45,24 @@ public class Juego {
 		return n;
 	}*/
 		
-	//OPCION TIRAR DADOS RANDOMS, NUNCA VA A HABER TIRADA FUERA DE RANGO
 	public int tirarDados() {
 		Random random = new Random();
 		int numero = random.nextInt(11) + 2;
 		return numero;
 	}
 
-	public void inicializarPoblados() {
+	public void inicializarPiezas() {
 		for(int i = 0; i < maxTurno; i++)	{
-			jugadores.get(i).elegirColocazionPieza("poblado");
+			jugadores.get(i).elegirColocacionInicial("poblado");
+			jugadores.get(i).elegirColocacionInicial("camino");
 		}
 	}
 	
 	public void siguienteRonda() {
 		if(rondas == 0) {
-			inicializarPoblados();
+			inicializarPiezas();
 		}
+		
 		int numDados = tirarDados();
 		tablero.cosechar(numDados);
 		

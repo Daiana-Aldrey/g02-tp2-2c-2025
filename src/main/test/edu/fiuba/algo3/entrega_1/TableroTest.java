@@ -3,36 +3,47 @@ package edu.fiuba.algo3.entrega_1;
 import edu.fiuba.algo3.modelo.*;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Assertions;
-
-import java.lang.reflect.Field;
 import java.util.*;
 
 public class TableroTest {
 
     @Test
-    public void tableroColocaPiezaCorrectamente() throws Exception {
+    public void tableroColocaEdificioCorrectamente() throws Exception {
         // Dado un tablero limpio
         Tablero tablero = Tablero.getInstance();
         tablero.crearGrafo(); 
         
         Pieza pieza = new Poblado(new Jugador("Luis"));
         int vertice = 10;
-        tablero.colocarPieza(vertice, pieza);
+        tablero.colocarEdificio(vertice, pieza);
         
         Assertions.assertEquals(vertice, pieza.ubicacion());
     }
 
+    @Test
+    public void tableroColocaCaminoCorrectamente() {
+        Tablero tablero = Tablero.getInstance();
+        tablero.crearGrafo();
+
+        Camino camino = new Camino(new Jugador("Luis"));
+
+        List<Integer> vertices = List.of(10, 11);
+        tablero.colocarCamino(vertices, camino);
+
+        Assertions.assertEquals(10, camino.ubicacion());
+    }
+    
     @Test
     public void tableroNoPermiteColocarDosPiezasEnElMismoVertice() throws Exception {
         Tablero tablero = Tablero.getInstance();
         tablero.crearGrafo();
 
         Pieza p1 = new Poblado(new Jugador("Luis"));
-        tablero.colocarPieza(5, p1);
+        tablero.colocarEdificio(5, p1);
         Pieza p2 = new Poblado(new Jugador("Juan"));
 
         Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            tablero.colocarPieza(5, p2);
+            tablero.colocarEdificio(5, p2);
         });
     }
 }

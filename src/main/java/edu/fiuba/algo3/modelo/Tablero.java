@@ -69,10 +69,41 @@ public abstract class Tablero {
     	return piezas.size() == 0 ;
     }	
     	
-    public void colocarPieza (Integer num_vertice, Pieza pieza) {
+
+    public void colocarEdificio(int num_vertice, Pieza pieza) {
         grafo.colocarPieza(num_vertice, pieza);
         piezas.add(pieza);
     }
+    
+    public void verificarAristaValida(VerticeEdificio vertice1, VerticeEdificio vertice2) {
+        if (!grafo.hayArista(vertice1, vertice2)) {
+            throw new IllegalArgumentException("Los vértices no son adyacentes; no se puede construir un camino ahí");
+        }
+
+        if (!vertice1.estaDisponible() || !vertice2.estaDisponible()) {
+            throw new IllegalArgumentException("No se puede construir sobre un vértice ocupado o bloqueado");
+        }	
+    }
+    
+    public void colocarCamino(List<Integer> vertices, Camino camino) {
+    	int v1 = vertices.get(0);
+        int v2 = vertices.get(1);
+        
+        if (!grafo.contieneVertice(v1) || !grafo.contieneVertice(v2)) {
+            throw new IllegalArgumentException("Alguno de los vértices no existe en el tablero");
+        }
+
+   	 	VerticeEdificio vertice1 = grafo.buscarVertice(v1);
+        VerticeEdificio vertice2 = grafo.buscarVertice(v2);
+        
+        verificarAristaValida(vertice1, vertice2);
+
+        vertice1.colocarPieza(camino);
+        vertice2.colocarPieza(camino);
+        
+        piezas.add(camino);
+    }
+
 
     public void colocarPiezaCamino(List<Integer> ubicacion, Camino camino) {
         grafo.colocarCamino(ubicacion, camino);

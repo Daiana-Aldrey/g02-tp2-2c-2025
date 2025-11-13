@@ -5,19 +5,16 @@ import java.util.Scanner;
 
 public class Jugador {
 	private String nombre;
-	private List<Poblado> poblados;
-	private List<Ciudad> ciudades;
-	private List<Camino> caminos;
-    private List<Recurso> recursos;
+	private List<Recurso> recursos;
 
 	
 	public Jugador(String nombre) {
 		this.nombre = nombre;
-		this.poblados = new ArrayList<Poblado>();
-		this.ciudades = new ArrayList<Ciudad>();
-		this.caminos = new ArrayList<Camino>();
 		this.recursos = new ArrayList<Recurso>();
+		
+		inicializarRecursos(List.of(" MADERA", "LADRILLO", "LANA", "GRANO", "MINERAL"));
 	}
+	
 
     public void colocarPiezaFija(String tipo, int ubicacion) {
         Pieza pieza = Pieza.crear(tipo, this);
@@ -52,10 +49,19 @@ public class Jugador {
 	public void elegirColocazionPieza(String tipo) {
         Pieza pieza = Pieza.crear(tipo, this);
 		pieza.colocar();
+	}	
+	 
+	private void inicializarRecursos(List<String> tiposRecursos) {
+		for(int i = 0; i < tiposRecursos.size(); i ++) {
+			Recurso recurso = new Recurso(tiposRecursos.get(i));
+			recursos.add(recurso);
+		}
 	}
 	
-	public void turno() {
-		 System.out.println("opciones de jugador en su turno");
+	
+	public void elegirColocacionInicial(String tipo) {
+        Pieza pieza = Pieza.crear(tipo, this);
+		pieza.colocar();
 	}
 
     public void recibirRecurso(String tipo, int cantidad) {
@@ -70,4 +76,65 @@ public class Jugador {
         nuevo.incrementar(cantidad);
         recursos.add(nuevo);
     }
+    
+    public Recurso buscarRecurso(String tipo) {
+        for (Recurso r : recursos) {
+            if (r.sosTipo(tipo)) {
+                return r;
+            }
+        }
+        return null;
+    }
+
+    private boolean recursosSuficientes(List<Recurso> precio) {
+        for (Recurso costo : precio) {
+            Recurso recursoJugador = buscarRecurso(costo.nombre());
+        
+            if (!recursoJugador.puedeCubrir(costo))
+                return false;  
+        }
+        return true;
+    }
+    
+    public void construirPieza() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("¿Querés construir una pieza? (si/no)");
+        String respuesta = scanner.nextLine().trim().toLowerCase();
+
+        if (!respuesta.equals("si")) {
+            return;
+        }
+
+        System.out.println("¿Qué pieza querés construir? (poblado / camino / ciudad)");
+        String tipo = scanner.nextLine().trim().toLowerCase();
+
+       Pieza piezaElegida= Pieza.crear(tipo, this);
+       List<Recurso> precio= piezaElegida.costoDeConstruccion();
+       
+       Boolean puedoConstruirla = recursosSuficientes(precio);
+       
+       if(puedoConstruirla) {
+    	   piezaElegida.colocar();
+       }
+        
+    }
+    
+    public void moverLadron() {
+    	
+    }
+    
+	public void turno() {
+		construirPieza(); 	
+	}
+    
+	
+	
+	//Para los test, despeus hay que usar mocks
+	public boolean puedeConstruir(Pieza pieza) {
+	    return recursosSuficientes(pieza.costoDeConstruccion());
+	}
+
+	public void construirPiezaDePrueba(Pieza pieza) {
+	    if (!puedeConstruir(pieza)) throw new IllegalStateException("No alcanza");
+	}
 }

@@ -23,8 +23,6 @@ public abstract class Pieza {
                     "Tipo de pieza no válido: " + tipo + ". Debe ser 'poblado', 'camino' o 'ciudad'.");
         }
     }
-
-
     
     public abstract List<Recurso> costoDeConstruccion();
 
