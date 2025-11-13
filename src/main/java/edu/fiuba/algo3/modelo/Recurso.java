@@ -20,8 +20,11 @@ public class Recurso extends Carta {
 	}
 	
 	private void verficarDisponibilidad(int cantidadPedida) {
-		if (cantidadPedida < cantidad) {
-			throw new IllegalArgumentException("No posees cantidad suficiente de " + nombre);
+		if (cantidadPedida > cantidad) {
+            // cambio el < por que si cantidadPedida < cantidad es true
+            //no deberia tirar una exception , creo que para que tire una excepcion debe ser alreves
+
+            throw new IllegalArgumentException("No posees cantidad suficiente de " + nombre);
 	    }
 	}
 

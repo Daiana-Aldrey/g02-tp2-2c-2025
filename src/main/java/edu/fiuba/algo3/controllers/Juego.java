@@ -37,19 +37,23 @@ public class Juego {
 	    }
 	}
 
-	/*public int tirarDado() {
+	public int tirarDado() {
 		int n = generador.tirar();
 		if (n < 2 || n > 12) {
 			throw new IllegalStateException("Tirada fuera de rango: " + n);
 		}
 		return n;
-	}*/
-		
+	}
+
+	//OPCION TIRAR DADOS RANDOMS, NUNCA VA A HABER TIRADA FUERA DE RANGO
+	/* lo comentom momentaneamenta ya que el otro me ayuda a forzar el 7 para los test
+	y para que no rompa con soliD(inversion de dependencias)
 	public int tirarDados() {
 		Random random = new Random();
 		int numero = random.nextInt(11) + 2;
 		return numero;
 	}
+	*/
 
 	public void inicializarPiezas() {
 		for(int i = 0; i < maxTurno; i++)	{
@@ -63,9 +67,9 @@ public class Juego {
 			inicializarPiezas();
 		}
 		
-		int numDados = tirarDados();
-		tablero.cosechar(numDados);
-		
+		int numDados = tirarDado();
+		//tablero.cosechar(numDados);
+		manejarTirada(numDados); // si es 7 descarta , si no cosecha (para no cosechar siempre )
 		for(int i = 0; i < maxTurno; i++) {
 			jugadores.get(i).turno();
 		}
@@ -80,6 +84,26 @@ public class Juego {
 	
 	public int cantidadJugadores(){
 		return maxTurno;
+	}
+
+	public void manejarTirada(int n) {
+		if (n == 7) {
+			aplicarEventoSiete();
+		} else {
+			tablero.cosechar(n);
+		}
+	}
+
+
+	private void aplicarEventoSiete() {
+		for (Jugador j : jugadores) {
+			j.descartarMitad();
+		}
+		//depues aca tendriamos que agregar lo de mover al ladron yrobar
+	}
+
+	public List<Jugador> jugadores() {
+		return jugadores;
 	}
 
 }

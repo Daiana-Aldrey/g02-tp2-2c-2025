@@ -137,4 +137,63 @@ public class Jugador {
 	public void construirPiezaDePrueba(Pieza pieza) {
 	    if (!puedeConstruir(pieza)) throw new IllegalStateException("No alcanza");
 	}
+
+    //suma de cantidades en la lista de recursos
+    public int totalRecursos() {
+        int total = 0;
+        for (Recurso r : recursos) {
+            total += r.cantidad();
+        }
+        return total;
+    }
+
+    //descarta la mitad empezando por las prime cartas
+    public void descartarMitad() {
+        int total = totalRecursos();
+        if (total <= 7) return;
+
+        int aDescartar = total / 2; // floor
+
+        // Recorremos la lista de recursos descontando cantidades
+        int i = 0;
+        while (aDescartar > 0 && i < recursos.size()) {
+            Recurso r = recursos.get(i);
+            int disponible = r.cantidad();
+            int tomar = Math.min(disponible, aDescartar);
+
+            if (tomar > 0) {
+                r.decrementar(tomar);
+                aDescartar -= tomar;
+            }
+
+            if (r.cantidad() == 0) {
+                recursos.remove(i);
+            } else {
+                i++;
+            }
+        }
+    }
+
+
+//	public void descartarMitad() {
+    //ya no sirve por que no tengo una lista de todas  cartas
+//		int total = recursos.size();
+//		if (total <= 7) return;
+//
+//		int aDescartar = total / 2;
+//		for (int i = 0; i < aDescartar; i++) {
+//			//descarto las ultimas
+//			recursos.remove(recursos.size() - 1);
+//		}
+//	}
+
+    // Para verif en los tests
+    public int cantidadDeCartas() {
+        return totalRecursos();
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
 }
