@@ -5,6 +5,7 @@ import java.util.List;
 
 public class TableroCatan extends Tablero {
     private int cantidadVertices;
+    private int cantidadHexagonos;
     private List<Integer> aristasHorizontales;
     private List<Integer> aristasDiagonales;
 
@@ -16,6 +17,7 @@ public class TableroCatan extends Tablero {
     // nadie puede hacer "new Tablero()"
     private TableroCatan() {
         cantidadVertices = 54;
+        cantidadHexagonos = 19;
         aristasHorizontales = new ArrayList<>();
         aristasDiagonales = new ArrayList<>();
     }

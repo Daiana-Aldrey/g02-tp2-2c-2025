@@ -20,7 +20,7 @@ public class VerticeTerrenoTest {
 
     @Test
     public void verticeTerrenoVerificaSusVerticesAdyacentes() {
-        VerticeTerreno vertice1 = new VerticeTerreno('A', new Terreno(8));
+        VerticeTerreno vertice1 = new VerticeTerreno('A', new Bosque(8));
         VerticeEdificio vertice2 = new VerticeEdificio(2);
 
         vertice1.agregarVerticeAdyacente(vertice2);
@@ -32,7 +32,7 @@ public class VerticeTerrenoTest {
 
     @Test
     public void verticeNoPermiteCosecharTerrenoPorNoTenerPiezasAdyacentes () {
-        VerticeTerreno vertice = new VerticeTerreno('A', new Terreno(8));
+        VerticeTerreno vertice = new VerticeTerreno('A', new Bosque(8));
 
         assertThrows(IllegalStateException.class, () -> {
             vertice.cosecharTerreno();

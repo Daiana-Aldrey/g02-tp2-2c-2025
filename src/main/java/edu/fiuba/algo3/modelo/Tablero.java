@@ -2,28 +2,19 @@ package edu.fiuba.algo3.modelo;
 
 import java.util.*;
 
-public final class Tablero {
-    private int cantidadVertices;
+public abstract class Tablero {
+    protected int cantidadVertices;
     private Grafo grafo;
     private List<Pieza> piezas;
     private Ladron ladron;
-   
-    
-    private static final Tablero INSTANCE = new Tablero();
 
-    // nadie puede hacer "new Tablero()"
-    private Tablero() {
+    public Tablero() {
         grafo = new Grafo();
         piezas = new ArrayList();
     }
 
-    // metodo de acceso global
-    public static Tablero getInstance() {
-        return INSTANCE;
-    }
-
-
     public void crearGrafo() {
+        generarVertices();
         // aristas de primera fila
         for (Integer i = 1; i < 7; i++) {
             grafo.agregarArista(i, i + 1);
@@ -64,7 +55,7 @@ public final class Tablero {
             grafo.agregarArista(i, i + 1);
         }
     }
-    public void generarVertices() {
+    protected void generarVertices() {
         int vertices = this.cantidadVertices;
         for (int i = 1; i <= vertices; i++) {
             grafo.agregarVertice(i);

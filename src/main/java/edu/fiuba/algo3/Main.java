@@ -6,12 +6,14 @@ import java.util.*;
 
 public class Main {
     public static void main(String[] args) {
-    	Tablero tablero = Tablero.getInstance();
+    	Tablero tablero = TableroCatan.getInstance();
     	tablero.crearGrafo();
-    	//tablero.mostrarGrafo();
+        tablero.mostrarGrafo();
+        /*
     	List<String> nombresJugadores = List.of("Juli", "Valen", "Sofi");
     	Juego juego = new Juego(3, nombresJugadores);
     	juego.inicializarPoblados();
     	tablero.mostrarPiezas();
+         */
     }
 }

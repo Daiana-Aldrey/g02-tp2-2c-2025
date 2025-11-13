@@ -19,7 +19,7 @@ public class Juego {
 		this.jugadores = new ArrayList<Jugador>();
 		this.turno = 0;
 		this.maxTurno = cantJugadores;
-		this.tablero = Tablero.getInstance();
+		this.tablero = TableroCatan.getInstance();
 		this.banco = new Banco();
 		this.rondas = 0;
 		this.generador = generador;

@@ -31,15 +31,20 @@ public class Poblado extends Pieza {
     
     public void colocar() {
     	preguntarPosicion();
-    	Tablero tablero = Tablero.getInstance();
+    	Tablero tablero = TableroCatan.getInstance();
     	tablero.colocarEdificio(ubicacion, this);
     }
 
     public void colocarPiezaFija(int ubicacion) {
         this.ubicacion = ubicacion;
         preguntarPosicion();
-        Tablero tablero = Tablero.getInstance();
-        tablero.colocarPieza(ubicacion, this);
+        Tablero tablero = TableroCatan.getInstance();
+        tablero.colocarEdificio(ubicacion, this);
+    }
+
+    @Override
+    public void colocarPiezaCamino(int ubicacion1, int ubicacion2) {
+        System.out.println("modificar metodo, implementado unicamente para que proyecto pueda ser ejecutado");
     }
 
     public int ubicacion() {
@@ -48,5 +53,10 @@ public class Poblado extends Pieza {
 
     public String obtenerNombreJugador() {
         return propietario.obtenerNombre();
+    }
+
+    @Override
+    public Jugador obtenerJugador() {
+        return null; //implementado unicamente para que proyecto pueda ser ejecutado"
     }
 }

@@ -126,9 +126,9 @@ public class GrafoTest {
         vertices.add(1);
         vertices.add(2);
 
-        grafo.colocarCamino(vertices,new Camino());
+        grafo.colocarCamino(vertices,new Camino(new Jugador("Juan")));
         assertThrows(IllegalArgumentException.class, () -> {
-            grafo.colocarCamino(vertices,new Camino());
+            grafo.colocarCamino(vertices,new Camino(new Jugador("Juan")));
         });
     }
 }

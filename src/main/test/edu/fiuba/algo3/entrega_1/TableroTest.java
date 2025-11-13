@@ -10,7 +10,7 @@ public class TableroTest {
     @Test
     public void tableroColocaEdificioCorrectamente() throws Exception {
         // Dado un tablero limpio
-        Tablero tablero = Tablero.getInstance();
+        Tablero tablero = TableroCatan.getInstance();
         tablero.crearGrafo(); 
         
         Pieza pieza = new Poblado(new Jugador("Luis"));
@@ -22,7 +22,7 @@ public class TableroTest {
 
     @Test
     public void tableroColocaCaminoCorrectamente() {
-        Tablero tablero = Tablero.getInstance();
+        Tablero tablero = TableroCatan.getInstance();
         tablero.crearGrafo();
 
         Camino camino = new Camino(new Jugador("Luis"));
@@ -35,7 +35,7 @@ public class TableroTest {
     
     @Test
     public void tableroNoPermiteColocarDosPiezasEnElMismoVertice() throws Exception {
-        Tablero tablero = Tablero.getInstance();
+        Tablero tablero = TableroCatan.getInstance();
         tablero.crearGrafo();
 
         Pieza p1 = new Poblado(new Jugador("Luis"));

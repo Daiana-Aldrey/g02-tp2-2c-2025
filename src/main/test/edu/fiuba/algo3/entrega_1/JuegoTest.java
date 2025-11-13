@@ -2,6 +2,7 @@ package edu.fiuba.algo3.entrega_1;
 
 import edu.fiuba.algo3.controllers.Juego;
 import edu.fiuba.algo3.modelo.Tablero;
+import edu.fiuba.algo3.modelo.TableroCatan;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import java.util.List;
@@ -12,7 +13,7 @@ public class JuegoTest {
 
     @Test
     public void juegoInicializaJugadoresCorrectamente() {
-        Tablero.getInstance().crearGrafo();
+        TableroCatan.getInstance().crearGrafo();
 
         List<String> nombres = List.of("Juli", "Valen", "Sofi");
         Juego juego = new Juego(3, nombres);
@@ -36,7 +37,7 @@ public class JuegoTest {
 
     @Test
     public void colocarPobladosIncialesEnTablero() {
-        Tablero tablero = Tablero.getInstance();
+        Tablero tablero = TableroCatan.getInstance();
         tablero.crearGrafo();
 
         List<String> nombres = List.of("Juli", "Valen", "Sofi");

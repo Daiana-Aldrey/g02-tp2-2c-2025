@@ -63,7 +63,7 @@ public class JugadorTest {
 
         int resultadoDado = 8;
         if (verticeTerreno.tieneFichaDeNumero(resultadoDado)) {
-            verticeTerreno.cosecharPara();
+            verticeTerreno.cosecharTerreno();
         }
 
         Recurso madera = jugador.buscarRecurso("MADERA");

@@ -13,12 +13,17 @@ public class Camino extends Pieza {
     public void colocarPiezaCamino(int ubicacion1, int ubicacion2) {
         this.ubicacion.add(ubicacion1);
         this.ubicacion.add(ubicacion2);
-        Tablero tablero = Tablero.getInstance();
+        Tablero tablero = TableroCatan.getInstance();
         tablero.colocarPiezaCamino(ubicacion, this);
     }
 
     public String obtenerNombreJugador() {
         return propietario.obtenerNombre();
+    }
+
+    @Override
+    public Jugador obtenerJugador() {
+        return null;
     }
 
     @Override
@@ -48,8 +53,13 @@ public class Camino extends Pieza {
 
     @Override
     public void colocar() {
-        Tablero tablero = Tablero.getInstance();
+        Tablero tablero = TableroCatan.getInstance();
         tablero.colocarCamino(ubicacion, this); 
+    }
+
+    @Override
+    public void colocarPiezaFija(int ubicacion) {
+        System.out.println("modificar metodo");
     }
 
     @Override 
