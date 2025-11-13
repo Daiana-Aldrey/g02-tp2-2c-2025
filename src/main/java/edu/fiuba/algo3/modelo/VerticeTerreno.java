@@ -21,11 +21,18 @@ public class VerticeTerreno extends EnlazadorVertices {
          return terreno.esMiNumero(resultadoDados);
     }
 
-    public void cosecharPara() {
-         terreno.cosecharRecursos(edificios);
+    public void cosecharTerreno() {
+         if (!hayPiezasAdyacentes()) {
+             throw new IllegalStateException("No hay piezas adyacente para dar recursos.");
+         }
+        terreno.cosecharRecursos(edificios);
     }
 
     public void agregarEdificio(Pieza edificio) {
          edificios.add(edificio);
+    }
+
+    public boolean hayPiezasAdyacentes() {
+         return !edificios.isEmpty();
     }
 }

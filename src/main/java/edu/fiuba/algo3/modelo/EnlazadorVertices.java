@@ -14,4 +14,18 @@ public abstract class EnlazadorVertices {
     public void agregarVerticeAdyacente(VerticeEdificio vertice) {
         adyacentes.add(vertice);
     }
+
+    // Post: Verifica si tiene cierto vertice como adyacente
+    public boolean hayVerticeAdyacente(VerticeEdificio vertice) {
+        int i = 0;
+        boolean encontrado = false;
+        while (i < adyacentes.size() && !encontrado) {
+            if (adyacentes.get(i).equals(vertice)) {
+                encontrado = true;
+            }
+            i++;
+        }
+        return encontrado;
+    }
+
 }

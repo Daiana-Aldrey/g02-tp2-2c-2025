@@ -6,11 +6,12 @@ import java.util.List;
 public class Grafo {
     private List<VerticeEdificio> vertices;
     private List<VerticeTerreno> verticesTerrenos;
-    private List<Aristas> aristas;
+    private List<Arista> aristas;
 
     public Grafo() {
         vertices = new ArrayList<>();
         verticesTerrenos = new ArrayList<>();
+        aristas = new ArrayList<>();
     }
 
     public void agregarVertice(Integer vertice) {
@@ -18,6 +19,7 @@ public class Grafo {
         vertices.add(vertice_Edificio_nuevo);
     }
 
+    //metodo usado unicamente para test
     public void agregarVertice(VerticeEdificio verticeEdificio) {
         vertices.add(verticeEdificio);
     }
@@ -26,10 +28,12 @@ public class Grafo {
         verticesTerrenos.add(new VerticeTerreno(vertice, terreno));
     }
 
+    //metodo usado unicamente para test
     public void agregarVertice(VerticeTerreno vertice) {
         verticesTerrenos.add(vertice);
     }
 
+    //metodo usado unicamente para test
     public boolean contieneVertice(Integer vertice) {
         int i = 0;
         boolean encontrado = false;
@@ -74,7 +78,20 @@ public class Grafo {
         return verticesTerrenos.get(i);
     }
 
-    public void agregarArista(int v1, int v2) {
+    public Arista buscarArista(List<Integer> vertices) {
+        int i = 0;
+        boolean encontrado = false;
+        while (i < aristas.size() && !encontrado) {
+            if(aristas.get(i).sonMisAdyacentes(vertices)) {
+                encontrado = true;
+            }
+        }if (!encontrado) {
+            throw new IllegalArgumentException("Arista no encontrada");
+        }
+        return aristas.get(i);
+    }
+
+    public void agregarArista(Integer v1, Integer v2) {
         VerticeEdificio vertice1 = buscarVertice(v1);
         VerticeEdificio vertice2 = buscarVertice(v2);
 
@@ -82,18 +99,37 @@ public class Grafo {
             throw new IllegalArgumentException("Ya existe arista");
         }
 
+        Arista arista = new Arista(v1,v2);
+        aristas.add(arista);
+
         vertice1.agregarVerticeAdyacente(vertice2);
         vertice2.agregarVerticeAdyacente(vertice1);
     }
 
-    public boolean hayArista(VerticeEdificio v1, VerticeEdificio v2) {
-        return v1.hayVerticeAdyacente(v2);
+    public void agregarArista(Integer v1, char v2) {
+        VerticeEdificio vertice = buscarVertice(v1);
+        VerticeTerreno verticeTerreno = buscarVertice(v2);
+
+        if (hayArista(vertice, verticeTerreno)) {
+            throw new IllegalArgumentException("Ya existe arista");
+        }
+
+        vertice.agregarVerticeAdyacente(verticeTerreno);
+        verticeTerreno.agregarVerticeAdyacente(vertice);
+
     }
 
-    public boolean verticeDisponible(int vertice) {
-        VerticeEdificio verticeEncontrado = buscarVertice(vertice);
+    //metodo usado unicamente para test
+    public void agregarArista(Arista arista) {
+        aristas.add(arista);
+    }
 
-        return verticeEncontrado.estaDisponible();
+    public boolean hayArista(VerticeEdificio v1, VerticeTerreno v2) {
+        return v1.hayTerrenoAdyacente(v2);
+    }
+
+    public boolean hayArista(VerticeEdificio v1, VerticeEdificio v2) {
+        return v1.hayVerticeAdyacente(v2);
     }
 
     public void colocarPieza(int vertice, Pieza pieza) {
@@ -104,14 +140,22 @@ public class Grafo {
         verticeEncontrado.colocarPieza(pieza);
     }
 
-    public void cosechaCompatibles(int resultadoDado) {
-        List<VerticeTerreno> terrenosConFichaDeNumero = algunTerrenoCompatible(resultadoDado);
+    public void colocarCamino(List<Integer> vertices, Camino pieza) {
+        Arista aristaEncontrada = buscarArista(vertices);
+        if (!aristaEncontrada.estaDisponible()) {
+            throw new IllegalArgumentException("Ya hay un camino");
+        }
+        aristaEncontrada.colocarCamino(pieza);
+    }
+
+    public void terrenosCompatibles(int resultadoDado) {
+        List<VerticeTerreno> terrenosConFichaDeNumero = buscarTerrenoCompatible(resultadoDado);
         for (VerticeTerreno verticeTerreno : terrenosConFichaDeNumero) {
-            verticeTerreno.cosecharPara();
+            verticeTerreno.cosecharTerreno();
         }
     }
 
-    public List<VerticeTerreno> algunTerrenoCompatible(int resultadoDados) {
+    public List<VerticeTerreno> buscarTerrenoCompatible(int resultadoDados) {
         List<VerticeTerreno> compatibles = new ArrayList<>();
 
         for (VerticeTerreno vertice : verticesTerrenos) {

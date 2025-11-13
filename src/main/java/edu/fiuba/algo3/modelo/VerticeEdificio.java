@@ -42,28 +42,15 @@ public class VerticeEdificio extends EnlazadorVertices {
         disponible = false;
     }
 
-    // Post: Verifica si tiene cierto vertice como adyacente
-    public boolean hayVerticeAdyacente(VerticeEdificio verticeEdificio) {
-        int i = 0;
-        boolean encontrado = false;
-        while (i < adyacentes.size() && !encontrado) {
-            if (adyacentes.get(i).equals(verticeEdificio)) {
-                encontrado = true;
-            }
-            i++;
-        }
-        return encontrado;
-    }
-
     public void agregarVerticeAdyacente (VerticeTerreno vertice){
         terrenos.add(vertice);
     }
 
-    public boolean hayTerrenoAdyacente(char letra) {
+    public boolean hayTerrenoAdyacente(VerticeTerreno vertice) {
         int i = 0;
         boolean encontrado = false;
         while (i < terrenos.size() && !encontrado) {
-            if (terrenos.get(i).tieneUbicacion(letra)) {
+            if (terrenos.get(i).equals(vertice)) {
                 encontrado = true;
             }
             i++;

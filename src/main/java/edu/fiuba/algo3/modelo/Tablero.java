@@ -83,7 +83,7 @@ public final class Tablero {
     }
 
     public void cosechar(int resultadoDado) {
-        grafo.cosechaCompatibles(resultadoDado);
+        grafo.terrenosCompatibles(resultadoDado);
     }
 }
 

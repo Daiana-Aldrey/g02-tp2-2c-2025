@@ -4,6 +4,9 @@ import edu.fiuba.algo3.modelo.*;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -91,5 +94,41 @@ public class GrafoTest {
         VerticeTerreno encontrado = grafo.buscarVertice('A');
 
         Assertions.assertEquals(buscado, encontrado);
+    }
+
+    @Test
+    public void grafoEncuentraLaAristaBuscada() {
+        Grafo grafo = new Grafo();
+        grafo.agregarVertice(1);
+        grafo.agregarVertice(2);
+
+        Arista aristaBuscada = new Arista(1,2);
+
+        grafo.agregarArista(aristaBuscada);
+
+        List<Integer> vertices = new ArrayList<>();
+        vertices.add(1);
+        vertices.add(2);
+
+        Arista aristaEncontrada = grafo.buscarArista(vertices);
+
+        Assertions.assertEquals(aristaBuscada, aristaEncontrada);
+    }
+
+    @Test
+    public void seIntentaPonerUnCaminoEnUnaAristaYaOcupadaYLanzaExcepcion() {
+        Grafo grafo = new Grafo();
+        grafo.agregarVertice(1);
+        grafo.agregarVertice(2);
+        grafo.agregarArista(1,2);
+
+        List<Integer> vertices = new ArrayList<>();
+        vertices.add(1);
+        vertices.add(2);
+
+        grafo.colocarCamino(vertices,new Camino());
+        assertThrows(IllegalArgumentException.class, () -> {
+            grafo.colocarCamino(vertices,new Camino());
+        });
     }
 }

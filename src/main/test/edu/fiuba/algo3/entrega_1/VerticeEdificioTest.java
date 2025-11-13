@@ -54,7 +54,7 @@ public class VerticeEdificioTest {
 
         vertice1.agregarVerticeAdyacente(vertice2);
 
-        assertTrue(vertice1.hayTerrenoAdyacente('A'));
+        assertTrue(vertice1.hayTerrenoAdyacente(vertice2));
     }
 
 }
