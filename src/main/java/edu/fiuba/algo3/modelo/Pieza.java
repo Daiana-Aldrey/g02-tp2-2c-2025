@@ -3,22 +3,41 @@ package edu.fiuba.algo3.modelo;
 import java.util.*;
 
 public abstract class Pieza {
-    private Jugador propietario;
+    protected Jugador propietario;
     
-    
-    // ver si es conveniente hacer algo asi y crear clase ubicacion
-   /* public static Pieza(TipoPieza tipo, Jugador propietario) {
-        return switch (tipo) {
-            case POBLADO -> new Poblado(propietario);
-            case CAMINO  -> new Camino(propietario);
-            case CIUDAD  -> new Ciudad(propietario);
-        };
-    }*/
+    public static Pieza crear(String tipo, Jugador propietario) {
+        tipo = tipo.toLowerCase(Locale.ROOT).trim();
+
+        switch (tipo) {
+            case "poblado":
+                return new Poblado(propietario);
+
+            case "camino":
+                return new Camino(propietario);
+
+            case "ciudad":
+                return new Ciudad(propietario);
+
+            default:
+                throw new IllegalArgumentException(
+                    "Tipo de pieza no válido: " + tipo + ". Debe ser 'poblado', 'camino' o 'ciudad'.");
+        }
+    }
+
+
     
     public abstract List<Recurso> costoDeConstruccion();
 
-    public void agregarRecursos(String mineral, int i) {
-        System.out.println("Agregando recursos de " + mineral + ": " + i);
-    }
+    public void agregarRecursos(String tipo, int cantidad) {
+        propietario.recibirRecurso(tipo, cantidad);
+        System.out.println("Agregando recursos de " + tipo + ": " + cantidad);
+	}
+    public abstract void colocar();
+    public abstract void colocarPiezaFija(int ubicacion);
+    public abstract void colocarPiezaCamino(int ubicacion1,  int ubicacion2 );
+    public abstract int ubicacion();
+    public abstract String obtenerNombreJugador();
+    public abstract Jugador obtenerJugador();
+    
 }
     

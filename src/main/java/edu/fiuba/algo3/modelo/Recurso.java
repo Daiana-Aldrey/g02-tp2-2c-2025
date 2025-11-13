@@ -6,6 +6,7 @@ public class Recurso extends Carta {
 	
 	public Recurso(String nombre) {
 	    this.nombre = nombre;
+        this.cantidad = 0;
 	}
 	
 	public void usar(int cantidadUsada) {
@@ -17,6 +18,19 @@ public class Recurso extends Carta {
 			throw new IllegalArgumentException("No posees cantidad suficiente de " + nombre);
 	    }
 	}
+
+    public boolean sosTipo(String unTipo) {
+        return this.nombre.equals(unTipo);
+    }
+
+    public void incrementar(int cantidad) {
+        this.cantidad += cantidad;
+    }
+
+    public void decrementar(int cantidad) {
+        verficarDisponibilidad(cantidad);
+        this.cantidad -= cantidad;
+    }
 
     @Override
     public void usar() {
