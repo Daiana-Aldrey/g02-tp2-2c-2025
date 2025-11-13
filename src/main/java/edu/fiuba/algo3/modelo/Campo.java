@@ -1,12 +1,17 @@
 package edu.fiuba.algo3.modelo;
 
+import java.util.List;
+
 public class Campo extends Terreno{
     public Campo(int ficha){
         super(ficha);
     }
 
     @Override
-    public String tipoRecurso(){
-        return "grano";
+    public void repartirRecurso(List<Pieza> edificios){
+        for(Pieza pieza : edificios){
+            //if (pieza.esCasa())
+            pieza.agregarRecursos("grano",1);
+        }
     }
 }

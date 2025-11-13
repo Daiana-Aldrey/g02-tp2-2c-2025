@@ -22,7 +22,7 @@ public class VerticeTerreno extends EnlazadorVertices {
     }
 
     public void cosecharPara() {
-         terreno.cosecharRecursos(edificios);
+         terreno.repartirRecurso(edificios);
     }
 
     public void agregarEdificio(Pieza edificio) {
