@@ -5,12 +5,12 @@ public class Recurso extends Carta {
 	private int cantidad;
 	
 	public Recurso(String nombre) {
-	    this.nombre = nombre;
+	    this.nombre = nombre.trim().toUpperCase();
         this.cantidad = 0;
 	}
 	
 	public Recurso(String nombre, int cantidad) {
-	    this.nombre = nombre;
+	    this.nombre = nombre.trim().toUpperCase();
         this.cantidad = cantidad;
 	}
 	
@@ -29,7 +29,8 @@ public class Recurso extends Carta {
 	}
 
     public boolean sosTipo(String unTipo) {
-        return this.nombre.equals(unTipo);
+
+        return this.nombre.equals(unTipo.trim().toUpperCase());
     }
 
     public void incrementar(int cantidad) {

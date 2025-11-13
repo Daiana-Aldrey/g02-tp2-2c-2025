@@ -5,10 +5,16 @@ import java.util.Scanner;
 
 public class Jugador {
 	private String nombre;
-	private List<Recurso> recursos;
 
-	
-	public Jugador(String nombre) {
+	private List<Recurso> recursos;
+    //ELIMINAR DESPUES las dejo par que compile PREGUNTAR si no las vamos a usar mas
+    private List<Poblado> poblados = new ArrayList<>();
+    private List<Ciudad>  ciudades = new ArrayList<>();
+    private List<Camino>  caminos  = new ArrayList<>();
+    //private List<Recurso> recursos = new ArrayList<>();
+
+
+    public Jugador(String nombre) {
 		this.nombre = nombre;
 		this.recursos = new ArrayList<Recurso>();
 		
@@ -65,14 +71,15 @@ public class Jugador {
 	}
 
     public void recibirRecurso(String tipo, int cantidad) {
+        String t = tipo.trim().toUpperCase();
         for (Recurso recurso : recursos) {
-            if (recurso.sosTipo(tipo)) {
+            if (recurso.sosTipo(t)) {
                 recurso.incrementar(cantidad);
                 return;
             }
         }
 
-        Recurso nuevo = new Recurso(tipo);
+        Recurso nuevo = new Recurso(t);
         nuevo.incrementar(cantidad);
         recursos.add(nuevo);
     }

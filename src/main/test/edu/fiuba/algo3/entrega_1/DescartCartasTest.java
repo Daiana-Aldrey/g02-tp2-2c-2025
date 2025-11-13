@@ -12,28 +12,88 @@ public class DescartCartasTest {
 
     @Test
     void conDosDeCadaRecurso_alSalir7_descartaLaMitad() {
-        // (fuerzo evento de descarte 7)
+
         Juego juego = new Juego(3, List.of("Lu", "Bren", "Caro"), new DadosS7(7));
         Jugador jugador = juego.jugadores().get(0);
 
-        // Terrenos -> tipoRecurso()
-        Bosque bosque = new Bosque(5);       // "madera"
-        Colina colina = new Colina(4);       // "ladrillo"
-        Pastizal pastizal = new Pastizal(10);// "lana"
-        Campo campo = new Campo(9);          // "grano"
-        Montania montania = new Montania(3);    // "mineral"
+        jugador.recibirRecurso("MADERA", 2);
+        jugador.recibirRecurso("LADRILLO", 2);
+        jugador.recibirRecurso("LANA", 2);
+        jugador.recibirRecurso("GRANO", 2);
+        jugador.recibirRecurso("MINERAL", 2);
 
-        jugador.recibirRecurso(bosque.tipoRecurso(), 2);    // madera
-        jugador.recibirRecurso(colina.tipoRecurso(), 2);    // ladrillo
-        jugador.recibirRecurso(pastizal.tipoRecurso(), 2);  // lana
-        jugador.recibirRecurso(campo.tipoRecurso(), 2);     // grano
-        jugador.recibirRecurso(montania.tipoRecurso(), 2);  // mineral
-
-        // Tirada forzada = 7
         int n = juego.tirarDado();
         juego.manejarTirada(n);
-
-        // Tenía 10 quedan 5
+        //10 descarta 5 quedan 5
         assertEquals(5, jugador.cantidadDeCartas());
     }
+    @Test
+    void conTresCartas_noDescartaAlSalir7() {
+        Juego juego = new Juego(3, List.of("Lu", "Bren", "Caro"), new DadosS7(7));
+        Jugador jugador = juego.jugadores().get(0);
+
+        jugador.recibirRecurso("MADERA", 1);
+        jugador.recibirRecurso("LADRILLO", 1);
+        jugador.recibirRecurso("LANA", 1);
+
+        juego.manejarTirada(juego.tirarDado());
+
+        //  3  NO descarta
+        assertEquals(3, jugador.cantidadDeCartas());
+    }
+    @Test
+    void totalMenorA7_noDescarta() {
+        Juego juego = new Juego(3, List.of("Lu", "Bren", "Caro"), new DadosS7(7));
+        Jugador jugador = juego.jugadores().get(0);
+
+        jugador.recibirRecurso("MADERA", 3);
+        jugador.recibirRecurso("LADRILLO", 3);
+
+        juego.manejarTirada(juego.tirarDado());
+
+        assertEquals(6, jugador.cantidadDeCartas());
+    }
+
+    @Test
+    void totalNueve_descartaCuatro_yQuedanCinco() {
+        Juego juego = new Juego(3, List.of("Lu", "Bren", "Caro"), new DadosS7(7));
+        Jugador jugador = juego.jugadores().get(0);
+
+        jugador.recibirRecurso("MADERA", 5);
+        jugador.recibirRecurso("LADRILLO", 4);
+
+        juego.manejarTirada(juego.tirarDado());
+        //9 descarta 4
+        assertEquals(5, jugador.cantidadDeCartas());
+    }
+
+    @Test
+    void totalDiez_descartaCinco_yQuedanCinco() {
+        Juego juego = new Juego(3, List.of("Lu", "Bren", "Caro"), new DadosS7(7));
+        Jugador jugador = juego.jugadores().get(0);
+
+        jugador.recibirRecurso("GRANO", 6);
+        jugador.recibirRecurso("LANA", 4);
+
+        juego.manejarTirada(juego.tirarDado());
+
+        assertEquals(5, jugador.cantidadDeCartas());
+    }
+    @Test
+    void conCincoDeCadaRecurso_descartaMitad_yQuedanTrece() {
+        Juego juego = new Juego(3, List.of("Lu", "Bren", "Caro"), new DadosS7(7));
+        Jugador jugador = juego.jugadores().get(0);
+
+        jugador.recibirRecurso("MADERA", 5);
+        jugador.recibirRecurso("LADRILLO", 5);
+        jugador.recibirRecurso("LANA", 5);
+        jugador.recibirRecurso("GRANO", 5);
+        jugador.recibirRecurso("MINERAL", 5);
+
+        juego.manejarTirada(juego.tirarDado());
+
+        // 25 descarta 12
+        assertEquals(13, jugador.cantidadDeCartas());
+    }
+
 }
