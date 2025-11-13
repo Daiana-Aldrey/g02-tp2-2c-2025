@@ -102,8 +102,20 @@ public class Grafo {
             throw new IllegalArgumentException("No se puede poner la pieza en el vertice");
         }
         verticeEncontrado.colocarPieza(pieza);
-    } 
-   
+    }
+
+    public void colocarPiezaFija(int vertice, Pieza pieza) {
+        VerticeEdificio verticeEncontrado = buscarVertice(vertice);
+        if (!verticeEncontrado.estaDisponible()) {
+            throw new IllegalArgumentException("No se puede poner la pieza en el vertice");
+        }
+        verticeEncontrado.colocarPiezaFija(pieza);
+    }
+
+    public void colocarPiezaCamino(int vertice, Camino camino) {
+        VerticeEdificio verticeEncontrado = buscarVertice(vertice);
+        verticeEncontrado.colocarPiezaCamino(camino);
+    }
 
     public void cosechaCompatibles(int resultadoDado) {
         List<VerticeTerreno> terrenosConFichaDeNumero = algunTerrenoCompatible(resultadoDado);

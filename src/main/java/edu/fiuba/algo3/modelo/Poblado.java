@@ -29,9 +29,19 @@ public class Poblado extends Pieza {
     	Tablero tablero = Tablero.getInstance();
     	tablero.colocarPieza(ubicacion, this);
     }
-    
+
+    public void colocarPiezaFija(int ubicacion) {
+        this.ubicacion = ubicacion;
+        preguntarPosicion();
+        Tablero tablero = Tablero.getInstance();
+        tablero.colocarPieza(ubicacion, this);
+    }
+
     public int ubicacion() {
     	return ubicacion;
     }
-      
+
+    public String obtenerNombreJugador() {
+        return propietario.obtenerNombre();
+    }
 }

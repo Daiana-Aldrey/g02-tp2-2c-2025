@@ -79,8 +79,14 @@ public final class Tablero {
     }	
     	
     public void colocarPieza (int num_vertice, Pieza pieza) {
-        grafo.colocarPieza(num_vertice, pieza);
+        grafo.colocarPiezaFija(num_vertice, pieza);
         piezas.add(pieza);
+    }
+
+    public void colocarPiezaCamino(List<Integer> ubicacion, Camino camino) {
+        grafo.colocarPiezaCamino(ubicacion.get(0), camino);
+        grafo.colocarPiezaCamino(ubicacion.get(1), camino);
+        piezas.add(camino);
     }
 
     public void cosechar(int resultadoDado) {

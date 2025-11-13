@@ -8,12 +8,16 @@ public class VerticeEdificio extends EnlazadorVertices {
     private List<VerticeTerreno> terrenos; //ver si se queda o no
     private boolean disponible;
     private Pieza pieza;
+    private List<Camino> caminos;
+    private Jugador jugadorPerteneciente;
 
     public VerticeEdificio(Integer ubicacion) {
         terrenos = new ArrayList<>();
         this.ubicacion = ubicacion;
         disponible = true;
         pieza = null;
+        jugadorPerteneciente = null;
+        caminos = new ArrayList<>();
     }
 
     // Post: Compara el nombre que le mandan por el parametro con el nombre que tiene como atributo.
@@ -37,6 +41,33 @@ public class VerticeEdificio extends EnlazadorVertices {
         }
     }
 
+    public void colocarPiezaFija(Pieza edificio) {
+        if ((jugadorPerteneciente ==  null) || (jugadorPerteneciente.obtenerNombre() == edificio.obtenerNombreJugador())) {
+            noDisponible();
+            this.pieza = edificio;
+            jugadorPerteneciente = edificio.obtenerJugador();
+        } else {
+            throw new IllegalArgumentException("Casillero inválido");
+        }
+        noDisponible();
+        agregarEdificioATerrenos(edificio);
+        for (VerticeEdificio vertice : adyacentes) {
+            vertice.asignarJugador(jugadorPerteneciente);
+        }
+    }
+
+    public void colocarPiezaCamino(Camino camino) {
+        if ((jugadorPerteneciente ==  null) || (jugadorPerteneciente.obtenerNombre() == camino.obtenerNombreJugador())) {
+            caminos.add(camino);
+            jugadorPerteneciente = camino.obtenerJugador();
+        } else {
+            throw new IllegalArgumentException("Casillero inválido");
+        }
+        for (VerticeEdificio vertice : adyacentes) {
+            vertice.asignarJugador(jugadorPerteneciente);
+        }
+    }
+
     // Post: Setea su estado como no disponible
     private void noDisponible() {
         disponible = false;
@@ -53,6 +84,10 @@ public class VerticeEdificio extends EnlazadorVertices {
             i++;
         }
         return encontrado;
+    }
+
+    public void asignarJugador(Jugador jugador) {
+        this.jugadorPerteneciente = jugador;
     }
 
     public void agregarVerticeAdyacente (VerticeTerreno vertice){

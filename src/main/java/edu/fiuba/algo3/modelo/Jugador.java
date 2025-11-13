@@ -18,7 +18,36 @@ public class Jugador {
 		this.caminos = new ArrayList<Camino>();
 		this.recursos = new ArrayList<Recurso>();
 	}
-	 
+
+    public void colocarPiezaFija(String tipo, int ubicacion) {
+        Pieza pieza = Pieza.crear(tipo, this);
+        pieza.colocarPiezaFija(ubicacion);
+        switch (tipo) {
+            case "poblado":
+                this.poblados.add((Poblado) pieza);
+            case "ciudad":
+                this.ciudades.add((Ciudad) pieza);
+            default:
+                throw new IllegalArgumentException(
+                        "Tipo de pieza no válido: " + tipo + ". Debe ser 'poblado' o 'ciudad'.");
+        }
+    }
+
+    public String obtenerNombre() {
+        return nombre;
+    }
+
+    public void colocarPiezaCamino(String tipo, int ubicacion1, int ubicacion2) {
+        Pieza pieza = Pieza.crear(tipo, this);
+        pieza.colocarPiezaCamino(ubicacion1, ubicacion2);
+        switch (tipo) {
+            case "Camino":
+                this.caminos.add((Camino) pieza);
+            default:
+                throw new IllegalArgumentException(
+                        "Tipo de pieza no válido: " + tipo + ". Debe ser 'camino'.");
+        }
+    }
 	
 	public void elegirColocazionPieza(String tipo) {
         Pieza pieza = Pieza.crear(tipo, this);

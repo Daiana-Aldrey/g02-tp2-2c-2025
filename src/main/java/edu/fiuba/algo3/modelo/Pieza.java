@@ -33,8 +33,11 @@ public abstract class Pieza {
         System.out.println("Agregando recursos de " + tipo + ": " + cantidad);
 	}
     public abstract void colocar();
-    
+    public abstract void colocarPiezaFija(int ubicacion);
+    public abstract void colocarPiezaCamino(int ubicacion1,  int ubicacion2 );
     public abstract int ubicacion();
+    public abstract String obtenerNombreJugador();
+    public abstract Jugador obtenerJugador();
     
 }
     
