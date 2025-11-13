@@ -25,7 +25,7 @@ public class VerticeTerreno extends EnlazadorVertices {
          if (!hayPiezasAdyacentes()) {
              throw new IllegalStateException("No hay piezas adyacente para dar recursos.");
          }
-        terreno.cosecharRecursos(edificios);
+        terreno.repartirRecurso(edificios);
     }
 
     public void agregarEdificio(Pieza edificio) {

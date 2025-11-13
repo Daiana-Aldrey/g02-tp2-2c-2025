@@ -11,7 +11,7 @@ public class Montania extends Terreno{
     public void repartirRecurso(List<Pieza> edificios){
         for(Pieza pieza : edificios){
             //if (pieza.esCasa())
-            pieza.agregarRecursos("mineral",1);
+            pieza.agregarRecursos("MINERAL",1);
         }
     }
 }

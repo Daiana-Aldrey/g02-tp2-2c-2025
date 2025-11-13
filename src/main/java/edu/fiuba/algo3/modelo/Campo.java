@@ -11,7 +11,7 @@ public class Campo extends Terreno{
     public void repartirRecurso(List<Pieza> edificios){
         for(Pieza pieza : edificios){
             //if (pieza.esCasa())
-            pieza.agregarRecursos("grano",1);
+            pieza.agregarRecursos("GRANO",1);
         }
     }
 }
