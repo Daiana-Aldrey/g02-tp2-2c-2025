@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Assertions;
 import java.util.*;
 
 public class TableroTest {
-
+    //los primeros dos test no andan porque por consola le pide la ubicacion al usuario entonces la pieza no llega a guardar la ubicacion
     @Test
     public void tableroColocaEdificioCorrectamente() throws Exception {
         // Dado un tablero limpio
@@ -32,7 +32,7 @@ public class TableroTest {
 
         Assertions.assertEquals(10, camino.ubicacion());
     }
-    
+
     @Test
     public void tableroNoPermiteColocarDosPiezasEnElMismoVertice() throws Exception {
         Tablero tablero = TableroCatan.getInstance();

@@ -4,10 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TableroCatan extends Tablero {
-    private int cantidadVertices;
-    private int cantidadHexagonos;
-    private List<Integer> aristasHorizontales;
-    private List<Integer> aristasDiagonales;
 
     //PATRON DE DISEÑO SINGLETON
 
@@ -43,6 +39,20 @@ public class TableroCatan extends Tablero {
         aristasDiagonales.add(11);
         aristasDiagonales.add(10);
         aristasDiagonales.add(8);
+    }
+
+    public List<Integer> establecerInicioDiagonales() {
+        List<Integer> inicioDiagonales = new ArrayList<>();
+        inicioDiagonales.add(0);
+        inicioDiagonales.add(0);
+        inicioDiagonales.add(0);
+        inicioDiagonales.add(1);
+        inicioDiagonales.add(1);
+        return inicioDiagonales;
+    }
+
+    public Integer cantidadVerticesUltimaFila() {
+        return 7;
     }
 
 

@@ -20,21 +20,6 @@ public class Jugador {
 		
 		inicializarRecursos(List.of(" MADERA", "LADRILLO", "LANA", "GRANO", "MINERAL"));
 	}
-	
-
-    public void colocarPiezaFija(String tipo, int ubicacion) {
-        Pieza pieza = Pieza.crear(tipo, this);
-        pieza.colocarPiezaFija(ubicacion);
-        switch (tipo) {
-            case "poblado":
-                this.poblados.add((Poblado) pieza);
-            case "ciudad":
-                this.ciudades.add((Ciudad) pieza);
-            default:
-                throw new IllegalArgumentException(
-                        "Tipo de pieza no válido: " + tipo + ". Debe ser 'poblado' o 'ciudad'.");
-        }
-    }
 
     public String obtenerNombre() {
         return nombre;
@@ -180,19 +165,6 @@ public class Jugador {
             }
         }
     }
-
-
-//	public void descartarMitad() {
-    //ya no sirve por que no tengo una lista de todas  cartas
-//		int total = recursos.size();
-//		if (total <= 7) return;
-//
-//		int aDescartar = total / 2;
-//		for (int i = 0; i < aDescartar; i++) {
-//			//descarto las ultimas
-//			recursos.remove(recursos.size() - 1);
-//		}
-//	}
 
     // Para verif en los tests
     public int cantidadDeCartas() {

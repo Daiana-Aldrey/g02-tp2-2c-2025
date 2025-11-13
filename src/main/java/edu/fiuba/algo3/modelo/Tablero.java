@@ -4,6 +4,10 @@ import java.util.*;
 
 public abstract class Tablero {
     protected int cantidadVertices;
+    protected int cantidadHexagonos;
+    protected List<Integer> aristasHorizontales;
+    protected List<Integer> aristasDiagonales;
+
     private Grafo grafo;
     private List<Pieza> piezas;
     private Ladron ladron;
@@ -15,52 +19,83 @@ public abstract class Tablero {
 
     public void crearGrafo() {
         generarVertices();
+        generarAristasHorizontales();
+        /*
+        generarAristasDiagonales();
+        */
         // aristas de primera fila
-        for (Integer i = 1; i < 7; i++) {
-            grafo.agregarArista(i, i + 1);
-        }
         for (Integer i = 1; i < 8; i += 2) {
             grafo.agregarArista(i, i + 8);
         }
         // aristas segunda fila
-        for (Integer i = 8; i < 16; i++) {
-            grafo.agregarArista(i, i + 1);
-        }
         for (Integer i = 8; i < 17; i += 2) {
             grafo.agregarArista(i, i + 10);
         }
         // aristas tercera fila
-        for (Integer i = 17; i < 27; i++) {
-            grafo.agregarArista(i, i + 1);
-        }
         for (Integer i = 17; i < 28; i += 2) {
             grafo.agregarArista(i, i + 11);
         }
         // aristas cuarta fila
-        for (Integer i = 28; i < 38; i++) {
-            grafo.agregarArista(i, i + 1);
-        }
         for (Integer i = 29; i < 38; i += 2) {
             grafo.agregarArista(i, i + 10);
         }
         // aristas quinta fila
-        for (Integer i = 39; i < 47; i++) {
-            grafo.agregarArista(i, i + 1);
-        }
         for (Integer i = 40; i < 47; i += 2) {
             grafo.agregarArista(i, i + 8);
         }
         // aristas sexta fila
-        for (Integer i = 48; i < 54; i++) {
-            grafo.agregarArista(i, i + 1);
-        }
     }
+    protected abstract void establecerAristasHorizontales();
+
+    protected abstract void establecerAristasDiagonales();
+
+    protected abstract List<Integer> establecerInicioDiagonales();
+
+    protected abstract Integer cantidadVerticesUltimaFila();
+
     protected void generarVertices() {
-        int vertices = this.cantidadVertices;
-        for (int i = 1; i <= vertices; i++) {
+        for (int i = 1; i <= this.cantidadVertices; i++) {
             grafo.agregarVertice(i);
         }
     }
+
+    protected void generarAristasHorizontales() {
+        int vertice = 1;
+        int indiceLista = 0;
+        int ultimoVerticeFila;
+        establecerAristasHorizontales();
+
+        while (vertice < cantidadVertices) {
+            ultimoVerticeFila = vertice + aristasHorizontales.get(indiceLista);
+            for (; vertice < ultimoVerticeFila; vertice++ ) {
+                grafo.agregarArista(vertice, vertice + 1);
+            }
+            indiceLista++;
+            vertice++;
+        }
+    }
+    //REFACTOR
+    protected void generarAristasDiagonales() {
+        int vertice = 1;
+        int indiceLista = 0;
+        int quintaFila = cantidadVertices - cantidadVerticesUltimaFila();
+        int ultimoVerticeFila;
+        int verticeAEnlazar;
+
+        List<Integer> inicioDiagonales = establecerInicioDiagonales();
+        establecerAristasDiagonales();
+        while (vertice < quintaFila) {
+            ultimoVerticeFila = vertice + aristasHorizontales.get(indiceLista);
+            vertice += inicioDiagonales.get(indiceLista);
+            for (; vertice <= ultimoVerticeFila ; vertice += 2) {
+                verticeAEnlazar = vertice + aristasDiagonales.get(indiceLista);
+                grafo.agregarArista(vertice, verticeAEnlazar);
+            }
+            vertice-=1 + inicioDiagonales.get(indiceLista);;
+            indiceLista++;
+        }
+    }
+
 
     //sacar
     public void mostrarGrafo() {
