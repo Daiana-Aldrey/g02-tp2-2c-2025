@@ -2,15 +2,26 @@ package edu.fiuba.algo3.modelo;
 
 import java.util.*;
 
-public abstract class Tablero {
+public final class Tablero {
     private int cantidadVertices;
     private Grafo grafo;
     private List<Pieza> piezas;
+    private Ladron ladron;
+   
+    
+    private static final Tablero INSTANCE = new Tablero();
 
-    public Tablero() {
+    // nadie puede hacer "new Tablero()"
+    private Tablero() {
         grafo = new Grafo();
         piezas = new ArrayList();
     }
+
+    // metodo de acceso global
+    public static Tablero getInstance() {
+        return INSTANCE;
+    }
+
 
     public void crearGrafo() {
         // aristas de primera fila
@@ -123,6 +134,8 @@ public abstract class Tablero {
     public int cantidadPiezas() {
     	return piezas.size();
     }
+    
+
 }
 
 
