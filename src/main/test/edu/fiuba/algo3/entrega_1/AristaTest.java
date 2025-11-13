@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
-public class AristasTest {
+public class AristaTest {
     @Test
     public void AristaConfirmaSusVerticesAdyacentes() {
         Arista arista = new Arista(1,2);
@@ -25,7 +25,7 @@ public class AristasTest {
     @Test
     public void SePoneCaminoEnAristaYCambiaDeEstadoANoDisponible() {
         Arista arista = new Arista(1,2);
-        arista.colocarCamino(new Camino());
+        arista.colocarCamino(new Camino(new Jugador("Juan")));
 
         assertFalse(arista.estaDisponible());
     }

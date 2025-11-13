@@ -2,33 +2,17 @@ package edu.fiuba.algo3.modelo;
 
 import java.util.*;
 
-public final class Tablero {
-
+public abstract class Tablero {
+    private int cantidadVertices;
     private Grafo grafo;
     private List<Pieza> piezas;
 
-    //PATRON DE DISEÑO SINGLETON
-  
-    // unica instancia creada al cargar la clase
-    private static final Tablero INSTANCE = new Tablero();
-
-    // nadie puede hacer "new Tablero()"
-    private Tablero() {
+    public Tablero() {
         grafo = new Grafo();
         piezas = new ArrayList();
     }
 
-    // metodo de acceso global
-    public static Tablero getInstance() {
-        return INSTANCE;
-    }
-
     public void crearGrafo() {
-        grafo = new Grafo();
-        // creación de vértices
-        for (Integer i = 1; i < 55; i++) {
-            grafo.agregarVertice(i);
-        }
         // aristas de primera fila
         for (Integer i = 1; i < 7; i++) {
             grafo.agregarArista(i, i + 1);
@@ -69,7 +53,14 @@ public final class Tablero {
             grafo.agregarArista(i, i + 1);
         }
     }
+    public void generarVertices() {
+        int vertices = this.cantidadVertices;
+        for (int i = 1; i <= vertices; i++) {
+            grafo.agregarVertice(i);
+        }
+    }
 
+    //sacar
     public void mostrarGrafo() {
         grafo.mostrarGrafo();
     }
@@ -78,14 +69,13 @@ public final class Tablero {
     	return piezas.size() == 0 ;
     }	
     	
-    public void colocarPieza (int num_vertice, Pieza pieza) {
-        grafo.colocarPiezaFija(num_vertice, pieza);
+    public void colocarPieza (Integer num_vertice, Pieza pieza) {
+        grafo.colocarPieza(num_vertice, pieza);
         piezas.add(pieza);
     }
 
     public void colocarPiezaCamino(List<Integer> ubicacion, Camino camino) {
-        grafo.colocarPiezaCamino(ubicacion.get(0), camino);
-        grafo.colocarPiezaCamino(ubicacion.get(1), camino);
+        grafo.colocarCamino(ubicacion, camino);
         piezas.add(camino);
     }
 
