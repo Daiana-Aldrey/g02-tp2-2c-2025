@@ -102,17 +102,7 @@ public class Jugador {
     
 	public void turno() { 	
 	}
-    
-	
-	
-	//Para los test, despeus hay que usar mocks
-	public boolean puedeConstruir(Pieza pieza) {
-	    return recursosSuficientes(pieza.costoDeConstruccion());
-	}
-
-	public void construirPiezaDePrueba(Pieza pieza) {
-	    if (!puedeConstruir(pieza)) throw new IllegalStateException("No alcanza");
-	}
+   
 
     //suma de cantidades en la lista de recursos
     public int totalRecursos() {
