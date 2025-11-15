@@ -16,11 +16,11 @@ public class DescartCartasTest {
         Juego juego = new Juego(3, List.of("Lu", "Bren", "Caro"), new DadosS7(7));
         Jugador jugador = juego.jugadores().get(0);
 
-        jugador.recibirRecurso("MADERA", 2);
-        jugador.recibirRecurso("LADRILLO", 2);
-        jugador.recibirRecurso("LANA", 2);
-        jugador.recibirRecurso("GRANO", 2);
-        jugador.recibirRecurso("MINERAL", 2);
+        jugador.recibirRecurso(RecursoTipo.MADERA, 2);
+        jugador.recibirRecurso(RecursoTipo.LADRILLO, 2);
+        jugador.recibirRecurso(RecursoTipo.LANA, 2);
+        jugador.recibirRecurso(RecursoTipo.GRANO, 2);
+        jugador.recibirRecurso(RecursoTipo.MINERAL, 2);
 
         int n = juego.tirarDado();
         juego.manejarTirada(n);
@@ -32,9 +32,9 @@ public class DescartCartasTest {
         Juego juego = new Juego(3, List.of("Lu", "Bren", "Caro"), new DadosS7(7));
         Jugador jugador = juego.jugadores().get(0);
 
-        jugador.recibirRecurso("MADERA", 1);
-        jugador.recibirRecurso("LADRILLO", 1);
-        jugador.recibirRecurso("LANA", 1);
+        jugador.recibirRecurso(RecursoTipo.MADERA, 1);
+        jugador.recibirRecurso(RecursoTipo.LADRILLO, 1);
+        jugador.recibirRecurso(RecursoTipo.LANA, 1);
 
         juego.manejarTirada(juego.tirarDado());
 
@@ -46,8 +46,8 @@ public class DescartCartasTest {
         Juego juego = new Juego(3, List.of("Lu", "Bren", "Caro"), new DadosS7(7));
         Jugador jugador = juego.jugadores().get(0);
 
-        jugador.recibirRecurso("MADERA", 3);
-        jugador.recibirRecurso("LADRILLO", 3);
+        jugador.recibirRecurso(RecursoTipo.MADERA, 3);
+        jugador.recibirRecurso(RecursoTipo.LADRILLO, 3);
 
         juego.manejarTirada(juego.tirarDado());
 
@@ -59,8 +59,8 @@ public class DescartCartasTest {
         Juego juego = new Juego(3, List.of("Lu", "Bren", "Caro"), new DadosS7(7));
         Jugador jugador = juego.jugadores().get(0);
 
-        jugador.recibirRecurso("MADERA", 5);
-        jugador.recibirRecurso("LADRILLO", 4);
+        jugador.recibirRecurso(RecursoTipo.MADERA, 5);
+        jugador.recibirRecurso(RecursoTipo.LADRILLO, 4);
 
         juego.manejarTirada(juego.tirarDado());
         //9 descarta 4
@@ -72,8 +72,8 @@ public class DescartCartasTest {
         Juego juego = new Juego(3, List.of("Lu", "Bren", "Caro"), new DadosS7(7));
         Jugador jugador = juego.jugadores().get(0);
 
-        jugador.recibirRecurso("GRANO", 6);
-        jugador.recibirRecurso("LANA", 4);
+        jugador.recibirRecurso(RecursoTipo.GRANO, 6);
+        jugador.recibirRecurso(RecursoTipo.LANA, 4);
 
         juego.manejarTirada(juego.tirarDado());
 
@@ -84,11 +84,11 @@ public class DescartCartasTest {
         Juego juego = new Juego(3, List.of("Lu", "Bren", "Caro"), new DadosS7(7));
         Jugador jugador = juego.jugadores().get(0);
 
-        jugador.recibirRecurso("MADERA", 5);
-        jugador.recibirRecurso("LADRILLO", 5);
-        jugador.recibirRecurso("LANA", 5);
-        jugador.recibirRecurso("GRANO", 5);
-        jugador.recibirRecurso("MINERAL", 5);
+        jugador.recibirRecurso(RecursoTipo.MADERA, 5);
+        jugador.recibirRecurso(RecursoTipo.LADRILLO, 5);
+        jugador.recibirRecurso(RecursoTipo.LANA, 5);
+        jugador.recibirRecurso(RecursoTipo.GRANO, 5);
+        jugador.recibirRecurso(RecursoTipo.MINERAL, 5);
 
         juego.manejarTirada(juego.tirarDado());
 

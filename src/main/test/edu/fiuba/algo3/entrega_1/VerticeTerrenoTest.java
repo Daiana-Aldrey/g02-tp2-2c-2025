@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class VerticeTerrenoTest {
     @Test
-    public void verticeConfirmaUbicación() {
+    public void verticeConfirmaUbicacion() {
         VerticeTerreno vertice = new VerticeTerreno('A', new Bosque(8));
         assertTrue(vertice.tieneUbicacion('A'));
     }

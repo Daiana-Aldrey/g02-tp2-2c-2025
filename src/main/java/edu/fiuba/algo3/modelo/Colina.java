@@ -11,7 +11,7 @@ public class Colina extends Terreno{
     public void repartirRecurso(List<Pieza> edificios){
         for(Pieza pieza : edificios){
             //if (pieza.esCasa())
-            pieza.agregarRecursos("LADRILLO",1);
+            pieza.agregarRecursos(RecursoTipo.LADRILLO,1);
         }
     }
 }

@@ -14,11 +14,11 @@ public class JugadorTest {
 	public void jugadorInicializaCorrectamenteLosRecursos() {
 	    Jugador jugador = new Jugador("Lu");
 
-	    assertNotNull(jugador.buscarRecurso("MADERA"));
-	    assertNotNull(jugador.buscarRecurso("LADRILLO"));
-	    assertNotNull(jugador.buscarRecurso("LANA"));
-	    assertNotNull(jugador.buscarRecurso("GRANO"));
-	    assertNotNull(jugador.buscarRecurso("MINERAL"));
+	    assertNotNull(jugador.buscarRecurso(RecursoTipo.MADERA));
+	    assertNotNull(jugador.buscarRecurso(RecursoTipo.LADRILLO));
+	    assertNotNull(jugador.buscarRecurso(RecursoTipo.LANA));
+	    assertNotNull(jugador.buscarRecurso(RecursoTipo.GRANO));
+	    assertNotNull(jugador.buscarRecurso(RecursoTipo.MINERAL));
 	}
 
 	@Test
@@ -35,7 +35,7 @@ public class JugadorTest {
         List<Recurso> precio = pobladoDeReferencia.costoDeConstruccion();
 
         for (Recurso costo : precio) {
-            jugador.recibirRecurso(costo.nombre(), costo.cantidad());
+            jugador.recibirRecurso(costo.tipo(), costo.cantidad());
         }
   
         List<Integer> ubicacion = List.of(10);
@@ -48,9 +48,9 @@ public class JugadorTest {
 
 	//SOLO PARA PROBAR 
     private static class TerrenoTest extends Terreno {
-        private String tipoRecurso;
+        private RecursoTipo tipoRecurso;
 
-        public TerrenoTest(int ficha, String tipo) {
+        public TerrenoTest(int ficha, RecursoTipo tipo) {
             super(ficha);
             this.tipoRecurso = tipo;
         }
@@ -62,8 +62,6 @@ public class JugadorTest {
             }
         }
     }
-    
-    
 
     @Test
     public void jugadorRecibeRecursoDelTerreno() {
@@ -79,7 +77,7 @@ public class JugadorTest {
         vt.agregarEdificio(p);
         vt.cosecharTerreno();
         
-        Recurso mineral = jugador.buscarRecurso("MINERAL");
+        Recurso mineral = jugador.buscarRecurso(RecursoTipo.MINERAL);
         assertEquals(1, mineral.cantidad());
     }
 

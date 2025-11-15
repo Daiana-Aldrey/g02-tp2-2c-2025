@@ -11,7 +11,7 @@ public class Pastizal extends Terreno{
     public void repartirRecurso(List<Pieza> edificios){
         for(Pieza pieza : edificios){
             //if (pieza.esCasa())
-            pieza.agregarRecursos("LANA",1);
+            pieza.agregarRecursos(RecursoTipo.LANA,1);
         }
     }
 }

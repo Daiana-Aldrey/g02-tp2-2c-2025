@@ -26,7 +26,7 @@ public abstract class Pieza {
     
     public abstract List<Recurso> costoDeConstruccion();
 
-    public void agregarRecursos(String tipo, int cantidad) {
+    public void agregarRecursos(RecursoTipo tipo, int cantidad) {
         propietario.recibirRecurso(tipo, cantidad);
     }
 

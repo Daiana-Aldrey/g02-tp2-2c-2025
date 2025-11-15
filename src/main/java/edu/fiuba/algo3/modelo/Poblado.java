@@ -15,10 +15,10 @@ public class Poblado extends Pieza {
     @Override
     public List<Recurso> costoDeConstruccion() {
     	return List.of(
-    	        new Recurso("MADERA", 1),
-    	        new Recurso("LADRILLO", 1),
-    	        new Recurso("LANA", 1),
-    	        new Recurso("GRANO", 1)
+    	        new Recurso(RecursoTipo.MADERA, 1),
+    	        new Recurso(RecursoTipo.LADRILLO, 1),
+    	        new Recurso(RecursoTipo.LANA, 1),
+    	        new Recurso(RecursoTipo.GRANO, 1)
     	    );
     }
     

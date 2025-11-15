@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class VerticeEdificioTest {
     @Test
-    public void verticeDeniegaUbicación() {
+    public void verticeDeniegaUbicacion() {
         VerticeEdificio vertice = new VerticeEdificio(1);
         assertFalse(vertice.tieneUbicacion(2));
     }

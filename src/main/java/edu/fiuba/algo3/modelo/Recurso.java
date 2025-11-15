@@ -1,16 +1,16 @@
 package edu.fiuba.algo3.modelo;
 
 public class Recurso extends Carta {
-	private String nombre;
+	private final RecursoTipo tipo;
 	private int cantidad;
 	
-	public Recurso(String nombre) {
-	    this.nombre = nombre.trim().toUpperCase();
+	public Recurso(RecursoTipo tipo) {
+	    this.tipo = tipo;
         this.cantidad = 0;
 	}
 	
-	public Recurso(String nombre, int cantidad) {
-	    this.nombre = nombre.trim().toUpperCase();
+	public Recurso(RecursoTipo tipo, int cantidad) {
+        this.tipo = tipo;
         this.cantidad = cantidad;
 	}
 	
@@ -19,12 +19,12 @@ public class Recurso extends Carta {
 		cantidad = cantidad - cantidadUsada;
 	}
 
-    public boolean sosTipo(String unTipo) {
-        return this.nombre.equals(unTipo.trim().toUpperCase());
+    public boolean sosTipo(RecursoTipo unTipo) {
+        return this.tipo.equals(unTipo);
     }
     
     public void cobrarDe(Jugador jugador) {
-        jugador.descontarRecurso(this.nombre, this.cantidad);
+        jugador.descontarRecurso(this.tipo, this.cantidad);
     }
 
     public void incrementar(int cantidad) {
@@ -33,7 +33,7 @@ public class Recurso extends Carta {
 
     public void decrementar(int cantidadPedida) {
     	if (cantidadPedida > cantidad) {
-            throw new IllegalArgumentException("No posees cantidad suficiente de " + nombre);
+            throw new IllegalArgumentException("No posees cantidad suficiente de " + tipo);
 	    }
     	
         this.cantidad -= cantidad;
@@ -47,7 +47,5 @@ public class Recurso extends Carta {
         return cantidad;
     }
 
-    public String nombre(){
-        return nombre;
-    }
+    public RecursoTipo tipo(){return tipo;}
 }

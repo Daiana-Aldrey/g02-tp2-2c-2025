@@ -18,7 +18,7 @@ public class Jugador {
 		this.nombre = nombre;
 		this.recursos = new ArrayList<Recurso>();
 		
-		inicializarRecursos(List.of(" MADERA", "LADRILLO", "LANA", "GRANO", "MINERAL"));
+		inicializarRecursos(List.of(RecursoTipo.MADERA, RecursoTipo.LADRILLO, RecursoTipo.LANA, RecursoTipo.GRANO, RecursoTipo.MINERAL));
 	}
 
 
@@ -42,28 +42,27 @@ public class Jugador {
 	}    
 	
 	 
-	private void inicializarRecursos(List<String> tiposRecursos) {
+	private void inicializarRecursos(List<RecursoTipo> tiposRecursos) {
 		for(int i = 0; i < tiposRecursos.size(); i ++) {
 			Recurso recurso = new Recurso(tiposRecursos.get(i));
 			recursos.add(recurso);
 		}
 	}
 	
-    public void recibirRecurso(String tipo, int cantidad) {
-        String t = tipo.trim().toUpperCase();
+    public void recibirRecurso(RecursoTipo tipo, int cantidad) {
         for (Recurso recurso : recursos) {
-            if (recurso.sosTipo(t)) {
+            if (recurso.sosTipo(tipo)) {
                 recurso.incrementar(cantidad);
                 return;
             }
         }
 
-        Recurso nuevo = new Recurso(t);
+        Recurso nuevo = new Recurso(tipo);
         nuevo.incrementar(cantidad);
         recursos.add(nuevo);
     }
     
-    public Recurso buscarRecurso(String tipo) {
+    public Recurso buscarRecurso(RecursoTipo tipo) {
         for (Recurso r : recursos) {
             if (r.sosTipo(tipo)) {
                 return r;
@@ -87,7 +86,7 @@ public class Jugador {
         }
     }
 
-    void descontarRecurso(String tipo, int cantidad) {
+    void descontarRecurso(RecursoTipo tipo, int cantidad) {
         for (Recurso rJugador : recursos) {
             if (rJugador.sosTipo(tipo)) {
                 rJugador.decrementar(cantidad);
