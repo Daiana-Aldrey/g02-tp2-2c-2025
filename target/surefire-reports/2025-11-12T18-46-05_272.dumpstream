@@ -1,6 +1,0 @@
-# Created at 2025-11-12T18:46:05.499
-Error: no se ha encontrado o cargado la clase principal ${rgLine}
-
-# Created at 2025-11-12T18:46:05.499
-Causado por: java.lang.ClassNotFoundException: ${rgLine}
-
