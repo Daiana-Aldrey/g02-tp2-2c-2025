@@ -46,4 +46,16 @@ public class TableroTest {
             tablero.colocarEdificio(5, p2);
         });
     }
+    
+    public void colocacionCorrectaDeHexagonosAleatorios(){
+    	
+    }
+    
+    public void colocacionCorrectaDePobladosIniciales() {
+    	
+    }
+    
+    public void terrenoConLadronNoProduceRecursos() {
+    	
+    }
 }

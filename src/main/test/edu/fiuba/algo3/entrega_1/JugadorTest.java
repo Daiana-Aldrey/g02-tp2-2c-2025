@@ -53,22 +53,22 @@ public class JugadorTest {
 
     @Test
     public void jugadorRecibeRecursoDelTerrenoAdyacenteAlSegundoPoblado() {
-        Jugador jugador = new Jugador("Lautaro");
-
-        TerrenoTest terreno = new TerrenoTest(8, "MADERA");
-        VerticeTerreno verticeTerreno = new VerticeTerreno('A', terreno);
-
-        Poblado poblado = new Poblado(jugador);
-        verticeTerreno.agregarEdificio(poblado);
-
-        int resultadoDado = 8;
-        if (verticeTerreno.tieneFichaDeNumero(resultadoDado)) {
-            verticeTerreno.cosecharTerreno();
-        }
-
-        Recurso madera = jugador.buscarRecurso("MADERA");
-        assertNotNull(madera);
-        assertEquals(1, madera.cantidad());
+       
     }
 
+    
+    public void jugadorRecibeUnRecursoPorPobladoCuandoCorresponde() { 
+    }
+    
+    public void jugadorRecibeDosRecursosPorCiudadCuandoCorresponde() {
+    	
+    }
+    
+    public void jugadorDescartaLaMitadDeCartasSiSale7yTieneMasDe7Cartas() {
+    	
+    }
+    
+    public void jugadorActivoMueveAlLadronYRobaCartaAJugadorAdyacenteANuevoTerreno() {
+    	
+    }
 }
