@@ -81,13 +81,19 @@ public class Grafo {
     public Arista buscarArista(List<Integer> vertices) {
         int i = 0;
         boolean encontrado = false;
+
         while (i < aristas.size() && !encontrado) {
-            if(aristas.get(i).sonMisAdyacentes(vertices)) {
+            if (aristas.get(i).sonMisAdyacentes(vertices)) {
                 encontrado = true;
+            } else {
+                i++;
             }
-        }if (!encontrado) {
+        }
+
+        if (!encontrado) {
             throw new IllegalArgumentException("Arista no encontrada");
         }
+
         return aristas.get(i);
     }
 

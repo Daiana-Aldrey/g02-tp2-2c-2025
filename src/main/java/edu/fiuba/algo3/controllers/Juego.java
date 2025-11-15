@@ -11,15 +11,13 @@ public class Juego {
 	  private int rondas;
 	  private final GeneradorDeDados generador;
 
-	public Juego(int cantJugadores, List<String> nombres) {
-		this(cantJugadores, nombres, new DosDados());
-	}
+	  
 
 	public Juego(int cantJugadores, List<String> nombres, GeneradorDeDados generador) {
 		this.jugadores = new ArrayList<Jugador>();
 		this.turno = 0;
 		this.maxTurno = cantJugadores;
-		this.tablero = TableroCatan.getInstance();
+		this.tablero = Tablero.getInstance();
 		this.banco = new Banco();
 		this.rondas = 0;
 		this.generador = generador;
@@ -44,21 +42,14 @@ public class Juego {
 		}
 		return n;
 	}
-
-	//OPCION TIRAR DADOS RANDOMS, NUNCA VA A HABER TIRADA FUERA DE RANGO
-	/* lo comentom momentaneamenta ya que el otro me ayuda a forzar el 7 para los test
-	y para que no rompa con soliD(inversion de dependencias)
-	public int tirarDados() {
-		Random random = new Random();
-		int numero = random.nextInt(11) + 2;
-		return numero;
-	}
-	*/
-
-	public void inicializarPiezas() {
-		for(int i = 0; i < maxTurno; i++)	{
-			jugadores.get(i).elegirColocacionInicial("poblado");
-			jugadores.get(i).elegirColocacionInicial("camino");
+	
+	public void inicializarPiezas(List<List<Integer>> verticesPoblados, List<List<Integer>> verticesCaminos) {
+		
+		for (int i = 0; i < maxTurno; i++) {
+			Jugador jugador = jugadores.get(i);
+			jugador.colocarPiezaInicial("poblado", verticesPoblados.get(i));
+			
+			jugador.colocarPiezaInicial("camino", verticesCaminos.get(i));
 		}
 	}
 	

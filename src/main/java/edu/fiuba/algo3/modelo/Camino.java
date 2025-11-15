@@ -10,57 +10,29 @@ public class Camino extends Pieza {
 	    this.ubicacion = new ArrayList<>();
 	}
 
-    public void colocarPiezaCamino(int ubicacion1, int ubicacion2) {
-        this.ubicacion.add(ubicacion1);
-        this.ubicacion.add(ubicacion2);
-        Tablero tablero = TableroCatan.getInstance();
-        tablero.colocarPiezaCamino(ubicacion, this);
-    }
-
-    public String obtenerNombreJugador() {
-        return propietario.obtenerNombre();
-    }
-
-    @Override
-    public Jugador obtenerJugador() {
-        return null;
-    }
 
     @Override
     public List<Recurso> costoDeConstruccion() {
         return List.of();
     }
     
-    private void preguntarPosicion() {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Elegí los dos vértices del camino separándolos por coma (ej: 5,6):");
 
-        String linea = scanner.nextLine();       
-        String[] partes = linea.split(",");       
-
-        if (partes.length != 2) {
-            throw new IllegalArgumentException("Debes ingresar exactamente dos vértices sepasrados por coma.");
+    @Override
+    public void colocar(List<Integer> vertices) {
+        if (vertices.size() != 2) {
+            throw new IllegalArgumentException("Un camino necesita exactamente 2 vértices");
         }
 
-        int v1 = Integer.parseInt(partes[0].trim()); 
-        int v2 = Integer.parseInt(partes[1].trim());
+        ubicacion = vertices; 
 
- 
-       ubicacion.add(v1);
-       ubicacion.add(v2);
-       scanner.close();
+        Tablero tablero = Tablero.getInstance();
+        tablero.colocarCamino(ubicacion, this);
+
+        propietario.incorporarCamino(this);
     }
 
-    @Override
-    public void colocar() {
-        Tablero tablero = TableroCatan.getInstance();
-        tablero.colocarCamino(ubicacion, this); 
-    }
+  
 
-    @Override
-    public void colocarPiezaFija(int ubicacion) {
-        System.out.println("modificar metodo");
-    }
 
     @Override 
     public int ubicacion() {

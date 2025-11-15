@@ -35,4 +35,6 @@ public class VerticeTerreno extends EnlazadorVertices {
     public boolean hayPiezasAdyacentes() {
          return !edificios.isEmpty();
     }
+    
+    
 }

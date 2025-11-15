@@ -21,26 +21,26 @@ public class Jugador {
 		inicializarRecursos(List.of(" MADERA", "LADRILLO", "LANA", "GRANO", "MINERAL"));
 	}
 
-    public String obtenerNombre() {
-        return nombre;
-    }
 
-    public void colocarPiezaCamino(String tipo, int ubicacion1, int ubicacion2) {
-        Pieza pieza = Pieza.crear(tipo, this);
-        pieza.colocarPiezaCamino(ubicacion1, ubicacion2);
-        switch (tipo) {
-            case "Camino":
-                this.caminos.add((Camino) pieza);
-            default:
-                throw new IllegalArgumentException(
-                        "Tipo de pieza no válido: " + tipo + ". Debe ser 'camino'.");
-        }
-    }
+	public void incorporarCamino(Camino camino) {
+		caminos.add(camino);
+	}
+    
+	public void incorporarPoblado(Poblado poblado) {
+		poblados.add(poblado);
+	}
 	
-	public void elegirColocazionPieza(String tipo) {
-        Pieza pieza = Pieza.crear(tipo, this);
-		pieza.colocar();
-	}	
+	public void incorporarCiudad(Ciudad ciudad) {
+		ciudades.add(ciudad);
+	}
+	
+	
+	
+	public void colocarPiezaInicial(String tipo, List<Integer> vertices) {
+	    Pieza pieza = Pieza.crear(tipo, this);
+	    pieza.colocar(vertices);   
+	}    
+	
 	 
 	private void inicializarRecursos(List<String> tiposRecursos) {
 		for(int i = 0; i < tiposRecursos.size(); i ++) {
@@ -49,12 +49,6 @@ public class Jugador {
 		}
 	}
 	
-	
-	public void elegirColocacionInicial(String tipo) {
-        Pieza pieza = Pieza.crear(tipo, this);
-		pieza.colocar();
-	}
-
     public void recibirRecurso(String tipo, int cantidad) {
         String t = tipo.trim().toUpperCase();
         for (Recurso recurso : recursos) {
@@ -78,45 +72,35 @@ public class Jugador {
         return null;
     }
 
-    private boolean recursosSuficientes(List<Recurso> precio) {
-        for (Recurso costo : precio) {
-            Recurso recursoJugador = buscarRecurso(costo.nombre());
-        
-            if (!recursoJugador.puedeCubrir(costo))
-                return false;  
-        }
-        return true;
+    public void construirPieza(String tipo, List<Integer> vertices) {
+        Pieza pieza = Pieza.crear(tipo, this);
+        List<Recurso> precio = pieza.costoDeConstruccion();
+
+        pagarRecursos(precio);
+        pieza.colocar(vertices);
     }
+
     
-    public void construirPieza() {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("¿Querés construir una pieza? (si/no)");
-        String respuesta = scanner.nextLine().trim().toLowerCase();
-
-        if (!respuesta.equals("si")) {
-            return;
+    public void pagarRecursos(List<Recurso> precio) {
+        for (Recurso rPrecio : precio) {
+            rPrecio.cobrarDe(this);   
         }
+    }
 
-        System.out.println("¿Qué pieza querés construir? (poblado / camino / ciudad)");
-        String tipo = scanner.nextLine().trim().toLowerCase();
-
-       Pieza piezaElegida= Pieza.crear(tipo, this);
-       List<Recurso> precio= piezaElegida.costoDeConstruccion();
-       
-       Boolean puedoConstruirla = recursosSuficientes(precio);
-       
-       if(puedoConstruirla) {
-    	   piezaElegida.colocar();
-       }
-        
+    void descontarRecurso(String tipo, int cantidad) {
+        for (Recurso rJugador : recursos) {
+            if (rJugador.sosTipo(tipo)) {
+                rJugador.decrementar(cantidad);
+                return;
+            }
+        }
     }
     
     public void moverLadron() {
     	
     }
     
-	public void turno() {
-		construirPieza(); 	
+	public void turno() { 	
 	}
     
 	
@@ -170,9 +154,5 @@ public class Jugador {
     public int cantidadDeCartas() {
         return totalRecursos();
     }
-
-    public String getNombre() {
-        return nombre;
-    }
-
 }
+  

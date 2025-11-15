@@ -10,7 +10,6 @@ public class Campo extends Terreno{
     @Override
     public void repartirRecurso(List<Pieza> edificios){
         for(Pieza pieza : edificios){
-            //if (pieza.esCasa())
             pieza.agregarRecursos("GRANO",1);
         }
     }

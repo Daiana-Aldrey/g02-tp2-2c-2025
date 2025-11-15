@@ -6,36 +6,40 @@ import org.junit.jupiter.api.Assertions;
 import java.util.*;
 
 public class TableroTest {
-    //los primeros dos test no andan porque por consola le pide la ubicacion al usuario entonces la pieza no llega a guardar la ubicacion
-    @Test
-    public void tableroColocaEdificioCorrectamente() throws Exception {
-        // Dado un tablero limpio
-        Tablero tablero = TableroCatan.getInstance();
+	@Test
+    public void tableroColocaEdificioCorrectamente() {
+        Tablero tablero = Tablero.getInstance();
         tablero.crearGrafo(); 
         
         Pieza pieza = new Poblado(new Jugador("Luis"));
         int vertice = 10;
         tablero.colocarEdificio(vertice, pieza);
         
-        Assertions.assertEquals(vertice, pieza.ubicacion());
+        List<Integer> ubicacion = new ArrayList<>();
+        ubicacion.add(vertice);
+        boolean valorEsperado = true;
+        boolean valorObtenido = tablero.hayPieza(ubicacion);
+        
+        Assertions.assertEquals(valorEsperado, valorObtenido);
     }
 
     @Test
     public void tableroColocaCaminoCorrectamente() {
-        Tablero tablero = TableroCatan.getInstance();
+        Tablero tablero = Tablero.getInstance();
         tablero.crearGrafo();
 
         Camino camino = new Camino(new Jugador("Luis"));
 
-        List<Integer> vertices = List.of(10, 11);
-        tablero.colocarCamino(vertices, camino);
-
-        Assertions.assertEquals(10, camino.ubicacion());
+        List<Integer> ubicacion = List.of(10, 11);
+        tablero.colocarCamino(ubicacion, camino);
+        boolean valorEsperado = true;
+        boolean valorObtenido = tablero.hayPieza(ubicacion);
+        Assertions.assertEquals(valorEsperado,valorObtenido);
     }
 
     @Test
     public void tableroNoPermiteColocarDosPiezasEnElMismoVertice() throws Exception {
-        Tablero tablero = TableroCatan.getInstance();
+        Tablero tablero = Tablero.getInstance();
         tablero.crearGrafo();
 
         Pieza p1 = new Poblado(new Jugador("Luis"));
@@ -55,6 +59,7 @@ public class TableroTest {
     	
     }
     
+      
     public void terrenoConLadronNoProduceRecursos() {
     	
     }

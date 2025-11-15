@@ -18,39 +18,30 @@ public class Recurso extends Carta {
 	public void usar(int cantidadUsada) {
 		cantidad = cantidad - cantidadUsada;
 	}
-	
-	private void verficarDisponibilidad(int cantidadPedida) {
-		if (cantidadPedida > cantidad) {
-            // cambio el < por que si cantidadPedida < cantidad es true
-            //no deberia tirar una exception , creo que para que tire una excepcion debe ser alreves
-
-            throw new IllegalArgumentException("No posees cantidad suficiente de " + nombre);
-	    }
-	}
 
     public boolean sosTipo(String unTipo) {
-
         return this.nombre.equals(unTipo.trim().toUpperCase());
+    }
+    
+    public void cobrarDe(Jugador jugador) {
+        jugador.descontarRecurso(this.nombre, this.cantidad);
     }
 
     public void incrementar(int cantidad) {
         this.cantidad += cantidad;
     }
 
-    public void decrementar(int cantidad) {
-        verficarDisponibilidad(cantidad);
+    public void decrementar(int cantidadPedida) {
+    	if (cantidadPedida > cantidad) {
+            throw new IllegalArgumentException("No posees cantidad suficiente de " + nombre);
+	    }
+    	
         this.cantidad -= cantidad;
     }
-
-    @Override
-    public void usar() {
-        System.out.println("Usando recurso " + nombre);
-    }
     
-    public boolean puedeCubrir(Recurso costo) {
-    	//NO SE COMO HACER ESTO SIN VIOLAR TELL DON'T ASK (PREGUNTAR)
-        return this.sosTipo(costo.nombre()) && this.cantidad >= costo.cantidad(); 
-    }
+   public void usar() {
+	   
+   }
 
     public int cantidad() {
         return cantidad;

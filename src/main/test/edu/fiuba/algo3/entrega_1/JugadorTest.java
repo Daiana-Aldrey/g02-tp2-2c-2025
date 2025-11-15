@@ -1,14 +1,16 @@
 package edu.fiuba.algo3.entrega_1;
 
 import edu.fiuba.algo3.modelo.*;
+import edu.fiuba.algo3.controllers.*;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 import java.util.List;
+import org.junit.jupiter.api.Assertions;
 
 
 
 public class JugadorTest {
-
+	@Test
 	public void jugadorInicializaCorrectamenteLosRecursos() {
 	    Jugador jugador = new Jugador("Lu");
 
@@ -20,18 +22,28 @@ public class JugadorTest {
 	}
 
 	@Test
-	public void jugadorPuedeConstruirPobladoSiTieneLosRecursosNecesarios() {
-	    Jugador jugador = new Jugador("Lautaro");
+	public void jugadorPuedeConstruirPobladoSiTieneRecursosSuficientes() {
+        Tablero tablero = Tablero.getInstance();
+        tablero.reset();        
+        tablero.crearGrafo();
+        GeneradorDeDados dadoPrueba = () -> 7;
 
-	    jugador.recibirRecurso("MADERA", 1);
-	    jugador.recibirRecurso("LADRILLO", 1);
-	    jugador.recibirRecurso("LANA", 1);
-	    jugador.recibirRecurso("GRANO", 1);
+        List<String> nombres = List.of("Luis", "Ana", "Maria");
+        Juego juego = new Juego(3, nombres, dadoPrueba);
+        Jugador jugador = juego.jugadores().get(0);
+        Pieza pobladoDeReferencia = Pieza.crear("poblado", jugador);
+        List<Recurso> precio = pobladoDeReferencia.costoDeConstruccion();
 
-	    Pieza poblado = Pieza.crear("poblado", jugador);
+        for (Recurso costo : precio) {
+            jugador.recibirRecurso(costo.nombre(), costo.cantidad());
+        }
+  
+        List<Integer> ubicacion = List.of(10);
+        jugador.construirPieza("poblado", ubicacion);
 
-	    assertDoesNotThrow(() -> jugador.construirPiezaDePrueba(poblado));
-	}
+        Assertions.assertTrue(tablero.hayPieza(ubicacion));
+        Assertions.assertEquals(0, jugador.cantidadDeCartas());
+    }
 
 
 	//SOLO PARA PROBAR 
@@ -50,10 +62,25 @@ public class JugadorTest {
             }
         }
     }
+    
+    
 
     @Test
-    public void jugadorRecibeRecursoDelTerrenoAdyacenteAlSegundoPoblado() {
-       
+    public void jugadorRecibeRecursoDelTerreno() {
+    	Tablero tablero = Tablero.getInstance();
+        tablero.reset();
+        tablero.crearGrafo();
+      
+        Jugador jugador = new Jugador("Luis");
+        Terreno montania = new Montania(8);
+        VerticeTerreno vt = new VerticeTerreno('A', montania);
+        Poblado p = new Poblado(jugador);
+        
+        vt.agregarEdificio(p);
+        vt.cosecharTerreno();
+        
+        Recurso mineral = jugador.buscarRecurso("MINERAL");
+        assertEquals(1, mineral.cantidad());
     }
 
     

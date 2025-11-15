@@ -22,41 +22,22 @@ public class Poblado extends Pieza {
     	    );
     }
     
-    private void preguntarPosicion() {
-    	Scanner scanner = new Scanner(System.in);
-        System.out.println("Elegi la posicion donde quieres colocar el poblado");
-        int numVertice = scanner.nextInt();
-        ubicacion =  numVertice;
-    }
     
-    public void colocar() {
-    	preguntarPosicion();
-    	Tablero tablero = TableroCatan.getInstance();
-    	tablero.colocarEdificio(ubicacion, this);
+    public void colocar(List<Integer> vertice) {
+    	if (vertice.size() != 1) {
+            throw new IllegalArgumentException("Un poblado necesita exactamente 1 vértice");
+        }
+    	  
+          this.ubicacion = vertice.get(0);
+          Tablero tablero = Tablero.getInstance();
+          tablero.colocarEdificio(ubicacion, this);
+          propietario.incorporarPoblado(this);
     }
 
-    public void colocarPiezaFija(int ubicacion) {
-        this.ubicacion = ubicacion;
-        preguntarPosicion();
-        Tablero tablero = TableroCatan.getInstance();
-        tablero.colocarEdificio(ubicacion, this);
-    }
-
-    @Override
-    public void colocarPiezaCamino(int ubicacion1, int ubicacion2) {
-        System.out.println("modificar metodo, implementado unicamente para que proyecto pueda ser ejecutado");
-    }
 
     public int ubicacion() {
     	return ubicacion;
     }
 
-    public String obtenerNombreJugador() {
-        return propietario.obtenerNombre();
-    }
 
-    @Override
-    public Jugador obtenerJugador() {
-        return null; //implementado unicamente para que proyecto pueda ser ejecutado"
-    }
 }
