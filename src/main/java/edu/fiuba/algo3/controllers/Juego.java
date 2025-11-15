@@ -6,7 +6,7 @@ public class Juego {
 	  private final Tablero tablero;
 	  private final Banco banco;
 	  private final List<Jugador> jugadores;
-	  private final int turno;
+	  private Jugador jugadorTurno;
 	  private final int maxTurno;
 	  private int rondas;
 	  private final GeneradorDeDados generador;
@@ -15,7 +15,6 @@ public class Juego {
 
 	public Juego(int cantJugadores, List<String> nombres, GeneradorDeDados generador) {
 		this.jugadores = new ArrayList<Jugador>();
-		this.turno = 0;
 		this.maxTurno = cantJugadores;
 		this.tablero = Tablero.getInstance();
 		this.banco = new Banco();
@@ -27,6 +26,8 @@ public class Juego {
 			Jugador jugador = new Jugador(nombres.get(i));
 			jugadores.add(jugador);
 		}
+		
+		this.jugadorTurno = jugadores.get(0);
 	}
 	
 	private void validarCantJugadores(int cantidad) {
@@ -44,7 +45,6 @@ public class Juego {
 	}
 	
 	public void inicializarPiezas(List<List<Integer>> verticesPoblados, List<List<Integer>> verticesCaminos) {
-		
 		for (int i = 0; i < maxTurno; i++) {
 			Jugador jugador = jugadores.get(i);
 			jugador.colocarPiezaInicial("poblado", verticesPoblados.get(i));
@@ -54,14 +54,10 @@ public class Juego {
 	}
 	
 	public void siguienteRonda() {
-		if(rondas == 0) {
-			inicializarPiezas();
-		}
-		
-		int numDados = tirarDado();
-		//tablero.cosechar(numDados);
-		manejarTirada(numDados); // si es 7 descarta , si no cosecha (para no cosechar siempre )
 		for(int i = 0; i < maxTurno; i++) {
+			jugadorTurno = jugadores.get(i);
+			int numDados = tirarDado();
+			manejarTirada(numDados); 
 			jugadores.get(i).turno();
 		}
 	}
@@ -90,7 +86,8 @@ public class Juego {
 		for (Jugador j : jugadores) {
 			j.descartarMitad();
 		}
-		//depues aca tendriamos que agregar lo de mover al ladron yrobar
+		char destino = 'B'; //esto se preguntara por controlador
+		jugadorTurno.moverLadron(destino);
 	}
 
 	public List<Jugador> jugadores() {

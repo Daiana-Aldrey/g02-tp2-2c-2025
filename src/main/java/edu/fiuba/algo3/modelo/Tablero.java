@@ -2,22 +2,24 @@ package edu.fiuba.algo3.modelo;
 
 import java.util.*;
 public final class Tablero {
-
     private Grafo grafo;
     private List<Pieza> piezas;
+    private List<Terreno> terrenos;
+    private List<VerticeTerreno> verticesTerreno;
+    private Ladron ladron;
 
-    //PATRON DE DISEÑO SINGLETON
-  
-    // unica instancia creada al cargar la clase
     private static final Tablero INSTANCE = new Tablero();
 
-    // nadie puede hacer "new Tablero()"
     private Tablero() {
-        grafo = new Grafo();
-        piezas = new ArrayList();
-    }
+        this.grafo = new Grafo();
+        this.terrenos = new ArrayList<>();
+        this.piezas = new ArrayList<>();
+        this.verticesTerreno = new ArrayList<>();
 
-    // metodo de acceso global
+        crearGrafo();
+        inicializarTerrenos(); 
+    }
+ 
     public static Tablero getInstance() {
         return INSTANCE;
     }
@@ -79,6 +81,38 @@ public final class Tablero {
     	return piezas.size() == 0 ;
     }	
     	
+    private void inicializarTerrenos() {
+       Desierto desierto = new Desierto();
+       registrarTerreno('Z', desierto, List.of(19, 20, 21, 22, 23, 24));
+       VerticeTerreno vtDesierto = buscarVerticeTerreno('Z');
+       
+        Terreno bosqueA = new Bosque(4);     
+        registrarTerreno('A', bosqueA, List.of(1, 2, 3, 4, 5, 6));
+
+        Terreno campoB = new Campo(5);      
+        registrarTerreno('B', campoB, List.of(4, 5, 6, 7, 8, 9));
+
+        Terreno colinaC = new Colina(6);    
+        registrarTerreno('C', colinaC, List.of(7, 8, 9, 10, 11, 12));
+
+        Terreno pastizalD = new Pastizal(8); 
+        registrarTerreno('D', pastizalD, List.of(10, 11, 12, 13, 14, 15));
+
+        Terreno montaniaE = new Montania(3); 
+        registrarTerreno('E', montaniaE, List.of(13, 14, 15, 16, 17, 18));
+
+   
+        this.ladron = new Ladron(vtDesierto);
+    }
+    
+    private VerticeTerreno buscarVerticeTerreno(char id) {
+        for (VerticeTerreno vt : verticesTerreno) {
+            if (vt.tieneUbicacion(id)) {
+                return vt;
+            }
+        }
+        throw new IllegalArgumentException("No existe un terreno con id " + id);
+    }
 
     public void colocarEdificio(int num_vertice, Pieza pieza) {
         grafo.colocarPieza(num_vertice, pieza);
@@ -139,18 +173,34 @@ public final class Tablero {
         throw new IllegalArgumentException("Cantidad invalida de vertices");
     }
 
-    public void reset() {
-        this.grafo = new Grafo();
-        this.piezas = new ArrayList<>();
-    }
     
     public void registrarTerreno(char id, Terreno terreno, List<Integer> verticesEdificio) {
         VerticeTerreno vt = new VerticeTerreno(id, terreno);
         grafo.agregarVertice(vt);
 
+        verticesTerreno.add(vt);
+        terrenos.add(terreno); 
+
         for (Integer v : verticesEdificio) {
             grafo.agregarArista(v, id);
         }
+    }
+
+    
+    public void moverLadronA(char idTerreno, Jugador jugadorQueMueve) {
+        VerticeTerreno destino = buscarVerticeTerreno(idTerreno);
+        ladron.moverA(destino);
+        destino.recibirLadron(jugadorQueMueve);  
+    }
+    
+    public void reset() {
+        this.grafo = new Grafo();
+        this.piezas = new ArrayList<>();
+        this.terrenos = new ArrayList<>();
+        this.verticesTerreno = new ArrayList<>();
+
+        crearGrafo();
+        inicializarTerrenos(); 
     }
 
 

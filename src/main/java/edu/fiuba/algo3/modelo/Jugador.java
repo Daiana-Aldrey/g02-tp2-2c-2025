@@ -2,12 +2,11 @@ package edu.fiuba.algo3.modelo;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.*;
 
 public class Jugador {
 	private String nombre;
-
 	private List<Recurso> recursos;
-    //ELIMINAR DESPUES las dejo par que compile PREGUNTAR si no las vamos a usar mas
     private List<Poblado> poblados = new ArrayList<>();
     private List<Ciudad>  ciudades = new ArrayList<>();
     private List<Camino>  caminos  = new ArrayList<>();
@@ -49,18 +48,17 @@ public class Jugador {
 		}
 	}
 	
-    public void recibirRecurso(RecursoTipo tipo, int cantidad) {
-        for (Recurso recurso : recursos) {
-            if (recurso.sosTipo(tipo)) {
-                recurso.incrementar(cantidad);
-                return;
-            }
-        }
-
-        Recurso nuevo = new Recurso(tipo);
-        nuevo.incrementar(cantidad);
-        recursos.add(nuevo);
-    }
+	public void recibirRecurso(RecursoTipo tipo, int cantidad) {
+	    for (Recurso recurso : recursos) {
+	        if (recurso.sosTipo(tipo)) {
+	            recurso.incrementar(cantidad);
+	            return;
+	        }
+	    }
+	    Recurso nuevo = new Recurso(tipo, cantidad);
+	    recursos.add(nuevo);
+	}
+    
     
     public Recurso buscarRecurso(RecursoTipo tipo) {
         for (Recurso r : recursos) {
@@ -93,13 +91,16 @@ public class Jugador {
                 return;
             }
         }
+        throw new IllegalArgumentException("No posees cantidad suficiente de " + tipo);
     }
     
-    public void moverLadron() {
-    	
+    public void moverLadron(char idTerreno) {
+    	Tablero tablero = Tablero.getInstance();
+    	tablero.moverLadronA(idTerreno, this);
     }
     
 	public void turno() { 	
+		System.out.print("acciones");
 	}
    
 
@@ -139,6 +140,24 @@ public class Jugador {
         }
     }
 
+    public void robarCartaAleatoriaA(Jugador victima) {
+        List<Recurso> robables = new ArrayList<>();
+        for (Recurso r : victima.recursos) {
+            if (r.cantidad() > 0) {   
+                robables.add(r);
+            }
+        }
+
+        if (robables.isEmpty()) {
+            return;
+        }
+
+        Random random = new Random();
+        Recurso elegido = robables.get(random.nextInt(robables.size()));
+        elegido.transferirA(this, 1);
+    }
+
+    
     // Para verif en los tests
     public int cantidadDeCartas() {
         return totalRecursos();

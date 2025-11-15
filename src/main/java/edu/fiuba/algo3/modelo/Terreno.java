@@ -13,4 +13,5 @@ public abstract class Terreno {
     }
 
     public abstract void repartirRecurso(List<Pieza> edificios);
+    
 }

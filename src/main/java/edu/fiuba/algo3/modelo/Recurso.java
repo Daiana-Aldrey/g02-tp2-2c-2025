@@ -14,11 +14,10 @@ public class Recurso extends Carta {
         this.cantidad = cantidad;
 	}
 	
-	
-	public void usar(int cantidadUsada) {
-		cantidad = cantidad - cantidadUsada;
+	public void usar() {
+		System.out.print("Usar recurso");
 	}
-
+	
     public boolean sosTipo(RecursoTipo unTipo) {
         return this.tipo.equals(unTipo);
     }
@@ -36,12 +35,13 @@ public class Recurso extends Carta {
             throw new IllegalArgumentException("No posees cantidad suficiente de " + tipo);
 	    }
     	
-        this.cantidad -= cantidad;
+        this.cantidad -= cantidadPedida;
     }
     
-   public void usar() {
-	   
-   }
+    public void transferirA(Jugador destino, int cantidad) {
+        this.decrementar(cantidad);
+        destino.recibirRecurso(this.tipo, cantidad);
+    }
 
     public int cantidad() {
         return cantidad;

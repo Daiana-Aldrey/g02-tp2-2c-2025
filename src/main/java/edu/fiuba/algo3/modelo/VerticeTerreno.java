@@ -1,7 +1,7 @@
 package edu.fiuba.algo3.modelo;
 import java.util.List;
 import java.util.ArrayList;
-
+import java.util.*;
 public class VerticeTerreno extends EnlazadorVertices {
      private char ubicacion;
      private List<Pieza> edificios;
@@ -35,6 +35,17 @@ public class VerticeTerreno extends EnlazadorVertices {
     public boolean hayPiezasAdyacentes() {
          return !edificios.isEmpty();
     }
+    
+
+    public void recibirLadron(Jugador jugadorQueMueve) {
+        if (edificios.isEmpty()) return;
+
+        Random random = new Random();
+        Pieza piezaVictima = edificios.get(random.nextInt(edificios.size()));
+
+        piezaVictima.afectarPorLadron(jugadorQueMueve);    
+    }
+    
     
     
 }

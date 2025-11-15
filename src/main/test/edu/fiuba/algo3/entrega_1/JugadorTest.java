@@ -46,22 +46,6 @@ public class JugadorTest {
     }
 
 
-	//SOLO PARA PROBAR 
-    private static class TerrenoTest extends Terreno {
-        private RecursoTipo tipoRecurso;
-
-        public TerrenoTest(int ficha, RecursoTipo tipo) {
-            super(ficha);
-            this.tipoRecurso = tipo;
-        }
-
-        @Override
-        public void repartirRecurso(List<Pieza> edificios) {
-            for (Pieza p : edificios) {
-                p.agregarRecursos(tipoRecurso, 1);
-            }
-        }
-    }
 
     @Test
     public void jugadorRecibeRecursoDelTerreno() {
@@ -82,7 +66,7 @@ public class JugadorTest {
     }
 
     
-    public void jugadorRecibeUnRecursoPorPobladoCuandoCorresponde() { 
+   public void jugadorRecibeUnRecursoPorPobladoCuandoCorresponde() { 
     }
     
     public void jugadorRecibeDosRecursosPorCiudadCuandoCorresponde() {
@@ -91,9 +75,39 @@ public class JugadorTest {
     
     public void jugadorDescartaLaMitadDeCartasSiSale7yTieneMasDe7Cartas() {
     	
-    }
+    } 
     
+    @Test
     public void jugadorActivoMueveAlLadronYRobaCartaAJugadorAdyacenteANuevoTerreno() {
-    	
+        Tablero tablero = Tablero.getInstance();
+        tablero.reset(); 
+        GeneradorDeDados generador = () -> 7;
+        Juego juego = new Juego(3, List.of("Luis", "Ana", "Marcos"), generador);
+
+        Jugador jugadorActivo = juego.jugadores().get(0);
+        jugadorActivo.recibirRecurso(RecursoTipo.MADERA, 10);
+        jugadorActivo.recibirRecurso(RecursoTipo.LADRILLO, 10);
+        jugadorActivo.recibirRecurso(RecursoTipo.LANA, 10);
+        jugadorActivo.recibirRecurso(RecursoTipo.GRANO, 10);
+
+        Jugador jugadorVictima = juego.jugadores().get(1);
+
+        jugadorVictima.recibirRecurso(RecursoTipo.MADERA, 1);
+        jugadorVictima.recibirRecurso(RecursoTipo.LADRILLO, 1);
+        jugadorVictima.recibirRecurso(RecursoTipo.LANA, 1);
+        jugadorVictima.recibirRecurso(RecursoTipo.GRANO, 1);
+
+        jugadorVictima.recibirRecurso(RecursoTipo.MADERA, 1);
+        jugadorVictima.construirPieza("poblado", List.of(4));
+
+        int cartasAntesVictima = jugadorVictima.cantidadDeCartas();
+        int cartasAntesActivo = jugadorActivo.cantidadDeCartas();
+
+        jugadorActivo.moverLadron('B');
+
+        assertEquals(cartasAntesVictima - 1, jugadorVictima.cantidadDeCartas(),
+                "La víctima debería tener una carta menos después del robo");
+        assertEquals(cartasAntesActivo + 1, jugadorActivo.cantidadDeCartas(),
+                "El jugador activo debería tener una carta más después del robo");
     }
 }

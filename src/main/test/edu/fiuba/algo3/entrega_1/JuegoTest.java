@@ -1,5 +1,6 @@
 package edu.fiuba.algo3.entrega_1;
 
+
 import edu.fiuba.algo3.controllers.Juego;
 import edu.fiuba.algo3.modelo.*;
 import org.junit.jupiter.api.Assertions;
@@ -162,10 +163,7 @@ public class JuegoTest {
         Recurso mineralJ3 = j3.buscarRecurso(RecursoTipo.MINERAL);
         assertTrue(mineralJ3.cantidad() == 0);
     }
-
-
-
-
-  }
+    
+}
 
 
