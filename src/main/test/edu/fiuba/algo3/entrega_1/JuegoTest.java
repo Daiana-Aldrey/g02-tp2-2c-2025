@@ -162,6 +162,8 @@ public class JuegoTest {
         assertTrue(mineralJ3.cantidad() == 0);
     }
     
+    
+    
 }
 
 

@@ -65,6 +65,30 @@ public class JugadorTest {
         assertEquals(1, mineral.cantidad());
     }
 
+    @Test
+    public void jugadorPagaRecursosCorrectamente() {
+        Jugador jugador = new Jugador("Luis");
+
+        jugador.recibirRecurso(RecursoTipo.MADERA, 1);
+        jugador.recibirRecurso(RecursoTipo.LADRILLO, 1);
+        jugador.recibirRecurso(RecursoTipo.LANA, 1);
+        jugador.recibirRecurso(RecursoTipo.GRANO, 1);
+
+        List<Recurso> precio = List.of(
+                new Recurso(RecursoTipo.MADERA, 1),
+                new Recurso(RecursoTipo.LADRILLO, 1),
+                new Recurso(RecursoTipo.LANA, 1),
+                new Recurso(RecursoTipo.GRANO, 1)
+        );
+
+        jugador.pagarRecursos(precio);
+
+        assertEquals(0, jugador.buscarRecurso(RecursoTipo.MADERA).cantidad());
+        assertEquals(0, jugador.buscarRecurso(RecursoTipo.LADRILLO).cantidad());
+        assertEquals(0, jugador.buscarRecurso(RecursoTipo.LANA).cantidad());
+        assertEquals(0, jugador.buscarRecurso(RecursoTipo.GRANO).cantidad());
+    }
+
     
     @Test
     public void jugadorRobaUnaCartaAleatoriaDeVictima() {
