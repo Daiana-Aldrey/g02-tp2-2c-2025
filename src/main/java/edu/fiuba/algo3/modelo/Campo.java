@@ -10,7 +10,8 @@ public class Campo extends Terreno{
     @Override
     public void repartirRecurso(List<Pieza> edificios){
         for(Pieza pieza : edificios){
-            pieza.agregarRecursos(RecursoTipo.GRANO,1);
+            int cant = pieza.produccion();
+            pieza.agregarRecursos(RecursoTipo.GRANO,cant);
         }
     }
 }

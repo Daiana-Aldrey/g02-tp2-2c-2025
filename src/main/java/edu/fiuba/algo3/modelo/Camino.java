@@ -10,12 +10,10 @@ public class Camino extends Pieza {
 	    this.ubicacion = new ArrayList<>();
 	}
 
-
     @Override
     public List<Recurso> costoDeConstruccion() {
         return List.of();
     }
-    
 
     @Override
     public void colocar(List<Integer> vertices) {
@@ -30,9 +28,6 @@ public class Camino extends Pieza {
 
         propietario.incorporarCamino(this);
     }
-
-  
-
 
     @Override 
     public int ubicacion() {

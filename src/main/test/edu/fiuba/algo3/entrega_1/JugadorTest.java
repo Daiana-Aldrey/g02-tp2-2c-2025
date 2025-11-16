@@ -106,12 +106,49 @@ public class JugadorTest {
         assertEquals(antesLadron + 1, ladron.cantidadDeCartas());
     }
 
-    
-   public void jugadorRecibeUnRecursoPorPobladoCuandoCorresponde() { 
+    @Test
+   public void jugadorRecibeUnRecursoPorPobladoCuandoCorresponde() {
+       Tablero tablero = Tablero.getInstance();
+       tablero.reset();
+       tablero.crearGrafo();
+       GeneradorDeDados dado = () -> 8;
+
+       Juego juego = new Juego(3, List.of("Luis", "Ana", "Marcos"), dado);
+       Jugador jugador = juego.jugadores().get(0);
+
+       Terreno montania = new Montania(8);
+       tablero.registrarTerreno('A',montania, List.of(10));
+
+       jugador.colocarPiezaInicial("poblado", List.of(10));
+
+       int tirada = juego.tirarDado();
+       juego.manejarTirada(tirada);
+
+       Recurso mineral = jugador.buscarRecurso(RecursoTipo.MINERAL);
+       assertEquals(1, mineral.cantidad());
     }
-    
+
+    @Test
     public void jugadorRecibeDosRecursosPorCiudadCuandoCorresponde() {
-    	
+        Tablero tablero = Tablero.getInstance();
+        tablero.reset();
+        tablero.crearGrafo();
+        GeneradorDeDados dado = () -> 8;
+
+        Juego juego = new Juego(3, List.of("Luis", "Ana", "Marcos"), dado);
+        Jugador jugador = juego.jugadores().get(0);
+
+        Terreno montania = new Montania(8);
+        tablero.registrarTerreno('A',montania, List.of(10));
+
+        jugador.colocarPiezaInicial("ciudad", List.of(10));
+        jugador.construirPieza("ciudad", List.of(10));
+
+        int tirada = juego.tirarDado();
+        juego.manejarTirada(tirada);
+
+        Recurso mineral = jugador.buscarRecurso(RecursoTipo.MINERAL);
+        assertEquals(2, mineral.cantidad());
     }
     
     public void jugadorDescartaLaMitadDeCartasSiSale7yTieneMasDe7Cartas() {

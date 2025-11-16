@@ -36,6 +36,7 @@ public abstract class Pieza {
     public void afectarPorLadron(Jugador jugadorQueMueve) {
         jugadorQueMueve.robarCartaAleatoriaA(propietario);
     }
-    
+
+    public int produccion(){return 0;}
 }
     

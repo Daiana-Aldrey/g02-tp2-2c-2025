@@ -6,7 +6,7 @@ import java.util.*;
 
 public class Main {
     public static void main(String[] args) {
-    	Tablero tablero = TableroCatan.getInstance();
+    	Tablero tablero = Tablero.getInstance();
     	tablero.crearGrafo();
         tablero.mostrarGrafo();
         /*

@@ -10,7 +10,8 @@ public class Bosque extends Terreno{
     @Override
     public void repartirRecurso(List<Pieza> edificios){
         for(Pieza pieza : edificios){
-            pieza.agregarRecursos(RecursoTipo.MADERA,1);
+            int cant = pieza.produccion();
+            pieza.agregarRecursos(RecursoTipo.MADERA,cant);
         }
     }
 }

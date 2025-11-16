@@ -39,5 +39,5 @@ public class Poblado extends Pieza {
     	return ubicacion;
     }
 
-
+    public int produccion(){return 1;}
 }

@@ -10,8 +10,8 @@ public class Montania extends Terreno{
     @Override
     public void repartirRecurso(List<Pieza> edificios){
         for(Pieza pieza : edificios){
-            //if (pieza.esCasa())
-            pieza.agregarRecursos(RecursoTipo.MINERAL,1);
+            int cant = pieza.produccion();
+            pieza.agregarRecursos(RecursoTipo.MINERAL,cant);
         }
     }
 }

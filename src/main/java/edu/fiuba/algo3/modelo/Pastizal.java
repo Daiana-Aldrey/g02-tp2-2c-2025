@@ -10,8 +10,8 @@ public class Pastizal extends Terreno{
     @Override
     public void repartirRecurso(List<Pieza> edificios){
         for(Pieza pieza : edificios){
-            //if (pieza.esCasa())
-            pieza.agregarRecursos(RecursoTipo.LANA,1);
+            int cant = pieza.produccion();
+            pieza.agregarRecursos(RecursoTipo.LANA,cant);
         }
     }
 }

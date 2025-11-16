@@ -26,4 +26,6 @@ public class Ciudad extends Pieza{
         return 0; //modificar metodo, implementado unicamente para que proyecto pueda ser ejecutado
     }
 
+    @Override
+    public int produccion(){return 2;}
 }
