@@ -13,7 +13,7 @@ public class DescartCartasTest {
     @Test
     void conDosDeCadaRecurso_alSalir7_descartaLaMitad() {
 
-        Juego juego = new Juego(3, List.of("Lu", "Bren", "Caro"), new DadosS7(7));
+        Juego juego = new Juego(3, List.of("Lu", "Bren", "Caro"), ()-> 7);
         Jugador jugador = juego.jugadores().get(0);
 
         jugador.recibirRecurso(RecursoTipo.MADERA, 2);
@@ -29,7 +29,7 @@ public class DescartCartasTest {
     }
     @Test
     void conTresCartas_noDescartaAlSalir7() {
-        Juego juego = new Juego(3, List.of("Lu", "Bren", "Caro"), new DadosS7(7));
+        Juego juego = new Juego(3, List.of("Lu", "Bren", "Caro"),()-> 7);
         Jugador jugador = juego.jugadores().get(0);
 
         jugador.recibirRecurso(RecursoTipo.MADERA, 1);
@@ -43,7 +43,7 @@ public class DescartCartasTest {
     }
     @Test
     void totalMenorA7_noDescarta() {
-        Juego juego = new Juego(3, List.of("Lu", "Bren", "Caro"), new DadosS7(7));
+        Juego juego = new Juego(3, List.of("Lu", "Bren", "Caro"),  ()-> 7);
         Jugador jugador = juego.jugadores().get(0);
 
         jugador.recibirRecurso(RecursoTipo.MADERA, 3);
@@ -56,7 +56,7 @@ public class DescartCartasTest {
 
     @Test
     void totalNueve_descartaCuatro_yQuedanCinco() {
-        Juego juego = new Juego(3, List.of("Lu", "Bren", "Caro"), new DadosS7(7));
+        Juego juego = new Juego(3, List.of("Lu", "Bren", "Caro"),()-> 7);
         Jugador jugador = juego.jugadores().get(0);
 
         jugador.recibirRecurso(RecursoTipo.MADERA, 5);
@@ -69,7 +69,7 @@ public class DescartCartasTest {
 
     @Test
     void totalDiez_descartaCinco_yQuedanCinco() {
-        Juego juego = new Juego(3, List.of("Lu", "Bren", "Caro"), new DadosS7(7));
+        Juego juego = new Juego(3, List.of("Lu", "Bren", "Caro"), ()-> 7);
         Jugador jugador = juego.jugadores().get(0);
 
         jugador.recibirRecurso(RecursoTipo.GRANO, 6);
@@ -81,7 +81,7 @@ public class DescartCartasTest {
     }
     @Test
     void conCincoDeCadaRecurso_descartaMitad_yQuedanTrece() {
-        Juego juego = new Juego(3, List.of("Lu", "Bren", "Caro"), new DadosS7(7));
+        Juego juego = new Juego(3, List.of("Lu", "Bren", "Caro"),()-> 7);
         Jugador jugador = juego.jugadores().get(0);
 
         jugador.recibirRecurso(RecursoTipo.MADERA, 5);

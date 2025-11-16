@@ -2,7 +2,7 @@ package edu.fiuba.algo3.modelo;
 
 import java.util.concurrent.ThreadLocalRandom;
 
-public class DosDados  implements GeneradorDeDados {
+public class DadosAleatorios  implements GeneradorDeDados {
     @Override
     public int tirar() {
         int dado1 = ThreadLocalRandom.current().nextInt(1, 7);
@@ -10,4 +10,3 @@ public class DosDados  implements GeneradorDeDados {
         return dado1 + dado2;
     }
 }
-

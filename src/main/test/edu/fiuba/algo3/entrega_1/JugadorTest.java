@@ -150,10 +150,28 @@ public class JugadorTest {
         Recurso mineral = jugador.buscarRecurso(RecursoTipo.MINERAL);
         assertEquals(2, mineral.cantidad());
     }
-    
+    @Test
     public void jugadorDescartaLaMitadDeCartasSiSale7yTieneMasDe7Cartas() {
-    	
-    } 
+        Tablero tablero = Tablero.getInstance();
+        tablero.reset();
+        tablero.crearGrafo();
+
+        GeneradorDeDados dado = () -> 7;
+
+        Juego juego = new Juego(3, List.of("lu", "gia", "da"), dado);
+        Jugador jugador = juego.jugadores().get(0);
+
+        jugador.recibirRecurso(RecursoTipo.MADERA, 5);
+        jugador.recibirRecurso(RecursoTipo.LADRILLO, 4);
+
+        assertEquals(9, jugador.cantidadDeCartas(), "Precondición: debe tener 9 cartas");
+
+        int tirada = juego.tirarDado();
+        juego.manejarTirada(tirada);
+
+        assertEquals(5, jugador.cantidadDeCartas(),
+                "Después de tirar 7, descarta la mitad y queda con 5 cartas");
+    }
     
     @Test
     public void jugadorActivoMueveAlLadronYRobaCartaAJugadorAdyacenteANuevoTerreno() {
