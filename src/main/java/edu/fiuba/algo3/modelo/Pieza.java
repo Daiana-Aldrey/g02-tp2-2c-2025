@@ -41,5 +41,10 @@ public abstract class Pieza {
     }
 
     public int produccion(){return 0;}
+    public boolean esPoblado(){return false;}
+
+    protected void removerDelJugador() {
+
+    }
 }
     

@@ -142,8 +142,6 @@ public final class Tablero {
         piezas.add(camino);
     }
 
-
-
     public void cosechar(int numeroDado) {
         List<VerticeTerreno> terrenos = grafo.buscarTerrenoCompatible(numeroDado);
         for (VerticeTerreno vt : terrenos) {
@@ -179,7 +177,6 @@ public final class Tablero {
 
         throw new IllegalArgumentException("Cantidad invalida de vertices");
     }
-
     
     public void registrarTerreno(char id, Terreno terreno, List<Integer> verticesEdificio) {
         VerticeTerreno vt = new VerticeTerreno(id, terreno);
@@ -193,7 +190,6 @@ public final class Tablero {
         }
     }
 
-    
     public void moverLadronA(char idTerreno, Jugador jugadorQueMueve) {
         VerticeTerreno destino = buscarVerticeTerreno(idTerreno);
         ladron.moverA(destino);
@@ -208,6 +204,10 @@ public final class Tablero {
 
         crearGrafo();
         inicializarTerrenos(); 
+    }
+
+    public VerticeEdificio buscarVerticeEdificio(int ubicacion) {
+        return grafo.buscarVertice(ubicacion);
     }
 
 

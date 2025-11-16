@@ -46,6 +46,7 @@ public class VerticeTerreno extends EnlazadorVertices {
         piezaVictima.afectarPorLadron(jugadorQueMueve);    
     }
     
-    
-    
+    public void removerEdificio(Pieza aRemover){
+         edificios.remove(aRemover);
+    }
 }

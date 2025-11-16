@@ -58,8 +58,7 @@ public class Jugador {
 	    Recurso nuevo = new Recurso(tipo, cantidad);
 	    recursos.add(nuevo);
 	}
-    
-    
+
     public Recurso buscarRecurso(RecursoTipo tipo) {
         for (Recurso r : recursos) {
             if (r.sosTipo(tipo)) {
@@ -72,7 +71,6 @@ public class Jugador {
     public void construirPieza(String tipo, List<Integer> vertices) {
         Pieza pieza = Pieza.crear(tipo, this);
         List<Recurso> precio = pieza.costoDeConstruccion();
-
         pagarRecursos(precio);
         pieza.colocar(vertices);
     }
@@ -156,11 +154,18 @@ public class Jugador {
         Recurso elegido = robables.get(random.nextInt(robables.size()));
         elegido.transferirA(this, 1);
     }
-
     
     // Para verif en los tests
     public int cantidadDeCartas() {
         return totalRecursos();
+    }
+
+    public void removerPoblado(Poblado p) {
+        poblados.remove(p);
+    }
+
+    public boolean esJugador(Jugador propietario) {
+        return this.nombre == propietario.nombre;
     }
 }
   

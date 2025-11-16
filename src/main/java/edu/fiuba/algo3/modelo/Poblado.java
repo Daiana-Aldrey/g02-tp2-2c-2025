@@ -40,4 +40,7 @@ public class Poblado extends Pieza {
     }
 
     public int produccion(){return 1;}
+
+    @Override
+    public boolean esPoblado() {return true;}
 }
