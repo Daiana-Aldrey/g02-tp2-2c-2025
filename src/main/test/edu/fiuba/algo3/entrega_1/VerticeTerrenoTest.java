@@ -4,6 +4,8 @@ import edu.fiuba.algo3.modelo.*;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
+
 
 public class VerticeTerrenoTest {
     @Test
@@ -38,5 +40,22 @@ public class VerticeTerrenoTest {
             vertice.cosecharTerreno();
         });
 
+    }
+    
+    @Test
+    public void verticeTerrenoConUnSoloEdificioLlamaAfectarPorLadronEnEsaPieza() {
+        Terreno terrenoMock = mock(Terreno.class);
+
+        VerticeTerreno vt = new VerticeTerreno('X', terrenoMock);
+
+        Jugador jugadorQueMueve = mock(Jugador.class);
+        Pieza piezaVictima = mock(Pieza.class);
+
+        vt.agregarEdificio(piezaVictima);
+
+        vt.recibirLadron(jugadorQueMueve);
+
+        verify(piezaVictima, times(1)).afectarPorLadron(jugadorQueMueve);
+        verifyNoMoreInteractions(piezaVictima);
     }
 }

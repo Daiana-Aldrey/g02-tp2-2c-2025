@@ -2,26 +2,21 @@ package edu.fiuba.algo3.entrega_1;
 
 import edu.fiuba.algo3.modelo.*;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.Assertions;
-import java.util.*;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import org.junit.jupiter.api.extension.ExtendWith;
+import static org.mockito.Mockito.*;
 
 
 public class PiezaTest {
+
     @Test
     public void piezaAfectadaPorLadronHaceQueSeRobeAlPropietario() {
-        Jugador propietario = new Jugador("Propietario");
-        Jugador ladron = new Jugador("Ladrón");
+        Jugador propietario = mock(Jugador.class);
+        Jugador ladron = mock(Jugador.class);
 
-        propietario.recibirRecurso(RecursoTipo.LANA, 1);
         Pieza poblado = new Poblado(propietario);
-
-        int antesProp = propietario.cantidadDeCartas();   
-        int antesLadron = ladron.cantidadDeCartas();      
-
         poblado.afectarPorLadron(ladron);
 
-        assertEquals(antesProp - 1, propietario.cantidadDeCartas());
-        assertEquals(antesLadron + 1, ladron.cantidadDeCartas());
+        verify(ladron, times(1)).robarCartaAleatoriaA(propietario);
+        verifyNoMoreInteractions(ladron);
     }
 }

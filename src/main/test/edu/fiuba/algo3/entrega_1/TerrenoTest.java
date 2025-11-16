@@ -2,46 +2,38 @@ package edu.fiuba.algo3.entrega_1;
 
 import edu.fiuba.algo3.modelo.*;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.Assertions;
-import java.util.*;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.*;
+
+import java.util.List;
 
 public class TerrenoTest {
-  
-	
-    private static class TerrenoPrueba extends Terreno {
-        public TerrenoPrueba() {
-            super(0); 
-        }
-        
-        @Override
-        public void repartirRecurso(java.util.List<Pieza> edificios) {
-        }
-    }
-    
 
     @Test
-    public void verticeTerrenoConUnSoloEdificioRobaAlDuenoDeEsaPieza() {
-        TerrenoPrueba terreno = new TerrenoPrueba();
-        VerticeTerreno vt = new VerticeTerreno('X', terreno);
+    public void terrenoConLadronNoProduceRecursos() {
+        Tablero tablero = Tablero.getInstance();
+        tablero.reset();
+        tablero.crearGrafo();
 
-        Jugador victima = new Jugador("Víctima");
-        Jugador ladron = new Jugador("Ladrón");
+        Terreno bosque = new Bosque(8);
+        tablero.registrarTerreno('X', bosque, List.of(1,2,3,4,5,6));
+        VerticeTerreno vt = tablero.buscarVerticeTerreno('X');
 
-        victima.recibirRecurso(RecursoTipo.GRANO, 1);
-        Pieza pobladoVictima = new Poblado(victima);
-        vt.agregarEdificio(pobladoVictima);
+        Jugador jugador = new Jugador("Jugador");
+        Pieza poblado = new Poblado(jugador);
+        vt.agregarEdificio(poblado);
 
-        int antesVictima = victima.cantidadDeCartas();  
-        int antesLadron = ladron.cantidadDeCartas();    
+        tablero.moverLadronA('X', jugador);
 
-        vt.recibirLadron(ladron);
+        int antes = jugador.cantidadDeCartas();
+        tablero.cosechar(6);
+        int despues = jugador.cantidadDeCartas();
 
-        assertEquals(antesVictima - 1, victima.cantidadDeCartas(),
-                "La víctima debería perder una carta al recibir el ladrón");
-        assertEquals(antesLadron + 1, ladron.cantidadDeCartas(),
-                "El jugador que mueve el ladrón debería ganar una carta");
+        assertEquals(antes, despues,
+                "Un terreno con el Ladrón NO debe producir recursos");
     }
+    
 }
 
 

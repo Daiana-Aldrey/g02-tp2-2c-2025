@@ -5,6 +5,8 @@ import edu.fiuba.algo3.modelo.RecursoTipo;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Assertions;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.*;
+
 
 
 public class RecursoTest{
@@ -92,18 +94,14 @@ public class RecursoTest{
     
     @Test
     public void recursoTransfiereUnaCartaEntreJugadores() {
-        Jugador origen = new Jugador("Origen");
-        Jugador destino = new Jugador("Destino");
-
-        origen.recibirRecurso(RecursoTipo.MADERA, 3);
-        Recurso madera = origen.buscarRecurso(RecursoTipo.MADERA);
-
-        int antesOrigen = origen.cantidadDeCartas();  
-        int antesDestino = destino.cantidadDeCartas(); 
+        Recurso madera = new Recurso(RecursoTipo.MADERA, 3);
+        Jugador destino = mock(Jugador.class);
 
         madera.transferirA(destino, 1);
 
-        assertEquals(antesOrigen - 1, origen.cantidadDeCartas());
-        assertEquals(antesDestino + 1, destino.cantidadDeCartas());
+        assertEquals(2, madera.cantidad());
+        verify(destino, times(1)).recibirRecurso(RecursoTipo.MADERA, 1);
+        verifyNoMoreInteractions(destino);
     }
 }
+

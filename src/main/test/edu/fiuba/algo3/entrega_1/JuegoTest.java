@@ -52,11 +52,9 @@ public class JuegoTest {
   
     @Test
     public void colocacionCorrectaDePobladosIniciales() {
-
         Tablero tablero = Tablero.getInstance();
         tablero.crearGrafo();
 
-        // dado dummy
         GeneradorDeDados dadoPrueba = new GeneradorDeDados() {
             @Override
             public int tirar() {
