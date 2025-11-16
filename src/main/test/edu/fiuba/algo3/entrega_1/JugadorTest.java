@@ -141,7 +141,7 @@ public class JugadorTest {
         Terreno montania = new Montania(8);
         tablero.registrarTerreno('A',montania, List.of(10));
 
-        jugador.colocarPiezaInicial("ciudad", List.of(10));
+        jugador.colocarPiezaInicial("poblado", List.of(10));
         jugador.construirPieza("ciudad", List.of(10));
 
         int tirada = juego.tirarDado();
