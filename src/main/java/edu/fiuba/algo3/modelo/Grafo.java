@@ -151,8 +151,18 @@ public class Grafo {
         if (!aristaEncontrada.estaDisponible()) {
             throw new IllegalArgumentException("Ya hay un camino");
         }
-        aristaEncontrada.colocarCamino(pieza);
+        //aristaEncontrada.colocarCamino(pieza);
+
+        if(((buscarVertice(vertices.get(0)).obtenerJugadorDePieza()) == pieza.obtenerJugador()) || ((buscarVertice(vertices.get(1)).obtenerJugadorDePieza()) == pieza.obtenerJugador()) ) {
+            aristaEncontrada.colocarCamino(pieza);
+        } /*else if((buscarVertice(vertices.get(1)).obtenerJugadorDePieza()) == pieza.obtenerJugador()) {
+            aristaEncontrada.colocarCamino(pieza); */
+         else {
+            throw new IllegalArgumentException("No se puede colocar camino");
+        }
+
     }
+
 
     public void terrenosCompatibles(int resultadoDado) {
         List<VerticeTerreno> terrenosConFichaDeNumero = buscarTerrenoCompatible(resultadoDado);

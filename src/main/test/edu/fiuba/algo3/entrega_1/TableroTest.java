@@ -31,12 +31,18 @@ public class TableroTest {
         Tablero tablero = Tablero.getInstance();
         tablero.crearGrafo();
 
-        Camino camino = new Camino(new Jugador("Luis"));
+        Jugador luis = new Jugador("Luis");
 
-        List<Integer> ubicacion = List.of(10, 11);
-        tablero.colocarCamino(ubicacion, camino);
+        Poblado poblado = new Poblado(luis);
+        Camino camino = new Camino(luis);
+
+        Integer ubicacionPoblado = 10;
+        List<Integer> ubicacionCamino = List.of(10, 11);
+
+        tablero.colocarEdificio(ubicacionPoblado, poblado);
+        tablero.colocarCamino(ubicacionCamino, camino);
         boolean valorEsperado = true;
-        boolean valorObtenido = tablero.hayPieza(ubicacion);
+        boolean valorObtenido = tablero.hayPieza(ubicacionCamino);
         Assertions.assertEquals(valorEsperado,valorObtenido);
     }
 

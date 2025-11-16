@@ -64,6 +64,10 @@ public class VerticeEdificio extends EnlazadorVertices {
         }
     }
 
+    public Jugador obtenerJugadorDePieza() {
+        return this.pieza.obtenerJugador();
+    }
+
     //sacar
     public Integer nombre() {
         return ubicacion;

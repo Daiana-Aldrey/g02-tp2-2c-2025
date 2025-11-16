@@ -122,13 +122,36 @@ public class GrafoTest {
         grafo.agregarVertice(2);
         grafo.agregarArista(1,2);
 
+        Jugador luis = new Jugador("Luis");
+
+        grafo.buscarVertice(1).colocarPieza(new Poblado(luis));
         List<Integer> vertices = new ArrayList<>();
         vertices.add(1);
         vertices.add(2);
 
-        grafo.colocarCamino(vertices,new Camino(new Jugador("Juan")));
+        grafo.colocarCamino(vertices,new Camino(luis));
         assertThrows(IllegalArgumentException.class, () -> {
-            grafo.colocarCamino(vertices,new Camino(new Jugador("Juan")));
+            grafo.colocarCamino(vertices,new Camino(luis));
+        });
+    }
+
+    @Test
+    public void seIntentaPonerUnCaminodoDondeNoHayunaPiezaDelMismoJugadorYLanzaExcepcion() {
+        Grafo grafo = new Grafo();
+        grafo.agregarVertice(1);
+        grafo.agregarVertice(2);
+        grafo.agregarArista(1,2);
+
+        Jugador luis = new Jugador("Luis");
+
+        grafo.buscarVertice(1).colocarPieza(new Poblado(luis));
+        grafo.buscarVertice(2).colocarPieza(new Poblado(luis));
+        List<Integer> vertices = new ArrayList<>();
+        vertices.add(1);
+        vertices.add(2);
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            grafo.colocarCamino(vertices,new Camino(new Jugador("Federico")));
         });
     }
 }
