@@ -28,7 +28,7 @@ public class Entrega1Test {
     }
 
     @Test
-    public void seCreaTableroConJugadoresSeValidaLaReglaDeLaDistanciaEnCasilleroConAdyacenteAlPobladoYTiraExcepcion() {
+    public void seCreaTableroConJugadoresSeValidaLaReglaDeLaDistanciaEnCasilleroAdyacenteAlPobladoYTiraExcepcion() {
 
         Tablero tablero = Tablero.getInstance();
         tablero.crearGrafo();
@@ -42,5 +42,20 @@ public class Entrega1Test {
         assertThrows(IllegalArgumentException.class, () -> {
             federico.colocarPiezaInicial("poblado", new ArrayList<>(List.of(2)));;
         });
+    }
+
+    @Test
+    public void seCreaTableroConJugadoresSeValidaLaReglaDeLaDistancia() {
+
+        Tablero tablero = Tablero.getInstance();
+        tablero.crearGrafo();
+
+        Jugador luis = new Jugador("Luis");
+        Jugador federico = new Jugador("Federico");
+
+        luis.colocarPiezaInicial("poblado", new ArrayList<>(List.of(1)));
+        luis.colocarPiezaInicial("camino", new ArrayList<>(List.of(1, 2)));
+        federico.colocarPiezaInicial("poblado", new ArrayList<>(List.of(15)));;
+        federico.colocarPiezaInicial("camino", new ArrayList<>(List.of(15, 16)));
     }
 }
