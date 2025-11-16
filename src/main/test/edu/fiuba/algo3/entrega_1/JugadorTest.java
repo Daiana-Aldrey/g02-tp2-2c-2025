@@ -45,7 +45,7 @@ public class JugadorTest {
         Assertions.assertEquals(0, jugador.cantidadDeCartas());
     }
 
-
+	
 
     @Test
     public void jugadorRecibeRecursoDelTerreno() {
@@ -63,6 +63,23 @@ public class JugadorTest {
         
         Recurso mineral = jugador.buscarRecurso(RecursoTipo.MINERAL);
         assertEquals(1, mineral.cantidad());
+    }
+
+    
+    @Test
+    public void jugadorRobaUnaCartaAleatoriaDeVictima() {
+        Jugador ladron = new Jugador("Ladrón");
+        Jugador victima = new Jugador("Víctima");
+        
+        victima.recibirRecurso(RecursoTipo.LADRILLO, 1);
+
+        int antesVictima = victima.cantidadDeCartas();   
+        int antesLadron = ladron.cantidadDeCartas();     
+
+        ladron.robarCartaAleatoriaA(victima);
+
+        assertEquals(antesVictima - 1, victima.cantidadDeCartas());
+        assertEquals(antesLadron + 1, ladron.cantidadDeCartas());
     }
 
     

@@ -1,9 +1,11 @@
 package edu.fiuba.algo3.entrega_1;
 
-import edu.fiuba.algo3.modelo.Recurso;
+import edu.fiuba.algo3.modelo.*;
 import edu.fiuba.algo3.modelo.RecursoTipo;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Assertions;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 
 public class RecursoTest{
 
@@ -86,5 +88,22 @@ public class RecursoTest{
         lana.decrementar(4);
 
         Assertions.assertEquals(7, lana.cantidad());
+    }
+    
+    @Test
+    public void recursoTransfiereUnaCartaEntreJugadores() {
+        Jugador origen = new Jugador("Origen");
+        Jugador destino = new Jugador("Destino");
+
+        origen.recibirRecurso(RecursoTipo.MADERA, 3);
+        Recurso madera = origen.buscarRecurso(RecursoTipo.MADERA);
+
+        int antesOrigen = origen.cantidadDeCartas();  
+        int antesDestino = destino.cantidadDeCartas(); 
+
+        madera.transferirA(destino, 1);
+
+        assertEquals(antesOrigen - 1, origen.cantidadDeCartas());
+        assertEquals(antesDestino + 1, destino.cantidadDeCartas());
     }
 }

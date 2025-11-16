@@ -12,7 +12,7 @@ public class Ladron {
         this.posicion = destino;
     }
 
-    public VerticeTerreno posicion() {
-        return posicion;
+    public Boolean posicion(VerticeTerreno vertice) {
+        return (posicion == vertice);
     }
 }

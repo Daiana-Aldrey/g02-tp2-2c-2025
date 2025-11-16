@@ -105,7 +105,7 @@ public final class Tablero {
         this.ladron = new Ladron(vtDesierto);
     }
     
-    private VerticeTerreno buscarVerticeTerreno(char id) {
+    public VerticeTerreno buscarVerticeTerreno(char id) {
         for (VerticeTerreno vt : verticesTerreno) {
             if (vt.tieneUbicacion(id)) {
                 return vt;
@@ -144,8 +144,15 @@ public final class Tablero {
 
 
 
-    public void cosechar(int resultadoDado) {
-        grafo.terrenosCompatibles(resultadoDado);
+    public void cosechar(int numeroDado) {
+        List<VerticeTerreno> terrenos = grafo.buscarTerrenoCompatible(numeroDado);
+        for (VerticeTerreno vt : terrenos) {
+            if (ladron.posicion(vt)) {
+                continue; 
+            }
+
+            vt.cosecharTerreno(); 
+        }
     }
     
     public void mostrarPiezas() {
