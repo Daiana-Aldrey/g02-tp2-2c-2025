@@ -2,6 +2,7 @@ package edu.fiuba.algo3.entrega_1.TestIntegrales;
 
 import edu.fiuba.algo3.controllers.Juego;
 import edu.fiuba.algo3.modelo.*;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -31,9 +32,13 @@ public class testIntegrales {
         Jugador fabiano = new Jugador("Fabiano");
 
         luis.colocarPiezaInicial("poblado", new ArrayList<>(List.of(1)));
+        Assertions.assertTrue(tablero.hayPieza(List.of(1)));
+
         luis.colocarPiezaInicial("camino", new ArrayList<>(List.of(1, 2)));
 
         lucas.colocarPiezaInicial("poblado", new ArrayList<>(List.of(5)));
+        Assertions.assertTrue(tablero.hayPieza(List.of(5)));
+
         lucas.colocarPiezaInicial("camino", new ArrayList<>(List.of(5,6)));
 
         assertThrows(IllegalArgumentException.class, () -> {
