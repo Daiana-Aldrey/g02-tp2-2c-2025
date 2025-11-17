@@ -87,7 +87,7 @@ public class GrafoTest {
     @Test
     public void grafoEncuentraElVerticeTerrenoBuscado() {
         Grafo grafo = new Grafo();
-        VerticeTerreno buscado = new VerticeTerreno('A', new Bosque(9));
+        VerticeTerreno buscado = new VerticeTerreno('A', new Bosque(),9);
 
         grafo.agregarVertice(buscado);
 

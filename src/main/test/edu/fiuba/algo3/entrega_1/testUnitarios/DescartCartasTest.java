@@ -1,6 +1,5 @@
 package edu.fiuba.algo3.entrega_1.testUnitarios;
 
-import edu.fiuba.algo3.controllers.Juego;
 import edu.fiuba.algo3.modelo.*;
 import org.junit.jupiter.api.Test;
 
@@ -12,6 +11,8 @@ public class DescartCartasTest {
 
     @Test
     void conDosDeCadaRecurso_alSalir7_descartaLaMitad() {
+        Tablero tablero = Tablero.getInstance();
+        tablero.reset();
 
         Juego juego = new Juego(3, List.of("Lu", "Bren", "Caro"), ()-> 7);
         Jugador jugador = juego.jugadores().get(0);
@@ -29,6 +30,9 @@ public class DescartCartasTest {
     }
     @Test
     void conTresCartas_noDescartaAlSalir7() {
+        Tablero tablero = Tablero.getInstance();
+        tablero.reset();
+
         Juego juego = new Juego(3, List.of("Lu", "Bren", "Caro"),()-> 7);
         Jugador jugador = juego.jugadores().get(0);
 
@@ -43,6 +47,9 @@ public class DescartCartasTest {
     }
     @Test
     void totalMenorA7_noDescarta() {
+        Tablero tablero = Tablero.getInstance();
+        tablero.reset();
+
         Juego juego = new Juego(3, List.of("Lu", "Bren", "Caro"),  ()-> 7);
         Jugador jugador = juego.jugadores().get(0);
 
@@ -56,6 +63,9 @@ public class DescartCartasTest {
 
     @Test
     void totalNueve_descartaCuatro_yQuedanCinco() {
+        Tablero tablero = Tablero.getInstance();
+        tablero.reset();
+
         Juego juego = new Juego(3, List.of("Lu", "Bren", "Caro"),()-> 7);
         Jugador jugador = juego.jugadores().get(0);
 
@@ -69,6 +79,9 @@ public class DescartCartasTest {
 
     @Test
     void totalDiez_descartaCinco_yQuedanCinco() {
+        Tablero tablero = Tablero.getInstance();
+        tablero.reset();
+
         Juego juego = new Juego(3, List.of("Lu", "Bren", "Caro"), ()-> 7);
         Jugador jugador = juego.jugadores().get(0);
 
@@ -81,6 +94,9 @@ public class DescartCartasTest {
     }
     @Test
     void conCincoDeCadaRecurso_descartaMitad_yQuedanTrece() {
+        Tablero tablero = Tablero.getInstance();
+        tablero.reset();
+
         Juego juego = new Juego(3, List.of("Lu", "Bren", "Caro"),()-> 7);
         Jugador jugador = juego.jugadores().get(0);
 

@@ -1,7 +1,6 @@
 package edu.fiuba.algo3.entrega_1.testUnitarios;
 
 import edu.fiuba.algo3.modelo.*;
-import edu.fiuba.algo3.controllers.*;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 import java.util.List;
@@ -24,8 +23,7 @@ public class JugadorTest {
 	@Test
 	public void jugadorPuedeConstruirPobladoSiTieneRecursosSuficientes() {
         Tablero tablero = Tablero.getInstance();
-        tablero.reset();        
-        tablero.crearGrafo();
+        tablero.reset();
         GeneradorDeDados dadoPrueba = () -> 7;
 
         List<String> nombres = List.of("Luis", "Ana", "Maria");
@@ -51,11 +49,10 @@ public class JugadorTest {
     public void jugadorRecibeRecursoDelTerreno() {
     	Tablero tablero = Tablero.getInstance();
         tablero.reset();
-        tablero.crearGrafo();
       
         Jugador jugador = new Jugador("Luis");
-        Terreno montania = new Montania(8);
-        VerticeTerreno vt = new VerticeTerreno('A', montania);
+        Terreno montania = new Montania();
+        VerticeTerreno vt = new VerticeTerreno('A', montania, 8);
         Poblado p = new Poblado(jugador);
         
         vt.agregarEdificio(p);
@@ -106,40 +103,49 @@ public class JugadorTest {
         assertEquals(antesLadron + 1, ladron.cantidadDeCartas());
     }
 
-    /*@Test
-   public void jugadorRecibeUnRecursoPorPobladoCuandoCorresponde() {
-       Tablero tablero = Tablero.getInstance();
-       tablero.reset();
-       tablero.crearGrafo();
-       GeneradorDeDados dado = () -> 8;
-
-       Juego juego = new Juego(3, List.of("Luis", "Ana", "Marcos"), dado);
-       Jugador jugador = juego.jugadores().get(0);
-
-       Terreno montania = new Montania(8);
-       tablero.registrarTerreno('A',montania, List.of(10));
-
-       jugador.colocarPiezaInicial("poblado", List.of(10));
-
-       int tirada = juego.tirarDado();
-       juego.manejarTirada(tirada);
-
-       Recurso mineral = jugador.buscarRecurso(RecursoTipo.MINERAL);
-       assertEquals(1, mineral.cantidad());
-    }*/
-
-    /*@Test
-    public void jugadorRecibeDosRecursosPorCiudadCuandoCorresponde() {
+    @Test
+    public void jugadorRecibeUnRecursoPorPobladoCuandoCorresponde() {
         Tablero tablero = Tablero.getInstance();
-        tablero.reset();
-        tablero.crearGrafo();
+        Grafo grafo = new Grafo();
+
+        GeneradorDeTablero generador = new GeneradorDeTablero(new GeneradorNumerosAleatorios());
+        generador.generarEstructura(grafo);
+        grafo.agregarVertice('A', new Montania(), 8);
+        grafo.agregarArista(10,'A');
+
+        tablero.setearGrafo(grafo);
+
         GeneradorDeDados dado = () -> 8;
 
         Juego juego = new Juego(3, List.of("Luis", "Ana", "Marcos"), dado);
         Jugador jugador = juego.jugadores().get(0);
 
-        Terreno montania = new Montania(8);
-        tablero.registrarTerreno('A',montania, List.of(10));
+
+        jugador.colocarPiezaInicial("poblado", List.of(10));
+
+        int tirada = juego.tirarDado();
+        juego.manejarTirada(tirada);
+
+        Recurso mineral = jugador.buscarRecurso(RecursoTipo.MINERAL);
+        assertEquals(1, mineral.cantidad());
+    }
+
+    @Test
+    public void jugadorRecibeDosRecursosPorCiudadCuandoCorresponde() {
+        Tablero tablero = Tablero.getInstance();
+        Grafo grafo = new Grafo();
+
+        GeneradorDeTablero generador = new GeneradorDeTablero(new GeneradorNumerosAleatorios());
+        generador.generarEstructura(grafo);
+        grafo.agregarVertice('A', new Montania(), 8);
+        grafo.agregarArista(10,'A');
+
+        tablero.setearGrafo(grafo);
+
+        GeneradorDeDados dado = () -> 8;
+
+        Juego juego = new Juego(3, List.of("Luis", "Ana", "Marcos"), dado);
+        Jugador jugador = juego.jugadores().get(0);
 
         jugador.colocarPiezaInicial("poblado", List.of(10));
         jugador.construirPieza("ciudad", List.of(10));
@@ -149,13 +155,12 @@ public class JugadorTest {
 
         Recurso mineral = jugador.buscarRecurso(RecursoTipo.MINERAL);
         assertEquals(2, mineral.cantidad());
-    }*/
+    }
 
-    /*@Test
+    @Test
     public void jugadorDescartaLaMitadDeCartasSiSale7yTieneMasDe7Cartas() {
         Tablero tablero = Tablero.getInstance();
         tablero.reset();
-        tablero.crearGrafo();
 
         GeneradorDeDados dado = () -> 7;
 
@@ -172,9 +177,9 @@ public class JugadorTest {
 
         assertEquals(5, jugador.cantidadDeCartas(),
                 "Después de tirar 7, descarta la mitad y queda con 5 cartas");
-    } */
+    }
     
-    /*@Test
+    @Test
     public void jugadorActivoMueveAlLadronYRobaCartaAJugadorAdyacenteANuevoTerreno() {
         Tablero tablero = Tablero.getInstance();
         tablero.reset(); 
@@ -206,5 +211,5 @@ public class JugadorTest {
                 "La víctima debería tener una carta menos después del robo");
         assertEquals(cartasAntesActivo + 1, jugadorActivo.cantidadDeCartas(),
                 "El jugador activo debería tener una carta más después del robo");
-    }*/
+    }
 }

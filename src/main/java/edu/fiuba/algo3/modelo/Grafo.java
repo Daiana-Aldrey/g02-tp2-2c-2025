@@ -15,8 +15,8 @@ public class Grafo {
     }
 
     public void agregarVertice(Integer vertice) {
-        VerticeEdificio vertice_Edificio_nuevo = new VerticeEdificio(vertice);
-        vertices.add(vertice_Edificio_nuevo);
+        VerticeEdificio verticeEdificioNuevo = new VerticeEdificio(vertice);
+        vertices.add(verticeEdificioNuevo);
     }
 
     //metodo usado unicamente para test
@@ -24,8 +24,8 @@ public class Grafo {
         vertices.add(verticeEdificio);
     }
 
-    public void agregarVertice(char vertice, Terreno terreno) {
-        verticesTerrenos.add(new VerticeTerreno(vertice, terreno));
+    public void agregarVertice(char vertice, Terreno terreno, int fichaDeNumero) {
+        verticesTerrenos.add(new VerticeTerreno(vertice, terreno, fichaDeNumero));
     }
 
     //metodo usado unicamente para test
@@ -163,7 +163,6 @@ public class Grafo {
 
     }
 
-
     public void terrenosCompatibles(int resultadoDado) {
         List<VerticeTerreno> terrenosConFichaDeNumero = buscarTerrenoCompatible(resultadoDado);
         for (VerticeTerreno verticeTerreno : terrenosConFichaDeNumero) {
@@ -171,7 +170,7 @@ public class Grafo {
         }
     }
 
-    public List<VerticeTerreno> buscarTerrenoCompatible(int resultadoDados) {
+    private List<VerticeTerreno> buscarTerrenoCompatible(int resultadoDados) {
         List<VerticeTerreno> compatibles = new ArrayList<>();
 
         for (VerticeTerreno vertice : verticesTerrenos) {
@@ -180,17 +179,6 @@ public class Grafo {
             }
         }
         return compatibles;
-    }
-
-
-    //sacar
-    public void mostrarGrafo() {
-        for(VerticeEdificio verticeEdificio : vertices) {
-            System.out.println("vertice:" + verticeEdificio.nombre());
-            for (VerticeEdificio verticeEdificio2 : verticeEdificio.adyacentes()) {
-                System.out.println("adyacente: " + verticeEdificio2.nombre());
-            }
-        }
     }
 
 }

@@ -1,29 +1,44 @@
 package edu.fiuba.algo3.modelo;
 import java.util.List;
 import java.util.ArrayList;
-import java.util.*;
+
 public class VerticeTerreno extends EnlazadorVertices {
      private char ubicacion;
+     private int fichaDeNumero;
      private List<Pieza> edificios;
      private Terreno terreno;
+     private boolean ladron;
 
-     public VerticeTerreno(char ubicacion, Terreno terreno){
+     public VerticeTerreno(char ubicacion, Terreno terreno, int fichaDeNumero) {
         this.ubicacion = ubicacion;
         edificios = new ArrayList<>();
         this.terreno = terreno;
+        this.fichaDeNumero = fichaDeNumero;
+         ladron = false;
      }
 
     public boolean tieneUbicacion(char letra) {
          return this.ubicacion == letra;
     }
 
+    public void colocarLadron(Ladron ladron) {
+         if (this.ladron) {
+             throw new IllegalStateException("Ya esta colocando ladron, intente en otro terreno");
+         }
+         this.ladron = true;
+         ladron.posicion(ubicacion);
+    }
+
     public boolean tieneFichaDeNumero(int resultadoDados) {
-         return terreno.esMiNumero(resultadoDados);
+         return fichaDeNumero == resultadoDados;
     }
 
     public void cosecharTerreno() {
          if (!hayPiezasAdyacentes()) {
              throw new IllegalStateException("No hay piezas adyacente para dar recursos.");
+         }
+         if (ladron) {
+             return;
          }
         terreno.repartirRecurso(edificios);
     }
@@ -38,15 +53,28 @@ public class VerticeTerreno extends EnlazadorVertices {
     
 
     public void recibirLadron(Jugador jugadorQueMueve) {
-        if (edificios.isEmpty()) return;
+        if (!hayPiezasAdyacentes()) return;
 
-        Random random = new Random();
-        Pieza piezaVictima = edificios.get(random.nextInt(edificios.size()));
+        GeneradorNumerosAleatorios aleatorio= GeneradorNumerosAleatorios.getInstance();
+        Pieza piezaVictima = edificios.get(aleatorio.generarEnRangoDesdeCero(edificios.size()));
 
         piezaVictima.afectarPorLadron(jugadorQueMueve);    
     }
-    
-    public void removerEdificio(Pieza aRemover){
-         edificios.remove(aRemover);
+
+
+    public void removerEdificio(Pieza piezaActual) {
+        int i = 0;
+        boolean encontrado = false;
+        while(i < edificios.size() && !encontrado) {
+            if (edificios.get(i) == piezaActual) {
+                encontrado = true;
+                edificios.remove(i);
+            }
+            i++;
+        }
+    }
+    //metodo usado unicamente para test integral
+    public boolean tieneTerreno(String pastizal) {
+         return terreno.sosEsteTerreno(pastizal);
     }
 }

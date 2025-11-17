@@ -5,7 +5,7 @@ import java.util.List;
 
 public class VerticeEdificio extends EnlazadorVertices {
     private Integer ubicacion;
-    private List<VerticeTerreno> terrenos; //ver si se queda o no
+    private List<VerticeTerreno> terrenos;
     private boolean disponible;
     private Pieza pieza;
 
@@ -70,16 +70,6 @@ public class VerticeEdificio extends EnlazadorVertices {
 
     public Pieza obtenerPieza(){
         return this.pieza;
-    }
-
-    //sacar
-    public Integer nombre() {
-        return ubicacion;
-    }
-
-    //sacar
-    public List<VerticeEdificio> adyacentes() {
-        return adyacentes;
     }
 
     public List<VerticeTerreno> obtenerTerrenos(){

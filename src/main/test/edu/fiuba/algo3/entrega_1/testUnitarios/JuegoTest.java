@@ -1,7 +1,5 @@
 package edu.fiuba.algo3.entrega_1.testUnitarios;
 
-
-import edu.fiuba.algo3.controllers.Juego;
 import edu.fiuba.algo3.modelo.*;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -17,7 +15,6 @@ public class JuegoTest {
 	@Test
 	public void juegoInicializaJugadoresCorrectamente() {
 	    Tablero.getInstance().reset();
-	    Tablero.getInstance().crearGrafo();
 	    
 	    GeneradorDeDados dadoPrueba = () -> 7;
 
@@ -82,12 +79,18 @@ public class JuegoTest {
         Assertions.assertTrue(tablero.hayPieza(List.of(41)));
         Assertions.assertTrue(tablero.hayPieza(List.of(25)));
     }
-    
+
     @Test
     public void jugadorRecibeRecursoDelTerrenoAdyacenteAlSegundoPoblado() {
         Tablero tablero = Tablero.getInstance();
-        tablero.reset();
-        tablero.crearGrafo();
+
+        GeneradorDeTablero generadorTablero= new GeneradorDeTablero(new GeneradorNumerosAleatorios());
+        Grafo grafo = new Grafo();
+        grafo.agregarVertice('A', new Montania(),8);
+        generadorTablero.generarEstructura(grafo);
+        grafo.agregarArista(10,'A');
+
+        tablero.setearGrafo(grafo);
 
         GeneradorDeDados dado = () -> 8;
 
@@ -98,8 +101,6 @@ public class JuegoTest {
         jugador.recibirRecurso(RecursoTipo.LANA, 10);
         jugador.recibirRecurso(RecursoTipo.GRANO, 10);
 
-        Terreno montania = new Montania(8);
-        tablero.registrarTerreno('A', montania, List.of(10));
         jugador.construirPieza("poblado", List.of(10));
 
         int tirada = juego.tirarDado();  
@@ -108,12 +109,21 @@ public class JuegoTest {
         Recurso mineral = jugador.buscarRecurso(RecursoTipo.MINERAL);
         assertEquals(1, mineral.cantidad());
     }
-    
-    /*@Test
+
+    @Test
     public void jugadoresRecibenRecursosPorSusSegundosPoblados() {
         Tablero tablero = Tablero.getInstance();
-        tablero.reset();
-        tablero.crearGrafo();
+        Grafo grafo = new Grafo();
+
+        GeneradorDeTablero generador = new GeneradorDeTablero(new GeneradorNumerosAleatorios());
+        generador.generarEstructura(grafo);
+        grafo.agregarVertice('A', new Montania(), 8);
+        grafo.agregarVertice('B', new Montania(), 8);
+        grafo.agregarArista(10,'A');
+        grafo.agregarArista(40,'B');
+
+        tablero.setearGrafo(grafo);
+
         GeneradorDeDados dado = () -> 8;
         
         Juego juego = new Juego(3, List.of("Luis", "Ana", "Marcos"), dado);
@@ -128,13 +138,6 @@ public class JuegoTest {
             j.recibirRecurso(RecursoTipo.GRANO,    10);
         }
 
-        Terreno montaniaA = new Montania(8);
-        Terreno montaniaB = new Montania(8);
-
-        tablero.registrarTerreno('A', montaniaA, List.of(10));
-        tablero.registrarTerreno('B', montaniaB, List.of(40));
-
-      
         j1.colocarPiezaInicial("poblado", List.of(1));
         j1.colocarPiezaInicial("camino",  List.of(1, 2));
         j1.construirPieza("poblado", List.of(10));  
@@ -160,7 +163,7 @@ public class JuegoTest {
       
         Recurso mineralJ3 = j3.buscarRecurso(RecursoTipo.MINERAL);
         assertTrue(mineralJ3.cantidad() == 0);
-    }*/
+    }
     
     
     

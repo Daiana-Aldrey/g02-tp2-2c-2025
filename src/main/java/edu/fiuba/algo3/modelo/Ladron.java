@@ -2,17 +2,17 @@ package edu.fiuba.algo3.modelo;
 
 public class Ladron {
 
-    private VerticeTerreno posicion;
+    private char posicion;
 
-    public Ladron(VerticeTerreno posicionInicial) {
+    public Ladron(char posicionInicial) {
         this.posicion = posicionInicial;
     }
 
-    public void moverA(VerticeTerreno destino) {
+    public void moverA(char destino) {
         this.posicion = destino;
     }
 
-    public Boolean posicion(VerticeTerreno vertice) {
+    public Boolean posicion(char vertice) {
         return (posicion == vertice);
     }
 }

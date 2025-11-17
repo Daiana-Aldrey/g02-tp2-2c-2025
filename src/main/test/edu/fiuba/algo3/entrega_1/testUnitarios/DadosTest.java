@@ -1,10 +1,11 @@
 package edu.fiuba.algo3.entrega_1.testUnitarios;
 
 import edu.fiuba.algo3.modelo.DadosAleatorios;
-import edu.fiuba.algo3.controllers.Juego;
 import edu.fiuba.algo3.modelo.GeneradorDeDados;
 
 import java.util.List;
+
+import edu.fiuba.algo3.modelo.Juego;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -44,8 +45,7 @@ public class DadosTest {
     @Test
     void dadoConValorMenorA2DebeFallarEnJuego() {
         GeneradorDeDados dado =  ()-> 1;
-        edu.fiuba.algo3.controllers.Juego juego =
-                new edu.fiuba.algo3.controllers.Juego(3, java.util.List.of("A","B","C"), dado);
+        Juego juego = new Juego(3, java.util.List.of("A","B","C"), dado);
 
         assertThrows(IllegalStateException.class, juego::tirarDado);
     }
@@ -53,8 +53,7 @@ public class DadosTest {
     @Test
     void dadoConValorMayorA12DebeFallarEnJuego() {
         GeneradorDeDados dado =()-> 13;
-        edu.fiuba.algo3.controllers.Juego juego =
-                new edu.fiuba.algo3.controllers.Juego(3, java.util.List.of("A","B","C"), dado);
+        Juego juego = new Juego(3, java.util.List.of("A","B","C"), dado);
 
         assertThrows(IllegalStateException.class, juego::tirarDado);
     }

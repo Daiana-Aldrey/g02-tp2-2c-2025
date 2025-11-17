@@ -1,6 +1,6 @@
 package edu.fiuba.algo3.modelo;
 
-public class Recurso extends Carta {
+public class Recurso {
 	private final RecursoTipo tipo;
 	private int cantidad;
 	

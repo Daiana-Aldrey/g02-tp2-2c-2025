@@ -1,5 +1,4 @@
-package edu.fiuba.algo3.controllers;
-import edu.fiuba.algo3.modelo.*;
+package edu.fiuba.algo3.modelo;
 import java.util.*;
 
 public class Juego {

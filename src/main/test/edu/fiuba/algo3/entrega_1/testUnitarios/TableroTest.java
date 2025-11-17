@@ -11,7 +11,7 @@ public class TableroTest {
 	@Test
     public void tableroColocaEdificioCorrectamente() {
         Tablero tablero = Tablero.getInstance();
-        tablero.crearGrafo(); 
+        tablero.reset();
         
         Pieza pieza = new Poblado(new Jugador("Luis"));
         int vertice = 10;
@@ -48,7 +48,7 @@ public class TableroTest {
     @Test
     public void tableroNoPermiteColocarDosPiezasEnElMismoVertice() throws Exception {
         Tablero tablero = Tablero.getInstance();
-        tablero.crearGrafo();
+        tablero.reset();
 
         Pieza p1 = new Poblado(new Jugador("Luis"));
         tablero.colocarEdificio(5, p1);

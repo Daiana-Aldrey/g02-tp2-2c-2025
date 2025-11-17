@@ -2,10 +2,7 @@ package edu.fiuba.algo3.modelo;
 
 import java.util.List;
 
-public class Desierto extends Terreno { 
-	public Desierto() { 
-		super(0); 
-	}
+public class Desierto extends Terreno {
 	
 	@Override
 	public void repartirRecurso(List<Pieza> edificios) {
