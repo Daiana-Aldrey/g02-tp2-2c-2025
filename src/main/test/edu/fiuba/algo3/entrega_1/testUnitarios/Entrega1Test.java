@@ -13,7 +13,7 @@ public class Entrega1Test {
     public void seCreaTableroConJugadoresSeValidaLaReglaDeLaDistanciaEnCasilleroConPobladoYTiraExcepcion() {
 
         Tablero tablero = Tablero.getInstance();
-        tablero.crearGrafo();
+        tablero.reset();
 
         Jugador luis = new Jugador("Luis");
         Jugador federico = new Jugador("Federico");
@@ -30,7 +30,7 @@ public class Entrega1Test {
     public void seCreaTableroConJugadoresSeValidaLaReglaDeLaDistanciaEnCasilleroAdyacenteAlPobladoYTiraExcepcion() {
 
         Tablero tablero = Tablero.getInstance();
-        tablero.crearGrafo();
+        tablero.reset();
 
         Jugador luis = new Jugador("Luis");
         Jugador federico = new Jugador("Federico");
@@ -47,7 +47,7 @@ public class Entrega1Test {
     public void seCreaTableroConJugadoresSeValidaLaReglaDeLaDistancia() {
 
         Tablero tablero = Tablero.getInstance();
-        tablero.crearGrafo();
+        tablero.reset();
 
         Jugador luis = new Jugador("Luis");
         Jugador federico = new Jugador("Federico");

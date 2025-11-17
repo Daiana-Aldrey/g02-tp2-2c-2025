@@ -50,7 +50,7 @@ public class JuegoTest {
     @Test
     public void colocacionCorrectaDePobladosIniciales() {
         Tablero tablero = Tablero.getInstance();
-        tablero.crearGrafo();
+        tablero.reset();
 
         GeneradorDeDados dadoPrueba = new GeneradorDeDados() {
             @Override
