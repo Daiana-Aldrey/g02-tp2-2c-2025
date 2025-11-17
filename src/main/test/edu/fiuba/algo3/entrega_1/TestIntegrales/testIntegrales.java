@@ -4,12 +4,12 @@ import edu.fiuba.algo3.controllers.Juego;
 import edu.fiuba.algo3.modelo.*;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
 import java.util.List;
 import edu.fiuba.algo3.modelo.*;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 
 public class testIntegrales {
@@ -18,8 +18,33 @@ public class testIntegrales {
 
     }
 
-    public void colocacionCorrectaDePobladosIniciales() {
+    @Test
+    public void validacionReglaDeLaDistanciaAlcolocarPobladosIniciales() {
+        Tablero tablero = Tablero.getInstance();
+        tablero.reset();
+        tablero.crearGrafo();
 
+        Jugador luis = new Jugador("Luis");
+        Jugador federico = new Jugador("Federico");
+        Jugador lucas = new Jugador("Lucas");
+        Jugador ricardo = new Jugador("Ricardo");
+        Jugador fabiano = new Jugador("Fabiano");
+
+        luis.colocarPiezaInicial("poblado", new ArrayList<>(List.of(1)));
+        luis.colocarPiezaInicial("camino", new ArrayList<>(List.of(1, 2)));
+
+        lucas.colocarPiezaInicial("poblado", new ArrayList<>(List.of(5)));
+        lucas.colocarPiezaInicial("camino", new ArrayList<>(List.of(5,6)));
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            federico.colocarPiezaInicial("poblado", new ArrayList<>(List.of(6)));;
+        });
+        assertThrows(IllegalArgumentException.class, () -> {
+            ricardo.colocarPiezaInicial("poblado", new ArrayList<>(List.of(2)));;
+        });
+        assertThrows(IllegalArgumentException.class, () -> {
+            fabiano.colocarPiezaInicial("poblado", new ArrayList<>(List.of(1)));;
+        });
     }
 
     @Test
