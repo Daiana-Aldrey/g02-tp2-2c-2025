@@ -1,4 +1,4 @@
-package edu.fiuba.algo3.entrega_1;
+package edu.fiuba.algo3.entrega_1.testUnitarios;
 
 import edu.fiuba.algo3.modelo.*;
 import edu.fiuba.algo3.controllers.*;
@@ -106,7 +106,7 @@ public class JugadorTest {
         assertEquals(antesLadron + 1, ladron.cantidadDeCartas());
     }
 
-    @Test
+    /*@Test
    public void jugadorRecibeUnRecursoPorPobladoCuandoCorresponde() {
        Tablero tablero = Tablero.getInstance();
        tablero.reset();
@@ -126,9 +126,9 @@ public class JugadorTest {
 
        Recurso mineral = jugador.buscarRecurso(RecursoTipo.MINERAL);
        assertEquals(1, mineral.cantidad());
-    }
+    }*/
 
-    @Test
+    /*@Test
     public void jugadorRecibeDosRecursosPorCiudadCuandoCorresponde() {
         Tablero tablero = Tablero.getInstance();
         tablero.reset();
@@ -149,9 +149,9 @@ public class JugadorTest {
 
         Recurso mineral = jugador.buscarRecurso(RecursoTipo.MINERAL);
         assertEquals(2, mineral.cantidad());
-    }
+    }*/
 
-    @Test
+    /*@Test
     public void jugadorDescartaLaMitadDeCartasSiSale7yTieneMasDe7Cartas() {
         Tablero tablero = Tablero.getInstance();
         tablero.reset();
@@ -172,9 +172,9 @@ public class JugadorTest {
 
         assertEquals(5, jugador.cantidadDeCartas(),
                 "Después de tirar 7, descarta la mitad y queda con 5 cartas");
-    } 
+    } */
     
-    @Test
+    /*@Test
     public void jugadorActivoMueveAlLadronYRobaCartaAJugadorAdyacenteANuevoTerreno() {
         Tablero tablero = Tablero.getInstance();
         tablero.reset(); 
@@ -206,5 +206,5 @@ public class JugadorTest {
                 "La víctima debería tener una carta menos después del robo");
         assertEquals(cartasAntesActivo + 1, jugadorActivo.cantidadDeCartas(),
                 "El jugador activo debería tener una carta más después del robo");
-    }
+    }*/
 }

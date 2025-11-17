@@ -1,4 +1,4 @@
-package edu.fiuba.algo3.entrega_1;
+package edu.fiuba.algo3.entrega_1.testUnitarios;
 
 import edu.fiuba.algo3.modelo.DadosAleatorios;
 import edu.fiuba.algo3.controllers.Juego;

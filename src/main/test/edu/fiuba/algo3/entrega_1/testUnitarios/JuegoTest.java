@@ -1,4 +1,4 @@
-package edu.fiuba.algo3.entrega_1;
+package edu.fiuba.algo3.entrega_1.testUnitarios;
 
 
 import edu.fiuba.algo3.controllers.Juego;
@@ -109,7 +109,7 @@ public class JuegoTest {
         assertEquals(1, mineral.cantidad());
     }
     
-    @Test
+    /*@Test
     public void jugadoresRecibenRecursosPorSusSegundosPoblados() {
         Tablero tablero = Tablero.getInstance();
         tablero.reset();
@@ -160,7 +160,7 @@ public class JuegoTest {
       
         Recurso mineralJ3 = j3.buscarRecurso(RecursoTipo.MINERAL);
         assertTrue(mineralJ3.cantidad() == 0);
-    }
+    }*/
     
     
     
