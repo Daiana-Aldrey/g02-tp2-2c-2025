@@ -116,14 +116,13 @@ public class testIntegrales {
         Jugador fabiano = new Jugador("Fabiano");
 
         luis.colocarPiezaInicial("poblado", new ArrayList<>(List.of(1)));
-        Assertions.assertTrue(tablero.hayPieza(List.of(1)));
-
         luis.colocarPiezaInicial("camino", new ArrayList<>(List.of(1, 2)));
 
         lucas.colocarPiezaInicial("poblado", new ArrayList<>(List.of(5)));
-        Assertions.assertTrue(tablero.hayPieza(List.of(5)));
-
         lucas.colocarPiezaInicial("camino", new ArrayList<>(List.of(5,6)));
+
+        Assertions.assertTrue(tablero.hayPieza(List.of(1)));
+        Assertions.assertTrue(tablero.hayPieza(List.of(5)));
 
         assertThrows(IllegalArgumentException.class, () -> {
             federico.colocarPiezaInicial("poblado", new ArrayList<>(List.of(6)));;

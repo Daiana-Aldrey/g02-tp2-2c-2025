@@ -12,7 +12,10 @@ public class Camino extends Pieza {
 
     @Override
     public List<Recurso> costoDeConstruccion() {
-        return List.of();
+        return List.of(
+                new Recurso(RecursoTipo.MADERA, 1),
+                new Recurso(RecursoTipo.LADRILLO, 1)
+        );
     }
 
     @Override
