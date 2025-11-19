@@ -9,6 +9,7 @@ import java.util.List;
 import edu.fiuba.algo3.modelo.*;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
 
@@ -125,20 +126,29 @@ public class testIntegralesEntrega2 {
         Juego juego = new Juego(3, List.of("Luis", "Ana", "Marcos"), dado);
         Jugador jugador = juego.jugadores().get(0);
 
+        assertEquals(0, jugador.puntosDeVictoria());
+
         jugador.colocarPiezaInicial("poblado", List.of(10));
+        assertEquals(1, jugador.puntosDeVictoria());
+
         jugador.recibirRecurso(RecursoTipo.GRANO, 2);
         jugador.recibirRecurso(RecursoTipo.MINERAL, 3);
 
         jugador.construirPieza("ciudad", List.of(10));
+        assertEquals(2, jugador.puntosDeVictoria());
 
         Recurso mineral = jugador.buscarRecurso(RecursoTipo.MINERAL);
         Recurso grano = jugador.buscarRecurso(RecursoTipo.GRANO);
-
         assertEquals(0, mineral.cantidad());
         assertEquals(0, grano.cantidad());
-/*
-        int pvFinal = jugador.puntosDeVictoria();
-        assertEquals();*/
+
+
+        jugador.colocarPiezaInicial("poblado", List.of(18));
+        assertEquals(3, jugador.puntosDeVictoria());
+        jugador.recibirRecurso(RecursoTipo.GRANO, 2);
+        jugador.recibirRecurso(RecursoTipo.MINERAL, 3);
+        jugador.construirPieza("ciudad", List.of(18));
+        assertEquals(4, jugador.puntosDeVictoria());
     }
 }
 

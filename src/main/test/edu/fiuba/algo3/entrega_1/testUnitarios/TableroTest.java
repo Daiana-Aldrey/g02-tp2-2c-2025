@@ -58,8 +58,4 @@ public class TableroTest {
             tablero.colocarEdificio(5, p2);
         });
     }
-
-    
-    
-
 }

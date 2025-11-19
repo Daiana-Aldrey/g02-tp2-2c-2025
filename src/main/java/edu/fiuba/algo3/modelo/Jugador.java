@@ -28,18 +28,19 @@ public class Jugador {
     
 	public void incorporarPoblado(Poblado poblado) {
 		poblados.add(poblado);
+        puntosDeVictoria += 1;
 	}
 	
 	public void incorporarCiudad(Ciudad ciudad) {
-		ciudades.add(ciudad);
+        ciudades.add(ciudad);
+        puntosDeVictoria += 2;
 	}
 	
 	public void colocarPiezaInicial(String tipo, List<Integer> vertices) {
 	    Pieza pieza = Pieza.crear(tipo, this);
 	    pieza.colocar(vertices);   
 	}    
-	
-	 
+
 	private void inicializarRecursos(List<RecursoTipo> tiposRecursos) {
 		for(int i = 0; i < tiposRecursos.size(); i ++) {
 			Recurso recurso = new Recurso(tiposRecursos.get(i));
@@ -161,6 +162,7 @@ public class Jugador {
 
     public void removerPoblado(Poblado p) {
         poblados.remove(p);
+        puntosDeVictoria -= 1;
     }
 
     public boolean esJugador(Jugador propietario) {

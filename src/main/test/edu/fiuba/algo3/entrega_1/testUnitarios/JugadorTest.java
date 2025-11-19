@@ -148,6 +148,8 @@ public class JugadorTest {
         Jugador jugador = juego.jugadores().get(0);
 
         jugador.colocarPiezaInicial("poblado", List.of(10));
+        jugador.recibirRecurso(RecursoTipo.GRANO,2);
+        jugador.recibirRecurso(RecursoTipo.MINERAL, 3);
         jugador.construirPieza("ciudad", List.of(10));
 
         int tirada = juego.tirarDado();
