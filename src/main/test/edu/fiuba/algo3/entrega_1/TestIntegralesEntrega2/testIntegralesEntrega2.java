@@ -109,5 +109,36 @@ public class testIntegralesEntrega2 {
             marcelo.construirPieza("poblado", new ArrayList<>(List.of(3)));;
         });
     }
+
+    @Test
+    public void mejorarPobladoACiudadConsumeRecursosYCambiaPV(){
+        Tablero tablero = Tablero.getInstance();
+        Grafo grafo = new Grafo();
+
+        GeneradorDeTablero generador = new GeneradorDeTablero(new GeneradorNumerosAleatorios());
+        generador.generarEstructura(grafo);
+        grafo.agregarVertice('A', new Bosque(), 8);
+        grafo.agregarArista(10,'A');
+        tablero.setearGrafo(grafo);
+        GeneradorDeDados dado = () -> 8;
+
+        Juego juego = new Juego(3, List.of("Luis", "Ana", "Marcos"), dado);
+        Jugador jugador = juego.jugadores().get(0);
+
+        jugador.colocarPiezaInicial("poblado", List.of(10));
+        jugador.recibirRecurso(RecursoTipo.GRANO, 2);
+        jugador.recibirRecurso(RecursoTipo.MINERAL, 3);
+
+        jugador.construirPieza("ciudad", List.of(10));
+
+        Recurso mineral = jugador.buscarRecurso(RecursoTipo.MINERAL);
+        Recurso grano = jugador.buscarRecurso(RecursoTipo.GRANO);
+
+        assertEquals(0, mineral.cantidad());
+        assertEquals(0, grano.cantidad());
+/*
+        int pvFinal = jugador.puntosDeVictoria();
+        assertEquals();*/
+    }
 }
 

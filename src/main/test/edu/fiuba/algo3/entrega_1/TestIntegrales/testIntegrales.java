@@ -8,8 +8,6 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.fiuba.algo3.modelo.*;
-
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
@@ -230,7 +228,7 @@ public class testIntegrales {
 
         GeneradorDeTablero generador = new GeneradorDeTablero(new GeneradorNumerosAleatorios());
         generador.generarEstructura(grafo);
-        grafo.agregarVertice('A', new Montania(), 8);
+        grafo.agregarVertice('A', new Bosque(), 8);
         grafo.agregarArista(10,'A');
 
         tablero.setearGrafo(grafo);
@@ -241,13 +239,15 @@ public class testIntegrales {
         Jugador jugador = juego.jugadores().get(0);
 
         jugador.colocarPiezaInicial("poblado", List.of(10));
+        jugador.recibirRecurso(RecursoTipo.GRANO, 2);
+        jugador.recibirRecurso(RecursoTipo.MINERAL, 3);
         jugador.construirPieza("ciudad", List.of(10));
 
         int tirada = juego.tirarDado();
         juego.manejarTirada(tirada);
 
-        Recurso mineral = jugador.buscarRecurso(RecursoTipo.MINERAL);
-        assertEquals(2, mineral.cantidad());
+        Recurso madera = jugador.buscarRecurso(RecursoTipo.MADERA);
+        assertEquals(2, madera.cantidad());
     }
 
     @Test
@@ -338,9 +338,4 @@ public class testIntegrales {
         assertEquals(cartasAntesActivo + 1, jugadorActivo.cantidadDeCartas(),
                 "El jugador activo debería tener una carta más después del robo");
     }
-
-
-
-
-
 }

@@ -6,6 +6,7 @@ import java.util.*;
 
 public class Jugador {
 	private String nombre;
+    private int puntosDeVictoria = 0;
 	private List<Recurso> recursos;
     private List<Poblado> poblados = new ArrayList<>();
     private List<Ciudad>  ciudades = new ArrayList<>();
@@ -32,8 +33,6 @@ public class Jugador {
 	public void incorporarCiudad(Ciudad ciudad) {
 		ciudades.add(ciudad);
 	}
-	
-	
 	
 	public void colocarPiezaInicial(String tipo, List<Integer> vertices) {
 	    Pieza pieza = Pieza.crear(tipo, this);
@@ -165,7 +164,9 @@ public class Jugador {
     }
 
     public boolean esJugador(Jugador propietario) {
-        return this.nombre == propietario.nombre;
+        return this.nombre.equals(propietario.nombre);
     }
+
+    public int puntosDeVictoria(){return puntosDeVictoria;}
 }
   

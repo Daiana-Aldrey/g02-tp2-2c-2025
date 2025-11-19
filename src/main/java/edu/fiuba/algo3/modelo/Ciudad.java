@@ -12,8 +12,10 @@ public class Ciudad extends Pieza{
 
 
     @Override
-    public List<Recurso> costoDeConstruccion() {
-        return List.of();
+    public List<Recurso> costoDeConstruccion(){
+        return List.of(
+                new Recurso(RecursoTipo.GRANO,2),
+                new Recurso(RecursoTipo.MINERAL, 3));
     }
 
     @Override
