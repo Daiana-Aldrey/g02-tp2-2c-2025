@@ -101,8 +101,7 @@ public class Jugador {
 		System.out.print("acciones");
 	}
    
-
-    //suma de cantidades en la lista de recursos
+	
     public int totalRecursos() {
         int total = 0;
         for (Recurso r : recursos) {
@@ -111,14 +110,13 @@ public class Jugador {
         return total;
     }
 
-    //descarta la mitad empezando por las prime cartas
+ 
     public void descartarMitad() {
         int total = totalRecursos();
         if (total <= 7) return;
 
-        int aDescartar = total / 2; // floor
+        int aDescartar = total / 2;
 
-        // Recorremos la lista de recursos descontando cantidades
         int i = 0;
         while (aDescartar > 0 && i < recursos.size()) {
             Recurso r = recursos.get(i);
@@ -155,11 +153,29 @@ public class Jugador {
         elegido.transferirA(this, 1);
     }
     
-    // Para verif en los tests
-    public int cantidadDeCartas() {
-        return totalRecursos();
+    
+    public void intercambiar(List<Recurso> pedidos, List<Recurso> ofertas, Jugador ofertante) {
+        if (pedidos == null || pedidos.isEmpty()) {
+            throw new IllegalArgumentException("Debe haber al menos un recurso pedido");
+        }
+        if (ofertas == null || ofertas.isEmpty()) {
+            throw new IllegalArgumentException("Debe haber al menos un recurso ofertado");
+        }
+
+        for (Recurso pedido : pedidos) {
+            pedido.cobrarDe(this, ofertante);
+        }
+
+        for (Recurso oferta : ofertas) {
+            oferta.cobrarDe(ofertante, this);
+        }
+    }
+    
+    public void entregar(RecursoTipo tipo, int cantidad, Jugador destino) {
+        buscarRecurso(tipo).transferirA(destino, cantidad);
     }
 
+    
     public void removerPoblado(Poblado p) {
         poblados.remove(p);
         puntosDeVictoria -= 1;
@@ -168,6 +184,12 @@ public class Jugador {
     public boolean esJugador(Jugador propietario) {
         return this.nombre.equals(propietario.nombre);
     }
+    
+    public int cantidadDeCartas() {
+        return totalRecursos();
+    }
+
+    
 
     public int puntosDeVictoria(){return puntosDeVictoria;}
 }

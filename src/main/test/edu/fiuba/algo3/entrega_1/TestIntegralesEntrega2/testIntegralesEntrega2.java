@@ -150,5 +150,49 @@ public class testIntegralesEntrega2 {
         jugador.construirPieza("ciudad", List.of(18));
         assertEquals(4, jugador.puntosDeVictoria());
     }
+    
+    @Test
+    public void intercambioEntreJugadoresTransfiereRecursosCorrectamente() {
+    	Jugador ofertante = new Jugador("Ofertante");
+        Jugador receptor  = new Jugador("Receptor");
+
+        ofertante.recibirRecurso(RecursoTipo.MADERA, 5);
+        ofertante.recibirRecurso(RecursoTipo.LANA, 3);
+        receptor.recibirRecurso(RecursoTipo.LADRILLO, 4);
+        receptor.recibirRecurso(RecursoTipo.MINERAL, 2);
+
+        List<Recurso> pedidos = List.of(
+                new Recurso(RecursoTipo.LADRILLO, 1),
+                new Recurso(RecursoTipo.MINERAL, 1)
+        );
+
+        List<Recurso> ofertas = List.of(
+                new Recurso(RecursoTipo.MADERA, 2),
+                new Recurso(RecursoTipo.LANA, 1)
+        );
+
+        int maderaOfAntes   = ofertante.buscarRecurso(RecursoTipo.MADERA).cantidad();
+        int lanaOfAntes     = ofertante.buscarRecurso(RecursoTipo.LANA).cantidad();
+        int ladrilloOfAntes = ofertante.buscarRecurso(RecursoTipo.LADRILLO).cantidad();
+        int mineralOfAntes  = ofertante.buscarRecurso(RecursoTipo.MINERAL).cantidad();
+
+        int maderaRecAntes   = receptor.buscarRecurso(RecursoTipo.MADERA).cantidad();
+        int lanaRecAntes     = receptor.buscarRecurso(RecursoTipo.LANA).cantidad();
+        int ladrilloRecAntes = receptor.buscarRecurso(RecursoTipo.LADRILLO).cantidad();
+        int mineralRecAntes  = receptor.buscarRecurso(RecursoTipo.MINERAL).cantidad();
+
+        receptor.intercambiar(pedidos, ofertas, ofertante);
+
+        assertEquals(ladrilloRecAntes - 1, receptor.buscarRecurso(RecursoTipo.LADRILLO).cantidad());
+        assertEquals(mineralRecAntes - 1,receptor.buscarRecurso(RecursoTipo.MINERAL).cantidad());
+        assertEquals(ladrilloOfAntes + 1, ofertante.buscarRecurso(RecursoTipo.LADRILLO).cantidad());
+        assertEquals(mineralOfAntes + 1, ofertante.buscarRecurso(RecursoTipo.MINERAL).cantidad());
+
+        assertEquals(maderaOfAntes - 2, ofertante.buscarRecurso(RecursoTipo.MADERA).cantidad());
+        assertEquals(lanaOfAntes - 1, ofertante.buscarRecurso(RecursoTipo.LANA).cantidad());
+        assertEquals(maderaRecAntes + 2, receptor.buscarRecurso(RecursoTipo.MADERA).cantidad());
+        assertEquals(lanaRecAntes + 1, receptor.buscarRecurso(RecursoTipo.LANA).cantidad());
+    }
+
 }
 

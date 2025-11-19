@@ -103,5 +103,17 @@ public class RecursoTest{
         verify(destino, times(1)).recibirRecurso(RecursoTipo.MADERA, 1);
         verifyNoMoreInteractions(destino);
     }
+    
+    @Test
+    public void cobrarDeLlamaEntregarEnPagadorConTipoYCantidadCorrectos() {
+        Jugador pagador  = mock(Jugador.class);
+        Jugador receptor = mock(Jugador.class);
+
+        Recurso recursoPedido = new Recurso(RecursoTipo.LADRILLO, 3);
+        recursoPedido.cobrarDe(pagador, receptor);
+
+        verify(pagador).entregar(RecursoTipo.LADRILLO, 3, receptor);
+        verifyNoMoreInteractions(pagador, receptor);
+    }
 }
 

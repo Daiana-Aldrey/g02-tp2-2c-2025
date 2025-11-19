@@ -43,9 +43,15 @@ public class Recurso {
         destino.recibirRecurso(this.tipo, cantidad);
     }
 
+    public void cobrarDe(Jugador pagador, Jugador receptor) {
+        pagador.entregar(this.tipo, this.cantidad, receptor);
+    }
+
+   
     public int cantidad() {
         return cantidad;
     }
 
+    
     public RecursoTipo tipo(){return tipo;}
 }

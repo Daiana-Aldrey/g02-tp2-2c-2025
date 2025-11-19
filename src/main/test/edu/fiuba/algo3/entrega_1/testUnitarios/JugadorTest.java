@@ -214,4 +214,5 @@ public class JugadorTest {
         assertEquals(cartasAntesActivo + 1, jugadorActivo.cantidadDeCartas(),
                 "El jugador activo debería tener una carta más después del robo");
     }
+    
 }
