@@ -140,9 +140,6 @@ public class Grafo {
 
     public void colocarPieza(int vertice, Pieza pieza) {
         VerticeEdificio verticeEncontrado = buscarVertice(vertice);
-        if (!verticeEncontrado.estaDisponible()) {
-            throw new IllegalArgumentException("No se puede poner la pieza en el vertice");
-        }
         verticeEncontrado.colocarPieza(pieza);
     }
 
@@ -181,4 +178,8 @@ public class Grafo {
         return compatibles;
     }
 
+    public void removePieza(int ubicacion) {
+        VerticeEdificio vertice = buscarVertice(ubicacion);
+        vertice.removerPieza();
+    }
 }

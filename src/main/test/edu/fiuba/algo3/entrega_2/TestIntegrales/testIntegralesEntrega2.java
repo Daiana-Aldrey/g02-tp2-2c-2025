@@ -1,4 +1,4 @@
-package edu.fiuba.algo3.entrega_1.TestIntegralesEntrega2;
+package edu.fiuba.algo3.entrega_2.TestIntegrales;
 import edu.fiuba.algo3.modelo.*;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -6,11 +6,8 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.fiuba.algo3.modelo.*;
-
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.*;
 
 
 public class testIntegralesEntrega2 {

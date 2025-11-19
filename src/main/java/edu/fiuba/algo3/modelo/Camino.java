@@ -3,12 +3,12 @@ package edu.fiuba.algo3.modelo;
 import java.util.*;
 
 public class Camino extends Pieza {
-	private List<Integer> ubicacion;
-	
-	public Camino(Jugador propietario) {
-	    this.propietario = propietario; 
-	    this.ubicacion = new ArrayList<>();
-	}
+    private List<Integer> ubicacion;
+
+    public Camino(Jugador propietario) {
+        this.propietario = propietario;
+        this.ubicacion = new ArrayList<>();
+    }
 
     @Override
     public List<Recurso> costoDeConstruccion() {
@@ -24,7 +24,7 @@ public class Camino extends Pieza {
             throw new IllegalArgumentException("Un camino necesita exactamente 2 vértices");
         }
 
-        ubicacion = vertices; 
+        ubicacion = vertices;
 
         Tablero tablero = Tablero.getInstance();
         tablero.colocarCamino(ubicacion, this);
@@ -32,9 +32,8 @@ public class Camino extends Pieza {
         propietario.incorporarCamino(this);
     }
 
-    @Override 
-    public int ubicacion() {
-    	int unVertice = ubicacion.get(0);
-        return unVertice;
+    @Override
+    public boolean tenesUbicacion(int ubicacion) {
+        return this.ubicacion.contains(ubicacion);
     }
 }

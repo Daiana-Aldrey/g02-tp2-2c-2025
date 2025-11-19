@@ -52,6 +52,5 @@ public class Recurso {
         return cantidad;
     }
 
-    
     public RecursoTipo tipo(){return tipo;}
 }

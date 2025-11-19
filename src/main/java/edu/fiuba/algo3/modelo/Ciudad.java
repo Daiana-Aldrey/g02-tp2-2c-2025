@@ -24,37 +24,29 @@ public class Ciudad extends Pieza{
             throw new IllegalArgumentException("Una ciudad necesita exactamente 1 vértice");
         }
 
-        int v = vertice.get(0);
-        this.ubicacion = v;
+        int ubicacion = vertice.get(0);
+
+        if (!propietario.tenesPobladoEnUbicacion(ubicacion)) {
+            throw new IllegalArgumentException("Tenes que tener un poblado en la ubicacion para poder construir una ciudad");
+        }
+
         Tablero tablero = Tablero.getInstance();
-        VerticeEdificio verticeEdificio = tablero.buscarVerticeEdificio(v);
+        tablero.removerPoblado(ubicacion);
 
-        Pieza piezaActual = verticeEdificio.obtenerPieza();
-
-        if(!piezaActual.esPoblado()){
-            throw new IllegalArgumentException("Debe existir un poblado para construir una ciudad");
-        }
-
-        if(!(piezaActual.propietario.esJugador(this.propietario))){
-            throw new IllegalArgumentException("El poblado no pertenece al jugador");
-        }
-
-        for(VerticeTerreno terreno : verticeEdificio.obtenerTerrenos()){
-            terreno.removerEdificio(piezaActual);
-        }
-    
-        this.propietario.removerPoblado((Poblado) piezaActual);
-        verticeEdificio.colocarPieza(this);
+        this.propietario.removerPoblado(ubicacion);
+        tablero.colocarEdificio(ubicacion, this);
+        this.ubicacion = ubicacion;
 
         propietario.incorporarCiudad(this);
     }
 
     @Override
-    public int ubicacion() {
-        return 0; //modificar metodo, implementado unicamente para que proyecto pueda ser ejecutado
-    }
+    public int produccion(){return 2;}
 
     @Override
-    public int produccion(){return 2;}
+    public boolean tenesUbicacion(int ubicacion) {
+        return this.ubicacion == ubicacion;
+    }
+
     public boolean esCiudad(){return true;}
 }

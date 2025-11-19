@@ -5,12 +5,10 @@ import java.util.Collections;
 import java.util.List;
 
 public class Arista {
-    private Camino camino;
     private boolean disponible;
     private List<Integer> adyacentes;
 
     public Arista(Integer v1, Integer v2) {
-        camino = null;
         disponible = true;
 
         adyacentes = new ArrayList<>();
@@ -31,7 +29,6 @@ public class Arista {
     }
 
     public void colocarCamino(Camino camino) {
-        this.camino = camino;
         noDisponible();
     }
 

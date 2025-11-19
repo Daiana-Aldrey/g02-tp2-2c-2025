@@ -77,10 +77,9 @@ public final class Tablero {
         crearGrafo();
     }
 
-    public VerticeEdificio buscarVerticeEdificio(int ubicacion) {
-        return grafo.buscarVertice(ubicacion);
+    public void removerPoblado(int ubicacion) {
+        grafo.removePieza(ubicacion);
     }
-
 }
 
 

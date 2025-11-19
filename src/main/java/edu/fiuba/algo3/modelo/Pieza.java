@@ -31,7 +31,7 @@ public abstract class Pieza {
     }
 
     public abstract void colocar(List<Integer> vertices);
-    public abstract int ubicacion();
+
     public Jugador obtenerJugador(){
         return propietario;
     }
@@ -42,6 +42,8 @@ public abstract class Pieza {
 
     public int produccion(){return 0;}
     public boolean esPoblado(){return false;}
+
+    public abstract boolean tenesUbicacion(int ubicacion);
 
     protected void removerDelJugador() {
 

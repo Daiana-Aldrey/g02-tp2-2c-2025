@@ -181,6 +181,21 @@ public class Jugador {
         puntosDeVictoria -= 1;
     }
 
+    public  void removerPoblado(int ubicacion) {
+        int i = 0;
+        boolean encontrado = false;
+        Pieza poblado;
+        while ( i < poblados.size() && !encontrado) {
+            poblado = poblados.get(i);
+            if (poblado.tenesUbicacion(ubicacion)) {
+                encontrado = true;
+                poblados.remove(i);
+                puntosDeVictoria -= 1;
+            }
+            i++;
+        }
+    }
+
     public boolean esJugador(Jugador propietario) {
         return this.nombre.equals(propietario.nombre);
     }
@@ -189,8 +204,20 @@ public class Jugador {
         return totalRecursos();
     }
 
-    
-
     public int puntosDeVictoria(){return puntosDeVictoria;}
+
+    public boolean tenesPobladoEnUbicacion(int ubicacion) {
+        int i = 0;
+        boolean encontrado = false;
+        Pieza poblado;
+        while ( i < poblados.size() && !encontrado) {
+            poblado = poblados.get(i);
+            if (poblado.tenesUbicacion(ubicacion)) {
+                encontrado = true;
+            }
+            i++;
+        }
+        return encontrado;
+    }
 }
   

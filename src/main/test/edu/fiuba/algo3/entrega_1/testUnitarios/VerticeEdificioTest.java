@@ -2,6 +2,9 @@ package edu.fiuba.algo3.entrega_1.testUnitarios;
 import edu.fiuba.algo3.modelo.*;
 
 import org.junit.jupiter.api.Test;
+
+import java.util.ArrayList;
+
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -55,6 +58,17 @@ public class VerticeEdificioTest {
         vertice1.agregarVerticeAdyacente(vertice2);
 
         assertTrue(vertice1.hayTerrenoAdyacente(vertice2));
+    }
+
+    @Test
+    public void verticeRemueveCorrectamentePieza() {
+        VerticeEdificio vertice1 = new VerticeEdificio(1);
+        Pieza pieza = new Poblado(new Jugador("Luis"));
+        vertice1.colocarPieza(pieza);
+
+        vertice1.removerPieza();
+
+        assertTrue(vertice1.estaDisponible());
     }
 
 }

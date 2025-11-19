@@ -34,13 +34,13 @@ public class Poblado extends Pieza {
           propietario.incorporarPoblado(this);
     }
 
-
-    public int ubicacion() {
-    	return ubicacion;
-    }
-
     public int produccion(){return 1;}
 
     @Override
     public boolean esPoblado() {return true;}
+
+    @Override
+    public boolean tenesUbicacion(int ubicacion) {
+        return this.ubicacion == ubicacion;
+    }
 }

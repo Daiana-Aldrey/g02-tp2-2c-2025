@@ -13,7 +13,7 @@ public class VerticeEdificio extends EnlazadorVertices {
         terrenos = new ArrayList<>();
         this.ubicacion = ubicacion;
         disponible = true;
-        pieza = null;
+        pieza = new NoPieza();
     }
 
     // Post: Compara el nombre que le mandan por el parametro con el nombre que tiene como atributo.
@@ -28,12 +28,16 @@ public class VerticeEdificio extends EnlazadorVertices {
 
     // Post: marca al vértice como no disponible y también a sus vertices adyacentes
     public void colocarPieza(Pieza edificio) {
-        this.pieza = edificio;
-        noDisponible();
-        agregarEdificioATerrenos(edificio);
+        if (disponible) {
+            this.pieza = edificio;
+            noDisponible();
+            agregarEdificioATerrenos(edificio);
 
-        for (VerticeEdificio vertice : adyacentes) {
-            vertice.noDisponible();
+            for (VerticeEdificio vertice : adyacentes) {
+                vertice.noDisponible();
+            }
+        } else {
+            throw new IllegalArgumentException("No se puede poner la pieza en el vertice");
         }
     }
 
@@ -72,8 +76,12 @@ public class VerticeEdificio extends EnlazadorVertices {
         return this.pieza;
     }
 
-    public List<VerticeTerreno> obtenerTerrenos(){
-        return terrenos;
+    public void removerPieza() {
+        for (VerticeTerreno terreno : terrenos) {
+            terreno.removerEdificio(pieza);
+        }
+        pieza = new NoPieza();
+        disponible = true;
     }
 }
 
