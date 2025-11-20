@@ -13,7 +13,7 @@ public class VerticeEdificio extends EnlazadorVertices {
         terrenos = new ArrayList<>();
         this.ubicacion = ubicacion;
         disponible = true;
-        pieza = new NoPieza();
+        pieza = null;
     }
 
     // Post: Compara el nombre que le mandan por el parametro con el nombre que tiene como atributo.
@@ -41,7 +41,6 @@ public class VerticeEdificio extends EnlazadorVertices {
         }
     }
 
-    // Post: Setea su estado como no disponible
     private void noDisponible() {
         disponible = false;
     }
@@ -80,7 +79,7 @@ public class VerticeEdificio extends EnlazadorVertices {
         for (VerticeTerreno terreno : terrenos) {
             terreno.removerEdificio(pieza);
         }
-        pieza = new NoPieza();
+        pieza = null;
         disponible = true;
     }
 }
