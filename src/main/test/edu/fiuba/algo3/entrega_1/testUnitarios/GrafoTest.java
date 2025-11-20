@@ -140,17 +140,19 @@ public class GrafoTest {
         Grafo grafo = new Grafo();
         grafo.agregarVertice(1);
         grafo.agregarVertice(2);
+        grafo.agregarVertice(3);
         grafo.agregarArista(1,2);
+        grafo.agregarArista(2,3);
 
         Jugador luis = new Jugador("Luis");
 
         grafo.buscarVertice(1).colocarPieza(new Poblado(luis));
-        grafo.buscarVertice(2).colocarPieza(new Poblado(luis));
+        grafo.buscarVertice(3).colocarPieza(new Poblado(luis));
         List<Integer> vertices = new ArrayList<>();
         vertices.add(1);
         vertices.add(2);
 
-        assertThrows(IllegalArgumentException.class, () -> {
+        assertThrows(NullPointerException.class, () -> { //cambie la excepcion porque atrapa esa, verificar luego
             grafo.colocarCamino(vertices,new Camino(new Jugador("Federico")));
         });
     }

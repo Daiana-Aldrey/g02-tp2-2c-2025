@@ -230,7 +230,7 @@ public class testIntegrales {
 
         GeneradorDeTablero generador = new GeneradorDeTablero(new GeneradorNumerosAleatorios());
         generador.generarEstructura(grafo);
-        grafo.agregarVertice('A', new Montania(), 8);
+        grafo.agregarVertice('A', new Bosque(), 8);
         grafo.agregarArista(10,'A');
 
         tablero.setearGrafo(grafo);
