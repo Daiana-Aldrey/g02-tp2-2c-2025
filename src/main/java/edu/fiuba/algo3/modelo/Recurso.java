@@ -53,4 +53,8 @@ public class Recurso {
     }
 
     public RecursoTipo tipo(){return tipo;}
+
+    public boolean esSuficiente(int cant){
+        return cantidad < cant;
+    }
 }

@@ -47,4 +47,16 @@ public class Banco {
         return carta;
     }
 
+    public void comerciar(Jugador jugador, RecursoTipo recursoDado, RecursoTipo recursoRecibido, int cantidadSolicitada) {
+        int tasa = jugador.seleccionarTasaPara(recursoDado);
+        int costo = tasa * cantidadSolicitada;
+        Recurso recurso = jugador.buscarRecurso(recursoDado);
+
+        if (recurso == null || recurso.esSuficiente(costo)) {
+            throw new IllegalArgumentException("No tiene recursos suficientes");
+        }
+
+        jugador.descontarRecurso(recursoDado, costo);
+        jugador.recibirRecurso(recursoRecibido, cantidadSolicitada);
+    }
 }

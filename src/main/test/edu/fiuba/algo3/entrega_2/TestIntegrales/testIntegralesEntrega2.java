@@ -147,7 +147,88 @@ public class testIntegralesEntrega2 {
         jugador.construirPieza("ciudad", List.of(18));
         assertEquals(4, jugador.puntosDeVictoria());
     }
-    
+
+    @Test
+    public void comercioMaritimoAplicaTasaEstandarCuatroAUno() {
+        Tablero tablero = Tablero.getInstance();
+        Grafo grafo = new Grafo();
+
+        GeneradorDeTablero generador = new GeneradorDeTablero(new GeneradorNumerosAleatorios());
+        generador.generarEstructura(grafo);
+        grafo.agregarVertice('A', new Bosque(), 8);
+        grafo.agregarArista(10, 'A');
+        tablero.setearGrafo(grafo);
+
+        GeneradorDeDados dado = () -> 8;
+
+        Juego juego = new Juego(3, List.of("Luis", "Ana", "Marcos"), dado);
+        Jugador jugador = juego.jugadores().get(0);
+
+        jugador.recibirRecurso(RecursoTipo.MADERA, 4);
+
+        Banco banco = new Banco();
+        banco.comerciar(jugador, RecursoTipo.MADERA, RecursoTipo.GRANO, 1);
+
+        Recurso madera = jugador.buscarRecurso(RecursoTipo.MADERA);
+        assertEquals(0, madera.cantidad());
+
+        Recurso grano = jugador.buscarRecurso(RecursoTipo.GRANO);
+        assertEquals(1, grano.cantidad());
+    }
+
+    @Test
+    public void comercioMaritimoAplicaTasaTresAUnoConPuertoGenerico() {
+        Tablero tablero = Tablero.getInstance();
+        Grafo grafo = new Grafo();
+
+        GeneradorDeTablero generador = new GeneradorDeTablero(new GeneradorNumerosAleatorios());
+        generador.generarEstructura(grafo);
+
+        grafo.agregarVertice('A', new Bosque(), 8);
+        grafo.agregarArista(10, 'A');
+        tablero.setearGrafo(grafo);
+
+        GeneradorDeDados dado = () -> 8;
+
+        Juego juego = new Juego(3, List.of("Luis", "Ana", "Marcos"), dado);
+        Jugador jugador = juego.jugadores().get(0);
+
+        jugador.agregarPuerto(new PuertoGenerico());
+        jugador.recibirRecurso(RecursoTipo.MADERA, 3);
+
+        Banco banco = new Banco();
+        banco.comerciar(jugador, RecursoTipo.MADERA, RecursoTipo.LANA, 1);
+
+        assertEquals(0, jugador.buscarRecurso(RecursoTipo.MADERA).cantidad());
+        assertEquals(1, jugador.buscarRecurso(RecursoTipo.LANA).cantidad());
+    }
+
+    @Test
+    public void comercioMaritimoAplicaTasaDosAUnoConPuertoEspecifico(){
+        Tablero tablero = Tablero.getInstance();
+        Grafo grafo = new Grafo();
+
+        GeneradorDeTablero generador = new GeneradorDeTablero(new GeneradorNumerosAleatorios());
+        generador.generarEstructura(grafo);
+
+        grafo.agregarVertice('A', new Bosque(), 8);
+        grafo.agregarArista(10, 'A');
+        tablero.setearGrafo(grafo);
+
+        GeneradorDeDados dado = () -> 8;
+
+        Juego juego = new Juego(3, List.of("Luis", "Ana", "Marcos"), dado);
+        Jugador jugador = juego.jugadores().get(0);
+
+        jugador.agregarPuerto(new PuertoEspecifico(RecursoTipo.MADERA));
+        jugador.recibirRecurso(RecursoTipo.MADERA, 2);
+
+        Banco banco = new Banco();
+        banco.comerciar(jugador,RecursoTipo.MADERA, RecursoTipo.MINERAL,1);
+
+        assertEquals(0, jugador.buscarRecurso(RecursoTipo.MADERA).cantidad());
+        assertEquals(1, jugador.buscarRecurso(RecursoTipo.MINERAL).cantidad());
+    }
     @Test
     public void intercambioEntreJugadoresTransfiereRecursosCorrectamente() {
     	Jugador ofertante = new Jugador("Ofertante");

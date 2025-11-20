@@ -11,6 +11,7 @@ public class Jugador {
     private List<Poblado> poblados = new ArrayList<>();
     private List<Ciudad>  ciudades = new ArrayList<>();
     private List<Camino>  caminos  = new ArrayList<>();
+    private List<Puerto> puertos = new ArrayList<>();
     //private List<Recurso> recursos = new ArrayList<>();
     //ENTREGA2
     private List<Carta> cartasDesarrollo = new ArrayList<>();
@@ -270,6 +271,21 @@ public class Jugador {
         return encontrado;
     }
 
+    public int seleccionarTasaPara(RecursoTipo recurso){
+        int mejor = 4;
 
+        for(Puerto puerto : puertos){
+            int posible = puerto.tasaPara(recurso);
+            if(posible != Integer.MAX_VALUE && posible < mejor){
+                mejor = posible;
+            }
+        }
+
+        return mejor;
+    }
+
+    public void agregarPuerto(Puerto puerto){
+        puertos.add(puerto);
+    }
 }
   
