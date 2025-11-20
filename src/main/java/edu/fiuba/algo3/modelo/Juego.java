@@ -1,4 +1,8 @@
 package edu.fiuba.algo3.modelo;
+import edu.fiuba.algo3.modelo.Dados.GeneradorDeDados;
+import edu.fiuba.algo3.modelo.Intercambio.Banco;
+import edu.fiuba.algo3.modelo.Tablero.Tablero;
+
 import java.util.*;
 
 public class Juego {

@@ -1,7 +1,16 @@
 package edu.fiuba.algo3.modelo;
+import edu.fiuba.algo3.modelo.CartaDeDesarrollo.Carta;
+import edu.fiuba.algo3.modelo.Intercambio.Puerto;
+import edu.fiuba.algo3.modelo.Pieza.Camino;
+import edu.fiuba.algo3.modelo.Pieza.Ciudad;
+import edu.fiuba.algo3.modelo.Pieza.Pieza;
+import edu.fiuba.algo3.modelo.Pieza.Poblado;
+import edu.fiuba.algo3.modelo.Recurso.Recurso;
+import edu.fiuba.algo3.modelo.Recurso.RecursoTipo;
+import edu.fiuba.algo3.modelo.Tablero.Tablero;
+
 import java.util.List;
 import java.util.ArrayList;
-import java.util.Scanner;
 import java.util.*;
 
 public class Jugador {
@@ -103,7 +112,7 @@ public class Jugador {
         }
     }
 
-    void descontarRecurso(RecursoTipo tipo, int cantidad) {
+    public void descontarRecurso(RecursoTipo tipo, int cantidad) {
         for (Recurso rJugador : recursos) {
             if (rJugador.sosTipo(tipo)) {
                 rJugador.decrementar(cantidad);
