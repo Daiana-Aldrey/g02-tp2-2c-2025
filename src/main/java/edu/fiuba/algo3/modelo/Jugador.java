@@ -12,6 +12,9 @@ public class Jugador {
     private List<Ciudad>  ciudades = new ArrayList<>();
     private List<Camino>  caminos  = new ArrayList<>();
     //private List<Recurso> recursos = new ArrayList<>();
+    //ENTREGA2
+    private List<Carta> cartasDesarrollo = new ArrayList<>();
+    private List<Carta> cartasDesarrolloRecienCompradas = new ArrayList<>();
 
 
     public Jugador(String nombre) {
@@ -75,10 +78,27 @@ public class Jugador {
         pieza.colocar(vertices);
     }
 
-    
+
+    //consultarle a Dai sobre el uso de este
+    /*
     public void pagarRecursos(List<Recurso> precio) {
         for (Recurso rPrecio : precio) {
-            rPrecio.cobrarDe(this);   
+            rPrecio.cobrarDe(this);
+        }
+    }
+    */
+
+    public void pagarRecursos(List<Recurso> precio) {
+        //PRIMERO Verifico(solo miro)
+        for (Recurso costo : precio) {
+            Recurso recursoJugador = buscarRecurso(costo.tipo());
+            //tiro ERROR Si no tiene el recurso o la cantidad es menor a la requerida
+            if (recursoJugador == null || recursoJugador.cantidad() < costo.cantidad()) {
+                throw new IllegalArgumentException("No posees cantidad suficiente de " + costo.tipo());
+            }
+        }
+        for (Recurso rPrecio : precio) {
+            rPrecio.cobrarDe(this);
         }
     }
 
@@ -195,6 +215,36 @@ public class Jugador {
             i++;
         }
     }
+    //ENTREGA2
+    public void recibirCartaDesarrollo(Carta carta) {
+        cartasDesarrolloRecienCompradas.add(carta);
+    }
+    //al terminar el turno en el cual compro cartas mi lista de cartasDesarrolloRecienCompradasdebe estar vacia nuevante
+    public void prepararCartasDesarrolloParaNuevoTurno() {
+        cartasDesarrollo.addAll(cartasDesarrolloRecienCompradas);
+        cartasDesarrolloRecienCompradas.clear();
+    }
+    public void jugarCartaDesarrollo(Carta carta) {
+        if (cartasDesarrolloRecienCompradas.contains(carta)) {
+            throw new IllegalStateException("ERROR carta recein comprada no la podes usar en este turno.");
+        }
+        if (!cartasDesarrollo.contains(carta)) {
+            throw new IllegalArgumentException("ERROR no tenes esta carta");
+        }
+        carta.usar(this);
+        cartasDesarrollo.remove(carta);
+    }
+
+
+
+    //como el jugador debe poder ver que cartar de desarrollotiene puedo hacer:
+    public List<Carta> obtenerCartasDesarrollo() {
+        List<Carta> todas = new ArrayList<>();
+        todas.addAll(cartasDesarrollo);
+        todas.addAll(cartasDesarrolloRecienCompradas);
+        return Collections.unmodifiableList(todas);
+        //uso: unmodifiableList para respetar encapsulamiento y single responsability
+    }
 
     public boolean esJugador(Jugador propietario) {
         return this.nombre.equals(propietario.nombre);
@@ -219,5 +269,7 @@ public class Jugador {
         }
         return encontrado;
     }
+
+
 }
   

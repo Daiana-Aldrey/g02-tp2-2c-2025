@@ -190,6 +190,56 @@ public class testIntegralesEntrega2 {
         assertEquals(maderaRecAntes + 2, receptor.buscarRecurso(RecursoTipo.MADERA).cantidad());
         assertEquals(lanaRecAntes + 1, receptor.buscarRecurso(RecursoTipo.LANA).cantidad());
     }
+    @Test
+    void validacionComprarCartaDesarrolloDescuentaRecursosAgregaCartaAlJugador() {
+        GeneradorDeDados dado = () -> 8;
+
+        Juego juego = new Juego(3, List.of("lu", "caro", "dai"), dado);
+        Jugador jugador = juego.jugadores().get(0);
+
+        jugador.recibirRecurso(RecursoTipo.LANA, 1);
+        jugador.recibirRecurso(RecursoTipo.GRANO, 1);
+        jugador.recibirRecurso(RecursoTipo.MINERAL, 1);
+
+        int lanaAntes = jugador.buscarRecurso(RecursoTipo.LANA).cantidad();
+        int granoAntes = jugador.buscarRecurso(RecursoTipo.GRANO).cantidad();
+        int mineralAntes = jugador.buscarRecurso(RecursoTipo.MINERAL).cantidad();
+
+        juego.comprarCartaDesarrollo();
+
+        assertEquals(lanaAntes - 1, jugador.buscarRecurso(RecursoTipo.LANA).cantidad());
+        assertEquals(granoAntes - 1, jugador.buscarRecurso(RecursoTipo.GRANO).cantidad());
+        assertEquals(mineralAntes - 1, jugador.buscarRecurso(RecursoTipo.MINERAL).cantidad());
+
+        assertEquals(1, jugador.obtenerCartasDesarrollo().size(), "El jugador debería tener una carta por que la compro");
+    }
+    @Test
+    void CartaRecienCompradaNoPuedeUsarseEnTurnoActual_SiTrasFinalizarTurno() {
+        GeneradorDeDados dado = () -> 8;
+        Juego juego = new Juego(3, List.of("lu", "caro", "dai"), dado);
+        Jugador jugador = juego.jugadores().get(0);
+
+        jugador.recibirRecurso(RecursoTipo.LANA, 1);
+        jugador.recibirRecurso(RecursoTipo.GRANO, 1);
+        jugador.recibirRecurso(RecursoTipo.MINERAL, 1);
+
+        juego.comprarCartaDesarrollo();
+
+        Carta carta = jugador.obtenerCartasDesarrollo().get(0);
+
+        // 1) En el mismo turno NO debería poder jugarla
+        assertThrows(IllegalStateException.class, () -> jugador.jugarCartaDesarrollo(carta), "No deberia usar la carta en el mismo turnoque la  compra.");
+
+        // 2) Simulamos fin de turno
+        juego.finalizarTurnoActual();
+
+        // 3) Ahora sí debería poder jugarse
+        assertDoesNotThrow(() -> jugador.jugarCartaDesarrollo(carta),
+                "finalizo el turno, podes usar la carta.");
+
+        // Y ya no debería tener cartas de desarrollo en su mazo
+        assertEquals(0, jugador.obtenerCartasDesarrollo().size(), "usaste tu unica carta no tenes mas");
+    }
 
 }
 

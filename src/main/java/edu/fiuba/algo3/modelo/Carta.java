@@ -6,7 +6,7 @@ public abstract class Carta {
 	protected void setNombre(String nombre) {
 	        this.nombre = nombre;
 	 } */
-	
-	public abstract void usar();
+
+	public abstract void usar(Jugador jugador);
 
 }

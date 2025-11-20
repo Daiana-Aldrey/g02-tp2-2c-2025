@@ -93,5 +93,14 @@ public class Juego {
 		return jugadores;
 	}
 
+	public void comprarCartaDesarrollo() {
+		banco.venderCartaDesarrollo(jugadorTurno);
+	}
+
+	public void finalizarTurnoActual() {
+		jugadorTurno.prepararCartasDesarrolloParaNuevoTurno();
+		// nos va a servir mas adelante
+	}
+
 }
 
