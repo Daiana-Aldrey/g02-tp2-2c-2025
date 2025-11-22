@@ -11,10 +11,6 @@ public class PuertoEspecifico implements Puerto {
 
     @Override
     public int tasaPara(RecursoTipo recurso){
-        if(recurso == tipo){
-            return 2;
-        }
-
-        return Integer.MAX_VALUE;
+        return 2;
     }
 }

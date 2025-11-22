@@ -285,7 +285,7 @@ public class Jugador {
 
         for(Puerto puerto : puertos){
             int posible = puerto.tasaPara(recurso);
-            if(posible != Integer.MAX_VALUE && posible < mejor){
+            if(posible < mejor){
                 mejor = posible;
             }
         }

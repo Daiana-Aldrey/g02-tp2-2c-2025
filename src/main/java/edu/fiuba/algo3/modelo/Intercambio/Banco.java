@@ -6,11 +6,6 @@ import edu.fiuba.algo3.modelo.Recurso.Recurso;
 import edu.fiuba.algo3.modelo.Recurso.RecursoTipo;
 
 import java.util.*;
-//import java.util.ArrayDeque;
-//import java.util.ArrayList;
-//import java.util.Collections;
-//import java.util.Deque;
-//import java.util.List;
 
 public class Banco {
     private final Deque<Carta> mazoDesarrollo;
@@ -57,7 +52,7 @@ public class Banco {
         int costo = tasa * cantidadSolicitada;
         Recurso recurso = jugador.buscarRecurso(recursoDado);
 
-        if (recurso == null || recurso.esSuficiente(costo)) {
+        if (recurso.esSuficiente(costo)) {
             throw new IllegalArgumentException("No tiene recursos suficientes");
         }
 
