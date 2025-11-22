@@ -17,15 +17,13 @@ public class VerticeEdificio extends EnlazadorVertices {
         terrenos = new ArrayList<>();
         this.ubicacion = ubicacion;
         disponible = true;
-        pieza = new NoPieza();
+        pieza = new NoPieza(ubicacion);
     }
 
-    // Post: Compara el nombre que le mandan por el parametro con el nombre que tiene como atributo.
     public boolean tieneUbicacion(Integer ubicacion) {
         return ubicacion == this.ubicacion;
     }
 
-    // Post: Devuelve su estado de disponibilidad.
     public boolean estaDisponible() {
         return this.disponible;
     }
@@ -75,15 +73,11 @@ public class VerticeEdificio extends EnlazadorVertices {
         return this.pieza.obtenerJugador();
     }
 
-    public Pieza obtenerPieza(){
-        return this.pieza;
-    }
-
     public void removerPieza() {
         for (VerticeTerreno terreno : terrenos) {
             terreno.removerEdificio(pieza);
         }
-        pieza = new NoPieza();
+        pieza = new NoPieza(ubicacion);
         disponible = true;
     }
 }

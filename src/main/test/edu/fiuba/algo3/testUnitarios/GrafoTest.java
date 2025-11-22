@@ -156,7 +156,7 @@ public class GrafoTest {
         vertices.add(1);
         vertices.add(2);
 
-        assertThrows(NullPointerException.class, () -> { //cambie la excepcion porque atrapa esa, verificar luego
+        assertThrows(IllegalArgumentException.class, () -> {
             grafo.colocarCamino(vertices,new Camino(new Jugador("Federico")));
         });
     }
