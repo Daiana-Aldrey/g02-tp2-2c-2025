@@ -1,5 +1,6 @@
 package edu.fiuba.algo3.testUnitarios;
 
+import edu.fiuba.algo3.Excepciones.CaminoInvalido;
 import edu.fiuba.algo3.modelo.*;
 import edu.fiuba.algo3.modelo.Pieza.*;
 import edu.fiuba.algo3.modelo.Tablero.*;
@@ -134,7 +135,7 @@ public class GrafoTest {
         vertices.add(2);
 
         grafo.colocarCamino(vertices,new Camino(luis));
-        assertThrows(IllegalArgumentException.class, () -> {
+        assertThrows(CaminoInvalido.class, () -> {
             grafo.colocarCamino(vertices,new Camino(luis));
         });
     }
@@ -156,7 +157,7 @@ public class GrafoTest {
         vertices.add(1);
         vertices.add(2);
 
-        assertThrows(IllegalArgumentException.class, () -> {
+        assertThrows(CaminoInvalido.class, () -> {
             grafo.colocarCamino(vertices,new Camino(new Jugador("Federico")));
         });
     }
