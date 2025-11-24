@@ -1,5 +1,6 @@
 package edu.fiuba.algo3.modelo.Tablero;
 
+import edu.fiuba.algo3.Excepciones.CaminoInvalido;
 import edu.fiuba.algo3.modelo.Pieza.Camino;
 import edu.fiuba.algo3.modelo.Pieza.Pieza;
 import edu.fiuba.algo3.modelo.Terreno.Terreno;
@@ -150,7 +151,7 @@ public class Grafo {
     public void colocarCamino(List<Integer> vertices, Camino pieza) {
         Arista aristaEncontrada = buscarArista(vertices);
         if (!aristaEncontrada.estaDisponible()) {
-            throw new IllegalArgumentException("Ya hay un camino");
+            throw new CaminoInvalido("Ya hay un camino");
         }
         //aristaEncontrada.colocarCamino(pieza);
 
@@ -159,7 +160,7 @@ public class Grafo {
         } /*else if((buscarVertice(vertices.get(1)).obtenerJugadorDePieza()) == pieza.obtenerJugador()) {
             aristaEncontrada.colocarCamino(pieza); */
          else {
-            throw new IllegalArgumentException("No se puede colocar camino");
+            throw new CaminoInvalido("No se puede colocar camino");
         }
 
     }

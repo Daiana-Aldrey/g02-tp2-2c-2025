@@ -29,7 +29,7 @@ public class TestIntegrales {
         Jugador marcelo = new Jugador("Marcelo");
 
         luis.colocarPiezaInicial("poblado", new ArrayList<>(List.of(1)));
-        luis.colocarPiezaInicial("camino", new ArrayList<>(List.of(1, 2)));
+        luis.colocarPiezaInicial("camino", new ArrayList<>(List.of(2, 1)));
 
         marcelo.colocarPiezaInicial("poblado", new ArrayList<>(List.of(18)));
         marcelo.colocarPiezaInicial("camino", new ArrayList<>(List.of(18, 17)));
