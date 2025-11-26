@@ -32,8 +32,12 @@ public class JugadorTest {
         tablero.reset();
         GeneradorDeDados dadoPrueba = () -> 7;
 
-        List<String> nombres = List.of("Luis", "Ana", "Maria");
-        Juego juego = new Juego(3, nombres, dadoPrueba);
+        Jugador jugador1 = new Jugador("Juli");
+	    Jugador jugador2 = new Jugador("Valen");
+	    Jugador jugador3 = new Jugador("Sofi");
+	    List<Jugador> jugadores = List.of(jugador1, jugador2, jugador3);
+	    Juego juego = new Juego(jugadores, dadoPrueba);
+
         Jugador jugador = juego.jugadores().get(0);
         Pieza pobladoDeReferencia = Pieza.crear("poblado", jugador);
         List<Recurso> precio = pobladoDeReferencia.costoDeConstruccion();
@@ -122,8 +126,14 @@ public class JugadorTest {
         tablero.setearGrafo(grafo);
 
         GeneradorDeDados dado = () -> 8;
+        
+        Jugador jugador1 = new Jugador("Juli");
+	    Jugador jugador2 = new Jugador("Valen");
+	    Jugador jugador3 = new Jugador("Sofi");
+	    List<Jugador> jugadores = List.of(jugador1, jugador2, jugador3);
+	    
+	    Juego juego = new Juego(jugadores, dado);
 
-        Juego juego = new Juego(3, List.of("Luis", "Ana", "Marcos"), dado);
         Jugador jugador = juego.jugadores().get(0);
 
 
@@ -150,7 +160,13 @@ public class JugadorTest {
 
         GeneradorDeDados dado = () -> 8;
 
-        Juego juego = new Juego(3, List.of("Luis", "Ana", "Marcos"), dado);
+        Jugador jugador1 = new Jugador("Juli");
+	    Jugador jugador2 = new Jugador("Valen");
+	    Jugador jugador3 = new Jugador("Sofi");
+	    List<Jugador> jugadores = List.of(jugador1, jugador2, jugador3);
+	    
+	    Juego juego = new Juego(jugadores, dado);
+
         Jugador jugador = juego.jugadores().get(0);
 
         jugador.colocarPiezaInicial("poblado", List.of(10));
@@ -172,7 +188,12 @@ public class JugadorTest {
 
         GeneradorDeDados dado = () -> 7;
 
-        Juego juego = new Juego(3, List.of("lu", "gia", "da"), dado);
+        Jugador jugador1 = new Jugador("Juli");
+	    Jugador jugador2 = new Jugador("Valen");
+	    Jugador jugador3 = new Jugador("Sofi");
+	    List<Jugador> jugadores = List.of(jugador1, jugador2, jugador3);
+	    
+	    Juego juego = new Juego(jugadores, dado);
         Jugador jugador = juego.jugadores().get(0);
 
         jugador.recibirRecurso(RecursoTipo.MADERA, 5);
@@ -191,8 +212,15 @@ public class JugadorTest {
     public void jugadorActivoMueveAlLadronYRobaCartaAJugadorAdyacenteANuevoTerreno() {
         Tablero tablero = Tablero.getInstance();
         tablero.reset(); 
-        GeneradorDeDados generador = () -> 7;
-        Juego juego = new Juego(3, List.of("Luis", "Ana", "Marcos"), generador);
+        GeneradorDeDados dado = () -> 7;
+        
+        Jugador jugador1 = new Jugador("Juli");
+	    Jugador jugador2 = new Jugador("Valen");
+	    Jugador jugador3 = new Jugador("Sofi");
+	    List<Jugador> jugadores = List.of(jugador1, jugador2, jugador3);
+	    
+	    Juego juego = new Juego(jugadores, dado);
+
 
         Jugador jugadorActivo = juego.jugadores().get(0);
         jugadorActivo.recibirRecurso(RecursoTipo.MADERA, 10);

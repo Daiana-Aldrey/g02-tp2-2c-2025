@@ -153,11 +153,13 @@ public class TestIntegrales {
 
         GeneradorDeDados dado = () -> 8;
 
-        Juego juego = new Juego(3, List.of("Luis", "Ana", "Marcos"), dado);
-        Jugador j1 = juego.jugadores().get(0);
-        Jugador j2 = juego.jugadores().get(1);
-        Jugador j3 = juego.jugadores().get(2);
-
+        Jugador jugador1 = new Jugador("Juli");
+	    Jugador jugador2 = new Jugador("Valen");
+	    Jugador jugador3 = new Jugador("Sofi");
+	    List<Jugador> jugadores = List.of(jugador1, jugador2, jugador3);
+	   
+	    Juego juego = new Juego(jugadores, dado);
+	    
         for (Jugador j : juego.jugadores()) {
             j.recibirRecurso(RecursoTipo.MADERA,   10);
             j.recibirRecurso(RecursoTipo.LADRILLO, 10);
@@ -165,36 +167,43 @@ public class TestIntegrales {
             j.recibirRecurso(RecursoTipo.GRANO,    10);
         }
 
-        j1.colocarPiezaInicial("poblado", List.of(1));
-        j1.colocarPiezaInicial("camino",  List.of(1, 2));
-        j1.construirPieza("poblado", List.of(10));
+        jugador1.colocarPiezaInicial("poblado", List.of(1));
+        jugador1.colocarPiezaInicial("camino",  List.of(1, 2));
+        jugador1.construirPieza("poblado", List.of(10));
 
-        j2.colocarPiezaInicial("poblado", List.of(54));
-        j2.colocarPiezaInicial("camino",  List.of(54, 53));
-        j2.construirPieza("poblado", List.of(40));
+        jugador2.colocarPiezaInicial("poblado", List.of(54));
+        jugador2.colocarPiezaInicial("camino",  List.of(54, 53));
+        jugador2.construirPieza("poblado", List.of(40));
 
 
-        j3.colocarPiezaInicial("poblado", List.of(6));
-        j3.colocarPiezaInicial("camino",  List.of(6, 7));
-        j3.construirPieza("poblado", List.of(36));
+        jugador3.colocarPiezaInicial("poblado", List.of(6));
+        jugador3.colocarPiezaInicial("camino",  List.of(6, 7));
+        jugador3.construirPieza("poblado", List.of(36));
 
         int tirada = juego.tirarDado();
         juego.manejarTirada(tirada);
 
-        Recurso mineralJ1 = j1.buscarRecurso(RecursoTipo.MINERAL);
-        Recurso mineralJ2 = j2.buscarRecurso(RecursoTipo.MINERAL);
+        Recurso mineralJ1 = jugador1.buscarRecurso(RecursoTipo.MINERAL);
+        Recurso mineralJ2 = jugador2.buscarRecurso(RecursoTipo.MINERAL);
 
         assertEquals(1, mineralJ1.cantidad());
         assertEquals(1, mineralJ2.cantidad());
 
 
-        Recurso mineralJ3 = j3.buscarRecurso(RecursoTipo.MINERAL);
+        Recurso mineralJ3 = jugador3.buscarRecurso(RecursoTipo.MINERAL);
         assertTrue(mineralJ3.cantidad() == 0);
     }
 
     @Test
     void cuandoDa12_esValidoYDevuelve12() {
-        var juego = new Juego(3, List.of("A","B","C"),()-> 12);
+    	Jugador jugador1 = new Jugador("Juli");
+ 	    Jugador jugador2 = new Jugador("Valen");
+ 	    Jugador jugador3 = new Jugador("Sofi");
+ 	    List<Jugador> jugadores = List.of(jugador1, jugador2, jugador3);
+ 	    
+ 	    GeneradorDeDados dado = () -> 12;
+ 	    Juego juego = new Juego(jugadores, dado);
+
         int n = juego.tirarDado();
         assertEquals(12, n);
     }
@@ -213,15 +222,19 @@ public class TestIntegrales {
 
         GeneradorDeDados dado = () -> 8;
 
-        Juego juego = new Juego(3, List.of("Luis", "Ana", "Marcos"), dado);
-        Jugador jugador = juego.jugadores().get(0);
+        Jugador jugador1 = new Jugador("Juli");
+ 	    Jugador jugador2 = new Jugador("Valen");
+ 	    Jugador jugador3 = new Jugador("Sofi");
+ 	    List<Jugador> jugadores = List.of(jugador1, jugador2, jugador3);
+ 	    Juego juego = new Juego(jugadores, dado);
 
-        jugador.colocarPiezaInicial("poblado", List.of(10));
+
+        jugador1.colocarPiezaInicial("poblado", List.of(10));
 
         int tirada = juego.tirarDado();
         juego.manejarTirada(tirada);
 
-        Recurso mineral = jugador.buscarRecurso(RecursoTipo.MINERAL);
+        Recurso mineral = jugador1.buscarRecurso(RecursoTipo.MINERAL);
         assertEquals(1, mineral.cantidad());
     }
 
@@ -239,18 +252,21 @@ public class TestIntegrales {
 
         GeneradorDeDados dado = () -> 8;
 
-        Juego juego = new Juego(3, List.of("Luis", "Ana", "Marcos"), dado);
-        Jugador jugador = juego.jugadores().get(0);
+        Jugador jugador1 = new Jugador("Juli");
+ 	    Jugador jugador2 = new Jugador("Valen");
+ 	    Jugador jugador3 = new Jugador("Sofi");
+ 	    List<Jugador> jugadores = List.of(jugador1, jugador2, jugador3);
+ 	    Juego juego = new Juego(jugadores, dado);
 
-        jugador.colocarPiezaInicial("poblado", List.of(10));
-        jugador.recibirRecurso(RecursoTipo.GRANO, 2);
-        jugador.recibirRecurso(RecursoTipo.MINERAL, 3);
-        jugador.construirPieza("ciudad", List.of(10));
+        jugador2.colocarPiezaInicial("poblado", List.of(10));
+        jugador2.recibirRecurso(RecursoTipo.GRANO, 2);
+        jugador2.recibirRecurso(RecursoTipo.MINERAL, 3);
+        jugador2.construirPieza("ciudad", List.of(10));
 
         int tirada = juego.tirarDado();
         juego.manejarTirada(tirada);
 
-        Recurso madera = jugador.buscarRecurso(RecursoTipo.MADERA);
+        Recurso madera = jugador2.buscarRecurso(RecursoTipo.MADERA);
         assertEquals(2, madera.cantidad());
     }
 
@@ -294,18 +310,21 @@ public class TestIntegrales {
 
         GeneradorDeDados dado = () -> 7;
 
-        Juego juego = new Juego(3, List.of("lu", "gia", "da"), dado);
-        Jugador jugador = juego.jugadores().get(0);
+        Jugador jugador1 = new Jugador("Juli");
+ 	    Jugador jugador2 = new Jugador("Valen");
+ 	    Jugador jugador3 = new Jugador("Sofi");
+ 	    List<Jugador> jugadores = List.of(jugador1, jugador2, jugador3);
+ 	    Juego juego = new Juego(jugadores, dado);
 
-        jugador.recibirRecurso(RecursoTipo.MADERA, 5);
-        jugador.recibirRecurso(RecursoTipo.LADRILLO, 4);
+        jugador3.recibirRecurso(RecursoTipo.MADERA, 5);
+        jugador3.recibirRecurso(RecursoTipo.LADRILLO, 4);
 
-        assertEquals(9, jugador.cantidadDeCartas(), "Precondición: debe tener 9 cartas");
+        assertEquals(9, jugador3.cantidadDeCartas(), "Precondición: debe tener 9 cartas");
 
         int tirada = juego.tirarDado();
         juego.manejarTirada(tirada);
 
-        assertEquals(5, jugador.cantidadDeCartas(),
+        assertEquals(5, jugador3.cantidadDeCartas(),
                 "Después de tirar 7, descarta la mitad y queda con 5 cartas");
     }
 
@@ -313,17 +332,20 @@ public class TestIntegrales {
     public void jugadorActivoMueveAlLadronYRobaCartaAJugadorAdyacenteANuevoTerreno() {
         Tablero tablero = Tablero.getInstance();
         tablero.reset();
-        GeneradorDeDados generador = () -> 7;
-        Juego juego = new Juego(3, List.of("Luis", "Ana", "Marcos"), generador);
+        GeneradorDeDados dado = () -> 7;
+        Jugador jugador1 = new Jugador("Juli");
+ 	    Jugador jugador2 = new Jugador("Valen");
+ 	    Jugador jugador3 = new Jugador("Sofi");
+ 	    List<Jugador> jugadores = List.of(jugador1, jugador2, jugador3);
+ 	    Juego juego = new Juego(jugadores, dado);
 
-        Jugador jugadorActivo = juego.jugadores().get(0);
+        Jugador jugadorActivo = jugador1;
         jugadorActivo.recibirRecurso(RecursoTipo.MADERA, 10);
         jugadorActivo.recibirRecurso(RecursoTipo.LADRILLO, 10);
         jugadorActivo.recibirRecurso(RecursoTipo.LANA, 10);
         jugadorActivo.recibirRecurso(RecursoTipo.GRANO, 10);
 
-        Jugador jugadorVictima = juego.jugadores().get(1);
-
+        Jugador jugadorVictima = jugador2;
         jugadorVictima.recibirRecurso(RecursoTipo.MADERA, 1);
         jugadorVictima.recibirRecurso(RecursoTipo.LADRILLO, 1);
         jugadorVictima.recibirRecurso(RecursoTipo.LANA, 1);

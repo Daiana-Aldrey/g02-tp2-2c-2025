@@ -1,6 +1,7 @@
 package edu.fiuba.algo3.testUnitarios;
 
 import edu.fiuba.algo3.modelo.*;
+import edu.fiuba.algo3.modelo.Dados.GeneradorDeDados;
 import edu.fiuba.algo3.modelo.Recurso.RecursoTipo;
 import edu.fiuba.algo3.modelo.Tablero.Tablero;
 import org.junit.jupiter.api.Test;
@@ -16,7 +17,9 @@ public class DescartCartasTest {
         Tablero tablero = Tablero.getInstance();
         tablero.reset();
 
-        Juego juego = new Juego(3, List.of("Lu", "Bren", "Caro"), ()-> 7);
+        GeneradorDeDados dado =()-> 7;
+    	List<Jugador> jugadores = TestUtilidades.generarJugadores(3);
+        Juego juego = new Juego(jugadores, dado);
         Jugador jugador = juego.jugadores().get(0);
 
         jugador.recibirRecurso(RecursoTipo.MADERA, 2);
@@ -35,7 +38,10 @@ public class DescartCartasTest {
         Tablero tablero = Tablero.getInstance();
         tablero.reset();
 
-        Juego juego = new Juego(3, List.of("Lu", "Bren", "Caro"),()-> 7);
+        GeneradorDeDados dado =()-> 7;
+    	List<Jugador> jugadores = TestUtilidades.generarJugadores(3);
+        Juego juego = new Juego(jugadores, dado);
+
         Jugador jugador = juego.jugadores().get(0);
 
         jugador.recibirRecurso(RecursoTipo.MADERA, 1);
@@ -44,7 +50,6 @@ public class DescartCartasTest {
 
         juego.manejarTirada(juego.tirarDado());
 
-        //  3  NO descarta
         assertEquals(3, jugador.cantidadDeCartas());
     }
     @Test
@@ -52,7 +57,10 @@ public class DescartCartasTest {
         Tablero tablero = Tablero.getInstance();
         tablero.reset();
 
-        Juego juego = new Juego(3, List.of("Lu", "Bren", "Caro"),  ()-> 7);
+        GeneradorDeDados dado =()-> 7;
+    	List<Jugador> jugadores = TestUtilidades.generarJugadores(3);
+        Juego juego = new Juego(jugadores, dado);
+
         Jugador jugador = juego.jugadores().get(0);
 
         jugador.recibirRecurso(RecursoTipo.MADERA, 3);
@@ -67,8 +75,10 @@ public class DescartCartasTest {
     void totalNueve_descartaCuatro_yQuedanCinco() {
         Tablero tablero = Tablero.getInstance();
         tablero.reset();
-
-        Juego juego = new Juego(3, List.of("Lu", "Bren", "Caro"),()-> 7);
+        
+        GeneradorDeDados dado =()-> 7;
+    	List<Jugador> jugadores = TestUtilidades.generarJugadores(3);
+        Juego juego = new Juego(jugadores, dado);
         Jugador jugador = juego.jugadores().get(0);
 
         jugador.recibirRecurso(RecursoTipo.MADERA, 5);
@@ -84,7 +94,9 @@ public class DescartCartasTest {
         Tablero tablero = Tablero.getInstance();
         tablero.reset();
 
-        Juego juego = new Juego(3, List.of("Lu", "Bren", "Caro"), ()-> 7);
+        GeneradorDeDados dado =()-> 7;
+    	List<Jugador> jugadores = TestUtilidades.generarJugadores(3);
+        Juego juego = new Juego(jugadores, dado);
         Jugador jugador = juego.jugadores().get(0);
 
         jugador.recibirRecurso(RecursoTipo.GRANO, 6);
@@ -94,12 +106,15 @@ public class DescartCartasTest {
 
         assertEquals(5, jugador.cantidadDeCartas());
     }
+    
     @Test
     void conCincoDeCadaRecurso_descartaMitad_yQuedanTrece() {
         Tablero tablero = Tablero.getInstance();
         tablero.reset();
 
-        Juego juego = new Juego(3, List.of("Lu", "Bren", "Caro"),()-> 7);
+        GeneradorDeDados dado =()-> 7;
+    	List<Jugador> jugadores = TestUtilidades.generarJugadores(3);
+        Juego juego = new Juego(jugadores, dado);
         Jugador jugador = juego.jugadores().get(0);
 
         jugador.recibirRecurso(RecursoTipo.MADERA, 5);
@@ -110,7 +125,6 @@ public class DescartCartasTest {
 
         juego.manejarTirada(juego.tirarDado());
 
-        // 25 descarta 12
         assertEquals(13, jugador.cantidadDeCartas());
     }
 

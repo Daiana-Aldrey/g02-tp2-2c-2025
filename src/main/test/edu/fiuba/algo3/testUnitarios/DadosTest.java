@@ -5,7 +5,7 @@ import edu.fiuba.algo3.modelo.Dados.GeneradorDeDados;
 
 import java.util.List;
 
-import edu.fiuba.algo3.modelo.Juego;
+import edu.fiuba.algo3.modelo.*;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -45,7 +45,8 @@ public class DadosTest {
     @Test
     void dadoConValorMenorA2DebeFallarEnJuego() {
         GeneradorDeDados dado =  ()-> 1;
-        Juego juego = new Juego(3, java.util.List.of("A","B","C"), dado);
+        List<Jugador> jugadores = TestUtilidades.generarJugadores(3);
+        Juego juego = new Juego(jugadores, dado);
 
         assertThrows(IllegalStateException.class, juego::tirarDado);
     }
@@ -53,41 +54,58 @@ public class DadosTest {
     @Test
     void dadoConValorMayorA12DebeFallarEnJuego() {
         GeneradorDeDados dado =()-> 13;
-        Juego juego = new Juego(3, java.util.List.of("A","B","C"), dado);
+        List<Jugador> jugadores = TestUtilidades.generarJugadores(3);
+        Juego juego = new Juego(jugadores, dado);
+
 
         assertThrows(IllegalStateException.class, juego::tirarDado);
     }
 
     @Test
     void cuandoDa2_esValidoYDevuelve2() {
-        var juego = new Juego(3, List.of("A","B","C"), ()-> 2);
+    	GeneradorDeDados dado =()-> 2;
+    	List<Jugador> jugadores = TestUtilidades.generarJugadores(3);
+        Juego juego = new Juego(jugadores, dado);
+
         int n = juego.tirarDado();
         assertEquals(2, n);
     }
 
     @Test
     void cuandoDa12_esValidoYDevuelve12() {
-        var juego = new Juego(3, List.of("A","B","C"),()-> 12);
+    	GeneradorDeDados dado =()-> 12;
+    	List<Jugador> jugadores = TestUtilidades.generarJugadores(3);
+        Juego juego = new Juego(jugadores, dado);
+
         int n = juego.tirarDado();
         assertEquals(12, n);
     }
 
     @Test
     void cuandoDa9_esValidoYDevuelve9() {
-        var juego = new Juego(3, List.of("A","B","C"), ()-> 9);
+    	GeneradorDeDados dado =()-> 9;
+    	List<Jugador> jugadores = TestUtilidades.generarJugadores(3);
+        Juego juego = new Juego(jugadores, dado);
+
         int n = juego.tirarDado();
         assertEquals(9, n);
     }
 
     @Test
     void cuandoDa1_fueraDeRangoLanzaExcepcion() {
-        var juego = new Juego(3, List.of("A","B","C"),()-> 1);
+    	GeneradorDeDados dado =()-> 1;
+    	List<Jugador> jugadores = TestUtilidades.generarJugadores(3);
+        Juego juego = new Juego(jugadores, dado);
+
         assertThrows(IllegalStateException.class, juego::tirarDado);
     }
 
     @Test
     void cuandoDa13_fueraDeRangoLanzaExcepcion() {
-        var juego = new Juego(3, List.of("A","B","C"),()-> 13);
+    	GeneradorDeDados dado =()-> 2;
+    	List<Jugador> jugadores = TestUtilidades.generarJugadores(3);
+        Juego juego = new Juego(jugadores, dado);
+
         assertThrows(IllegalStateException.class, juego::tirarDado);
     }
 

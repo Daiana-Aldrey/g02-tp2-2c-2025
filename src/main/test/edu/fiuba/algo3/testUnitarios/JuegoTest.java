@@ -7,7 +7,7 @@ import edu.fiuba.algo3.modelo.Pieza.*;
 import edu.fiuba.algo3.modelo.Recurso.*;
 import edu.fiuba.algo3.modelo.Tablero.*;
 import edu.fiuba.algo3.modelo.Terreno.*;
-
+import edu.fiuba.algo3.Excepciones.*;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import java.util.List;
@@ -22,52 +22,60 @@ public class JuegoTest {
 	@Test
 	public void juegoInicializaJugadoresCorrectamente() {
 	    Tablero.getInstance().reset();
-	    
 	    GeneradorDeDados dadoPrueba = () -> 7;
+	    
+	    Jugador jugador1 = new Jugador("Juli");
+	    Jugador jugador2 = new Jugador("Valen");
+	    Jugador jugador3 = new Jugador("Sofi");
+	    List<Jugador> jugadores = List.of(jugador1, jugador2, jugador3);
+	    
+	    Juego juego = new Juego(jugadores, dadoPrueba);
 
-	    List<String> nombres = List.of("Juli", "Valen", "Sofi");
-	    Juego juego = new Juego(3, nombres, dadoPrueba);
-
-	    Assertions.assertEquals(3, juego.cantidadJugadores());
+	    Assertions.assertEquals(3,juego.cantidadJugadores());
 	}
-
+	
 	@Test
 	public void juegoLanzaExcepcionSiHayMenosDeTresJugadores() {
 	    Tablero.getInstance().reset();
 
-	    List<String> nombres = List.of("A", "B");
 	    GeneradorDeDados dadoPrueba = () -> 7;
 
-	    assertThrows(IllegalArgumentException.class, 
-	        () -> new Juego(2, nombres, dadoPrueba)
-	    );
+	    Jugador jugador1 = new Jugador("Valen");
+	    Jugador jugador2 = new Jugador("Sofi");
+	    List<Jugador> jugadores = List.of(jugador1, jugador2);
+	    
+	    assertThrows(CantJugadoresInvalida.class, () -> new Juego(jugadores, dadoPrueba));
 	}
 
 	@Test
 	public void juegoLanzaExcepcionSiHayMasDeCuatroJugadores() {
 	    Tablero.getInstance().reset();
-
-	    List<String> nombres = List.of("A", "B", "C", "D", "E");
-
-	    assertThrows(IllegalArgumentException.class, 
-	        () -> new Juego(5, nombres, null)
-	    );
+	    GeneradorDeDados dadoPrueba = () -> 7;
+	    
+	    Jugador jugador1 = new Jugador("Juli");
+	    Jugador jugador2 = new Jugador("Valen");
+	    Jugador jugador3 = new Jugador("Sofi");
+	    Jugador jugador4 = new Jugador("Mati");
+	    Jugador jugador5 = new Jugador("Fran");
+	    
+	    List<Jugador> jugadores = List.of(jugador1, jugador2, jugador3, jugador4, jugador5);
+	    assertThrows(CantJugadoresInvalida.class, () -> new Juego(jugadores, dadoPrueba));
 	}
   
     @Test
     public void colocacionCorrectaDePobladosIniciales() {
         Tablero tablero = Tablero.getInstance();
         tablero.reset();
-
-        GeneradorDeDados dadoPrueba = new GeneradorDeDados() {
-            @Override
-            public int tirar() {
-                return 7;
-            }
-        };
-
-        Juego juego = new Juego(3, List.of("Luis","Ana","Maria"), dadoPrueba);
         
+        GeneradorDeDados dadoPrueba = () -> 7;
+
+        Jugador jugador1 = new Jugador("Juli");
+	    Jugador jugador2 = new Jugador("Valen");
+	    Jugador jugador3 = new Jugador("Sofi");
+	    List<Jugador> jugadores = List.of(jugador1, jugador2, jugador3);
+	    
+	    Juego juego = new Juego(jugadores, dadoPrueba);
+	    
         List<List<Integer>> verticesPoblados = List.of(
                 List.of(10),   
                 List.of(41),
@@ -101,7 +109,13 @@ public class JuegoTest {
 
         GeneradorDeDados dado = () -> 8;
 
-        Juego juego = new Juego(3, List.of("Luis","Ana","Marcos"), dado);
+        Jugador jugador1 = new Jugador("Juli");
+	    Jugador jugador2 = new Jugador("Valen");
+	    Jugador jugador3 = new Jugador("Sofi");
+	    List<Jugador> jugadores = List.of(jugador1, jugador2, jugador3);
+	    
+	    Juego juego = new Juego(jugadores, dado);
+	    
         Jugador jugador = juego.jugadores().get(0);
         jugador.recibirRecurso(RecursoTipo.MADERA, 10);
         jugador.recibirRecurso(RecursoTipo.LADRILLO, 10);
@@ -133,10 +147,13 @@ public class JuegoTest {
 
         GeneradorDeDados dado = () -> 8;
         
-        Juego juego = new Juego(3, List.of("Luis", "Ana", "Marcos"), dado);
-        Jugador j1 = juego.jugadores().get(0);
-        Jugador j2 = juego.jugadores().get(1);
-        Jugador j3 = juego.jugadores().get(2);
+        Jugador jugador1 = new Jugador("Juli");
+	    Jugador jugador2 = new Jugador("Valen");
+	    Jugador jugador3 = new Jugador("Sofi");
+	    List<Jugador> jugadores = List.of(jugador1, jugador2, jugador3);
+	    
+	    Juego juego = new Juego(jugadores, dado);
+	   
 
         for (Jugador j : juego.jugadores()) {
             j.recibirRecurso(RecursoTipo.MADERA,   10);
@@ -145,30 +162,30 @@ public class JuegoTest {
             j.recibirRecurso(RecursoTipo.GRANO,    10);
         }
 
-        j1.colocarPiezaInicial("poblado", List.of(1));
-        j1.colocarPiezaInicial("camino",  List.of(1, 2));
-        j1.construirPieza("poblado", List.of(10));  
+        jugador1.colocarPiezaInicial("poblado", List.of(1));
+        jugador1.colocarPiezaInicial("camino",  List.of(1, 2));
+        jugador1.construirPieza("poblado", List.of(10));  
 
-        j2.colocarPiezaInicial("poblado", List.of(54));
-        j2.colocarPiezaInicial("camino",  List.of(54, 53));
-        j2.construirPieza("poblado", List.of(40));  
+        jugador2.colocarPiezaInicial("poblado", List.of(54));
+        jugador2.colocarPiezaInicial("camino",  List.of(54, 53));
+        jugador2.construirPieza("poblado", List.of(40));  
 
       
-        j3.colocarPiezaInicial("poblado", List.of(6));
-        j3.colocarPiezaInicial("camino",  List.of(6, 7));
-        j3.construirPieza("poblado", List.of(36));
+        jugador3.colocarPiezaInicial("poblado", List.of(6));
+        jugador3.colocarPiezaInicial("camino",  List.of(6, 7));
+        jugador3.construirPieza("poblado", List.of(36));
         
         int tirada = juego.tirarDado(); 
         juego.manejarTirada(tirada);
 
-        Recurso mineralJ1 = j1.buscarRecurso(RecursoTipo.MINERAL);
-        Recurso mineralJ2 = j2.buscarRecurso(RecursoTipo.MINERAL);
+        Recurso mineralJ1 = jugador1.buscarRecurso(RecursoTipo.MINERAL);
+        Recurso mineralJ2 = jugador2.buscarRecurso(RecursoTipo.MINERAL);
 
         assertEquals(1, mineralJ1.cantidad());
         assertEquals(1, mineralJ2.cantidad());
 
       
-        Recurso mineralJ3 = j3.buscarRecurso(RecursoTipo.MINERAL);
+        Recurso mineralJ3 = jugador3.buscarRecurso(RecursoTipo.MINERAL);
         assertTrue(mineralJ3.cantidad() == 0);
     }
     

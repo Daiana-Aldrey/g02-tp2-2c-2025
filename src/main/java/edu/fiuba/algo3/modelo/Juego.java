@@ -2,40 +2,37 @@ package edu.fiuba.algo3.modelo;
 import edu.fiuba.algo3.modelo.Dados.GeneradorDeDados;
 import edu.fiuba.algo3.modelo.Intercambio.Banco;
 import edu.fiuba.algo3.modelo.Tablero.Tablero;
+import edu.fiuba.algo3.Excepciones.*;
 
 import java.util.*;
 
 public class Juego {
 	  private final Tablero tablero;
 	  private final Banco banco;
-	  private final List<Jugador> jugadores;
+	  private List<Jugador> jugadores;
 	  private Jugador jugadorTurno;
-	  private final int maxTurno;
+	  private final int cantJugadores;
 	  private int rondas;
 	  private final GeneradorDeDados generador;
 
 	  
 
-	public Juego(int cantJugadores, List<String> nombres, GeneradorDeDados generador) {
+	public Juego(List<Jugador> jugadores, GeneradorDeDados generador) {
 		this.jugadores = new ArrayList<Jugador>();
-		this.maxTurno = cantJugadores;
+		this.cantJugadores = jugadores.size();
+		this.jugadores = jugadores;
 		this.tablero = Tablero.getInstance();
 		this.banco = new Banco();
 		this.rondas = 0;
 		this.generador = generador;
 		
 		validarCantJugadores(cantJugadores);
-		for(int i = 0; i < cantJugadores; i++)	{
-			Jugador jugador = new Jugador(nombres.get(i));
-			jugadores.add(jugador);
-		}
-		
 		this.jugadorTurno = jugadores.get(0);
 	}
 	
 	private void validarCantJugadores(int cantidad) {
 		if (cantidad < 3 || cantidad > 4) {
-			throw new IllegalArgumentException("La cantidad de jugadores debe estar entre 3 y 4");
+			throw new CantJugadoresInvalida("La cantidad de jugadores debe estar entre 3 y 4");
 	    }
 	}
 
@@ -48,7 +45,7 @@ public class Juego {
 	}
 	
 	public void inicializarPiezas(List<List<Integer>> verticesPoblados, List<List<Integer>> verticesCaminos) {
-		for (int i = 0; i < maxTurno; i++) {
+		for (int i = 0; i < cantJugadores; i++) {
 			Jugador jugador = jugadores.get(i);
 			jugador.colocarPiezaInicial("poblado", verticesPoblados.get(i));
 			
@@ -57,7 +54,7 @@ public class Juego {
 	}
 	
 	public void siguienteRonda() {
-		for(int i = 0; i < maxTurno; i++) {
+		for(int i = 0; i < cantJugadores; i++) {
 			jugadorTurno = jugadores.get(i);
 			int numDados = tirarDado();
 			manejarTirada(numDados); 
@@ -73,7 +70,7 @@ public class Juego {
 	}
 	
 	public int cantidadJugadores(){
-		return maxTurno;
+		return cantJugadores;
 	}
 
 	public void manejarTirada(int n) {
