@@ -6,6 +6,7 @@ import edu.fiuba.algo3.modelo.Pieza.*;
 import edu.fiuba.algo3.modelo.Recurso.*;
 import edu.fiuba.algo3.modelo.Tablero.*;
 import edu.fiuba.algo3.modelo.Terreno.*;
+import edu.fiuba.algo3.modelo.Ubicacion.UbicacionVertice;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -26,27 +27,27 @@ public class TestIntegrales {
 
         when(generadorMock.generarEnRangoDesdeCero(anyInt())).thenReturn(11,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,1,1,1,1,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0);
         genTablero.generarEstructura(grafo);
-        genTablero.generarTerrenos(grafo);
+        genTablero.generarTerrenos(grafo, new Ladron());
 
-        VerticeTerreno v1 = grafo.buscarVertice('A');
-        VerticeTerreno v2 = grafo.buscarVertice('B');
-        VerticeTerreno v3 = grafo.buscarVertice('C');
-        VerticeTerreno v4 = grafo.buscarVertice('D');
-        VerticeTerreno v5 = grafo.buscarVertice('E');
-        VerticeTerreno v6 = grafo.buscarVertice('F');
-        VerticeTerreno v7 = grafo.buscarVertice('G');
-        VerticeTerreno v8 = grafo.buscarVertice('H');
-        VerticeTerreno v9 = grafo.buscarVertice('I');
-        VerticeTerreno v10 = grafo.buscarVertice('J');
-        VerticeTerreno v11 = grafo.buscarVertice('K');
-        VerticeTerreno v12 = grafo.buscarVertice('L');
-        VerticeTerreno v13 = grafo.buscarVertice('M');
-        VerticeTerreno v14 = grafo.buscarVertice('N');
-        VerticeTerreno v15 = grafo.buscarVertice('O');
-        VerticeTerreno v16 = grafo.buscarVertice('P');
-        VerticeTerreno v17 = grafo.buscarVertice('Q');
-        VerticeTerreno v18 = grafo.buscarVertice('R');
-        VerticeTerreno v19 = grafo.buscarVertice('S');
+        VerticeTerreno v1 = (VerticeTerreno) grafo.buscarVertice(new UbicacionVertice('A'));
+        VerticeTerreno v2 = (VerticeTerreno) grafo.buscarVertice(new UbicacionVertice('B'));
+        VerticeTerreno v3 = (VerticeTerreno) grafo.buscarVertice(new UbicacionVertice('C'));
+        VerticeTerreno v4 = (VerticeTerreno) grafo.buscarVertice(new UbicacionVertice('D'));
+        VerticeTerreno v5 = (VerticeTerreno) grafo.buscarVertice(new UbicacionVertice('E'));
+        VerticeTerreno v6 = (VerticeTerreno) grafo.buscarVertice(new UbicacionVertice('F'));
+        VerticeTerreno v7 = (VerticeTerreno) grafo.buscarVertice(new UbicacionVertice('G'));
+        VerticeTerreno v8 = (VerticeTerreno) grafo.buscarVertice(new UbicacionVertice('H'));
+        VerticeTerreno v9 = (VerticeTerreno) grafo.buscarVertice(new UbicacionVertice('I'));
+        VerticeTerreno v10 = (VerticeTerreno) grafo.buscarVertice(new UbicacionVertice('J'));
+        VerticeTerreno v11 = (VerticeTerreno) grafo.buscarVertice(new UbicacionVertice('K'));
+        VerticeTerreno v12 = (VerticeTerreno) grafo.buscarVertice(new UbicacionVertice('L'));
+        VerticeTerreno v13 = (VerticeTerreno) grafo.buscarVertice(new UbicacionVertice('M'));
+        VerticeTerreno v14 = (VerticeTerreno) grafo.buscarVertice(new UbicacionVertice('N'));
+        VerticeTerreno v15 = (VerticeTerreno) grafo.buscarVertice(new UbicacionVertice('O'));
+        VerticeTerreno v16 = (VerticeTerreno) grafo.buscarVertice(new UbicacionVertice('P'));
+        VerticeTerreno v17 = (VerticeTerreno) grafo.buscarVertice(new UbicacionVertice('Q'));
+        VerticeTerreno v18 = (VerticeTerreno) grafo.buscarVertice(new UbicacionVertice('R'));
+        VerticeTerreno v19 = (VerticeTerreno)grafo.buscarVertice(new UbicacionVertice('S'));
 
         assertTrue(v1.tieneTerreno("Montania"));
         assertTrue(v1.tieneFichaDeNumero(2));
@@ -117,23 +118,23 @@ public class TestIntegrales {
         Jugador ricardo = new Jugador("Ricardo");
         Jugador fabiano = new Jugador("Fabiano");
 
-        luis.colocarPiezaInicial("poblado", new ArrayList<>(List.of(1)));
-        luis.colocarPiezaInicial("camino", new ArrayList<>(List.of(1, 2)));
+        luis.colocarPiezaInicial("poblado", new ArrayList<>(List.of(new UbicacionVertice(1))));
+        luis.colocarPiezaInicial("camino", new ArrayList<>(List.of(new UbicacionVertice(1), new UbicacionVertice(2))));
 
-        lucas.colocarPiezaInicial("poblado", new ArrayList<>(List.of(5)));
-        lucas.colocarPiezaInicial("camino", new ArrayList<>(List.of(5,6)));
+        lucas.colocarPiezaInicial("poblado", new ArrayList<>(List.of(new UbicacionVertice(5))));
+        lucas.colocarPiezaInicial("camino", new ArrayList<>(List.of(new UbicacionVertice(5),new UbicacionVertice(6))));
 
-        Assertions.assertTrue(tablero.hayPieza(List.of(1)));
-        Assertions.assertTrue(tablero.hayPieza(List.of(5)));
+        Assertions.assertTrue(tablero.hayEdificio(new UbicacionVertice(1)));
+        Assertions.assertTrue(tablero.hayEdificio(new UbicacionVertice(5)));
 
         assertThrows(IllegalArgumentException.class, () -> {
-            federico.colocarPiezaInicial("poblado", new ArrayList<>(List.of(6)));;
+            federico.colocarPiezaInicial("poblado", new ArrayList<>(List.of(new UbicacionVertice(6))));
         });
         assertThrows(IllegalArgumentException.class, () -> {
-            ricardo.colocarPiezaInicial("poblado", new ArrayList<>(List.of(2)));;
+            ricardo.colocarPiezaInicial("poblado", new ArrayList<>(List.of(new UbicacionVertice(2))));;
         });
         assertThrows(IllegalArgumentException.class, () -> {
-            fabiano.colocarPiezaInicial("poblado", new ArrayList<>(List.of(1)));;
+            fabiano.colocarPiezaInicial("poblado", new ArrayList<>(List.of(new UbicacionVertice(1))));;
         });
     }
 
@@ -144,10 +145,19 @@ public class TestIntegrales {
 
         GeneradorDeTablero generador = new GeneradorDeTablero(new GeneradorNumerosAleatorios());
         generador.generarEstructura(grafo);
-        grafo.agregarVertice('A', new Montania(), 8);
-        grafo.agregarVertice('B', new Montania(), 8);
-        grafo.agregarArista(10,'A');
-        grafo.agregarArista(40,'B');
+
+        UbicacionVertice ubicacion1 = new UbicacionVertice('A');
+        Vertice vertice1 = new VerticeTerreno(ubicacion1, new Montania(), 8);
+        grafo.agregarVertice(vertice1);
+
+        UbicacionVertice ubicacion2 = new UbicacionVertice('B');
+        Vertice vertice2 = new VerticeTerreno(ubicacion2, new Montania(), 8);
+        grafo.agregarVertice(vertice2);
+
+        UbicacionVertice ubicacion10 = new UbicacionVertice(10);
+        UbicacionVertice ubicacion40 = new UbicacionVertice(40);
+        grafo.agregarArista(ubicacion10, ubicacion1);
+        grafo.agregarArista(ubicacion40,ubicacion2);
 
         tablero.setearGrafo(grafo);
 
@@ -165,18 +175,18 @@ public class TestIntegrales {
             j.recibirRecurso(RecursoTipo.GRANO,    10);
         }
 
-        j1.colocarPiezaInicial("poblado", List.of(1));
-        j1.colocarPiezaInicial("camino",  List.of(1, 2));
-        j1.construirPieza("poblado", List.of(10));
+        j1.colocarPiezaInicial("poblado", List.of(new UbicacionVertice(1)));
+        j1.colocarPiezaInicial("camino",  List.of(new UbicacionVertice(1), new UbicacionVertice(2)));
+        j1.construirPieza("poblado", List.of(ubicacion10));
 
-        j2.colocarPiezaInicial("poblado", List.of(54));
-        j2.colocarPiezaInicial("camino",  List.of(54, 53));
-        j2.construirPieza("poblado", List.of(40));
+        j2.colocarPiezaInicial("poblado", List.of(new UbicacionVertice(54)));
+        j2.colocarPiezaInicial("camino",  List.of(new UbicacionVertice(54), new UbicacionVertice(53)));
+        j2.construirPieza("poblado", List.of(ubicacion40));
 
 
-        j3.colocarPiezaInicial("poblado", List.of(6));
-        j3.colocarPiezaInicial("camino",  List.of(6, 7));
-        j3.construirPieza("poblado", List.of(36));
+        j3.colocarPiezaInicial("poblado", List.of(new UbicacionVertice(6)));
+        j3.colocarPiezaInicial("camino",  List.of(new UbicacionVertice(6), new UbicacionVertice(7)));
+        j3.construirPieza("poblado", List.of(new UbicacionVertice(36)));
 
         int tirada = juego.tirarDado();
         juego.manejarTirada(tirada);
@@ -206,8 +216,13 @@ public class TestIntegrales {
 
         GeneradorDeTablero generador = new GeneradorDeTablero(new GeneradorNumerosAleatorios());
         generador.generarEstructura(grafo);
-        grafo.agregarVertice('A', new Montania(), 8);
-        grafo.agregarArista(10,'A');
+
+        UbicacionVertice ubicacion1 = new UbicacionVertice('A');
+        Vertice vertice1 = new VerticeTerreno(ubicacion1, new Montania(), 8);
+        grafo.agregarVertice(vertice1);
+
+        UbicacionVertice ubicacion10 = new UbicacionVertice(10);
+        grafo.agregarArista(ubicacion10,ubicacion1);
 
         tablero.setearGrafo(grafo);
 
@@ -216,7 +231,7 @@ public class TestIntegrales {
         Juego juego = new Juego(3, List.of("Luis", "Ana", "Marcos"), dado);
         Jugador jugador = juego.jugadores().get(0);
 
-        jugador.colocarPiezaInicial("poblado", List.of(10));
+        jugador.colocarPiezaInicial("poblado", List.of(ubicacion10));
 
         int tirada = juego.tirarDado();
         juego.manejarTirada(tirada);
@@ -232,8 +247,12 @@ public class TestIntegrales {
 
         GeneradorDeTablero generador = new GeneradorDeTablero(new GeneradorNumerosAleatorios());
         generador.generarEstructura(grafo);
-        grafo.agregarVertice('A', new Bosque(), 8);
-        grafo.agregarArista(10,'A');
+
+        UbicacionVertice ubicacion1 = new UbicacionVertice('A');
+        Vertice vertice1 = new VerticeTerreno(ubicacion1, new Bosque(), 8);
+        grafo.agregarVertice(vertice1);
+        UbicacionVertice ubicacion10 = new UbicacionVertice(10);
+        grafo.agregarArista(ubicacion10, ubicacion1);
 
         tablero.setearGrafo(grafo);
 
@@ -242,10 +261,10 @@ public class TestIntegrales {
         Juego juego = new Juego(3, List.of("Luis", "Ana", "Marcos"), dado);
         Jugador jugador = juego.jugadores().get(0);
 
-        jugador.colocarPiezaInicial("poblado", List.of(10));
+        jugador.colocarPiezaInicial("poblado", List.of(ubicacion10));
         jugador.recibirRecurso(RecursoTipo.GRANO, 2);
         jugador.recibirRecurso(RecursoTipo.MINERAL, 3);
-        jugador.construirPieza("ciudad", List.of(10));
+        jugador.construirPieza("ciudad", List.of(ubicacion10));
 
         int tirada = juego.tirarDado();
         juego.manejarTirada(tirada);
@@ -261,13 +280,13 @@ public class TestIntegrales {
 
         GeneradorDeTablero generador = new GeneradorDeTablero(new GeneradorNumerosAleatorios());
         generador.generarEstructura(grafo);
-        grafo.agregarVertice('X', new Bosque(), 8);
-        grafo.agregarArista(1,'X');
-        grafo.agregarArista(2,'X');
-        grafo.agregarArista(3,'X');
-        grafo.agregarArista(9,'X');
-        grafo.agregarArista(10,'X');
-        grafo.agregarArista(11,'X');
+
+        UbicacionVertice ubicacionX = new UbicacionVertice('x');
+        Vertice vertice1 = new VerticeTerreno(ubicacionX, new Bosque(), 8);
+        grafo.agregarVertice(vertice1);
+
+        UbicacionVertice ubicacion1 = new UbicacionVertice(1);
+        grafo.agregarArista(ubicacion1,ubicacionX);
 
         tablero.setearGrafo(grafo);
 
@@ -275,9 +294,9 @@ public class TestIntegrales {
 
         Pieza poblado = new Poblado(jugador);
 
-        tablero.colocarEdificio(1, poblado);
+        tablero.colocarEdificio(ubicacion1, poblado);
 
-        tablero.moverLadronA('X', jugador);
+        tablero.moverLadronA(ubicacionX, jugador);
 
         int antes = jugador.cantidadDeCartas();
         tablero.cosechar(8);
@@ -330,12 +349,12 @@ public class TestIntegrales {
         jugadorVictima.recibirRecurso(RecursoTipo.GRANO, 1);
 
         jugadorVictima.recibirRecurso(RecursoTipo.MADERA, 1);
-        jugadorVictima.construirPieza("poblado", List.of(4));
+        jugadorVictima.construirPieza("poblado", List.of(new UbicacionVertice(4)));
 
         int cartasAntesVictima = jugadorVictima.cantidadDeCartas();
         int cartasAntesActivo = jugadorActivo.cantidadDeCartas();
 
-        jugadorActivo.moverLadron('B');
+        jugadorActivo.moverLadron(new UbicacionVertice('B'));
 
         assertEquals(cartasAntesVictima - 1, jugadorVictima.cantidadDeCartas(),
                 "La víctima debería tener una carta menos después del robo");

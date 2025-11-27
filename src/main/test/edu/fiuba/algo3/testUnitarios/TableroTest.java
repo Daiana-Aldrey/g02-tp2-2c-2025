@@ -5,10 +5,10 @@ import edu.fiuba.algo3.modelo.Pieza.Camino;
 import edu.fiuba.algo3.modelo.Pieza.Pieza;
 import edu.fiuba.algo3.modelo.Pieza.Poblado;
 import edu.fiuba.algo3.modelo.Tablero.Tablero;
+import edu.fiuba.algo3.modelo.Ubicacion.UbicacionVertice;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Assertions;
-import java.util.*;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 
 public class TableroTest {
@@ -16,37 +16,31 @@ public class TableroTest {
     public void tableroColocaEdificioCorrectamente() {
         Tablero tablero = Tablero.getInstance();
         tablero.reset();
-        
+
+        UbicacionVertice ubicacion = new UbicacionVertice('5');
         Pieza pieza = new Poblado(new Jugador("Luis"));
-        int vertice = 10;
-        tablero.colocarEdificio(vertice, pieza);
-        
-        List<Integer> ubicacion = new ArrayList<>();
-        ubicacion.add(vertice);
-        boolean valorEsperado = true;
-        boolean valorObtenido = tablero.hayPieza(ubicacion);
-        
-        Assertions.assertEquals(valorEsperado, valorObtenido);
+        tablero.colocarEdificio(ubicacion, pieza);
+
+        assertTrue(tablero.hayEdificio(ubicacion));
+
+
     }
 
     @Test
     public void tableroColocaCaminoCorrectamente() {
         Tablero tablero = Tablero.getInstance();
-        tablero.crearGrafo();
+        tablero.reset();
 
         Jugador luis = new Jugador("Luis");
-
-        Poblado poblado = new Poblado(luis);
         Camino camino = new Camino(luis);
 
-        Integer ubicacionPoblado = 10;
-        List<Integer> ubicacionCamino = List.of(10, 11);
+        UbicacionVertice ubicacion1 = new UbicacionVertice(10);
+        UbicacionVertice ubicacion2 = new UbicacionVertice(11);
 
-        tablero.colocarEdificio(ubicacionPoblado, poblado);
-        tablero.colocarCamino(ubicacionCamino, camino);
-        boolean valorEsperado = true;
-        boolean valorObtenido = tablero.hayPieza(ubicacionCamino);
-        Assertions.assertEquals(valorEsperado,valorObtenido);
+        tablero.colocarEdificio(ubicacion1, new Poblado(new Jugador("Luis")));
+        tablero.colocarCamino(ubicacion1, ubicacion2, camino);
+
+        assertTrue(tablero.hayCamino(ubicacion1, ubicacion2));
     }
 
     @Test
@@ -55,11 +49,11 @@ public class TableroTest {
         tablero.reset();
 
         Pieza p1 = new Poblado(new Jugador("Luis"));
-        tablero.colocarEdificio(5, p1);
+        tablero.colocarEdificio(new UbicacionVertice('5'), p1);
         Pieza p2 = new Poblado(new Jugador("Juan"));
 
         Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            tablero.colocarEdificio(5, p2);
+            tablero.colocarEdificio(new UbicacionVertice('5'), p2);
         });
     }
 }

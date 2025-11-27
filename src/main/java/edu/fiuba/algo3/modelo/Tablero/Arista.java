@@ -1,36 +1,38 @@
 package edu.fiuba.algo3.modelo.Tablero;
 
 import edu.fiuba.algo3.modelo.Pieza.Camino;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import edu.fiuba.algo3.modelo.Pieza.NoPieza;
+import edu.fiuba.algo3.modelo.Pieza.Pieza;
+import edu.fiuba.algo3.modelo.Ubicacion.UbicacionVertice;
 
 public class Arista {
     private boolean disponible;
-    private List<Integer> adyacentes;
+    private Pieza camino;
+    private UbicacionVertice ubicacion1;
+    private UbicacionVertice ubicacion2;
 
-    public Arista(Integer v1, Integer v2) {
+    public Arista(UbicacionVertice ubicacion1, UbicacionVertice ubicacion2) {
         disponible = true;
-        adyacentes = new ArrayList<>();
-        adyacentes.add(v1);
-        adyacentes.add(v2);
+        this.ubicacion1 = ubicacion1;
+        this.ubicacion2 = ubicacion2;
+
+        this.camino = new NoPieza(ubicacion2);
     }
 
-    public boolean sonMisAdyacentes(List<Integer> posiblesAdyacentes) {
-        List<Integer> revertida = listaReversionada();
+    public boolean tieneUbicacion(UbicacionVertice ubicacion1, UbicacionVertice ubicacion2) {
+        return ((this.ubicacion1.equals(ubicacion1) && this.ubicacion2.equals(ubicacion2)) || (this.ubicacion1.equals(ubicacion2) && this.ubicacion2.equals(ubicacion1)));
 
-        return posiblesAdyacentes.equals(adyacentes) || posiblesAdyacentes.equals(revertida);
-    }
-
-    private List<Integer> listaReversionada() {
-        List<Integer> revertida = new ArrayList<>(adyacentes);
-        Collections.reverse(revertida);
-        return revertida;
     }
 
     public void colocarCamino(Camino camino) {
-        noDisponible();
+        if (disponible) {
+            noDisponible();
+            this.camino = camino;
+            camino.setearUbicacion(ubicacion1);
+            camino.setearSegundaUbicacion(ubicacion2);
+        } else {
+            throw new IllegalArgumentException("Esta arista ya esta ocupada");
+        }
     }
 
     public boolean estaDisponible() {
@@ -41,4 +43,11 @@ public class Arista {
         disponible = false;
     }
 
+    public boolean hayCamino() {
+        boolean hayCamino = false;
+        if (camino.usable()) {
+            hayCamino = true;
+        }
+        return hayCamino;
+    }
 }

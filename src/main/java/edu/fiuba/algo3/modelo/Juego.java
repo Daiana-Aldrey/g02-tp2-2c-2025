@@ -2,6 +2,7 @@ package edu.fiuba.algo3.modelo;
 import edu.fiuba.algo3.modelo.Dados.GeneradorDeDados;
 import edu.fiuba.algo3.modelo.Intercambio.Banco;
 import edu.fiuba.algo3.modelo.Tablero.Tablero;
+import edu.fiuba.algo3.modelo.Ubicacion.UbicacionVertice;
 
 import java.util.*;
 
@@ -47,7 +48,7 @@ public class Juego {
 		return n;
 	}
 	
-	public void inicializarPiezas(List<List<Integer>> verticesPoblados, List<List<Integer>> verticesCaminos) {
+	public void inicializarPiezas(List<List<UbicacionVertice>> verticesPoblados, List<List<UbicacionVertice>> verticesCaminos) {
 		for (int i = 0; i < maxTurno; i++) {
 			Jugador jugador = jugadores.get(i);
 			jugador.colocarPiezaInicial("poblado", verticesPoblados.get(i));
@@ -89,7 +90,7 @@ public class Juego {
 		for (Jugador j : jugadores) {
 			j.descartarMitad();
 		}
-		char destino = 'B'; //esto se preguntara por controlador
+		UbicacionVertice destino = new UbicacionVertice('B'); //esto se preguntara por controlador
 		jugadorTurno.moverLadron(destino);
 	}
 

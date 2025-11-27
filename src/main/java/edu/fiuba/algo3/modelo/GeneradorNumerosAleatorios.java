@@ -6,7 +6,7 @@ public class GeneradorNumerosAleatorios {
     private static final GeneradorNumerosAleatorios INSTANCE = new GeneradorNumerosAleatorios();
 
     public GeneradorNumerosAleatorios(){
-        random = new Random();
+        random = new Random(42);
     }
 
     public int generarEnRango(int numero) {

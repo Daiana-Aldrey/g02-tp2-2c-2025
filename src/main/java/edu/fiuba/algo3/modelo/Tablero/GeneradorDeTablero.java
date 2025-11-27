@@ -1,6 +1,8 @@
 package edu.fiuba.algo3.modelo.Tablero;
 import edu.fiuba.algo3.modelo.*;
+import edu.fiuba.algo3.modelo.Pieza.Ladron;
 import edu.fiuba.algo3.modelo.Terreno.*;
+import edu.fiuba.algo3.modelo.Ubicacion.UbicacionVertice;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -32,8 +34,8 @@ public class GeneradorDeTablero {
         generarAristasVerticales(grafo);
     }
 
-    public void generarTerrenos(Grafo grafo) {
-        establecerUbicacionTerrenos(grafo);
+    public void generarTerrenos(Grafo grafo, Ladron ladron) {
+        establecerUbicacionTerrenos(grafo, ladron);
         conectarTerrenos(grafo);
     }
 
@@ -64,22 +66,26 @@ public class GeneradorDeTablero {
     }
 
 
-    private void establecerUbicacionTerrenos(Grafo grafo) {
+    private void establecerUbicacionTerrenos(Grafo grafo, Ladron ladron) {
         int numeroAleatorio;
         int otroNumeroAleatorio;
         int terrenosRestantes = 18;
         boolean desierto = false;
+        VerticeTerreno vertice;
 
         for (char i = 'A'; i <= 'S'; i++) {
             numeroAleatorio = aleatorio.generarEnRangoDesdeCero(terrenosRestantes);
             otroNumeroAleatorio = aleatorio.generarEnRangoDesdeCero(terrenosRestantes);
+            UbicacionVertice ubicacion = new UbicacionVertice(i);
 
-            if ((numeroAleatorio == 0 || otroNumeroAleatorio == 0) && (!desierto))  {
-                grafo.agregarVertice(i, new Desierto(), 0);
+            if ((otroNumeroAleatorio == 0) && (!desierto))  {
+                vertice = new VerticeTerreno(ubicacion, new Desierto(), 0);
+                vertice.colocarLadron(ladron);
+                grafo.agregarVertice(vertice);
                 desierto = true;
             } else {
-                grafo.agregarVertice(i, terrenos.get(numeroAleatorio), fichasDeNumero.get(otroNumeroAleatorio));
-
+                vertice = new VerticeTerreno(ubicacion, terrenos.get(numeroAleatorio), fichasDeNumero.get(otroNumeroAleatorio));
+                grafo.agregarVertice(vertice);
                 terrenos.remove(numeroAleatorio);
                 fichasDeNumero.remove(otroNumeroAleatorio);
                 terrenosRestantes--;
@@ -102,18 +108,24 @@ public class GeneradorDeTablero {
 
     private void generarVertices(Grafo grafo) {
         for (int i = 1; i <= cantidadVertices; i++) {
-            grafo.agregarVertice(i);
+            UbicacionVertice ubicacion = new UbicacionVertice(i);
+            VerticeEdificio vertice = new VerticeEdificio(ubicacion);
+            grafo.agregarVertice(vertice);
         }
     }
 
     private void generarAristasHorizontales(Grafo grafo) {
         int vertice = 1;
         int ultimoVerticeFila;
+        UbicacionVertice ubicacion1;
+        UbicacionVertice ubicacion2;
 
         for (List<Integer> vertices : verticePorFIla) {
             ultimoVerticeFila = vertices.get(1);
             for (; vertice < ultimoVerticeFila; vertice++) {
-                grafo.agregarArista(vertice, vertice + 1);
+                ubicacion1 = new UbicacionVertice(vertice);
+                ubicacion2 = new UbicacionVertice(vertice + 1);
+                grafo.agregarArista(ubicacion1, ubicacion2);
             }
             vertice++;
         }
@@ -131,7 +143,9 @@ public class GeneradorDeTablero {
             ultimoVerticeFila = verticePorFIla.get(indice).get(1);
             for (vertice = primerVerticeFila; vertice <= ultimoVerticeFila ; vertice += 2) {
                 verticeAEnlazar = vertice + aristasDiagonales.get(indice);
-                grafo.agregarArista(vertice, verticeAEnlazar);
+                UbicacionVertice ubicacion1 = new UbicacionVertice(vertice);
+                UbicacionVertice ubicacion2 = new UbicacionVertice(verticeAEnlazar);
+                grafo.agregarArista(ubicacion1, ubicacion2);
             }
             indice++;
         }
@@ -157,8 +171,11 @@ public class GeneradorDeTablero {
             ultimoVerticeFila = verticePorFIla.get(indice).get(1);
             for (; vertice <= ultimoVerticeTerreno; vertice++ ) {
                 verticeAEnlazar = vertice + aristasDiagonales.get(indice);
-                grafo.agregarArista(vertice, i);
-                grafo.agregarArista(verticeAEnlazar, i);
+                UbicacionVertice ubicacionVerticeArriba = new UbicacionVertice(vertice);
+                UbicacionVertice ubicacionVerticeAbajo = new UbicacionVertice(verticeAEnlazar);
+                UbicacionVertice ubicacionTerreno = new UbicacionVertice(i);
+                grafo.agregarArista(ubicacionVerticeArriba, ubicacionTerreno);
+                grafo.agregarArista(ubicacionVerticeAbajo, ubicacionTerreno);
             }
             vertice--;
             if (ultimoVerticeTerreno + inicioDiagonales == ultimoVerticeFila) {

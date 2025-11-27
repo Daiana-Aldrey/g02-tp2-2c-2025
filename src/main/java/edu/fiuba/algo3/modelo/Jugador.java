@@ -8,6 +8,7 @@ import edu.fiuba.algo3.modelo.Pieza.Poblado;
 import edu.fiuba.algo3.modelo.Recurso.Recurso;
 import edu.fiuba.algo3.modelo.Recurso.RecursoTipo;
 import edu.fiuba.algo3.modelo.Tablero.Tablero;
+import edu.fiuba.algo3.modelo.Ubicacion.UbicacionVertice;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -49,9 +50,9 @@ public class Jugador {
         puntosDeVictoria += 2;
 	}
 	
-	public void colocarPiezaInicial(String tipo, List<Integer> vertices) {
+	public void colocarPiezaInicial(String tipo, List<UbicacionVertice> ubicacion) {
 	    Pieza pieza = Pieza.crear(tipo, this);
-	    pieza.colocar(vertices);   
+	    pieza.colocar(ubicacion);
 	}    
 
 	private void inicializarRecursos(List<RecursoTipo> tiposRecursos) {
@@ -81,32 +82,15 @@ public class Jugador {
         return null;
     }
 
-    public void construirPieza(String tipo, List<Integer> vertices) {
+    public void construirPieza(String tipo, List<UbicacionVertice> ubicacion) {
         Pieza pieza = Pieza.crear(tipo, this);
         List<Recurso> precio = pieza.costoDeConstruccion();
         pagarRecursos(precio);
-        pieza.colocar(vertices);
+        pieza.colocar(ubicacion);
     }
 
 
-    //consultarle a Dai sobre el uso de este
-    /*
     public void pagarRecursos(List<Recurso> precio) {
-        for (Recurso rPrecio : precio) {
-            rPrecio.cobrarDe(this);
-        }
-    }
-    */
-
-    public void pagarRecursos(List<Recurso> precio) {
-        //PRIMERO Verifico(solo miro)
-        for (Recurso costo : precio) {
-            Recurso recursoJugador = buscarRecurso(costo.tipo());
-            //tiro ERROR Si no tiene el recurso o la cantidad es menor a la requerida
-            if (recursoJugador == null || recursoJugador.cantidad() < costo.cantidad()) {
-                throw new IllegalArgumentException("No posees cantidad suficiente de " + costo.tipo());
-            }
-        }
         for (Recurso rPrecio : precio) {
             rPrecio.cobrarDe(this);
         }
@@ -122,9 +106,9 @@ public class Jugador {
         throw new IllegalArgumentException("No posees cantidad suficiente de " + tipo);
     }
     
-    public void moverLadron(char idTerreno) {
+    public void moverLadron(UbicacionVertice ubicacion) {
     	Tablero tablero = Tablero.getInstance();
-    	tablero.moverLadronA(idTerreno, this);
+    	tablero.moverLadronA(ubicacion, this);
     }
     
 	public void turno() { 	
@@ -211,7 +195,7 @@ public class Jugador {
         puntosDeVictoria -= 1;
     }
 
-    public  void removerPoblado(int ubicacion) {
+    public  void removerPoblado(UbicacionVertice ubicacion) {
         int i = 0;
         boolean encontrado = false;
         Pieza poblado;
@@ -266,10 +250,10 @@ public class Jugador {
 
     public int puntosDeVictoria(){return puntosDeVictoria;}
 
-    public boolean tenesPobladoEnUbicacion(int ubicacion) {
+    public boolean tenesPobladoEnUbicacion(UbicacionVertice ubicacion) {
         int i = 0;
         boolean encontrado = false;
-        Pieza poblado;
+        Poblado poblado;
         while ( i < poblados.size() && !encontrado) {
             poblado = poblados.get(i);
             if (poblado.tenesUbicacion(ubicacion)) {

@@ -1,48 +1,56 @@
 package edu.fiuba.algo3.modelo.Tablero;
 
+import edu.fiuba.algo3.modelo.Jugador;
 import edu.fiuba.algo3.modelo.Pieza.Camino;
+import edu.fiuba.algo3.modelo.Pieza.Ladron;
 import edu.fiuba.algo3.modelo.Pieza.Pieza;
-import edu.fiuba.algo3.modelo.Terreno.Terreno;
+import edu.fiuba.algo3.modelo.Ubicacion.UbicacionVertice;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Grafo {
-    private List<VerticeEdificio> vertices;
-    private List<VerticeTerreno> verticesTerrenos;
+    private List<Vertice> vertices;
+    private List<VerticeTerreno> verticesTerreno;
     private List<Arista> aristas;
 
     public Grafo() {
         vertices = new ArrayList<>();
-        verticesTerrenos = new ArrayList<>();
+        verticesTerreno = new ArrayList<>();
         aristas = new ArrayList<>();
     }
 
-    public void agregarVertice(Integer vertice) {
-        VerticeEdificio verticeEdificioNuevo = new VerticeEdificio(vertice);
-        vertices.add(verticeEdificioNuevo);
+    public void agregarVertice(Vertice vertice) {
+        vertices.add(vertice);
+        if(vertice.contieneTerreno()) {
+            verticesTerreno.add((VerticeTerreno) vertice);
+        }
     }
 
-    //metodo usado unicamente para test
-    public void agregarVertice(VerticeEdificio verticeEdificio) {
-        vertices.add(verticeEdificio);
+    public void agregarArista(UbicacionVertice ubicacion1, UbicacionVertice ubicacion2) {
+        Vertice vertice1 = buscarVertice(ubicacion1);
+        Vertice vertice2 = buscarVertice(ubicacion2);
+
+        if (hayArista(vertice1, vertice2)) {
+            throw new IllegalArgumentException("Ya existe arista");
+        }
+
+        Arista arista = new Arista(ubicacion1,ubicacion2);
+        aristas.add(arista);
+
+        vertice1.agregarVerticeAdyacente(vertice2);
+        vertice2.agregarVerticeAdyacente(vertice1);
     }
 
-    public void agregarVertice(char vertice, Terreno terreno, int fichaDeNumero) {
-        verticesTerrenos.add(new VerticeTerreno(vertice, terreno, fichaDeNumero));
+    public void agregarArista(Arista arista) {
+        aristas.add(arista);
     }
 
-    //metodo usado unicamente para test
-    public void agregarVertice(VerticeTerreno vertice) {
-        verticesTerrenos.add(vertice);
-    }
-
-    //metodo usado unicamente para test
-    public boolean contieneVertice(Integer vertice) {
+    public boolean contieneVertice(Vertice vertice) {
         int i = 0;
         boolean encontrado = false;
         while (i < vertices.size() && !encontrado) {
-            if (vertices.get(i).tieneUbicacion(vertice)) {
+            if (vertices.get(i).equals(vertice)){
                 encontrado = true;
             }
             i++;
@@ -50,11 +58,11 @@ public class Grafo {
         return encontrado;
     }
 
-    public VerticeEdificio buscarVertice(Integer vertice) {
+    public Vertice buscarVertice(UbicacionVertice ubicacion) {
         int i = 0;
         boolean encontrado = false;
         while (i < vertices.size() && !encontrado) {
-            if (vertices.get(i).tieneUbicacion(vertice)) {
+            if (vertices.get(i).tieneUbicacion(ubicacion)) {
                 encontrado = true;
             } else {
                 i++;
@@ -66,28 +74,12 @@ public class Grafo {
         return vertices.get(i);
     }
 
-    public VerticeTerreno buscarVertice(char vertice) {
-        int i = 0;
-        boolean encontrado = false;
-        while (i < verticesTerrenos.size() && !encontrado) {
-            if (verticesTerrenos.get(i).tieneUbicacion(vertice)) {
-                encontrado = true;
-            } else {
-                i++;
-            }
-        }
-        if (!encontrado) {
-            throw new IllegalArgumentException("Vertice no encontrado");
-        }
-        return verticesTerrenos.get(i);
-    }
-
-    public Arista buscarArista(List<Integer> vertices) {
+    public Arista buscarArista(UbicacionVertice ubicacion1, UbicacionVertice ubicacion2) {
         int i = 0;
         boolean encontrado = false;
 
         while (i < aristas.size() && !encontrado) {
-            if (aristas.get(i).sonMisAdyacentes(vertices)) {
+            if (aristas.get(i).tieneUbicacion(ubicacion1, ubicacion2)) {
                 encontrado = true;
             } else {
                 i++;
@@ -101,68 +93,25 @@ public class Grafo {
         return aristas.get(i);
     }
 
-    public void agregarArista(Integer v1, Integer v2) {
-        VerticeEdificio vertice1 = buscarVertice(v1);
-        VerticeEdificio vertice2 = buscarVertice(v2);
 
-        if (hayArista(vertice1, vertice2)) {
-            throw new IllegalArgumentException("Ya existe arista");
+    public boolean hayArista(Vertice vertice1, Vertice vertice2) {
+        return vertice1.hayVerticeAdyacente(vertice2);
+    }
+
+    public void colocarPieza(UbicacionVertice ubicacion, Pieza pieza) {
+        Vertice verticeEncontrado = buscarVertice(ubicacion);
+        if (verticeEncontrado.contieneTerreno()) {
+            throw new IllegalArgumentException("No se puede colocar una pieza en un vertice donde se alojan terrenos");
         }
-
-        Arista arista = new Arista(v1,v2);
-        aristas.add(arista);
-
-        vertice1.agregarVerticeAdyacente(vertice2);
-        vertice2.agregarVerticeAdyacente(vertice1);
+        VerticeEdificio verticeEdificioEncontrado = (VerticeEdificio) verticeEncontrado;
+        verticeEdificioEncontrado.colocarPieza(pieza);
     }
 
-    public void agregarArista(Integer v1, char v2) {
-        VerticeEdificio vertice = buscarVertice(v1);
-        VerticeTerreno verticeTerreno = buscarVertice(v2);
+    public void colocarCamino(UbicacionVertice ubicacion1, UbicacionVertice ubicacion2, Camino pieza) {
+        Arista aristaEncontrada = buscarArista(ubicacion1, ubicacion2);
+        aristaEncontrada.colocarCamino(pieza);
 
-        if (hayArista(vertice, verticeTerreno)) {
-            throw new IllegalArgumentException("Ya existe arista");
         }
-
-        vertice.agregarVerticeAdyacente(verticeTerreno);
-        verticeTerreno.agregarVerticeAdyacente(vertice);
-
-    }
-
-    //metodo usado unicamente para test
-    public void agregarArista(Arista arista) {
-        aristas.add(arista);
-    }
-
-    public boolean hayArista(VerticeEdificio v1, VerticeTerreno v2) {
-        return v1.hayTerrenoAdyacente(v2);
-    }
-
-    public boolean hayArista(VerticeEdificio v1, VerticeEdificio v2) {
-        return v1.hayVerticeAdyacente(v2);
-    }
-
-    public void colocarPieza(int vertice, Pieza pieza) {
-        VerticeEdificio verticeEncontrado = buscarVertice(vertice);
-        verticeEncontrado.colocarPieza(pieza);
-    }
-
-    public void colocarCamino(List<Integer> vertices, Camino pieza) {
-        Arista aristaEncontrada = buscarArista(vertices);
-        if (!aristaEncontrada.estaDisponible()) {
-            throw new IllegalArgumentException("Ya hay un camino");
-        }
-        //aristaEncontrada.colocarCamino(pieza);
-
-        if(((buscarVertice(vertices.get(0)).obtenerJugadorDePieza()) == pieza.obtenerJugador()) || ((buscarVertice(vertices.get(1)).obtenerJugadorDePieza()) == pieza.obtenerJugador()) ) {
-            aristaEncontrada.colocarCamino(pieza);
-        } /*else if((buscarVertice(vertices.get(1)).obtenerJugadorDePieza()) == pieza.obtenerJugador()) {
-            aristaEncontrada.colocarCamino(pieza); */
-         else {
-            throw new IllegalArgumentException("No se puede colocar camino");
-        }
-
-    }
 
     public void terrenosCompatibles(int resultadoDado) {
         List<VerticeTerreno> terrenosConFichaDeNumero = buscarTerrenoCompatible(resultadoDado);
@@ -174,7 +123,7 @@ public class Grafo {
     private List<VerticeTerreno> buscarTerrenoCompatible(int resultadoDados) {
         List<VerticeTerreno> compatibles = new ArrayList<>();
 
-        for (VerticeTerreno vertice : verticesTerrenos) {
+        for (VerticeTerreno vertice : verticesTerreno) {
             if (vertice.tieneFichaDeNumero(resultadoDados)) {
                 compatibles.add(vertice);
             }
@@ -182,8 +131,31 @@ public class Grafo {
         return compatibles;
     }
 
-    public void removePieza(int ubicacion) {
-        VerticeEdificio vertice = buscarVertice(ubicacion);
-        vertice.removerPieza();
+    public void removerPieza(UbicacionVertice ubicacion) {
+        Vertice vertice = buscarVertice(ubicacion);
+        if (vertice.contieneTerreno()) {
+            throw new IllegalArgumentException("Ubicacion erronea");
+        }
+        VerticeEdificio verticeEdificio = (VerticeEdificio) vertice;
+        verticeEdificio.removerPieza();
+    }
+
+    public void colocarLadron(UbicacionVertice ubicacion, Ladron ladron, Jugador jugador) {
+        Vertice verticeEncontrado = buscarVertice(ubicacion);
+        VerticeTerreno verticeTerreno = (VerticeTerreno) verticeEncontrado;
+        verticeTerreno.colocarLadron(ladron);
+        verticeTerreno.robarPara(jugador);
+    }
+
+    public boolean verticeTenesPieza(UbicacionVertice ubicacion) {
+        Vertice verticeEncontrado = buscarVertice(ubicacion);
+        VerticeEdificio verticeEdificioEncontrado = (VerticeEdificio) verticeEncontrado;
+        return verticeEdificioEncontrado.hayPieza();
+    }
+
+    public boolean aristaTenesCamino(UbicacionVertice ubicacion1, UbicacionVertice ubicacion2) {
+        Arista aristaEncontrada = buscarArista(ubicacion1, ubicacion2);
+        return aristaEncontrada.hayCamino();
     }
 }
+

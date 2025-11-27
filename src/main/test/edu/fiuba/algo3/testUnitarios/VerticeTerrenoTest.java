@@ -4,6 +4,7 @@ import edu.fiuba.algo3.modelo.*;
 import edu.fiuba.algo3.modelo.Pieza.*;
 import edu.fiuba.algo3.modelo.Tablero.*;
 import edu.fiuba.algo3.modelo.Terreno.*;
+import edu.fiuba.algo3.modelo.Ubicacion.UbicacionVertice;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -13,20 +14,20 @@ import static org.mockito.Mockito.*;
 public class VerticeTerrenoTest {
     @Test
     public void verticeConfirmaUbicacion() {
-        VerticeTerreno vertice = new VerticeTerreno('A', new Bosque(),8);
-        assertTrue(vertice.tieneUbicacion('A'));
+        VerticeTerreno vertice = new VerticeTerreno(new UbicacionVertice('A'), new Bosque(),8);
+        assertTrue(vertice.tieneUbicacion(new UbicacionVertice('A')));
     }
 
     @Test
     public void verticeConfirmaQueElTerrenoQueAlojaTieneLaFichaDeNumeroQueSalioEnLosDados () {
-        VerticeTerreno vertice = new VerticeTerreno('A', new Bosque(),8);
+        VerticeTerreno vertice = new VerticeTerreno(new UbicacionVertice('A'), new Bosque(),8);
         assertTrue(vertice.tieneFichaDeNumero(8));
     }
 
     @Test
-    public void verticeTerrenoVerificaSusVerticesAdyacentes() {
-        VerticeTerreno vertice1 = new VerticeTerreno('A', new Bosque(),8);
-        VerticeEdificio vertice2 = new VerticeEdificio(2);
+    public void verticeTerrenoVerificaSuVerticeAdyacentes() {
+        VerticeTerreno vertice1 = new VerticeTerreno(new UbicacionVertice('A'), new Bosque(),8);
+        VerticeEdificio vertice2 = new VerticeEdificio(new UbicacionVertice('2'));
 
         vertice1.agregarVerticeAdyacente(vertice2);
         vertice2.agregarVerticeAdyacente(vertice1);
@@ -37,7 +38,7 @@ public class VerticeTerrenoTest {
 
     @Test
     public void verticeNoPermiteCosecharTerrenoPorNoTenerPiezasAdyacentes () {
-        VerticeTerreno vertice = new VerticeTerreno('A', new Bosque(),8);
+        VerticeTerreno vertice = new VerticeTerreno(new UbicacionVertice('A'), new Bosque(),8);
 
         assertThrows(IllegalStateException.class, () -> {
             vertice.cosecharTerreno();
@@ -49,14 +50,14 @@ public class VerticeTerrenoTest {
     public void verticeTerrenoConUnSoloEdificioLlamaAfectarPorLadronEnEsaPieza() {
         Terreno terrenoMock = mock(Terreno.class);
 
-        VerticeTerreno vt = new VerticeTerreno('X', terrenoMock,8);
+        VerticeTerreno vt = new VerticeTerreno(new UbicacionVertice('X'), terrenoMock,8);
 
         Jugador jugadorQueMueve = mock(Jugador.class);
         Pieza piezaVictima = mock(Pieza.class);
 
         vt.agregarEdificio(piezaVictima);
 
-        vt.recibirLadron(jugadorQueMueve);
+        vt.robarPara(jugadorQueMueve);
 
         verify(piezaVictima, times(1)).afectarPorLadron(jugadorQueMueve);
         verifyNoMoreInteractions(piezaVictima);
@@ -64,9 +65,9 @@ public class VerticeTerrenoTest {
 
     @Test
     public void seIntentaColocarElLadronEnUnTerrenoDondeYEstabaSituadoYSeLanzaUnaExcepcion () {
-        VerticeTerreno vertice = new VerticeTerreno('B', new Bosque(),8);
+        VerticeTerreno vertice = new VerticeTerreno(new UbicacionVertice('B'), new Bosque(),8);
 
-        Ladron ladron = new Ladron('A');
+        Ladron ladron = new Ladron();
         vertice.colocarLadron(ladron);
 
         assertThrows(IllegalStateException.class, () -> {

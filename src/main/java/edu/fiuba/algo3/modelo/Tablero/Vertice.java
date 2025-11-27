@@ -1,22 +1,25 @@
 package edu.fiuba.algo3.modelo.Tablero;
 
+import edu.fiuba.algo3.modelo.Ubicacion.UbicacionVertice;
+
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class EnlazadorVertices {
+public abstract class Vertice {
+    protected UbicacionVertice ubicacion;
     protected List<VerticeEdificio> adyacentes;
 
-    public EnlazadorVertices() {
+    public Vertice() {
         adyacentes = new ArrayList<>();
     }
 
-    // Post: agrega un vértice adyacente a la lista de "adyacentes".
-    public void agregarVerticeAdyacente(VerticeEdificio vertice) {
-        adyacentes.add(vertice);
+    protected abstract void agregarVerticeAdyacente(Vertice vertice);
+
+    public boolean tieneUbicacion(UbicacionVertice ubicacion) {
+        return this.ubicacion.equals(ubicacion);
     }
 
-    // Post: Verifica si tiene cierto vertice como adyacente
-    public boolean hayVerticeAdyacente(VerticeEdificio vertice) {
+    public boolean hayVerticeAdyacente(Vertice vertice) {
         int i = 0;
         boolean encontrado = false;
         while (i < adyacentes.size() && !encontrado) {
@@ -27,5 +30,7 @@ public abstract class EnlazadorVertices {
         }
         return encontrado;
     }
+
+    protected abstract boolean contieneTerreno();
 
 }

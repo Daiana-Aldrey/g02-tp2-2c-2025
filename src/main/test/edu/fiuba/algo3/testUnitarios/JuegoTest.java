@@ -8,6 +8,7 @@ import edu.fiuba.algo3.modelo.Recurso.*;
 import edu.fiuba.algo3.modelo.Tablero.*;
 import edu.fiuba.algo3.modelo.Terreno.*;
 
+import edu.fiuba.algo3.modelo.Ubicacion.UbicacionVertice;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import java.util.List;
@@ -68,23 +69,23 @@ public class JuegoTest {
 
         Juego juego = new Juego(3, List.of("Luis","Ana","Maria"), dadoPrueba);
         
-        List<List<Integer>> verticesPoblados = List.of(
-                List.of(10),   
-                List.of(41),
-                List.of(25)
+        List<List<UbicacionVertice>> verticesPoblados = List.of(
+                List.of(new UbicacionVertice(10)),
+                List.of(new UbicacionVertice(41)),
+                List.of(new UbicacionVertice(25))
         );
 
-        List<List<Integer>> verticesCaminos = List.of(
-                List.of(10,11),
-                List.of(41,42),
-                List.of(25,36)
+        List<List<UbicacionVertice>> verticesCaminos = List.of(
+                List.of(new UbicacionVertice(10),new UbicacionVertice(11)),
+                List.of(new UbicacionVertice(41),new UbicacionVertice(42)),
+                List.of(new UbicacionVertice(25),new UbicacionVertice(36))
         );
 
         juego.inicializarPiezas(verticesPoblados, verticesCaminos);
 
-        Assertions.assertTrue(tablero.hayPieza(List.of(10)));
-        Assertions.assertTrue(tablero.hayPieza(List.of(41)));
-        Assertions.assertTrue(tablero.hayPieza(List.of(25)));
+        Assertions.assertTrue(tablero.hayEdificio(new UbicacionVertice(10)));
+        Assertions.assertTrue(tablero.hayEdificio(new UbicacionVertice(41)));
+        Assertions.assertTrue(tablero.hayEdificio(new UbicacionVertice(25)));
     }
 
     @Test
@@ -93,9 +94,13 @@ public class JuegoTest {
 
         GeneradorDeTablero generadorTablero= new GeneradorDeTablero(new GeneradorNumerosAleatorios());
         Grafo grafo = new Grafo();
-        grafo.agregarVertice('A', new Montania(),8);
         generadorTablero.generarEstructura(grafo);
-        grafo.agregarArista(10,'A');
+        UbicacionVertice ubicacion1 = new UbicacionVertice('A');
+        Vertice vertice1 = new VerticeTerreno(ubicacion1, new Montania(), 8);
+        grafo.agregarVertice(vertice1);
+
+        UbicacionVertice ubicacion10 = new UbicacionVertice(10);
+        grafo.agregarArista(ubicacion10, ubicacion1);
 
         tablero.setearGrafo(grafo);
 
@@ -108,7 +113,7 @@ public class JuegoTest {
         jugador.recibirRecurso(RecursoTipo.LANA, 10);
         jugador.recibirRecurso(RecursoTipo.GRANO, 10);
 
-        jugador.construirPieza("poblado", List.of(10));
+        jugador.construirPieza("poblado", List.of(ubicacion10));
 
         int tirada = juego.tirarDado();  
         juego.manejarTirada(tirada);
@@ -124,10 +129,19 @@ public class JuegoTest {
 
         GeneradorDeTablero generador = new GeneradorDeTablero(new GeneradorNumerosAleatorios());
         generador.generarEstructura(grafo);
-        grafo.agregarVertice('A', new Montania(), 8);
-        grafo.agregarVertice('B', new Montania(), 8);
-        grafo.agregarArista(10,'A');
-        grafo.agregarArista(40,'B');
+
+        UbicacionVertice ubicacion1 = new UbicacionVertice('A');
+        Vertice vertice1 = new VerticeTerreno(ubicacion1, new Montania(), 8);
+        grafo.agregarVertice(vertice1);
+
+        UbicacionVertice ubicacion2 = new UbicacionVertice('B');
+        Vertice vertice2 = new VerticeTerreno(ubicacion2, new Montania(), 8);
+        grafo.agregarVertice(vertice2);
+
+        UbicacionVertice ubicacion10 = new UbicacionVertice(10);
+        UbicacionVertice ubicacion40 = new UbicacionVertice(40);
+        grafo.agregarArista(ubicacion10, ubicacion1);
+        grafo.agregarArista(ubicacion40,ubicacion2);
 
         tablero.setearGrafo(grafo);
 
@@ -145,19 +159,19 @@ public class JuegoTest {
             j.recibirRecurso(RecursoTipo.GRANO,    10);
         }
 
-        j1.colocarPiezaInicial("poblado", List.of(1));
-        j1.colocarPiezaInicial("camino",  List.of(1, 2));
-        j1.construirPieza("poblado", List.of(10));  
+        j1.colocarPiezaInicial("poblado", List.of(new UbicacionVertice(1)));
+        j1.colocarPiezaInicial("camino",  List.of(new UbicacionVertice(1), new UbicacionVertice(2)));
+        j1.construirPieza("poblado", List.of(ubicacion10));
 
-        j2.colocarPiezaInicial("poblado", List.of(54));
-        j2.colocarPiezaInicial("camino",  List.of(54, 53));
-        j2.construirPieza("poblado", List.of(40));  
+        j2.colocarPiezaInicial("poblado", List.of(new UbicacionVertice(54)));
+        j2.colocarPiezaInicial("camino",  List.of(new UbicacionVertice(54), new UbicacionVertice(53)));
+        j2.construirPieza("poblado", List.of(ubicacion40));
 
-      
-        j3.colocarPiezaInicial("poblado", List.of(6));
-        j3.colocarPiezaInicial("camino",  List.of(6, 7));
-        j3.construirPieza("poblado", List.of(36));
-        
+
+        j3.colocarPiezaInicial("poblado", List.of(new UbicacionVertice(6)));
+        j3.colocarPiezaInicial("camino",  List.of(new UbicacionVertice(6), new UbicacionVertice(7)));
+        j3.construirPieza("poblado", List.of(new UbicacionVertice(36)));
+
         int tirada = juego.tirarDado(); 
         juego.manejarTirada(tirada);
 

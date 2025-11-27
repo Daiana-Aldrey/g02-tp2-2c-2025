@@ -7,6 +7,8 @@ import edu.fiuba.algo3.modelo.Recurso.*;
 import edu.fiuba.algo3.modelo.Tablero.*;
 import edu.fiuba.algo3.modelo.Terreno.*;
 
+import edu.fiuba.algo3.modelo.Ubicacion.Ubicacion;
+import edu.fiuba.algo3.modelo.Ubicacion.UbicacionVertice;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 import java.util.List;
@@ -42,10 +44,10 @@ public class JugadorTest {
             jugador.recibirRecurso(costo.tipo(), costo.cantidad());
         }
   
-        List<Integer> ubicacion = List.of(10);
+        List<UbicacionVertice> ubicacion = List.of(new UbicacionVertice(10));
         jugador.construirPieza("poblado", ubicacion);
 
-        Assertions.assertTrue(tablero.hayPieza(ubicacion));
+        Assertions.assertTrue(tablero.hayEdificio(ubicacion.get(0)));
         Assertions.assertEquals(0, jugador.cantidadDeCartas());
     }
 
@@ -58,7 +60,7 @@ public class JugadorTest {
       
         Jugador jugador = new Jugador("Luis");
         Terreno montania = new Montania();
-        VerticeTerreno vt = new VerticeTerreno('A', montania, 8);
+        VerticeTerreno vt = new VerticeTerreno(new UbicacionVertice('A'), montania, 8);
         Poblado p = new Poblado(jugador);
         
         vt.agregarEdificio(p);
@@ -116,8 +118,13 @@ public class JugadorTest {
 
         GeneradorDeTablero generador = new GeneradorDeTablero(new GeneradorNumerosAleatorios());
         generador.generarEstructura(grafo);
-        grafo.agregarVertice('A', new Montania(), 8);
-        grafo.agregarArista(10,'A');
+
+        UbicacionVertice ubicacion1 = new UbicacionVertice('A');
+        Vertice vertice1 = new VerticeTerreno(ubicacion1, new Montania(), 8);
+        grafo.agregarVertice(vertice1);
+
+        UbicacionVertice ubicacion10 = new UbicacionVertice(10);
+        grafo.agregarArista(ubicacion10,ubicacion1);
 
         tablero.setearGrafo(grafo);
 
@@ -127,7 +134,7 @@ public class JugadorTest {
         Jugador jugador = juego.jugadores().get(0);
 
 
-        jugador.colocarPiezaInicial("poblado", List.of(10));
+        jugador.colocarPiezaInicial("poblado", List.of(ubicacion10));
 
         int tirada = juego.tirarDado();
         juego.manejarTirada(tirada);
@@ -143,8 +150,11 @@ public class JugadorTest {
 
         GeneradorDeTablero generador = new GeneradorDeTablero(new GeneradorNumerosAleatorios());
         generador.generarEstructura(grafo);
-        grafo.agregarVertice('A', new Montania(), 8);
-        grafo.agregarArista(10,'A');
+        UbicacionVertice ubicacion1 = new UbicacionVertice('A');
+        Vertice vertice1 = new VerticeTerreno(ubicacion1, new Montania(), 8);
+        grafo.agregarVertice(vertice1);
+        UbicacionVertice ubicacion10 = new UbicacionVertice(10);
+        grafo.agregarArista(ubicacion10, ubicacion1);
 
         tablero.setearGrafo(grafo);
 
@@ -153,10 +163,10 @@ public class JugadorTest {
         Juego juego = new Juego(3, List.of("Luis", "Ana", "Marcos"), dado);
         Jugador jugador = juego.jugadores().get(0);
 
-        jugador.colocarPiezaInicial("poblado", List.of(10));
+        jugador.colocarPiezaInicial("poblado", List.of(ubicacion10));
         jugador.recibirRecurso(RecursoTipo.GRANO,2);
         jugador.recibirRecurso(RecursoTipo.MINERAL, 3);
-        jugador.construirPieza("ciudad", List.of(10));
+        jugador.construirPieza("ciudad", List.of(ubicacion10));
 
         int tirada = juego.tirarDado();
         juego.manejarTirada(tirada);
@@ -208,12 +218,12 @@ public class JugadorTest {
         jugadorVictima.recibirRecurso(RecursoTipo.GRANO, 1);
 
         jugadorVictima.recibirRecurso(RecursoTipo.MADERA, 1);
-        jugadorVictima.construirPieza("poblado", List.of(4));
+        jugadorVictima.construirPieza("poblado", List.of(new UbicacionVertice(4)));
 
         int cartasAntesVictima = jugadorVictima.cantidadDeCartas();
         int cartasAntesActivo = jugadorActivo.cantidadDeCartas();
 
-        jugadorActivo.moverLadron('B');
+        jugadorActivo.moverLadron(new UbicacionVertice('B'));
 
         assertEquals(cartasAntesVictima - 1, jugadorVictima.cantidadDeCartas(),
                 "La víctima debería tener una carta menos después del robo");

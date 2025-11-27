@@ -52,7 +52,7 @@ public class DadosTest {
 
     @Test
     void dadoConValorMayorA12DebeFallarEnJuego() {
-        GeneradorDeDados dado =()-> 13;
+        GeneradorDeDados dado = ()-> 13;
         Juego juego = new Juego(3, java.util.List.of("A","B","C"), dado);
 
         assertThrows(IllegalStateException.class, juego::tirarDado);

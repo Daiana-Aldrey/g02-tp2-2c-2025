@@ -4,15 +4,18 @@ import edu.fiuba.algo3.modelo.Jugador;
 import edu.fiuba.algo3.modelo.Recurso.Recurso;
 import edu.fiuba.algo3.modelo.Recurso.RecursoTipo;
 import edu.fiuba.algo3.modelo.Tablero.Tablero;
+import edu.fiuba.algo3.modelo.Ubicacion.Ubicacion;
+import edu.fiuba.algo3.modelo.Ubicacion.NoUbicacion;
+import edu.fiuba.algo3.modelo.Ubicacion.UbicacionVertice;
 
 import java.util.List;
 
 public class Poblado extends Pieza {
-	private int ubicacion;
+	private Ubicacion ubicacion;
 	
 	public Poblado(Jugador propietario) {
 	    this.propietario = propietario; 
-	    this.ubicacion = -1;
+	    this.ubicacion = new NoUbicacion();
 	}
 
 
@@ -27,24 +30,32 @@ public class Poblado extends Pieza {
     }
     
     
-    public void colocar(List<Integer> vertice) {
-    	if (vertice.size() != 1) {
+    public void colocar(List<UbicacionVertice> ubicacion) {
+    	if (ubicacion.size() != 1) {
             throw new IllegalArgumentException("Un poblado necesita exactamente 1 vértice");
         }
     	  
-          this.ubicacion = vertice.get(0);
+          UbicacionVertice ubicacionIntento = ubicacion.get(0);
           Tablero tablero = Tablero.getInstance();
-          tablero.colocarEdificio(ubicacion, this);
+          tablero.colocarEdificio(ubicacionIntento, this);
           propietario.incorporarPoblado(this);
     }
 
     public int produccion(){return 1;}
 
     @Override
-    public boolean esPoblado() {return true;}
+    public boolean tenesUbicacion(UbicacionVertice ubicacion) {
+        return ubicacion.equals(this.ubicacion);
+    }
 
     @Override
-    public boolean tenesUbicacion(int ubicacion) {
-        return this.ubicacion == ubicacion;
+    public boolean usable() {
+        boolean usable = true;
+        return usable;
+    }
+
+    @Override
+    public void setearUbicacion(UbicacionVertice ubicacion) {
+        this.ubicacion = ubicacion;
     }
 }

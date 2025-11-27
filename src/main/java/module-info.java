@@ -1,6 +1,8 @@
 module edu.fiuba.algo3 {
     requires javafx.controls;
     requires json.simple;
+    requires junit;
+    requires jdk.compiler;
     exports edu.fiuba.algo3;
     //exports edu.fiuba.algo3.vistas;
     exports edu.fiuba.algo3.modelo;
@@ -11,4 +13,5 @@ module edu.fiuba.algo3 {
     exports edu.fiuba.algo3.modelo.Recurso;
     exports edu.fiuba.algo3.modelo.Intercambio;
     exports edu.fiuba.algo3.modelo.Dados;
+    exports edu.fiuba.algo3.modelo.Ubicacion;
 }

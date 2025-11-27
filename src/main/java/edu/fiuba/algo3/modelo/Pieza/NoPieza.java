@@ -1,11 +1,13 @@
 package edu.fiuba.algo3.modelo.Pieza;
 
 import edu.fiuba.algo3.modelo.Recurso.*;
+import edu.fiuba.algo3.modelo.Ubicacion.UbicacionVertice;
+
 import java.util.List;
 
 public class NoPieza extends Pieza {
-    private Integer ubicacion;
-    public NoPieza(Integer ubicacion) {
+    private UbicacionVertice ubicacion;
+    public NoPieza(UbicacionVertice ubicacion) {
         this.ubicacion = ubicacion;
     }
 
@@ -15,12 +17,23 @@ public class NoPieza extends Pieza {
     }
 
     @Override
-    public void colocar(List<Integer> vertices) {
+    public void colocar(List<UbicacionVertice> vertices) {
         throw new RuntimeException("Pieza inusable, no es debido colocar");
     }
 
     @Override
-    public boolean tenesUbicacion(int ubicacion) {
+    public boolean tenesUbicacion(UbicacionVertice ubicacion) {
         return this.ubicacion == ubicacion;
+    }
+
+    @Override
+    public boolean usable() {
+        boolean usable = false;
+        return usable;
+    }
+
+    @Override
+    public void setearUbicacion(UbicacionVertice ubicacion) {
+        throw new RuntimeException("Pieza inusable, no se puede cambiar ubicacion");
     }
 }

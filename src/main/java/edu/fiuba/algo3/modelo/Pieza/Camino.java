@@ -4,15 +4,21 @@ import edu.fiuba.algo3.modelo.Jugador;
 import edu.fiuba.algo3.modelo.Recurso.Recurso;
 import edu.fiuba.algo3.modelo.Recurso.RecursoTipo;
 import edu.fiuba.algo3.modelo.Tablero.Tablero;
+import edu.fiuba.algo3.modelo.Ubicacion.Ubicacion;
+import edu.fiuba.algo3.modelo.Ubicacion.UbicacionVertice;
+import edu.fiuba.algo3.modelo.Ubicacion.NoUbicacion;
 
 import java.util.*;
 
 public class Camino extends Pieza {
-    private List<Integer> ubicacion;
+    private Ubicacion ubicacion1;
+    private Ubicacion ubicacion2;
 
     public Camino(Jugador propietario) {
         this.propietario = propietario;
-        this.ubicacion = new ArrayList<>();
+        this.ubicacion1 = new NoUbicacion();
+        this.ubicacion2 = new NoUbicacion();
+
     }
 
     @Override
@@ -24,21 +30,37 @@ public class Camino extends Pieza {
     }
 
     @Override
-    public void colocar(List<Integer> vertices) {
-        if (vertices.size() != 2) {
+    public void colocar(List<UbicacionVertice> ubicaciones) {
+        if (ubicaciones.size() != 2) {
             throw new IllegalArgumentException("Un camino necesita exactamente 2 vértices");
         }
 
-        ubicacion = vertices;
+        UbicacionVertice ubicacion1 = ubicaciones.get(0);
+        UbicacionVertice ubicacion2 = ubicaciones.get(1);
 
         Tablero tablero = Tablero.getInstance();
-        tablero.colocarCamino(ubicacion, this);
+        tablero.colocarCamino(ubicacion1, ubicacion2 ,this);
 
         propietario.incorporarCamino(this);
     }
 
     @Override
-    public boolean tenesUbicacion(int ubicacion) {
-        return this.ubicacion.contains(ubicacion);
+    public boolean tenesUbicacion(UbicacionVertice ubicacion) {
+        return (this.ubicacion1 == ubicacion || this.ubicacion2 == ubicacion);
+    }
+
+    @Override
+    public boolean usable() {
+        boolean usable = true;
+        return usable;
+    }
+
+    @Override
+    public void setearUbicacion(UbicacionVertice ubicacion) {
+        this.ubicacion1 = ubicacion;
+    }
+
+    public void setearSegundaUbicacion(UbicacionVertice ubicacion) {
+        this.ubicacion2 = ubicacion;
     }
 }

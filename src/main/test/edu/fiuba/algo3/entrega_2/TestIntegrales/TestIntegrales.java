@@ -8,6 +8,7 @@ import edu.fiuba.algo3.modelo.Pieza.*;
 import edu.fiuba.algo3.modelo.Recurso.*;
 import edu.fiuba.algo3.modelo.Tablero.*;
 import edu.fiuba.algo3.modelo.Terreno.*;
+import edu.fiuba.algo3.modelo.Ubicacion.UbicacionVertice;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -28,11 +29,11 @@ public class TestIntegrales {
         Jugador luis = new Jugador("Luis");
         Jugador marcelo = new Jugador("Marcelo");
 
-        luis.colocarPiezaInicial("poblado", new ArrayList<>(List.of(1)));
-        luis.colocarPiezaInicial("camino", new ArrayList<>(List.of(1, 2)));
+        luis.colocarPiezaInicial("poblado", new ArrayList<>(List.of(new UbicacionVertice(1))));
+        luis.colocarPiezaInicial("camino", new ArrayList<>(List.of(new UbicacionVertice(1), new UbicacionVertice(2))));
 
-        marcelo.colocarPiezaInicial("poblado", new ArrayList<>(List.of(18)));
-        marcelo.colocarPiezaInicial("camino", new ArrayList<>(List.of(18, 17)));
+        marcelo.colocarPiezaInicial("poblado", new ArrayList<>(List.of(new UbicacionVertice(18))));
+        marcelo.colocarPiezaInicial("camino", new ArrayList<>(List.of(new UbicacionVertice(18), new UbicacionVertice(17))));
 
         luis.recibirRecurso(RecursoTipo.MADERA, 10);
         luis.recibirRecurso(RecursoTipo.LADRILLO, 10);
@@ -44,11 +45,11 @@ public class TestIntegrales {
         marcelo.recibirRecurso(RecursoTipo.LANA, 2);
         marcelo.recibirRecurso(RecursoTipo.GRANO, 2);
 
-        luis.construirPieza("camino", new ArrayList<>(List.of(1, 9)));
-        marcelo.construirPieza("camino", new ArrayList<>(List.of(18, 19)));
+        luis.construirPieza("camino", new ArrayList<>(List.of(new UbicacionVertice(1), new UbicacionVertice(9))));
+        marcelo.construirPieza("camino", new ArrayList<>(List.of(new UbicacionVertice(18), new UbicacionVertice(19))));
 
-        Assertions.assertTrue(tablero.hayPieza(List.of(1, 9)));
-        Assertions.assertTrue(tablero.hayPieza(List.of(18, 19)));
+        Assertions.assertTrue(tablero.hayCamino(new UbicacionVertice(1), new UbicacionVertice(9)));
+        Assertions.assertTrue(tablero.hayCamino(new UbicacionVertice(18), new UbicacionVertice(19)));
 
         assertEquals(9, luis.buscarRecurso(RecursoTipo.MADERA).cantidad());
         assertEquals(9, luis.buscarRecurso(RecursoTipo.LADRILLO).cantidad());
@@ -70,11 +71,11 @@ public class TestIntegrales {
         Jugador luis = new Jugador("Luis");
         Jugador marcelo = new Jugador("Marcelo");
 
-        luis.colocarPiezaInicial("poblado", new ArrayList<>(List.of(1)));
-        luis.colocarPiezaInicial("camino", new ArrayList<>(List.of(1, 2)));
+        luis.colocarPiezaInicial("poblado", new ArrayList<>(List.of(new UbicacionVertice(1))));
+        luis.colocarPiezaInicial("camino", new ArrayList<>(List.of(new UbicacionVertice(1), new UbicacionVertice(2))));
 
-        marcelo.colocarPiezaInicial("poblado", new ArrayList<>(List.of(18)));
-        marcelo.colocarPiezaInicial("camino", new ArrayList<>(List.of(18, 17)));
+        marcelo.colocarPiezaInicial("poblado", new ArrayList<>(List.of(new UbicacionVertice(18))));
+        marcelo.colocarPiezaInicial("camino", new ArrayList<>(List.of(new UbicacionVertice(18), new UbicacionVertice(17))));
 
         luis.recibirRecurso(RecursoTipo.MADERA, 10);
         luis.recibirRecurso(RecursoTipo.LADRILLO, 10);
@@ -86,11 +87,11 @@ public class TestIntegrales {
         marcelo.recibirRecurso(RecursoTipo.LANA, 2);
         marcelo.recibirRecurso(RecursoTipo.GRANO, 2);
 
-        luis.construirPieza("poblado", new ArrayList<>(List.of(4)));
-        marcelo.construirPieza("poblado", new ArrayList<>(List.of(20)));
+        luis.construirPieza("poblado", new ArrayList<>(List.of(new UbicacionVertice(4))));
+        marcelo.construirPieza("poblado", new ArrayList<>(List.of(new UbicacionVertice(20))));
 
-        Assertions.assertTrue(tablero.hayPieza(List.of(4)));
-        Assertions.assertTrue(tablero.hayPieza(List.of(20)));
+        Assertions.assertTrue(tablero.hayEdificio(new UbicacionVertice(4)));
+        Assertions.assertTrue(tablero.hayEdificio(new UbicacionVertice(20)));
 
         assertEquals(9, luis.buscarRecurso(RecursoTipo.MADERA).cantidad());
         assertEquals(9, luis.buscarRecurso(RecursoTipo.LADRILLO).cantidad());
@@ -103,16 +104,16 @@ public class TestIntegrales {
         assertEquals(1, marcelo.buscarRecurso(RecursoTipo.GRANO).cantidad());
 
         assertThrows(IllegalArgumentException.class, () -> {
-            luis.construirPieza("poblado", new ArrayList<>(List.of(21)));;
+            luis.construirPieza("poblado", new ArrayList<>(List.of(new UbicacionVertice(21))));;
         });
         assertThrows(IllegalArgumentException.class, () -> {
-            marcelo.construirPieza("poblado", new ArrayList<>(List.of(5)));;
+            marcelo.construirPieza("poblado", new ArrayList<>(List.of(new UbicacionVertice(5))));;
         });
         assertThrows(IllegalArgumentException.class, () -> {
-            luis.construirPieza("poblado", new ArrayList<>(List.of(1)));;
+            luis.construirPieza("poblado", new ArrayList<>(List.of(new UbicacionVertice(1))));;
         });
         assertThrows(IllegalArgumentException.class, () -> {
-            marcelo.construirPieza("poblado", new ArrayList<>(List.of(3)));;
+            marcelo.construirPieza("poblado", new ArrayList<>(List.of(new UbicacionVertice(3))));;
         });
     }
 
@@ -123,8 +124,12 @@ public class TestIntegrales {
 
         GeneradorDeTablero generador = new GeneradorDeTablero(new GeneradorNumerosAleatorios());
         generador.generarEstructura(grafo);
-        grafo.agregarVertice('A', new Bosque(), 8);
-        grafo.agregarArista(10,'A');
+
+        UbicacionVertice ubicacionA = new UbicacionVertice('A');
+        UbicacionVertice ubicacion10 = new UbicacionVertice(10);
+        Vertice verticeTerreno = new VerticeTerreno(ubicacionA, new Bosque(), 8);
+        grafo.agregarVertice(verticeTerreno);
+        grafo.agregarArista(ubicacion10,ubicacionA);
         tablero.setearGrafo(grafo);
         GeneradorDeDados dado = () -> 8;
 
@@ -133,13 +138,13 @@ public class TestIntegrales {
 
         assertEquals(0, jugador.puntosDeVictoria());
 
-        jugador.colocarPiezaInicial("poblado", List.of(10));
+        jugador.colocarPiezaInicial("poblado", List.of(ubicacion10));
         assertEquals(1, jugador.puntosDeVictoria());
 
         jugador.recibirRecurso(RecursoTipo.GRANO, 2);
         jugador.recibirRecurso(RecursoTipo.MINERAL, 3);
 
-        jugador.construirPieza("ciudad", List.of(10));
+        jugador.construirPieza("ciudad", List.of(ubicacion10));
         assertEquals(2, jugador.puntosDeVictoria());
 
         Recurso mineral = jugador.buscarRecurso(RecursoTipo.MINERAL);
@@ -148,11 +153,11 @@ public class TestIntegrales {
         assertEquals(0, grano.cantidad());
 
 
-        jugador.colocarPiezaInicial("poblado", List.of(18));
+        jugador.colocarPiezaInicial("poblado", List.of(new UbicacionVertice(18)));
         assertEquals(3, jugador.puntosDeVictoria());
         jugador.recibirRecurso(RecursoTipo.GRANO, 2);
         jugador.recibirRecurso(RecursoTipo.MINERAL, 3);
-        jugador.construirPieza("ciudad", List.of(18));
+        jugador.construirPieza("ciudad", List.of(new UbicacionVertice(18)));
         assertEquals(4, jugador.puntosDeVictoria());
     }
 
@@ -163,8 +168,12 @@ public class TestIntegrales {
 
         GeneradorDeTablero generador = new GeneradorDeTablero(new GeneradorNumerosAleatorios());
         generador.generarEstructura(grafo);
-        grafo.agregarVertice('A', new Bosque(), 8);
-        grafo.agregarArista(10, 'A');
+
+        UbicacionVertice ubicacionA = new UbicacionVertice('A');
+        UbicacionVertice ubicacion10 = new UbicacionVertice(10);
+        Vertice verticeTerreno = new VerticeTerreno(ubicacionA, new Bosque(), 8);
+        grafo.agregarVertice(verticeTerreno);
+        grafo.agregarArista(ubicacion10,ubicacionA);
         tablero.setearGrafo(grafo);
 
         GeneradorDeDados dado = () -> 8;
@@ -192,8 +201,12 @@ public class TestIntegrales {
         GeneradorDeTablero generador = new GeneradorDeTablero(new GeneradorNumerosAleatorios());
         generador.generarEstructura(grafo);
 
-        grafo.agregarVertice('A', new Bosque(), 8);
-        grafo.agregarArista(10, 'A');
+        UbicacionVertice ubicacionA = new UbicacionVertice('A');
+        UbicacionVertice ubicacion10 = new UbicacionVertice(10);
+        Vertice verticeTerreno = new VerticeTerreno(ubicacionA, new Bosque(), 8);
+        grafo.agregarVertice(verticeTerreno);
+        grafo.agregarArista(ubicacion10,ubicacionA);
+
         tablero.setearGrafo(grafo);
 
         GeneradorDeDados dado = () -> 8;
@@ -219,8 +232,12 @@ public class TestIntegrales {
         GeneradorDeTablero generador = new GeneradorDeTablero(new GeneradorNumerosAleatorios());
         generador.generarEstructura(grafo);
 
-        grafo.agregarVertice('A', new Bosque(), 8);
-        grafo.agregarArista(10, 'A');
+        UbicacionVertice ubicacionA = new UbicacionVertice('A');
+        UbicacionVertice ubicacion10 = new UbicacionVertice(10);
+        Vertice verticeTerreno = new VerticeTerreno(ubicacionA, new Bosque(), 8);
+        grafo.agregarVertice(verticeTerreno);
+        grafo.agregarArista(ubicacion10,ubicacionA);
+
         tablero.setearGrafo(grafo);
 
         GeneradorDeDados dado = () -> 8;

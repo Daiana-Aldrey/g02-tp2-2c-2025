@@ -3,6 +3,7 @@ package edu.fiuba.algo3.modelo.Pieza;
 import edu.fiuba.algo3.modelo.*;
 import edu.fiuba.algo3.modelo.Recurso.Recurso;
 import edu.fiuba.algo3.modelo.Recurso.RecursoTipo;
+import edu.fiuba.algo3.modelo.Ubicacion.UbicacionVertice;
 
 import java.util.*;
 
@@ -34,7 +35,7 @@ public abstract class Pieza {
         propietario.recibirRecurso(tipo, cantidad);
     }
 
-    public abstract void colocar(List<Integer> vertices);
+    public abstract void colocar(List<UbicacionVertice> vertices);
 
     public Jugador obtenerJugador(){
         return propietario;
@@ -45,12 +46,11 @@ public abstract class Pieza {
     }
 
     public int produccion(){return 0;}
-    public boolean esPoblado(){return false;}
 
-    public abstract boolean tenesUbicacion(int ubicacion);
+    public abstract boolean tenesUbicacion(UbicacionVertice ubicacion);
 
-    protected void removerDelJugador() {
+    public abstract boolean usable();
 
-    }
+    public abstract void setearUbicacion(UbicacionVertice ubicacion);
 }
     
