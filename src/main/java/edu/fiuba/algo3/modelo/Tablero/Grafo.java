@@ -1,6 +1,7 @@
 package edu.fiuba.algo3.modelo.Tablero;
 
 import edu.fiuba.algo3.Excepciones.CaminoInvalido;
+import edu.fiuba.algo3.modelo.Juego;
 import edu.fiuba.algo3.modelo.Jugador;
 import edu.fiuba.algo3.modelo.Pieza.Camino;
 import edu.fiuba.algo3.modelo.Pieza.Ladron;
@@ -101,12 +102,8 @@ public class Grafo {
 
 
     public void colocarCamino(UbicacionVertice ubicacion1, UbicacionVertice ubicacion2, Camino pieza) {
-        Arista aristaEncontrada = buscarArista(vertices);
-        if ((buscarVertice(vertices.get(0))).perteneceA(pieza.obtenerJugador()) || (buscarVertice(vertices.get(1)).perteneceA(pieza.obtenerJugador()))) {
-            aristaEncontrada.colocarCamino(pieza);
-        } else {
-            throw new CaminoInvalido("No se puede colocar camino sin una pieza del jugador adyacente");
-        }
+        Arista aristaEncontrada = buscarArista(ubicacion1, ubicacion2);
+        aristaEncontrada.colocarCamino(pieza);
     }
     public void colocarPieza(UbicacionVertice ubicacion, Pieza pieza) {
         Vertice verticeEncontrado = buscarVertice(ubicacion);

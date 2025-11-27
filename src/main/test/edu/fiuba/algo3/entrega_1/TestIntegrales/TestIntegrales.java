@@ -7,7 +7,7 @@ import edu.fiuba.algo3.modelo.Recurso.*;
 import edu.fiuba.algo3.modelo.Tablero.*;
 import edu.fiuba.algo3.modelo.Terreno.*;
 import edu.fiuba.algo3.modelo.Ubicacion.UbicacionVertice;
-import org.junit.jupiter.api.Assertions;
+
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -73,14 +73,14 @@ public class TestIntegrales {
         assertTrue(v8.tieneTerreno("Campo"));
         assertTrue(v8.tieneFichaDeNumero(11));
 
-        assertTrue(v9.tieneTerreno("Desierto"));
-        assertTrue(v9.tieneFichaDeNumero(0));
+        assertTrue(v9.tieneTerreno("Colina"));
+        assertTrue(v9.tieneFichaDeNumero(4));
 
         assertTrue(v10.tieneTerreno("Campo"));
-        assertTrue(v10.tieneFichaDeNumero(4));
+        assertTrue(v10.tieneFichaDeNumero(8));
 
-        assertTrue(v11.tieneTerreno("Campo"));
-        assertTrue(v11.tieneFichaDeNumero(5));
+        assertTrue(v11.tieneTerreno("Desierto"));
+        assertTrue(v11.tieneFichaDeNumero(0));
 
         assertTrue(v12.tieneTerreno("Campo"));
         assertTrue(v12.tieneFichaDeNumero(10));
@@ -103,8 +103,8 @@ public class TestIntegrales {
         assertTrue(v18.tieneTerreno("Pastizal"));
         assertTrue(v18.tieneFichaDeNumero(11));
 
-        assertTrue(v19.tieneTerreno("Colina"));
-        assertTrue(v19.tieneFichaDeNumero(8));
+        assertTrue(v19.tieneTerreno("Campo"));
+        assertTrue(v19.tieneFichaDeNumero(5));
     }
 
     @Test
@@ -124,8 +124,8 @@ public class TestIntegrales {
         lucas.colocarPiezaInicial("poblado", new ArrayList<>(List.of(new UbicacionVertice(5))));
         lucas.colocarPiezaInicial("camino", new ArrayList<>(List.of(new UbicacionVertice(5),new UbicacionVertice(6))));
 
-        Assertions.assertTrue(tablero.hayEdificio(new UbicacionVertice(1)));
-        Assertions.assertTrue(tablero.hayEdificio(new UbicacionVertice(5)));
+       assertTrue(tablero.hayEdificio(new UbicacionVertice(1)));
+        assertTrue(tablero.hayEdificio(new UbicacionVertice(5)));
 
         assertThrows(IllegalArgumentException.class, () -> {
             federico.colocarPiezaInicial("poblado", new ArrayList<>(List.of(new UbicacionVertice(6))));

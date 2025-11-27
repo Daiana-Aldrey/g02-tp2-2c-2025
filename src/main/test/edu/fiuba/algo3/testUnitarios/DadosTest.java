@@ -2,10 +2,11 @@ package edu.fiuba.algo3.testUnitarios;
 
 import edu.fiuba.algo3.modelo.Dados.DadosAleatorios;
 import edu.fiuba.algo3.modelo.Dados.GeneradorDeDados;
+import edu.fiuba.algo3.modelo.Juego;
 
 import java.util.List;
 
-import edu.fiuba.algo3.modelo.Juego;
+import edu.fiuba.algo3.modelo.Jugador;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -102,7 +103,7 @@ public class DadosTest {
 
     @Test
     void cuandoDa13_fueraDeRangoLanzaExcepcion() {
-    	GeneradorDeDados dado =()-> 2;
+    	GeneradorDeDados dado =()-> 13;
     	List<Jugador> jugadores = TestUtilidades.generarJugadores(3);
         Juego juego = new Juego(jugadores, dado);
 

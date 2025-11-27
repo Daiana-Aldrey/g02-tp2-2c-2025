@@ -1,4 +1,4 @@
-package edu.fiuba.algo3.modelo.Dados;
+package edu.fiuba.algo3.modelo;
 import java.util.Random;
 
 public class GeneradorNumerosAleatorios {

@@ -1,5 +1,4 @@
 package edu.fiuba.algo3.modelo.Tablero;
-import edu.fiuba.algo3.modelo.*;
 import edu.fiuba.algo3.modelo.GeneradorNumerosAleatorios;
 import edu.fiuba.algo3.modelo.Pieza.Ladron;
 import edu.fiuba.algo3.modelo.Terreno.*;
