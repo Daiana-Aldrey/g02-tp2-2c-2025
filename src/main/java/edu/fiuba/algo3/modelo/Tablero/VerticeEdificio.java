@@ -69,8 +69,8 @@ public class VerticeEdificio extends EnlazadorVertices {
         }
     }
 
-    public Jugador obtenerJugadorDePieza() {
-        return this.pieza.obtenerJugador();
+    public boolean perteneceA(Jugador jugador) {
+        return pieza != null && pieza.esDe(jugador);
     }
 
     public void removerPieza() {

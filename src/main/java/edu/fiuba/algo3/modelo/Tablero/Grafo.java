@@ -153,16 +153,11 @@ public class Grafo {
         if (!aristaEncontrada.estaDisponible()) {
             throw new CaminoInvalido("Ya hay un camino");
         }
-        //aristaEncontrada.colocarCamino(pieza);
-
-        if(((buscarVertice(vertices.get(0)).obtenerJugadorDePieza()) == pieza.obtenerJugador()) || ((buscarVertice(vertices.get(1)).obtenerJugadorDePieza()) == pieza.obtenerJugador()) ) {
+        if ((buscarVertice(vertices.get(0))).perteneceA(pieza.obtenerJugador()) || (buscarVertice(vertices.get(1)).perteneceA(pieza.obtenerJugador()))) {
             aristaEncontrada.colocarCamino(pieza);
-        } /*else if((buscarVertice(vertices.get(1)).obtenerJugadorDePieza()) == pieza.obtenerJugador()) {
-            aristaEncontrada.colocarCamino(pieza); */
-         else {
-            throw new CaminoInvalido("No se puede colocar camino");
+        } else {
+            throw new CaminoInvalido("No se puede colocar camino sin una pieza del jugador adyacente");
         }
-
     }
 
     public void terrenosCompatibles(int resultadoDado) {
