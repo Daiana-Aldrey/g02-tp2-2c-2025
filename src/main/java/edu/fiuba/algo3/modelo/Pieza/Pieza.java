@@ -37,6 +37,10 @@ public abstract class Pieza {
 
     public abstract void colocar(List<UbicacionVertice> vertices);
 
+    public boolean esDe(Jugador jugador) {
+        return this.propietario == jugador;
+    }
+
     public Jugador obtenerJugador(){
         return propietario;
     }

@@ -133,32 +133,35 @@ public class TestIntegrales {
         tablero.setearGrafo(grafo);
         GeneradorDeDados dado = () -> 8;
 
-        Juego juego = new Juego(3, List.of("Luis", "Ana", "Marcos"), dado);
-        Jugador jugador = juego.jugadores().get(0);
+        Jugador jugador1 = new Jugador("Juli");
+ 	    Jugador jugador2 = new Jugador("Valen");
+ 	    Jugador jugador3 = new Jugador("Sofi");
+ 	    List<Jugador> jugadores = List.of(jugador1, jugador2, jugador3);
+ 	    Juego juego = new Juego(jugadores, dado);
 
-        assertEquals(0, jugador.puntosDeVictoria());
+        assertEquals(0, jugador1.puntosDeVictoria());
 
-        jugador.colocarPiezaInicial("poblado", List.of(ubicacion10));
-        assertEquals(1, jugador.puntosDeVictoria());
+        jugador1.colocarPiezaInicial("poblado", List.of(ubicacion10));
+        assertEquals(1, jugador1.puntosDeVictoria());
 
-        jugador.recibirRecurso(RecursoTipo.GRANO, 2);
-        jugador.recibirRecurso(RecursoTipo.MINERAL, 3);
+        jugador1.recibirRecurso(RecursoTipo.GRANO, 2);
+        jugador1.recibirRecurso(RecursoTipo.MINERAL, 3);
 
-        jugador.construirPieza("ciudad", List.of(ubicacion10));
-        assertEquals(2, jugador.puntosDeVictoria());
+        jugador1.construirPieza("ciudad", List.of(ubicacion10));
+        assertEquals(2, jugador1.puntosDeVictoria());
 
-        Recurso mineral = jugador.buscarRecurso(RecursoTipo.MINERAL);
-        Recurso grano = jugador.buscarRecurso(RecursoTipo.GRANO);
+        Recurso mineral = jugador1.buscarRecurso(RecursoTipo.MINERAL);
+        Recurso grano = jugador1.buscarRecurso(RecursoTipo.GRANO);
         assertEquals(0, mineral.cantidad());
         assertEquals(0, grano.cantidad());
 
 
-        jugador.colocarPiezaInicial("poblado", List.of(new UbicacionVertice(18)));
-        assertEquals(3, jugador.puntosDeVictoria());
-        jugador.recibirRecurso(RecursoTipo.GRANO, 2);
-        jugador.recibirRecurso(RecursoTipo.MINERAL, 3);
-        jugador.construirPieza("ciudad", List.of(new UbicacionVertice(18)));
-        assertEquals(4, jugador.puntosDeVictoria());
+        jugador1.colocarPiezaInicial("poblado", List.of(new UbicacionVertice(18)));
+        assertEquals(3, jugador1.puntosDeVictoria());
+        jugador1.recibirRecurso(RecursoTipo.GRANO, 2);
+        jugador1.recibirRecurso(RecursoTipo.MINERAL, 3);
+        jugador1.construirPieza("ciudad", List.of(new UbicacionVertice(18)));
+        assertEquals(4, jugador1.puntosDeVictoria());
     }
 
     @Test
@@ -178,18 +181,21 @@ public class TestIntegrales {
 
         GeneradorDeDados dado = () -> 8;
 
-        Juego juego = new Juego(3, List.of("Luis", "Ana", "Marcos"), dado);
-        Jugador jugador = juego.jugadores().get(0);
+        Jugador jugador1 = new Jugador("Juli");
+ 	    Jugador jugador2 = new Jugador("Valen");
+ 	    Jugador jugador3 = new Jugador("Sofi");
+ 	    List<Jugador> jugadores = List.of(jugador1, jugador2, jugador3);
+ 	    Juego juego = new Juego(jugadores, dado);
 
-        jugador.recibirRecurso(RecursoTipo.MADERA, 4);
+        jugador2.recibirRecurso(RecursoTipo.MADERA, 4);
 
         Banco banco = new Banco();
-        banco.comerciar(jugador, RecursoTipo.MADERA, RecursoTipo.GRANO, 1);
+        banco.comerciar(jugador2, RecursoTipo.MADERA, RecursoTipo.GRANO, 1);
 
-        Recurso madera = jugador.buscarRecurso(RecursoTipo.MADERA);
+        Recurso madera = jugador2.buscarRecurso(RecursoTipo.MADERA);
         assertEquals(0, madera.cantidad());
 
-        Recurso grano = jugador.buscarRecurso(RecursoTipo.GRANO);
+        Recurso grano = jugador2.buscarRecurso(RecursoTipo.GRANO);
         assertEquals(1, grano.cantidad());
     }
 
@@ -211,17 +217,20 @@ public class TestIntegrales {
 
         GeneradorDeDados dado = () -> 8;
 
-        Juego juego = new Juego(3, List.of("Luis", "Ana", "Marcos"), dado);
-        Jugador jugador = juego.jugadores().get(0);
+        Jugador jugador1 = new Jugador("Juli");
+ 	    Jugador jugador2 = new Jugador("Valen");
+ 	    Jugador jugador3 = new Jugador("Sofi");
+ 	    List<Jugador> jugadores = List.of(jugador1, jugador2, jugador3);
+ 	    Juego juego = new Juego(jugadores, dado);
 
-        jugador.agregarPuerto(new PuertoGenerico());
-        jugador.recibirRecurso(RecursoTipo.MADERA, 3);
+        jugador3.agregarPuerto(new PuertoGenerico());
+        jugador3.recibirRecurso(RecursoTipo.MADERA, 3);
 
         Banco banco = new Banco();
-        banco.comerciar(jugador, RecursoTipo.MADERA, RecursoTipo.LANA, 1);
+        banco.comerciar(jugador3, RecursoTipo.MADERA, RecursoTipo.LANA, 1);
 
-        assertEquals(0, jugador.buscarRecurso(RecursoTipo.MADERA).cantidad());
-        assertEquals(1, jugador.buscarRecurso(RecursoTipo.LANA).cantidad());
+        assertEquals(0, jugador3.buscarRecurso(RecursoTipo.MADERA).cantidad());
+        assertEquals(1, jugador3.buscarRecurso(RecursoTipo.LANA).cantidad());
     }
 
     @Test
@@ -240,20 +249,18 @@ public class TestIntegrales {
 
         tablero.setearGrafo(grafo);
 
-        GeneradorDeDados dado = () -> 8;
+        Jugador jugador1 = new Jugador("Juli");
 
-        Juego juego = new Juego(3, List.of("Luis", "Ana", "Marcos"), dado);
-        Jugador jugador = juego.jugadores().get(0);
-
-        jugador.agregarPuerto(new PuertoEspecifico(RecursoTipo.MADERA));
-        jugador.recibirRecurso(RecursoTipo.MADERA, 2);
+        jugador1.agregarPuerto(new PuertoEspecifico(RecursoTipo.MADERA));
+        jugador1.recibirRecurso(RecursoTipo.MADERA, 2);
 
         Banco banco = new Banco();
-        banco.comerciar(jugador,RecursoTipo.MADERA, RecursoTipo.MINERAL,1);
+        banco.comerciar(jugador1,RecursoTipo.MADERA, RecursoTipo.MINERAL,1);
 
-        assertEquals(0, jugador.buscarRecurso(RecursoTipo.MADERA).cantidad());
-        assertEquals(1, jugador.buscarRecurso(RecursoTipo.MINERAL).cantidad());
+        assertEquals(0, jugador1.buscarRecurso(RecursoTipo.MADERA).cantidad());
+        assertEquals(1, jugador1.buscarRecurso(RecursoTipo.MINERAL).cantidad());
     }
+
     @Test
     public void intercambioEntreJugadoresTransfiereRecursosCorrectamente() {
     	Jugador ofertante = new Jugador("Ofertante");
@@ -299,52 +306,55 @@ public class TestIntegrales {
     @Test
     void validacionComprarCartaDesarrolloDescuentaRecursosAgregaCartaAlJugador() {
         GeneradorDeDados dado = () -> 8;
+        Jugador jugador1 = new Jugador("Juli");
+  	    Jugador jugador2 = new Jugador("Valen");
+  	    Jugador jugador3 = new Jugador("Sofi");
+  	    List<Jugador> jugadores = List.of(jugador1, jugador2, jugador3);
+  	    Juego juego = new Juego(jugadores, dado);
 
-        Juego juego = new Juego(3, List.of("lu", "caro", "dai"), dado);
-        Jugador jugador = juego.jugadores().get(0);
+        jugador1.recibirRecurso(RecursoTipo.LANA, 1);
+        jugador1.recibirRecurso(RecursoTipo.GRANO, 1);
+        jugador1.recibirRecurso(RecursoTipo.MINERAL, 1);
 
-        jugador.recibirRecurso(RecursoTipo.LANA, 1);
-        jugador.recibirRecurso(RecursoTipo.GRANO, 1);
-        jugador.recibirRecurso(RecursoTipo.MINERAL, 1);
-
-        int lanaAntes = jugador.buscarRecurso(RecursoTipo.LANA).cantidad();
-        int granoAntes = jugador.buscarRecurso(RecursoTipo.GRANO).cantidad();
-        int mineralAntes = jugador.buscarRecurso(RecursoTipo.MINERAL).cantidad();
+        int lanaAntes = jugador1.buscarRecurso(RecursoTipo.LANA).cantidad();
+        int granoAntes = jugador1.buscarRecurso(RecursoTipo.GRANO).cantidad();
+        int mineralAntes = jugador1.buscarRecurso(RecursoTipo.MINERAL).cantidad();
 
         juego.comprarCartaDesarrollo();
 
-        assertEquals(lanaAntes - 1, jugador.buscarRecurso(RecursoTipo.LANA).cantidad());
-        assertEquals(granoAntes - 1, jugador.buscarRecurso(RecursoTipo.GRANO).cantidad());
-        assertEquals(mineralAntes - 1, jugador.buscarRecurso(RecursoTipo.MINERAL).cantidad());
+        assertEquals(lanaAntes - 1, jugador1.buscarRecurso(RecursoTipo.LANA).cantidad());
+        assertEquals(granoAntes - 1, jugador1.buscarRecurso(RecursoTipo.GRANO).cantidad());
+        assertEquals(mineralAntes - 1, jugador1.buscarRecurso(RecursoTipo.MINERAL).cantidad());
 
-        assertEquals(1, jugador.obtenerCartasDesarrollo().size(), "El jugador debería tener una carta por que la compro");
+        assertEquals(1, jugador1.obtenerCartasDesarrollo().size(), "El jugador debería tener una carta por que la compro");
     }
+
     @Test
     void CartaRecienCompradaNoPuedeUsarseEnTurnoActual_SiTrasFinalizarTurno() {
-        GeneradorDeDados dado = () -> 8;
-        Juego juego = new Juego(3, List.of("lu", "caro", "dai"), dado);
-        Jugador jugador = juego.jugadores().get(0);
+    	 GeneradorDeDados dado = () -> 8;
+         Jugador jugador1 = new Jugador("Juli");
+   	    Jugador jugador2 = new Jugador("Valen");
+   	    Jugador jugador3 = new Jugador("Sofi");
+   	    List<Jugador> jugadores = List.of(jugador1, jugador2, jugador3);
+   	    Juego juego = new Juego(jugadores, dado);
 
-        jugador.recibirRecurso(RecursoTipo.LANA, 1);
-        jugador.recibirRecurso(RecursoTipo.GRANO, 1);
-        jugador.recibirRecurso(RecursoTipo.MINERAL, 1);
+
+        jugador1.recibirRecurso(RecursoTipo.LANA, 1);
+        jugador1.recibirRecurso(RecursoTipo.GRANO, 1);
+        jugador1.recibirRecurso(RecursoTipo.MINERAL, 1);
 
         juego.comprarCartaDesarrollo();
 
-        Carta carta = jugador.obtenerCartasDesarrollo().get(0);
+        Carta carta = jugador1.obtenerCartasDesarrollo().get(0);
 
-        // 1) En el mismo turno NO debería poder jugarla
-        assertThrows(IllegalStateException.class, () -> jugador.jugarCartaDesarrollo(carta), "No deberia usar la carta en el mismo turnoque la  compra.");
+        assertThrows(IllegalStateException.class, () -> jugador1.jugarCartaDesarrollo(carta), "No deberia usar la carta en el mismo turnoque la  compra.");
 
-        // 2) Simulamos fin de turno
         juego.finalizarTurnoActual();
 
-        // 3) Ahora sí debería poder jugarse
-        assertDoesNotThrow(() -> jugador.jugarCartaDesarrollo(carta),
+        assertDoesNotThrow(() -> jugador1.jugarCartaDesarrollo(carta),
                 "finalizo el turno, podes usar la carta.");
 
-        // Y ya no debería tener cartas de desarrollo en su mazo
-        assertEquals(0, jugador.obtenerCartasDesarrollo().size(), "usaste tu unica carta no tenes mas");
+        assertEquals(0, jugador1.obtenerCartasDesarrollo().size(), "usaste tu unica carta no tenes mas");
     }
 
 }

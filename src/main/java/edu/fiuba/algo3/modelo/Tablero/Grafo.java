@@ -1,5 +1,6 @@
 package edu.fiuba.algo3.modelo.Tablero;
 
+import edu.fiuba.algo3.Excepciones.CaminoInvalido;
 import edu.fiuba.algo3.modelo.Jugador;
 import edu.fiuba.algo3.modelo.Pieza.Camino;
 import edu.fiuba.algo3.modelo.Pieza.Ladron;
@@ -98,6 +99,15 @@ public class Grafo {
         return vertice1.hayVerticeAdyacente(vertice2);
     }
 
+
+    public void colocarCamino(UbicacionVertice ubicacion1, UbicacionVertice ubicacion2, Camino pieza) {
+        Arista aristaEncontrada = buscarArista(vertices);
+        if ((buscarVertice(vertices.get(0))).perteneceA(pieza.obtenerJugador()) || (buscarVertice(vertices.get(1)).perteneceA(pieza.obtenerJugador()))) {
+            aristaEncontrada.colocarCamino(pieza);
+        } else {
+            throw new CaminoInvalido("No se puede colocar camino sin una pieza del jugador adyacente");
+        }
+    }
     public void colocarPieza(UbicacionVertice ubicacion, Pieza pieza) {
         Vertice verticeEncontrado = buscarVertice(ubicacion);
         if (verticeEncontrado.contieneTerreno()) {
@@ -106,12 +116,6 @@ public class Grafo {
         VerticeEdificio verticeEdificioEncontrado = (VerticeEdificio) verticeEncontrado;
         verticeEdificioEncontrado.colocarPieza(pieza);
     }
-
-    public void colocarCamino(UbicacionVertice ubicacion1, UbicacionVertice ubicacion2, Camino pieza) {
-        Arista aristaEncontrada = buscarArista(ubicacion1, ubicacion2);
-        aristaEncontrada.colocarCamino(pieza);
-
-        }
 
     public void terrenosCompatibles(int resultadoDado) {
         List<VerticeTerreno> terrenosConFichaDeNumero = buscarTerrenoCompatible(resultadoDado);
@@ -158,4 +162,3 @@ public class Grafo {
         return aristaEncontrada.hayCamino();
     }
 }
-

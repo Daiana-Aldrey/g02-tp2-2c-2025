@@ -121,7 +121,6 @@ public class GrafoTest {
         grafo.agregarVertice(vertice1);
         grafo.agregarVertice(vertice2);
 
-
         Arista aristaBuscada = new Arista(ubicacion1, ubicacion2);
         grafo.agregarArista(aristaBuscada);
 
