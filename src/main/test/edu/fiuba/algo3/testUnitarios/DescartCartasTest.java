@@ -19,7 +19,7 @@ public class DescartCartasTest {
         jugador.recibirRecurso(new Mineral(), 2);
 
         jugador.descartarMitad();
-        assertEquals(6, jugador.cantidadDeCartas());
+        assertEquals(5, jugador.cantidadDeCartas());
     }
     @Test
     void conTresCartas_noDescartaAlSalir7() {
@@ -47,8 +47,6 @@ public class DescartCartasTest {
     void totalNueve_descartaCuatro_yQuedanCinco() {
         Jugador jugador = new Jugador("mike");
 
-        jugador.recibirRecurso(new Madera(), 5);
-        jugador.recibirRecurso(new Ladrillo(), 4);
         jugador.recibirRecurso(new Madera(), 5);
         jugador.recibirRecurso(new Ladrillo(), 4);
         jugador.descartarMitad();

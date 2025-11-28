@@ -113,7 +113,6 @@ public class Jugador {
     public void descartarMitad() {
         int total = totalRecursos();
         if (total <= 7) return;
-
         int aDescartar = total / 2;
 
         int i = 0;
