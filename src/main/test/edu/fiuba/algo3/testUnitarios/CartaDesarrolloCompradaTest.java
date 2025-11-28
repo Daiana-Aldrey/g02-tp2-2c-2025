@@ -3,7 +3,7 @@ package edu.fiuba.algo3.testUnitarios;
 import edu.fiuba.algo3.modelo.*;
 import edu.fiuba.algo3.modelo.CartaDeDesarrollo.Carta;
 import edu.fiuba.algo3.modelo.Intercambio.Banco;
-import edu.fiuba.algo3.modelo.Recurso.RecursoTipo;
+import edu.fiuba.algo3.modelo.Recurso.*;
 import org.junit.jupiter.api.Test;
 
 import static org.mockito.Mockito.*;
@@ -19,18 +19,18 @@ public class CartaDesarrolloCompradaTest {
         Jugador jugador = new Jugador("joo");
         Banco banco = new Banco();
 
-        jugador.recibirRecurso(RecursoTipo.LANA, 3);
-        jugador.recibirRecurso(RecursoTipo.GRANO, 2);
-        jugador.recibirRecurso(RecursoTipo.MINERAL, 1);
+        jugador.recibirRecurso(new Lana(), 3);
+        jugador.recibirRecurso(new Grano(), 2);
+        jugador.recibirRecurso(new Mineral(), 1);
 
-        int lanaAntes = jugador.buscarRecurso(RecursoTipo.LANA).cantidad();
-        int granoAntes = jugador.buscarRecurso(RecursoTipo.GRANO).cantidad();
-        int mineralAntes = jugador.buscarRecurso(RecursoTipo.MINERAL).cantidad();
+        int lanaAntes = jugador.buscarRecurso(new Lana()).cantidad();
+        int granoAntes = jugador.buscarRecurso(new Grano()).cantidad();
+        int mineralAntes = jugador.buscarRecurso(new Mineral()).cantidad();
         banco.venderCartaDesarrollo(jugador);
 
-        assertEquals(lanaAntes - UNO, jugador.buscarRecurso(RecursoTipo.LANA).cantidad(),"quedan 2 lanas");
-        assertEquals(granoAntes - UNO, jugador.buscarRecurso(RecursoTipo.GRANO).cantidad(), "quedan 1 granos");
-        assertEquals(mineralAntes - UNO, jugador.buscarRecurso(RecursoTipo.MINERAL).cantidad(), "quedan 0 mineral");
+        assertEquals(lanaAntes - UNO, jugador.buscarRecurso(new Lana()).cantidad(),"quedan 2 lanas");
+        assertEquals(granoAntes - UNO, jugador.buscarRecurso(new Grano()).cantidad(), "quedan 1 granos");
+        assertEquals(mineralAntes - UNO, jugador.buscarRecurso(new Mineral()).cantidad(), "quedan 0 mineral");
 
         assertEquals(1, jugador.obtenerCartasDesarrollo().size(), "El jugador debería tener 1 carta nueva.");
     }
@@ -39,14 +39,14 @@ public class CartaDesarrolloCompradaTest {
         Banco banco = new Banco();
         Jugador jugador = new Jugador("Jp");
 
-        jugador.recibirRecurso(RecursoTipo.LANA, 4);
-        jugador.recibirRecurso(RecursoTipo.GRANO, 6);
+        jugador.recibirRecurso(new Lana(), 4);
+        jugador.recibirRecurso(new Grano(), 6);
 
         assertThrows(IllegalArgumentException.class, () -> {banco.venderCartaDesarrollo(jugador);}, "Debe fallar por que no tiene Minerales");
 
-        assertEquals(4, jugador.buscarRecurso(RecursoTipo.LANA).cantidad(), "No se desconto nada de  Lana");
-        assertEquals(6, jugador.buscarRecurso(RecursoTipo.GRANO).cantidad(), "No se desconto nada de Grano");
-        assertEquals(0, jugador.buscarRecurso(RecursoTipo.MINERAL).cantidad(), "mineral sigue en 0.");
+        assertEquals(4, jugador.buscarRecurso(new Lana()).cantidad(), "No se desconto nada de  Lana");
+        assertEquals(6, jugador.buscarRecurso(new Grano()).cantidad(), "No se desconto nada de Grano");
+        assertEquals(0, jugador.buscarRecurso(new Mineral()).cantidad(), "mineral sigue en 0.");
 
         assertTrue(jugador.obtenerCartasDesarrollo().isEmpty(), "No se agrega ninguna carta de desarrollo.");
 
@@ -71,9 +71,9 @@ public class CartaDesarrolloCompradaTest {
         Jugador jugador = new Jugador("Lu");
         Banco banco = new Banco();
 
-        jugador.recibirRecurso(RecursoTipo.LANA, 1);
-        jugador.recibirRecurso(RecursoTipo.GRANO, 1);
-        jugador.recibirRecurso(RecursoTipo.MINERAL, 1);
+        jugador.recibirRecurso(new Lana(), 1);
+        jugador.recibirRecurso(new Grano(), 1);
+        jugador.recibirRecurso(new Mineral(), 1);
 
         Carta carta = banco.venderCartaDesarrollo(jugador);
 
@@ -99,9 +99,9 @@ public class CartaDesarrolloCompradaTest {
         Jugador jugador = new Jugador("Lu");
         Banco banco = new Banco();
 
-        jugador.recibirRecurso(RecursoTipo.LANA, 1);
-        jugador.recibirRecurso(RecursoTipo.GRANO, 1);
-        jugador.recibirRecurso(RecursoTipo.MINERAL, 1);
+        jugador.recibirRecurso(new Lana(), 1);
+        jugador.recibirRecurso(new Grano(), 1);
+        jugador.recibirRecurso(new Mineral(), 1);
 
         Carta carta = banco.venderCartaDesarrollo(jugador);
 

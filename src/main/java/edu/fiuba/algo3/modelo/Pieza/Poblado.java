@@ -1,8 +1,7 @@
 package edu.fiuba.algo3.modelo.Pieza;
 
 import edu.fiuba.algo3.modelo.Jugador;
-import edu.fiuba.algo3.modelo.Recurso.Recurso;
-import edu.fiuba.algo3.modelo.Recurso.RecursoTipo;
+import edu.fiuba.algo3.modelo.Recurso.*;
 import edu.fiuba.algo3.modelo.Tablero.Tablero;
 import edu.fiuba.algo3.modelo.Ubicacion.Ubicacion;
 import edu.fiuba.algo3.modelo.Ubicacion.NoUbicacion;
@@ -22,10 +21,10 @@ public class Poblado extends Pieza {
     @Override
     public List<Recurso> costoDeConstruccion() {
     	return List.of(
-    	        new Recurso(RecursoTipo.MADERA, 1),
-    	        new Recurso(RecursoTipo.LADRILLO, 1),
-    	        new Recurso(RecursoTipo.LANA, 1),
-    	        new Recurso(RecursoTipo.GRANO, 1)
+    	        new Madera(1),
+    	        new Ladrillo(1),
+    	        new Lana(1),
+    	        new Grano(1)
     	    );
     }
     

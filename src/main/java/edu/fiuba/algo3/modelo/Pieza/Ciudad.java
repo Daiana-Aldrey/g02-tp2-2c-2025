@@ -1,6 +1,8 @@
 package edu.fiuba.algo3.modelo.Pieza;
 
 import edu.fiuba.algo3.modelo.Jugador;
+import edu.fiuba.algo3.modelo.Recurso.Grano;
+import edu.fiuba.algo3.modelo.Recurso.Mineral;
 import edu.fiuba.algo3.modelo.Recurso.Recurso;
 import edu.fiuba.algo3.modelo.Recurso.RecursoTipo;
 import edu.fiuba.algo3.modelo.Tablero.Tablero;
@@ -22,8 +24,9 @@ public class Ciudad extends Pieza {
     @Override
     public List<Recurso> costoDeConstruccion(){
         return List.of(
-                new Recurso(RecursoTipo.GRANO,2),
-                new Recurso(RecursoTipo.MINERAL, 3));
+                new Grano(2),
+                new Mineral(3)
+        );
     }
 
     @Override

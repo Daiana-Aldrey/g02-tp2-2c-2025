@@ -1,16 +1,16 @@
 package edu.fiuba.algo3.modelo.Intercambio;
 
-import edu.fiuba.algo3.modelo.Recurso.RecursoTipo;
+import edu.fiuba.algo3.modelo.Recurso.*;
 
 public class PuertoEspecifico implements Puerto {
-    private final RecursoTipo tipo;
+    private final Recurso recurso;
 
-    public PuertoEspecifico(RecursoTipo tipo){
-        this.tipo = tipo;
+    public PuertoEspecifico(Recurso recurso){
+        this.recurso = recurso;
     }
 
     @Override
-    public int tasaPara(RecursoTipo recurso){
+    public int tasaPara(Recurso recurso){
         return 2;
     }
 }

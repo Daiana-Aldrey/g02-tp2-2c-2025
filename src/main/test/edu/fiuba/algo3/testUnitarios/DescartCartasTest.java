@@ -2,7 +2,7 @@ package edu.fiuba.algo3.testUnitarios;
 
 import edu.fiuba.algo3.modelo.*;
 import edu.fiuba.algo3.modelo.Dados.GeneradorDeDados;
-import edu.fiuba.algo3.modelo.Recurso.RecursoTipo;
+import edu.fiuba.algo3.modelo.Recurso.*;
 import edu.fiuba.algo3.modelo.Tablero.Tablero;
 import org.junit.jupiter.api.Test;
 
@@ -22,11 +22,11 @@ public class DescartCartasTest {
         Juego juego = new Juego(jugadores, dado);
         Jugador jugador = juego.jugadores().get(0);
 
-        jugador.recibirRecurso(RecursoTipo.MADERA, 2);
-        jugador.recibirRecurso(RecursoTipo.LADRILLO, 2);
-        jugador.recibirRecurso(RecursoTipo.LANA, 2);
-        jugador.recibirRecurso(RecursoTipo.GRANO, 2);
-        jugador.recibirRecurso(RecursoTipo.MINERAL, 2);
+        jugador.recibirRecurso(new Madera(), 2);
+        jugador.recibirRecurso(new Ladrillo(), 2);
+        jugador.recibirRecurso(new Lana(), 2);
+        jugador.recibirRecurso(new Grano(), 2);
+        jugador.recibirRecurso(new Mineral(), 2);
 
         int n = juego.tirarDado();
         juego.manejarTirada(n);
@@ -44,9 +44,9 @@ public class DescartCartasTest {
 
         Jugador jugador = juego.jugadores().get(0);
 
-        jugador.recibirRecurso(RecursoTipo.MADERA, 1);
-        jugador.recibirRecurso(RecursoTipo.LADRILLO, 1);
-        jugador.recibirRecurso(RecursoTipo.LANA, 1);
+        jugador.recibirRecurso(new Madera(), 1);
+        jugador.recibirRecurso(new Ladrillo(), 1);
+        jugador.recibirRecurso(new Lana(), 1);
 
         juego.manejarTirada(juego.tirarDado());
 
@@ -63,8 +63,8 @@ public class DescartCartasTest {
 
         Jugador jugador = juego.jugadores().get(0);
 
-        jugador.recibirRecurso(RecursoTipo.MADERA, 3);
-        jugador.recibirRecurso(RecursoTipo.LADRILLO, 3);
+        jugador.recibirRecurso(new Madera(), 3);
+        jugador.recibirRecurso(new Ladrillo(), 3);
 
         juego.manejarTirada(juego.tirarDado());
 
@@ -81,8 +81,8 @@ public class DescartCartasTest {
         Juego juego = new Juego(jugadores, dado);
         Jugador jugador = juego.jugadores().get(0);
 
-        jugador.recibirRecurso(RecursoTipo.MADERA, 5);
-        jugador.recibirRecurso(RecursoTipo.LADRILLO, 4);
+        jugador.recibirRecurso(new Madera(), 5);
+        jugador.recibirRecurso(new Ladrillo(), 4);
 
         juego.manejarTirada(juego.tirarDado());
         //9 descarta 4
@@ -99,8 +99,8 @@ public class DescartCartasTest {
         Juego juego = new Juego(jugadores, dado);
         Jugador jugador = juego.jugadores().get(0);
 
-        jugador.recibirRecurso(RecursoTipo.GRANO, 6);
-        jugador.recibirRecurso(RecursoTipo.LANA, 4);
+        jugador.recibirRecurso(new Grano(), 6);
+        jugador.recibirRecurso(new Lana(), 4);
 
         juego.manejarTirada(juego.tirarDado());
 
@@ -117,11 +117,11 @@ public class DescartCartasTest {
         Juego juego = new Juego(jugadores, dado);
         Jugador jugador = juego.jugadores().get(0);
 
-        jugador.recibirRecurso(RecursoTipo.MADERA, 5);
-        jugador.recibirRecurso(RecursoTipo.LADRILLO, 5);
-        jugador.recibirRecurso(RecursoTipo.LANA, 5);
-        jugador.recibirRecurso(RecursoTipo.GRANO, 5);
-        jugador.recibirRecurso(RecursoTipo.MINERAL, 5);
+        jugador.recibirRecurso(new Madera(), 5);
+        jugador.recibirRecurso(new Ladrillo(), 5);
+        jugador.recibirRecurso(new Lana(), 5);
+        jugador.recibirRecurso(new Grano(), 5);
+        jugador.recibirRecurso(new Mineral(), 5);
 
         juego.manejarTirada(juego.tirarDado());
 

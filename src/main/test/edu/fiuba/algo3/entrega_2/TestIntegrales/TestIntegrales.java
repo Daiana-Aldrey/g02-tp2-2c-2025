@@ -35,15 +35,15 @@ public class TestIntegrales {
         marcelo.colocarPiezaInicial("poblado", new ArrayList<>(List.of(new UbicacionVertice(18))));
         marcelo.colocarPiezaInicial("camino", new ArrayList<>(List.of(new UbicacionVertice(18), new UbicacionVertice(17))));
 
-        luis.recibirRecurso(RecursoTipo.MADERA, 10);
-        luis.recibirRecurso(RecursoTipo.LADRILLO, 10);
-        luis.recibirRecurso(RecursoTipo.LANA, 10);
-        luis.recibirRecurso(RecursoTipo.GRANO, 10);
+        luis.recibirRecurso(new Madera(), 10);
+        luis.recibirRecurso(new Ladrillo(), 10);
+        luis.recibirRecurso(new Lana(), 10);
+        luis.recibirRecurso(new Grano(), 10);
 
-        marcelo.recibirRecurso(RecursoTipo.MADERA, 2);
-        marcelo.recibirRecurso(RecursoTipo.LADRILLO, 2);
-        marcelo.recibirRecurso(RecursoTipo.LANA, 2);
-        marcelo.recibirRecurso(RecursoTipo.GRANO, 2);
+        marcelo.recibirRecurso(new Madera(), 2);
+        marcelo.recibirRecurso(new Ladrillo(), 2);
+        marcelo.recibirRecurso(new Lana(), 2);
+        marcelo.recibirRecurso(new Grano(), 2);
 
         luis.construirPieza("camino", new ArrayList<>(List.of(new UbicacionVertice(1), new UbicacionVertice(9))));
         marcelo.construirPieza("camino", new ArrayList<>(List.of(new UbicacionVertice(18), new UbicacionVertice(19))));
@@ -51,15 +51,15 @@ public class TestIntegrales {
         Assertions.assertTrue(tablero.hayCamino(new UbicacionVertice(1), new UbicacionVertice(9)));
         Assertions.assertTrue(tablero.hayCamino(new UbicacionVertice(18), new UbicacionVertice(19)));
 
-        assertEquals(9, luis.buscarRecurso(RecursoTipo.MADERA).cantidad());
-        assertEquals(9, luis.buscarRecurso(RecursoTipo.LADRILLO).cantidad());
-        assertEquals(10, luis.buscarRecurso(RecursoTipo.LANA).cantidad());
-        assertEquals(10, luis.buscarRecurso(RecursoTipo.GRANO).cantidad());
+        assertEquals(9, luis.buscarRecurso(new Madera()).cantidad());
+        assertEquals(9, luis.buscarRecurso(new Ladrillo()).cantidad());
+        assertEquals(10, luis.buscarRecurso(new Lana()).cantidad());
+        assertEquals(10, luis.buscarRecurso(new Grano()).cantidad());
 
-        assertEquals(1, marcelo.buscarRecurso(RecursoTipo.MADERA).cantidad());
-        assertEquals(1, marcelo.buscarRecurso(RecursoTipo.LADRILLO).cantidad());
-        assertEquals(2, marcelo.buscarRecurso(RecursoTipo.LANA).cantidad());
-        assertEquals(2, marcelo.buscarRecurso(RecursoTipo.GRANO).cantidad());
+        assertEquals(1, marcelo.buscarRecurso(new Madera()).cantidad());
+        assertEquals(1, marcelo.buscarRecurso(new Ladrillo()).cantidad());
+        assertEquals(2, marcelo.buscarRecurso(new Lana()).cantidad());
+        assertEquals(2, marcelo.buscarRecurso(new Grano()).cantidad());
 
     }
 
@@ -77,15 +77,15 @@ public class TestIntegrales {
         marcelo.colocarPiezaInicial("poblado", new ArrayList<>(List.of(new UbicacionVertice(17))));
         marcelo.colocarPiezaInicial("camino", new ArrayList<>(List.of(new UbicacionVertice(18), new UbicacionVertice(17))));
 
-        luis.recibirRecurso(RecursoTipo.MADERA, 11);
-        luis.recibirRecurso(RecursoTipo.LADRILLO, 11);
-        luis.recibirRecurso(RecursoTipo.LANA, 10);
-        luis.recibirRecurso(RecursoTipo.GRANO, 10);
+        luis.recibirRecurso(new Madera(), 11);
+        luis.recibirRecurso(new Ladrillo(), 11);
+        luis.recibirRecurso(new Lana(), 10);
+        luis.recibirRecurso(new Grano(), 10);
 
-        marcelo.recibirRecurso(RecursoTipo.MADERA, 3);
-        marcelo.recibirRecurso(RecursoTipo.LADRILLO, 3);
-        marcelo.recibirRecurso(RecursoTipo.LANA, 2);
-        marcelo.recibirRecurso(RecursoTipo.GRANO, 2);
+        marcelo.recibirRecurso(new Madera(), 3);
+        marcelo.recibirRecurso(new Ladrillo(), 3);
+        marcelo.recibirRecurso(new Lana(), 2);
+        marcelo.recibirRecurso(new Grano(), 2);
 
         luis.construirPieza("camino", new ArrayList<>(List.of(new UbicacionVertice(3), new UbicacionVertice(4))));
         luis.construirPieza("poblado", new ArrayList<>(List.of(new UbicacionVertice(4))));
@@ -95,15 +95,15 @@ public class TestIntegrales {
         Assertions.assertTrue(tablero.hayEdificio(new UbicacionVertice(4)));
         Assertions.assertTrue(tablero.hayEdificio(new UbicacionVertice(19)));
 
-        assertEquals(9, luis.buscarRecurso(RecursoTipo.MADERA).cantidad());
-        assertEquals(9, luis.buscarRecurso(RecursoTipo.LADRILLO).cantidad());
-        assertEquals(9, luis.buscarRecurso(RecursoTipo.LANA).cantidad());
-        assertEquals(9, luis.buscarRecurso(RecursoTipo.GRANO).cantidad());
+        assertEquals(9, luis.buscarRecurso(new Madera()).cantidad());
+        assertEquals(9, luis.buscarRecurso(new Ladrillo()).cantidad());
+        assertEquals(9, luis.buscarRecurso(new Lana()).cantidad());
+        assertEquals(9, luis.buscarRecurso(new Grano()).cantidad());
 
-        assertEquals(1, marcelo.buscarRecurso(RecursoTipo.MADERA).cantidad());
-        assertEquals(1, marcelo.buscarRecurso(RecursoTipo.LADRILLO).cantidad());
-        assertEquals(1, marcelo.buscarRecurso(RecursoTipo.LANA).cantidad());
-        assertEquals(1, marcelo.buscarRecurso(RecursoTipo.GRANO).cantidad());
+        assertEquals(1, marcelo.buscarRecurso(new Madera()).cantidad());
+        assertEquals(1, marcelo.buscarRecurso(new Ladrillo()).cantidad());
+        assertEquals(1, marcelo.buscarRecurso(new Lana()).cantidad());
+        assertEquals(1, marcelo.buscarRecurso(new Grano()).cantidad());
 
         assertThrows(IllegalArgumentException.class, () -> {
             luis.construirPieza("poblado", new ArrayList<>(List.of(new UbicacionVertice(19))));;
@@ -146,22 +146,22 @@ public class TestIntegrales {
         jugador1.colocarPiezaInicial("poblado", List.of(ubicacion10));
         assertEquals(1, jugador1.puntosDeVictoria());
 
-        jugador1.recibirRecurso(RecursoTipo.GRANO, 2);
-        jugador1.recibirRecurso(RecursoTipo.MINERAL, 3);
+        jugador1.recibirRecurso(new Grano(), 2);
+        jugador1.recibirRecurso(new Mineral(), 3);
 
         jugador1.construirPieza("ciudad", List.of(ubicacion10));
         assertEquals(2, jugador1.puntosDeVictoria());
 
-        Recurso mineral = jugador1.buscarRecurso(RecursoTipo.MINERAL);
-        Recurso grano = jugador1.buscarRecurso(RecursoTipo.GRANO);
+        Recurso mineral = jugador1.buscarRecurso(new Mineral());
+        Recurso grano = jugador1.buscarRecurso(new Grano());
         assertEquals(0, mineral.cantidad());
         assertEquals(0, grano.cantidad());
 
 
         jugador1.colocarPiezaInicial("poblado", List.of(new UbicacionVertice(18)));
         assertEquals(3, jugador1.puntosDeVictoria());
-        jugador1.recibirRecurso(RecursoTipo.GRANO, 2);
-        jugador1.recibirRecurso(RecursoTipo.MINERAL, 3);
+        jugador1.recibirRecurso(new Grano(), 2);
+        jugador1.recibirRecurso(new Mineral(), 3);
         jugador1.construirPieza("ciudad", List.of(new UbicacionVertice(18)));
         assertEquals(4, jugador1.puntosDeVictoria());
     }
@@ -189,15 +189,15 @@ public class TestIntegrales {
  	    List<Jugador> jugadores = List.of(jugador1, jugador2, jugador3);
  	    Juego juego = new Juego(jugadores, dado);
 
-        jugador2.recibirRecurso(RecursoTipo.MADERA, 4);
+        jugador2.recibirRecurso(new Madera(), 4);
 
         Banco banco = new Banco();
-        banco.comerciar(jugador2, RecursoTipo.MADERA, RecursoTipo.GRANO, 1);
+        banco.comerciar(jugador2, new Madera(), new Grano(), 1);
 
-        Recurso madera = jugador2.buscarRecurso(RecursoTipo.MADERA);
+        Recurso madera = jugador2.buscarRecurso(new Madera());
         assertEquals(0, madera.cantidad());
 
-        Recurso grano = jugador2.buscarRecurso(RecursoTipo.GRANO);
+        Recurso grano = jugador2.buscarRecurso(new Grano());
         assertEquals(1, grano.cantidad());
     }
 
@@ -226,13 +226,13 @@ public class TestIntegrales {
  	    Juego juego = new Juego(jugadores, dado);
 
         jugador3.agregarPuerto(new PuertoGenerico());
-        jugador3.recibirRecurso(RecursoTipo.MADERA, 3);
+        jugador3.recibirRecurso(new Madera(), 3);
 
         Banco banco = new Banco();
-        banco.comerciar(jugador3, RecursoTipo.MADERA, RecursoTipo.LANA, 1);
+        banco.comerciar(jugador3, new Madera(), new Lana(), 1);
 
-        assertEquals(0, jugador3.buscarRecurso(RecursoTipo.MADERA).cantidad());
-        assertEquals(1, jugador3.buscarRecurso(RecursoTipo.LANA).cantidad());
+        assertEquals(0, jugador3.buscarRecurso(new Madera()).cantidad());
+        assertEquals(1, jugador3.buscarRecurso(new Lana()).cantidad());
     }
 
     @Test
@@ -253,14 +253,14 @@ public class TestIntegrales {
 
         Jugador jugador1 = new Jugador("Juli");
 
-        jugador1.agregarPuerto(new PuertoEspecifico(RecursoTipo.MADERA));
-        jugador1.recibirRecurso(RecursoTipo.MADERA, 2);
+        jugador1.agregarPuerto(new PuertoEspecifico(new Madera()));
+        jugador1.recibirRecurso(new Madera(), 2);
 
         Banco banco = new Banco();
-        banco.comerciar(jugador1,RecursoTipo.MADERA, RecursoTipo.MINERAL,1);
+        banco.comerciar(jugador1,new Madera(), new Mineral(),1);
 
-        assertEquals(0, jugador1.buscarRecurso(RecursoTipo.MADERA).cantidad());
-        assertEquals(1, jugador1.buscarRecurso(RecursoTipo.MINERAL).cantidad());
+        assertEquals(0, jugador1.buscarRecurso(new Madera()).cantidad());
+        assertEquals(1, jugador1.buscarRecurso(new Mineral()).cantidad());
     }
 
     @Test
@@ -268,42 +268,42 @@ public class TestIntegrales {
     	Jugador ofertante = new Jugador("Ofertante");
         Jugador receptor  = new Jugador("Receptor");
 
-        ofertante.recibirRecurso(RecursoTipo.MADERA, 5);
-        ofertante.recibirRecurso(RecursoTipo.LANA, 3);
-        receptor.recibirRecurso(RecursoTipo.LADRILLO, 4);
-        receptor.recibirRecurso(RecursoTipo.MINERAL, 2);
+        ofertante.recibirRecurso(new Madera(), 5);
+        ofertante.recibirRecurso(new Lana(), 3);
+        receptor.recibirRecurso(new Ladrillo(), 4);
+        receptor.recibirRecurso(new Mineral(), 2);
 
         List<Recurso> pedidos = List.of(
-                new Recurso(RecursoTipo.LADRILLO, 1),
-                new Recurso(RecursoTipo.MINERAL, 1)
+                new Ladrillo(1),
+                new Mineral(1)
         );
 
         List<Recurso> ofertas = List.of(
-                new Recurso(RecursoTipo.MADERA, 2),
-                new Recurso(RecursoTipo.LANA, 1)
+                new Madera(2),
+                new Lana(1)
         );
 
-        int maderaOfAntes   = ofertante.buscarRecurso(RecursoTipo.MADERA).cantidad();
-        int lanaOfAntes     = ofertante.buscarRecurso(RecursoTipo.LANA).cantidad();
-        int ladrilloOfAntes = ofertante.buscarRecurso(RecursoTipo.LADRILLO).cantidad();
-        int mineralOfAntes  = ofertante.buscarRecurso(RecursoTipo.MINERAL).cantidad();
+        int maderaOfAntes   = ofertante.buscarRecurso(new Madera()).cantidad();
+        int lanaOfAntes     = ofertante.buscarRecurso(new Lana()).cantidad();
+        int ladrilloOfAntes = ofertante.buscarRecurso(new Ladrillo()).cantidad();
+        int mineralOfAntes  = ofertante.buscarRecurso(new Mineral()).cantidad();
 
-        int maderaRecAntes   = receptor.buscarRecurso(RecursoTipo.MADERA).cantidad();
-        int lanaRecAntes     = receptor.buscarRecurso(RecursoTipo.LANA).cantidad();
-        int ladrilloRecAntes = receptor.buscarRecurso(RecursoTipo.LADRILLO).cantidad();
-        int mineralRecAntes  = receptor.buscarRecurso(RecursoTipo.MINERAL).cantidad();
+        int maderaRecAntes   = receptor.buscarRecurso(new Madera()).cantidad();
+        int lanaRecAntes     = receptor.buscarRecurso(new Lana()).cantidad();
+        int ladrilloRecAntes = receptor.buscarRecurso(new Ladrillo()).cantidad();
+        int mineralRecAntes  = receptor.buscarRecurso(new Mineral()).cantidad();
 
         receptor.intercambiar(pedidos, ofertas, ofertante);
 
-        assertEquals(ladrilloRecAntes - 1, receptor.buscarRecurso(RecursoTipo.LADRILLO).cantidad());
-        assertEquals(mineralRecAntes - 1,receptor.buscarRecurso(RecursoTipo.MINERAL).cantidad());
-        assertEquals(ladrilloOfAntes + 1, ofertante.buscarRecurso(RecursoTipo.LADRILLO).cantidad());
-        assertEquals(mineralOfAntes + 1, ofertante.buscarRecurso(RecursoTipo.MINERAL).cantidad());
+        assertEquals(ladrilloRecAntes - 1, receptor.buscarRecurso(new Ladrillo()).cantidad());
+        assertEquals(mineralRecAntes - 1,receptor.buscarRecurso(new Mineral()).cantidad());
+        assertEquals(ladrilloOfAntes + 1, ofertante.buscarRecurso(new Ladrillo()).cantidad());
+        assertEquals(mineralOfAntes + 1, ofertante.buscarRecurso(new Mineral()).cantidad());
 
-        assertEquals(maderaOfAntes - 2, ofertante.buscarRecurso(RecursoTipo.MADERA).cantidad());
-        assertEquals(lanaOfAntes - 1, ofertante.buscarRecurso(RecursoTipo.LANA).cantidad());
-        assertEquals(maderaRecAntes + 2, receptor.buscarRecurso(RecursoTipo.MADERA).cantidad());
-        assertEquals(lanaRecAntes + 1, receptor.buscarRecurso(RecursoTipo.LANA).cantidad());
+        assertEquals(maderaOfAntes - 2, ofertante.buscarRecurso(new Madera()).cantidad());
+        assertEquals(lanaOfAntes - 1, ofertante.buscarRecurso(new Lana()).cantidad());
+        assertEquals(maderaRecAntes + 2, receptor.buscarRecurso(new Madera()).cantidad());
+        assertEquals(lanaRecAntes + 1, receptor.buscarRecurso(new Lana()).cantidad());
     }
     @Test
     void validacionComprarCartaDesarrolloDescuentaRecursosAgregaCartaAlJugador() {
@@ -314,19 +314,19 @@ public class TestIntegrales {
   	    List<Jugador> jugadores = List.of(jugador1, jugador2, jugador3);
   	    Juego juego = new Juego(jugadores, dado);
 
-        jugador1.recibirRecurso(RecursoTipo.LANA, 1);
-        jugador1.recibirRecurso(RecursoTipo.GRANO, 1);
-        jugador1.recibirRecurso(RecursoTipo.MINERAL, 1);
+        jugador1.recibirRecurso(new Lana(), 1);
+        jugador1.recibirRecurso(new Grano(), 1);
+        jugador1.recibirRecurso(new Mineral(), 1);
 
-        int lanaAntes = jugador1.buscarRecurso(RecursoTipo.LANA).cantidad();
-        int granoAntes = jugador1.buscarRecurso(RecursoTipo.GRANO).cantidad();
-        int mineralAntes = jugador1.buscarRecurso(RecursoTipo.MINERAL).cantidad();
+        int lanaAntes = jugador1.buscarRecurso(new Lana()).cantidad();
+        int granoAntes = jugador1.buscarRecurso(new Grano()).cantidad();
+        int mineralAntes = jugador1.buscarRecurso(new Mineral()).cantidad();
 
         juego.comprarCartaDesarrollo();
 
-        assertEquals(lanaAntes - 1, jugador1.buscarRecurso(RecursoTipo.LANA).cantidad());
-        assertEquals(granoAntes - 1, jugador1.buscarRecurso(RecursoTipo.GRANO).cantidad());
-        assertEquals(mineralAntes - 1, jugador1.buscarRecurso(RecursoTipo.MINERAL).cantidad());
+        assertEquals(lanaAntes - 1, jugador1.buscarRecurso(new Lana()).cantidad());
+        assertEquals(granoAntes - 1, jugador1.buscarRecurso(new Grano()).cantidad());
+        assertEquals(mineralAntes - 1, jugador1.buscarRecurso(new Mineral()).cantidad());
 
         assertEquals(1, jugador1.obtenerCartasDesarrollo().size(), "El jugador debería tener una carta por que la compro");
     }
@@ -341,9 +341,9 @@ public class TestIntegrales {
    	    Juego juego = new Juego(jugadores, dado);
 
 
-        jugador1.recibirRecurso(RecursoTipo.LANA, 1);
-        jugador1.recibirRecurso(RecursoTipo.GRANO, 1);
-        jugador1.recibirRecurso(RecursoTipo.MINERAL, 1);
+        jugador1.recibirRecurso(new Lana(), 1);
+        jugador1.recibirRecurso(new Grano(), 1);
+        jugador1.recibirRecurso(new Mineral(), 1);
 
         juego.comprarCartaDesarrollo();
 

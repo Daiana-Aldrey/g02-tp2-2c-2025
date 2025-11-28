@@ -24,11 +24,11 @@ public class JugadorTest {
 	public void jugadorInicializaCorrectamenteLosRecursos() {
 	    Jugador jugador = new Jugador("Lu");
 
-	    assertNotNull(jugador.buscarRecurso(RecursoTipo.MADERA));
-	    assertNotNull(jugador.buscarRecurso(RecursoTipo.LADRILLO));
-	    assertNotNull(jugador.buscarRecurso(RecursoTipo.LANA));
-	    assertNotNull(jugador.buscarRecurso(RecursoTipo.GRANO));
-	    assertNotNull(jugador.buscarRecurso(RecursoTipo.MINERAL));
+	    assertNotNull(jugador.buscarRecurso(new Madera()));
+	    assertNotNull(jugador.buscarRecurso(new Ladrillo()));
+	    assertNotNull(jugador.buscarRecurso(new Lana()));
+	    assertNotNull(jugador.buscarRecurso(new Grano()));
+	    assertNotNull(jugador.buscarRecurso(new Mineral()));
 	}
 
 	@Test
@@ -47,15 +47,15 @@ public class JugadorTest {
         jugador.colocarPiezaInicial("poblado", List.of(new UbicacionVertice(4)));
         jugador.colocarPiezaInicial("camino", List.of(new UbicacionVertice(3), new UbicacionVertice(4)));
 
-        jugador.recibirRecurso(RecursoTipo.MADERA, 1);
-        jugador.recibirRecurso(RecursoTipo.LADRILLO, 1); //cambiar
+        jugador.recibirRecurso(new Madera(), 1);
+        jugador.recibirRecurso(new Ladrillo(), 1); //cambiar
 
         jugador.construirPieza("camino",List.of(new UbicacionVertice(2), new UbicacionVertice(3)));
         Pieza pobladoDeReferencia = Pieza.crear("poblado", jugador);
         List<Recurso> precio = pobladoDeReferencia.costoDeConstruccion();
 
         for (Recurso costo : precio) {
-            jugador.recibirRecurso(costo.tipo(), costo.cantidad());
+            jugador.recibirRecurso(costo, costo.cantidad());
         }
   
         List<UbicacionVertice> ubicacion = List.of(new UbicacionVertice(2));
@@ -80,7 +80,7 @@ public class JugadorTest {
         vt.agregarEdificio(p);
         vt.cosecharTerreno();
         
-        Recurso mineral = jugador.buscarRecurso(RecursoTipo.MINERAL);
+        Recurso mineral = jugador.buscarRecurso(new Mineral());
         assertEquals(1, mineral.cantidad());
     }
 
@@ -88,24 +88,24 @@ public class JugadorTest {
     public void jugadorPagaRecursosCorrectamente() {
         Jugador jugador = new Jugador("Luis");
 
-        jugador.recibirRecurso(RecursoTipo.MADERA, 1);
-        jugador.recibirRecurso(RecursoTipo.LADRILLO, 1);
-        jugador.recibirRecurso(RecursoTipo.LANA, 1);
-        jugador.recibirRecurso(RecursoTipo.GRANO, 1);
+        jugador.recibirRecurso(new Madera(), 1);
+        jugador.recibirRecurso(new Ladrillo(), 1);
+        jugador.recibirRecurso(new Lana(), 1);
+        jugador.recibirRecurso(new Grano(), 1);
 
         List<Recurso> precio = List.of(
-                new Recurso(RecursoTipo.MADERA, 1),
-                new Recurso(RecursoTipo.LADRILLO, 1),
-                new Recurso(RecursoTipo.LANA, 1),
-                new Recurso(RecursoTipo.GRANO, 1)
+                new Madera(1),
+                new Ladrillo(1),
+                new Lana(1),
+                new Grano(1)
         );
 
         jugador.pagarRecursos(precio);
 
-        assertEquals(0, jugador.buscarRecurso(RecursoTipo.MADERA).cantidad());
-        assertEquals(0, jugador.buscarRecurso(RecursoTipo.LADRILLO).cantidad());
-        assertEquals(0, jugador.buscarRecurso(RecursoTipo.LANA).cantidad());
-        assertEquals(0, jugador.buscarRecurso(RecursoTipo.GRANO).cantidad());
+        assertEquals(0, jugador.buscarRecurso(new Madera()).cantidad());
+        assertEquals(0, jugador.buscarRecurso(new Ladrillo()).cantidad());
+        assertEquals(0, jugador.buscarRecurso(new Lana()).cantidad());
+        assertEquals(0, jugador.buscarRecurso(new Grano()).cantidad());
     }
 
     
@@ -114,7 +114,7 @@ public class JugadorTest {
         Jugador ladron = new Jugador("Ladrón");
         Jugador victima = new Jugador("Víctima");
         
-        victima.recibirRecurso(RecursoTipo.LADRILLO, 1);
+        victima.recibirRecurso(new Ladrillo(), 1);
 
         int antesVictima = victima.cantidadDeCartas();   
         int antesLadron = ladron.cantidadDeCartas();     
@@ -159,7 +159,7 @@ public class JugadorTest {
         int tirada = juego.tirarDado();
         juego.manejarTirada(tirada);
 
-        Recurso mineral = jugador.buscarRecurso(RecursoTipo.MINERAL);
+        Recurso mineral = jugador.buscarRecurso(new Mineral());
         assertEquals(1, mineral.cantidad());
     }
 
@@ -190,14 +190,14 @@ public class JugadorTest {
         Jugador jugador = juego.jugadores().get(0);
 
         jugador.colocarPiezaInicial("poblado", List.of(ubicacion10));
-        jugador.recibirRecurso(RecursoTipo.GRANO,2);
-        jugador.recibirRecurso(RecursoTipo.MINERAL, 3);
+        jugador.recibirRecurso(new Grano(),2);
+        jugador.recibirRecurso(new Mineral(), 3);
         jugador.construirPieza("ciudad", List.of(ubicacion10));
 
         int tirada = juego.tirarDado();
         juego.manejarTirada(tirada);
 
-        Recurso mineral = jugador.buscarRecurso(RecursoTipo.MINERAL);
+        Recurso mineral = jugador.buscarRecurso(new Mineral());
         assertEquals(2, mineral.cantidad());
     }
 
@@ -216,8 +216,8 @@ public class JugadorTest {
         Juego juego = new Juego(jugadores, dado);
         Jugador jugador = juego.jugadores().get(0); 
 
-        jugador.recibirRecurso(RecursoTipo.MADERA, 5);
-        jugador.recibirRecurso(RecursoTipo.LADRILLO, 4);
+        jugador.recibirRecurso(new Madera(), 5);
+        jugador.recibirRecurso(new Ladrillo(), 4);
 
         assertEquals(9, jugador.cantidadDeCartas(), "Precondición: debe tener 9 cartas");
 
@@ -245,19 +245,19 @@ public class JugadorTest {
 
 
         Jugador jugadorActivo = juego.jugadores().get(0);
-        jugadorActivo.recibirRecurso(RecursoTipo.MADERA, 10);
-        jugadorActivo.recibirRecurso(RecursoTipo.LADRILLO, 10);
-        jugadorActivo.recibirRecurso(RecursoTipo.LANA, 10);
-        jugadorActivo.recibirRecurso(RecursoTipo.GRANO, 10);
+        jugadorActivo.recibirRecurso(new Madera(), 10);
+        jugadorActivo.recibirRecurso(new Ladrillo(), 10);
+        jugadorActivo.recibirRecurso(new Lana(), 10);
+        jugadorActivo.recibirRecurso(new Grano(), 10);
 
         Jugador jugadorVictima = juego.jugadores().get(1);
 
-        jugadorVictima.recibirRecurso(RecursoTipo.MADERA, 1);
-        jugadorVictima.recibirRecurso(RecursoTipo.LADRILLO, 1);
-        jugadorVictima.recibirRecurso(RecursoTipo.LANA, 1);
-        jugadorVictima.recibirRecurso(RecursoTipo.GRANO, 1);
+        jugadorVictima.recibirRecurso(new Madera(), 1);
+        jugadorVictima.recibirRecurso(new Ladrillo(), 1);
+        jugadorVictima.recibirRecurso(new Lana(), 1);
+        jugadorVictima.recibirRecurso(new Grano(), 1);
 
-        jugadorVictima.recibirRecurso(RecursoTipo.MADERA, 1);
+        jugadorVictima.recibirRecurso(new Madera(), 1);
         jugadorVictima.colocarPiezaInicial("poblado", List.of(new UbicacionVertice(4)));
 
         int cartasAntesVictima = jugadorVictima.cantidadDeCartas();
@@ -295,10 +295,10 @@ public class JugadorTest {
         jugador.colocarPiezaInicial("poblado", List.of(new UbicacionVertice(1)));
         jugador.colocarPiezaInicial("camino", List.of(new UbicacionVertice(1), new UbicacionVertice(9)));
 
-        jugador.recibirRecurso(RecursoTipo.MADERA, 2);
-        jugador.recibirRecurso(RecursoTipo.LANA, 1);
-        jugador.recibirRecurso(RecursoTipo.GRANO, 1);
-        jugador.recibirRecurso(RecursoTipo.LADRILLO, 2);
+        jugador.recibirRecurso(new Madera(), 2);
+        jugador.recibirRecurso(new Lana(), 1);
+        jugador.recibirRecurso(new Grano(), 1);
+        jugador.recibirRecurso(new Ladrillo(), 2);
 
         jugador.construirPieza("camino", List.of(new UbicacionVertice(9), new UbicacionVertice(10)));
 

@@ -1,6 +1,8 @@
 package edu.fiuba.algo3.modelo.Pieza;
 
 import edu.fiuba.algo3.modelo.Jugador;
+import edu.fiuba.algo3.modelo.Recurso.Ladrillo;
+import edu.fiuba.algo3.modelo.Recurso.Madera;
 import edu.fiuba.algo3.modelo.Recurso.Recurso;
 import edu.fiuba.algo3.modelo.Recurso.RecursoTipo;
 import edu.fiuba.algo3.modelo.Tablero.Tablero;
@@ -24,8 +26,8 @@ public class Camino extends Pieza {
     @Override
     public List<Recurso> costoDeConstruccion() {
         return List.of(
-                new Recurso(RecursoTipo.MADERA, 1),
-                new Recurso(RecursoTipo.LADRILLO, 1)
+                new Madera(1),
+                new Ladrillo(1)
         );
     }
 

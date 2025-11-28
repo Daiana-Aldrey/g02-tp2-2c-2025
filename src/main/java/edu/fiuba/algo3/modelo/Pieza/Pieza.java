@@ -2,7 +2,6 @@ package edu.fiuba.algo3.modelo.Pieza;
 
 import edu.fiuba.algo3.modelo.*;
 import edu.fiuba.algo3.modelo.Recurso.Recurso;
-import edu.fiuba.algo3.modelo.Recurso.RecursoTipo;
 import edu.fiuba.algo3.modelo.Ubicacion.UbicacionVertice;
 
 import java.util.*;
@@ -31,8 +30,8 @@ public abstract class Pieza {
     
     public abstract List<Recurso> costoDeConstruccion();
 
-    public void agregarRecursos(RecursoTipo tipo, int cantidad) {
-        propietario.recibirRecurso(tipo, cantidad);
+    public void agregarRecursos(Recurso recurso, int cantidad) {
+        propietario.recibirRecurso(recurso, cantidad);
     }
 
     public abstract void colocarPrimera(List<UbicacionVertice> ubicaciones);

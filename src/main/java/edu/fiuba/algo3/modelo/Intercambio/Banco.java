@@ -2,8 +2,7 @@ package edu.fiuba.algo3.modelo.Intercambio;
 
 import edu.fiuba.algo3.modelo.CartaDeDesarrollo.*;
 import edu.fiuba.algo3.modelo.Jugador;
-import edu.fiuba.algo3.modelo.Recurso.Recurso;
-import edu.fiuba.algo3.modelo.Recurso.RecursoTipo;
+import edu.fiuba.algo3.modelo.Recurso.*;
 
 import java.util.*;
 
@@ -36,9 +35,9 @@ public class Banco {
         }
         //  Precio una carta de desarrollo
         List<Recurso> precio = List.of(
-                new Recurso(RecursoTipo.LANA, 1),
-                new Recurso(RecursoTipo.GRANO, 1),
-                new Recurso(RecursoTipo.MINERAL, 1)
+                new Lana(1),
+                new Grano(1),
+                new Mineral(1)
         );
         jugador.pagarRecursos(precio);
         Carta carta = mazoDesarrollo.pop();
@@ -47,16 +46,11 @@ public class Banco {
         return carta;
     }
 
-    public void comerciar(Jugador jugador, RecursoTipo recursoDado, RecursoTipo recursoRecibido, int cantidadSolicitada) {
+    public void comerciar(Jugador jugador, Recurso recursoDado, Recurso recursoRecibido, int cantidadSolicitada) {
         int tasa = jugador.seleccionarTasaPara(recursoDado);
         int costo = tasa * cantidadSolicitada;
-        Recurso recurso = jugador.buscarRecurso(recursoDado);
 
-        if (recurso.esSuficiente(costo)) {
-            throw new IllegalArgumentException("No tiene recursos suficientes");
-        }
-
-        jugador.descontarRecurso(recursoDado, costo);
-        jugador.recibirRecurso(recursoRecibido, cantidadSolicitada);
+        jugador.descontarRecurso(recursoDado.crearCon(costo), costo);
+        jugador.recibirRecurso(recursoRecibido.crearCon(cantidadSolicitada), cantidadSolicitada);
     }
 }

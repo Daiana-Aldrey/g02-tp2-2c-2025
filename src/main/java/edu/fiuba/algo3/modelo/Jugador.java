@@ -1,12 +1,8 @@
 package edu.fiuba.algo3.modelo;
 import edu.fiuba.algo3.modelo.CartaDeDesarrollo.Carta;
 import edu.fiuba.algo3.modelo.Intercambio.Puerto;
-import edu.fiuba.algo3.modelo.Pieza.Camino;
-import edu.fiuba.algo3.modelo.Pieza.Ciudad;
-import edu.fiuba.algo3.modelo.Pieza.Pieza;
-import edu.fiuba.algo3.modelo.Pieza.Poblado;
-import edu.fiuba.algo3.modelo.Recurso.Recurso;
-import edu.fiuba.algo3.modelo.Recurso.RecursoTipo;
+import edu.fiuba.algo3.modelo.Pieza.*;
+import edu.fiuba.algo3.modelo.Recurso.*;
 import edu.fiuba.algo3.modelo.Tablero.Tablero;
 import edu.fiuba.algo3.modelo.Ubicacion.UbicacionVertice;
 
@@ -32,7 +28,7 @@ public class Jugador {
 		this.nombre = nombre;
 		this.recursos = new ArrayList<Recurso>();
 		
-		inicializarRecursos(List.of(RecursoTipo.MADERA, RecursoTipo.LADRILLO, RecursoTipo.LANA, RecursoTipo.GRANO, RecursoTipo.MINERAL));
+		inicializarRecursos();
 	}
 
 
@@ -55,27 +51,26 @@ public class Jugador {
 	    pieza.colocarPrimera(ubicacion);
 	}    
 
-	private void inicializarRecursos(List<RecursoTipo> tiposRecursos) {
-		for(int i = 0; i < tiposRecursos.size(); i ++) {
-			Recurso recurso = new Recurso(tiposRecursos.get(i));
-			recursos.add(recurso);
-		}
+	private void inicializarRecursos() {
+		recursos.add(new Madera());
+        recursos.add(new Mineral());
+        recursos.add(new Ladrillo());
+        recursos.add(new Lana());
+        recursos.add(new Grano());
 	}
 	
-	public void recibirRecurso(RecursoTipo tipo, int cantidad) {
-	    for (Recurso recurso : recursos) {
-	        if (recurso.sosTipo(tipo)) {
-	            recurso.incrementar(cantidad);
+	public void recibirRecurso(Recurso recursoARecibir, int cantidad) {
+	    for (Recurso miRecurso : recursos) {
+	        if (recursoARecibir.podesIncrementar(miRecurso, cantidad)) {
 	            return;
 	        }
 	    }
-	    Recurso nuevo = new Recurso(tipo, cantidad);
-	    recursos.add(nuevo);
 	}
 
-    public Recurso buscarRecurso(RecursoTipo tipo) {
+    //metodo solo para tests
+    public Recurso buscarRecurso(Recurso recursoBuscado) {
         for (Recurso r : recursos) {
-            if (r.sosTipo(tipo)) {
+            if (r.getClass() == recursoBuscado.getClass()) {
                 return r;
             }
         }
@@ -96,14 +91,13 @@ public class Jugador {
         }
     }
 
-    public void descontarRecurso(RecursoTipo tipo, int cantidad) {
-        for (Recurso rJugador : recursos) {
-            if (rJugador.sosTipo(tipo)) {
-                rJugador.decrementar(cantidad);
+    public void descontarRecurso(Recurso recursoADecrementar, int cantidad) {
+        for (Recurso miRecurso : recursos) {
+            if(recursoADecrementar.podesDecrementar(miRecurso, cantidad)){
                 return;
             }
         }
-        throw new IllegalArgumentException("No posees cantidad suficiente de " + tipo);
+        throw new IllegalArgumentException("No posees cantidad suficiente");
     }
     
     public void moverLadron(UbicacionVertice ubicacion, Jugador victima) {
@@ -185,8 +179,8 @@ public class Jugador {
         }
     }
     
-    public void entregar(RecursoTipo tipo, int cantidad, Jugador destino) {
-        buscarRecurso(tipo).transferirA(destino, cantidad);
+    public void entregar(Recurso recursoAEntregar, int cantidad, Jugador destino) {
+        recursoAEntregar.transferirA(destino, cantidad);
     }
 
     public  void removerPoblado(UbicacionVertice ubicacion) {
@@ -272,7 +266,7 @@ public class Jugador {
         return encontrado;
     }
 
-    public int seleccionarTasaPara(RecursoTipo recurso){
+    public int seleccionarTasaPara(Recurso recurso){
         int mejor = 4;
 
         for(Puerto puerto : puertos){

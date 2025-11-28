@@ -122,17 +122,17 @@ public class JuegoTest {
 	    Juego juego = new Juego(jugadores, dado);
 
         Jugador jugador = juego.jugadores().get(0);
-        jugador.recibirRecurso(RecursoTipo.MADERA, 10);
-        jugador.recibirRecurso(RecursoTipo.LADRILLO, 10);
-        jugador.recibirRecurso(RecursoTipo.LANA, 10);
-        jugador.recibirRecurso(RecursoTipo.GRANO, 10);
+        jugador.recibirRecurso(new Madera(), 10);
+        jugador.recibirRecurso(new Ladrillo(), 10);
+        jugador.recibirRecurso(new Lana(), 10);
+        jugador.recibirRecurso(new Grano(), 10);
 
         jugador.colocarPiezaInicial("poblado", List.of(ubicacion10));
 
         int tirada = juego.tirarDado();  
         juego.manejarTirada(tirada);
 
-        Recurso mineral = jugador.buscarRecurso(RecursoTipo.MINERAL);
+        Recurso mineral = jugador.buscarRecurso(new Mineral());
         assertEquals(1, mineral.cantidad());
     }
 
@@ -169,10 +169,10 @@ public class JuegoTest {
         Juego juego = new Juego(jugadores, dado);
 
         for (Jugador j : juego.jugadores()) {
-            j.recibirRecurso(RecursoTipo.MADERA,   10);
-            j.recibirRecurso(RecursoTipo.LADRILLO, 10);
-            j.recibirRecurso(RecursoTipo.LANA,     10);
-            j.recibirRecurso(RecursoTipo.GRANO,    10);
+            j.recibirRecurso(new Madera(),   10);
+            j.recibirRecurso(new Ladrillo(), 10);
+            j.recibirRecurso(new Lana(),     10);
+            j.recibirRecurso(new Grano(),    10);
         }
 
         jugador1.colocarPiezaInicial("poblado", List.of(new UbicacionVertice(1)));
@@ -191,14 +191,14 @@ public class JuegoTest {
         int tirada = juego.tirarDado();
         juego.manejarTirada(tirada);
 
-        Recurso mineralJ1 = jugador1.buscarRecurso(RecursoTipo.MINERAL);
-        Recurso mineralJ2 = jugador2.buscarRecurso(RecursoTipo.MINERAL);
+        Recurso mineralJ1 = jugador1.buscarRecurso(new Mineral());
+        Recurso mineralJ2 = jugador2.buscarRecurso(new Mineral());
 
         assertEquals(1, mineralJ1.cantidad());
         assertEquals(1, mineralJ2.cantidad());
 
       
-        Recurso mineralJ3 = jugador3.buscarRecurso(RecursoTipo.MINERAL);
+        Recurso mineralJ3 = jugador3.buscarRecurso(new Mineral());
         assertTrue(mineralJ3.cantidad() == 0);
     }
     

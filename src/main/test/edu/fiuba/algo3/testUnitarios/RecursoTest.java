@@ -1,8 +1,7 @@
 package edu.fiuba.algo3.testUnitarios;
 
 import edu.fiuba.algo3.modelo.*;
-import edu.fiuba.algo3.modelo.Recurso.Recurso;
-import edu.fiuba.algo3.modelo.Recurso.RecursoTipo;
+import edu.fiuba.algo3.modelo.Recurso.*;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Assertions;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -11,38 +10,23 @@ import static org.mockito.Mockito.*;
 
 
 public class RecursoTest{
-
-    @Test
-    public void sosTipodevuelveTrueAlCoincidirRecurso(){
-        Recurso madera = new Recurso(RecursoTipo.MADERA);
-        boolean esMadera = madera.sosTipo(RecursoTipo.MADERA);
-        Assertions.assertTrue(esMadera);
-    }
-
-    @Test
-    public void sosTipodevuelveFalseAlNoCoincidirRecurso(){
-        Recurso madera = new Recurso(RecursoTipo.MADERA);
-        boolean esMadera = madera.sosTipo(RecursoTipo.LADRILLO);
-        Assertions.assertFalse(esMadera);
-    }
-
     @Test
     public void testIncrementarAumentaLaCantidadDeRecursoCreadoConCAntCero() {
-        Recurso mineral = new Recurso(RecursoTipo.MINERAL);
+        Recurso mineral = new Mineral();
         mineral.incrementar(3);
         Assertions.assertEquals(3, mineral.cantidad());
     }
 
     @Test
     public void testIncrementarAumentaLaCantidadDeRecursoCreado() {
-        Recurso mineral = new Recurso(RecursoTipo.MINERAL, 2);
+        Recurso mineral = new Mineral(2);
         mineral.incrementar(3);
         Assertions.assertEquals(5, mineral.cantidad());
     }
 
     @Test
     public void testIncrementarVariasVecesAumentaCorrectamente() {
-        Recurso mineral = new Recurso(RecursoTipo.MINERAL);
+        Recurso mineral = new Mineral();
 
         mineral.incrementar(3);
         mineral.incrementar((5));
@@ -54,14 +38,14 @@ public class RecursoTest{
 
     @Test
     public void testDecrementarReduceLaCantidadCuandoHaySuficiente() {
-        Recurso ladrillo = new Recurso(RecursoTipo.LADRILLO, 4);
+        Recurso ladrillo = new Ladrillo(4);
         ladrillo.decrementar(2);
         Assertions.assertEquals(2, ladrillo.cantidad());
     }
 
     @Test
     public void testDecrementarLanzaExcepcionCuandoNoHaySuficiente() {
-        Recurso lana = new Recurso(RecursoTipo.LANA, 1);
+        Recurso lana = new Lana(1);
 
         Assertions.assertThrows(IllegalArgumentException.class, () -> {
             lana.decrementar(3);
@@ -70,7 +54,7 @@ public class RecursoTest{
 
     @Test
     public void testDecrementarVariasVecesReduceLaCantidadCorrectamente() {
-        Recurso ladrillo = new Recurso(RecursoTipo.LADRILLO, 10);
+        Recurso ladrillo = new Ladrillo(10);
 
         ladrillo.decrementar(2);
         ladrillo.decrementar(1);
@@ -83,7 +67,7 @@ public class RecursoTest{
 
     @Test
     public void testIncrementarYDecrementar() {
-        Recurso lana = new Recurso(RecursoTipo.LANA);
+        Recurso lana = new Lana();
         lana.incrementar((5));
         lana.incrementar((5));
         lana.decrementar(2);
@@ -95,13 +79,13 @@ public class RecursoTest{
     
     @Test
     public void recursoTransfiereUnaCartaEntreJugadores() {
-        Recurso madera = new Recurso(RecursoTipo.MADERA, 3);
+        Recurso madera = new Madera(3);
         Jugador destino = mock(Jugador.class);
 
         madera.transferirA(destino, 1);
 
         assertEquals(2, madera.cantidad());
-        verify(destino, times(1)).recibirRecurso(RecursoTipo.MADERA, 1);
+        verify(destino, times(1)).recibirRecurso(new Madera(), 1);
         verifyNoMoreInteractions(destino);
     }
     
@@ -110,10 +94,10 @@ public class RecursoTest{
         Jugador pagador  = mock(Jugador.class);
         Jugador receptor = mock(Jugador.class);
 
-        Recurso recursoPedido = new Recurso(RecursoTipo.LADRILLO, 3);
+        Recurso recursoPedido = new Ladrillo(3);
         recursoPedido.cobrarDe(pagador, receptor);
 
-        verify(pagador).entregar(RecursoTipo.LADRILLO, 3, receptor);
+        verify(pagador).entregar(new Ladrillo(3), 3, receptor);
         verifyNoMoreInteractions(pagador, receptor);
     }
 }
