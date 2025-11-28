@@ -45,7 +45,6 @@ public class Camino extends Pieza {
         } else {
             throw new IllegalArgumentException("No se encuentra poblado para empezar camino");
         }
-
     }
 
     @Override
@@ -63,7 +62,7 @@ public class Camino extends Pieza {
 
             propietario.incorporarCamino(this);
         } else {
-            throw new IllegalArgumentException("No se encuentra poblado/camino para seguir un camino");
+            throw new IllegalArgumentException("No se encuentra poblado/camino para colocar un camino");
         }
     }
 

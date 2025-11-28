@@ -7,7 +7,6 @@ import edu.fiuba.algo3.modelo.Recurso.*;
 import edu.fiuba.algo3.modelo.Tablero.*;
 import edu.fiuba.algo3.modelo.Terreno.*;
 
-import edu.fiuba.algo3.modelo.Ubicacion.Ubicacion;
 import edu.fiuba.algo3.modelo.Ubicacion.UbicacionVertice;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
@@ -43,6 +42,13 @@ public class JugadorTest {
 	    Juego juego = new Juego(jugadores, dadoPrueba);
 
         Jugador jugador = juego.jugadores().get(0);
+        jugador.colocarPiezaInicial("poblado", List.of(new UbicacionVertice(4)));
+        jugador.colocarPiezaInicial("camino", List.of(new UbicacionVertice(3), new UbicacionVertice(4)));
+
+        jugador.recibirRecurso(RecursoTipo.MADERA, 1);
+        jugador.recibirRecurso(RecursoTipo.LADRILLO, 1); //cambiar
+
+        jugador.construirPieza("camino",List.of(new UbicacionVertice(2), new UbicacionVertice(3)));
         Pieza pobladoDeReferencia = Pieza.crear("poblado", jugador);
         List<Recurso> precio = pobladoDeReferencia.costoDeConstruccion();
 
@@ -50,7 +56,7 @@ public class JugadorTest {
             jugador.recibirRecurso(costo.tipo(), costo.cantidad());
         }
   
-        List<UbicacionVertice> ubicacion = List.of(new UbicacionVertice(10));
+        List<UbicacionVertice> ubicacion = List.of(new UbicacionVertice(2));
         jugador.construirPieza("poblado", ubicacion);
 
         Assertions.assertTrue(tablero.hayEdificio(ubicacion.get(0)));
@@ -248,7 +254,7 @@ public class JugadorTest {
         jugadorVictima.recibirRecurso(RecursoTipo.GRANO, 1);
 
         jugadorVictima.recibirRecurso(RecursoTipo.MADERA, 1);
-        jugadorVictima.construirPieza("poblado", List.of(new UbicacionVertice(4)));
+        jugadorVictima.colocarPiezaInicial("poblado", List.of(new UbicacionVertice(4)));
 
         int cartasAntesVictima = jugadorVictima.cantidadDeCartas();
         int cartasAntesActivo = jugadorActivo.cantidadDeCartas();
@@ -278,6 +284,9 @@ public class JugadorTest {
 
     @Test
     public void LuegoDeLasPrimerasRondasSeIntetaPonerUnPobladoEnUnaUbicacionSinCaminoAntecesorYSeLanzaExcepcion() {
+        Tablero tablero = Tablero.getInstance();
+        tablero.reset();
+
         Jugador jugador = new Jugador("Jugador");
         jugador.colocarPiezaInicial("poblado", List.of(new UbicacionVertice(1)));
         jugador.colocarPiezaInicial("camino", List.of(new UbicacionVertice(1), new UbicacionVertice(9)));

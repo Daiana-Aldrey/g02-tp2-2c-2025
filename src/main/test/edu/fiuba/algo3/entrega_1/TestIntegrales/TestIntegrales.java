@@ -179,16 +179,16 @@ public class TestIntegrales {
 
         jugador1.colocarPiezaInicial("poblado", List.of(new UbicacionVertice(1)));
         jugador1.colocarPiezaInicial("camino",  List.of(new UbicacionVertice(1), new UbicacionVertice(2)));
-        jugador1.construirPieza("poblado", List.of(ubicacion10));
+        jugador1.colocarPiezaInicial("poblado", List.of(ubicacion10));
 
         jugador2.colocarPiezaInicial("poblado", List.of(new UbicacionVertice(54)));
         jugador2.colocarPiezaInicial("camino",  List.of(new UbicacionVertice(54), new UbicacionVertice(53)));
-        jugador2.construirPieza("poblado", List.of(ubicacion40));
+        jugador2.colocarPiezaInicial("poblado", List.of(ubicacion40));
 
 
         jugador3.colocarPiezaInicial("poblado", List.of(new UbicacionVertice(6)));
         jugador3.colocarPiezaInicial("camino",  List.of(new UbicacionVertice(6), new UbicacionVertice(7)));
-        jugador3.construirPieza("poblado", List.of(new UbicacionVertice(36)));
+        jugador3.colocarPiezaInicial("poblado", List.of(new UbicacionVertice(36)));
 
         int tirada = juego.tirarDado();
         juego.manejarTirada(tirada);
@@ -354,9 +354,8 @@ public class TestIntegrales {
         Jugador jugador1 = new Jugador("Juli");
  	    Jugador jugador2 = new Jugador("Valen");
  	    Jugador jugador3 = new Jugador("Sofi");
- 	    List<Jugador> jugadores = List.of(jugador1, jugador2, jugador3);
- 	    Juego juego = new Juego(jugadores, dado);
 
+ 	    List<Jugador> jugadores = List.of(jugador1, jugador2, jugador3);
         Jugador jugadorActivo = jugador1;
         jugadorActivo.recibirRecurso(RecursoTipo.MADERA, 10);
         jugadorActivo.recibirRecurso(RecursoTipo.LADRILLO, 10);
@@ -370,7 +369,7 @@ public class TestIntegrales {
         jugadorVictima.recibirRecurso(RecursoTipo.GRANO, 1);
 
         jugadorVictima.recibirRecurso(RecursoTipo.MADERA, 1);
-        jugadorVictima.construirPieza("poblado", List.of(new UbicacionVertice(4)));
+        jugadorVictima.colocarPiezaInicial("poblado", List.of(new UbicacionVertice(4)));
 
         int cartasAntesVictima = jugadorVictima.cantidadDeCartas();
         int cartasAntesActivo = jugadorActivo.cantidadDeCartas();

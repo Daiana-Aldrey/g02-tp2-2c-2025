@@ -49,7 +49,7 @@ public class Poblado extends Pieza {
 
         UbicacionVertice ubicacionIntento = ubicacion.get(0);
         if (!propietario.tenesPiezaEnUbicacion(ubicacionIntento)) {
-            throw new IllegalArgumentException("No se puede colocar en un poblado sin una pieza que lo siga");
+            throw new IllegalArgumentException("Tiene que tener un camino que lo conecte");
         }
 
         Tablero tablero = Tablero.getInstance();

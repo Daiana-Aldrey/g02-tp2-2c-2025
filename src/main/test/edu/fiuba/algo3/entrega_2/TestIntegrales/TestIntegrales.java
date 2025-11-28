@@ -71,27 +71,29 @@ public class TestIntegrales {
         Jugador luis = new Jugador("Luis");
         Jugador marcelo = new Jugador("Marcelo");
 
-        luis.colocarPiezaInicial("poblado", new ArrayList<>(List.of(new UbicacionVertice(1))));
-        luis.colocarPiezaInicial("camino", new ArrayList<>(List.of(new UbicacionVertice(1), new UbicacionVertice(2))));
+        luis.colocarPiezaInicial("poblado", new ArrayList<>(List.of(new UbicacionVertice(2))));
+        luis.colocarPiezaInicial("camino", new ArrayList<>(List.of(new UbicacionVertice(2), new UbicacionVertice(3))));
 
-        marcelo.colocarPiezaInicial("poblado", new ArrayList<>(List.of(new UbicacionVertice(18))));
+        marcelo.colocarPiezaInicial("poblado", new ArrayList<>(List.of(new UbicacionVertice(17))));
         marcelo.colocarPiezaInicial("camino", new ArrayList<>(List.of(new UbicacionVertice(18), new UbicacionVertice(17))));
 
-        luis.recibirRecurso(RecursoTipo.MADERA, 10);
-        luis.recibirRecurso(RecursoTipo.LADRILLO, 10);
+        luis.recibirRecurso(RecursoTipo.MADERA, 11);
+        luis.recibirRecurso(RecursoTipo.LADRILLO, 11);
         luis.recibirRecurso(RecursoTipo.LANA, 10);
         luis.recibirRecurso(RecursoTipo.GRANO, 10);
 
-        marcelo.recibirRecurso(RecursoTipo.MADERA, 2);
-        marcelo.recibirRecurso(RecursoTipo.LADRILLO, 2);
+        marcelo.recibirRecurso(RecursoTipo.MADERA, 3);
+        marcelo.recibirRecurso(RecursoTipo.LADRILLO, 3);
         marcelo.recibirRecurso(RecursoTipo.LANA, 2);
         marcelo.recibirRecurso(RecursoTipo.GRANO, 2);
 
+        luis.construirPieza("camino", new ArrayList<>(List.of(new UbicacionVertice(3), new UbicacionVertice(4))));
         luis.construirPieza("poblado", new ArrayList<>(List.of(new UbicacionVertice(4))));
-        marcelo.construirPieza("poblado", new ArrayList<>(List.of(new UbicacionVertice(20))));
+        marcelo.construirPieza("camino", new ArrayList<>(List.of(new UbicacionVertice(18), new UbicacionVertice(19))));
+        marcelo.construirPieza("poblado", new ArrayList<>(List.of(new UbicacionVertice(19))));
 
         Assertions.assertTrue(tablero.hayEdificio(new UbicacionVertice(4)));
-        Assertions.assertTrue(tablero.hayEdificio(new UbicacionVertice(20)));
+        Assertions.assertTrue(tablero.hayEdificio(new UbicacionVertice(19)));
 
         assertEquals(9, luis.buscarRecurso(RecursoTipo.MADERA).cantidad());
         assertEquals(9, luis.buscarRecurso(RecursoTipo.LADRILLO).cantidad());
@@ -104,7 +106,7 @@ public class TestIntegrales {
         assertEquals(1, marcelo.buscarRecurso(RecursoTipo.GRANO).cantidad());
 
         assertThrows(IllegalArgumentException.class, () -> {
-            luis.construirPieza("poblado", new ArrayList<>(List.of(new UbicacionVertice(21))));;
+            luis.construirPieza("poblado", new ArrayList<>(List.of(new UbicacionVertice(19))));;
         });
         assertThrows(IllegalArgumentException.class, () -> {
             marcelo.construirPieza("poblado", new ArrayList<>(List.of(new UbicacionVertice(5))));;
