@@ -1,5 +1,6 @@
 package edu.fiuba.algo3.testUnitarios;
 
+import edu.fiuba.algo3.Excepciones.SinRecursos;
 import edu.fiuba.algo3.modelo.*;
 import edu.fiuba.algo3.modelo.Recurso.*;
 import org.junit.jupiter.api.Test;
@@ -47,7 +48,7 @@ public class RecursoTest{
     public void testDecrementarLanzaExcepcionCuandoNoHaySuficiente() {
         Recurso lana = new Lana(1);
 
-        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+        Assertions.assertThrows(SinRecursos.class, () -> {
             lana.decrementar(3);
         });
     }
