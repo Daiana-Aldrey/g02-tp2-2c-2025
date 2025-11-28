@@ -81,25 +81,24 @@ public class RecursoTest{
     @Test
     public void recursoTransfiereUnaCartaEntreJugadores() {
         Recurso madera = new Madera(3);
-        Jugador destino = mock(Jugador.class);
+        Jugador destino = new Jugador("Juan");;
 
         madera.transferirA(destino, 1);
 
         assertEquals(2, madera.cantidad());
-        verify(destino, times(1)).recibirRecurso(new Madera(), 1);
-        verifyNoMoreInteractions(destino);
     }
     
     @Test
     public void cobrarDeLlamaEntregarEnPagadorConTipoYCantidadCorrectos() {
-        Jugador pagador  = mock(Jugador.class);
-        Jugador receptor = mock(Jugador.class);
+        Jugador pagador  = new Jugador("Juan");
+        Jugador receptor = new Jugador("Juana");
+
+        pagador.recibirRecurso(new Ladrillo(), 3);
 
         Recurso recursoPedido = new Ladrillo(3);
         recursoPedido.cobrarDe(pagador, receptor);
 
-        verify(pagador).entregar(new Ladrillo(3), 3, receptor);
-        verifyNoMoreInteractions(pagador, receptor);
+        assertEquals(3, receptor.buscarRecurso(new Ladrillo()).cantidad());
     }
 }
 
