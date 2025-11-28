@@ -11,6 +11,8 @@ import edu.fiuba.algo3.modelo.Ubicacion.Ubicacion;
 import edu.fiuba.algo3.modelo.Ubicacion.UbicacionVertice;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
+
+import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.Assertions;
 
@@ -257,6 +259,39 @@ public class JugadorTest {
                 "La víctima debería tener una carta menos después del robo");
         assertEquals(cartasAntesActivo + 1, jugadorActivo.cantidadDeCartas(),
                 "El jugador activo debería tener una carta más después del robo");
+    }
+
+    @Test
+    public void SeIntentaPonerPrimerCaminoNoAlLadoDeUnPobladoYSeLanzaUnaExcepcion() {
+        Jugador jugador1 = new Jugador("Luis");
+        List<UbicacionVertice> ubicaciones = new ArrayList<>();
+
+        ubicaciones.add(new UbicacionVertice(10));
+        ubicaciones.add(new UbicacionVertice(9));
+
+        jugador1.colocarPiezaInicial("poblado", List.of(new UbicacionVertice(1)));
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            jugador1.colocarPiezaInicial("camino", ubicaciones);
+        });
+    }
+
+    @Test
+    public void LuegoDeLasPrimerasRondasSeIntetaPonerUnPobladoEnUnaUbicacionSinCaminoAntecesorYSeLanzaExcepcion() {
+        Jugador jugador = new Jugador("Jugador");
+        jugador.colocarPiezaInicial("poblado", List.of(new UbicacionVertice(1)));
+        jugador.colocarPiezaInicial("camino", List.of(new UbicacionVertice(1), new UbicacionVertice(9)));
+
+        jugador.recibirRecurso(RecursoTipo.MADERA, 2);
+        jugador.recibirRecurso(RecursoTipo.LANA, 1);
+        jugador.recibirRecurso(RecursoTipo.GRANO, 1);
+        jugador.recibirRecurso(RecursoTipo.LADRILLO, 2);
+
+        jugador.construirPieza("camino", List.of(new UbicacionVertice(9), new UbicacionVertice(10)));
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            jugador.construirPieza("poblado", List.of(new UbicacionVertice(20)));
+        });
     }
     
 }

@@ -35,7 +35,9 @@ public abstract class Pieza {
         propietario.recibirRecurso(tipo, cantidad);
     }
 
-    public abstract void colocar(List<UbicacionVertice> vertices);
+    public abstract void colocarPrimera(List<UbicacionVertice> ubicaciones);
+
+    public abstract void colocar(List<UbicacionVertice> ubicaciones);
 
     public boolean esDe(Jugador jugador) {
         return this.propietario == jugador;

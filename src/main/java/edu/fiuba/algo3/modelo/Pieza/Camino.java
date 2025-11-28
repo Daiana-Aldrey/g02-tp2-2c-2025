@@ -30,6 +30,25 @@ public class Camino extends Pieza {
     }
 
     @Override
+    public void colocarPrimera(List<UbicacionVertice> ubicaciones) {
+        if (ubicaciones.size() != 2) {
+            throw new IllegalArgumentException("Un camino necesita exactamente 2 vértices");
+        }
+        UbicacionVertice ubicacion1 = ubicaciones.get(0);
+        UbicacionVertice ubicacion2 = ubicaciones.get(1);
+
+        if(propietario.tenesPobladoEnUbicacion(ubicacion1) || propietario.tenesPobladoEnUbicacion(ubicacion2)) {
+            Tablero tablero = Tablero.getInstance();
+            tablero.colocarCamino(ubicacion1, ubicacion2 ,this);
+
+            propietario.incorporarCamino(this);
+        } else {
+            throw new IllegalArgumentException("No se encuentra poblado para empezar camino");
+        }
+
+    }
+
+    @Override
     public void colocar(List<UbicacionVertice> ubicaciones) {
         if (ubicaciones.size() != 2) {
             throw new IllegalArgumentException("Un camino necesita exactamente 2 vértices");
@@ -38,15 +57,19 @@ public class Camino extends Pieza {
         UbicacionVertice ubicacion1 = ubicaciones.get(0);
         UbicacionVertice ubicacion2 = ubicaciones.get(1);
 
-        Tablero tablero = Tablero.getInstance();
-        tablero.colocarCamino(ubicacion1, ubicacion2 ,this);
+        if (propietario.tenesPiezaEnUbicacion(ubicacion1) || propietario.tenesPiezaEnUbicacion(ubicacion2)) {
+            Tablero tablero = Tablero.getInstance();
+            tablero.colocarCamino(ubicacion1, ubicacion2 ,this);
 
-        propietario.incorporarCamino(this);
+            propietario.incorporarCamino(this);
+        } else {
+            throw new IllegalArgumentException("No se encuentra poblado/camino para seguir un camino");
+        }
     }
 
     @Override
     public boolean tenesUbicacion(UbicacionVertice ubicacion) {
-        return (this.ubicacion1 == ubicacion || this.ubicacion2 == ubicacion);
+        return (this.ubicacion1.equals(ubicacion) || this.ubicacion2.equals(ubicacion));
     }
 
     @Override

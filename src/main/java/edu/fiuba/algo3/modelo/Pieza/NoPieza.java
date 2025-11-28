@@ -17,6 +17,11 @@ public class NoPieza extends Pieza {
     }
 
     @Override
+    public void colocarPrimera(List<UbicacionVertice> ubicaciones) {
+        throw  new RuntimeException("Pieza inusable, no es debido colocar");
+    }
+
+    @Override
     public void colocar(List<UbicacionVertice> vertices) {
         throw new RuntimeException("Pieza inusable, no es debido colocar");
     }

@@ -27,6 +27,11 @@ public class Ciudad extends Pieza {
     }
 
     @Override
+    public void colocarPrimera(List<UbicacionVertice> ubicaciones) {
+        throw new IllegalArgumentException("No se puede colocar una ciudad en los primeros turnos");
+    }
+
+    @Override
     public void colocar(List<UbicacionVertice> ubicacion) {
         if (ubicacion.size() != 1) {
             throw new IllegalArgumentException("Se necesita de solamanete una ubicación");

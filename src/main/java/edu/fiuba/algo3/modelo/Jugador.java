@@ -52,7 +52,7 @@ public class Jugador {
 	
 	public void colocarPiezaInicial(String tipo, List<UbicacionVertice> ubicacion) {
 	    Pieza pieza = Pieza.crear(tipo, this);
-	    pieza.colocar(ubicacion);
+	    pieza.colocarPrimera(ubicacion);
 	}    
 
 	private void inicializarRecursos(List<RecursoTipo> tiposRecursos) {
@@ -189,12 +189,6 @@ public class Jugador {
         buscarRecurso(tipo).transferirA(destino, cantidad);
     }
 
-    
-    public void removerPoblado(Poblado p) {
-        poblados.remove(p);
-        puntosDeVictoria -= 1;
-    }
-
     public  void removerPoblado(UbicacionVertice ubicacion) {
         int i = 0;
         boolean encontrado = false;
@@ -257,6 +251,20 @@ public class Jugador {
         while ( i < poblados.size() && !encontrado) {
             poblado = poblados.get(i);
             if (poblado.tenesUbicacion(ubicacion)) {
+                encontrado = true;
+            }
+            i++;
+        }
+        return encontrado;
+    }
+
+    public boolean tenesPiezaEnUbicacion(UbicacionVertice ubicacion) {
+        int i = 0;
+        boolean encontrado = false;
+        Camino camino;
+        while ( i < caminos.size() && !encontrado) {
+            camino = caminos.get(i);
+            if (camino.tenesUbicacion(ubicacion)) {
                 encontrado = true;
             }
             i++;

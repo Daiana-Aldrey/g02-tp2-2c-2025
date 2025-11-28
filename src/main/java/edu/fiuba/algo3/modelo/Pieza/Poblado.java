@@ -29,16 +29,32 @@ public class Poblado extends Pieza {
     	    );
     }
     
-    
-    public void colocar(List<UbicacionVertice> ubicacion) {
+    @Override
+    public void colocarPrimera(List<UbicacionVertice> ubicacion) {
     	if (ubicacion.size() != 1) {
-            throw new IllegalArgumentException("Un poblado necesita exactamente 1 vértice");
+            throw new IllegalArgumentException("Un poblado necesita exactamente 1 ubicación");
         }
     	  
           UbicacionVertice ubicacionIntento = ubicacion.get(0);
           Tablero tablero = Tablero.getInstance();
           tablero.colocarEdificio(ubicacionIntento, this);
           propietario.incorporarPoblado(this);
+    }
+
+    @Override
+    public void colocar(List<UbicacionVertice> ubicacion) {
+        if (ubicacion.size() != 1) {
+            throw new IllegalArgumentException("Un poblado necesita exactamente 1 ubicación");
+        }
+
+        UbicacionVertice ubicacionIntento = ubicacion.get(0);
+        if (!propietario.tenesPiezaEnUbicacion(ubicacionIntento)) {
+            throw new IllegalArgumentException("No se puede colocar en un poblado sin una pieza que lo siga");
+        }
+
+        Tablero tablero = Tablero.getInstance();
+        tablero.colocarEdificio(ubicacionIntento, this);
+        propietario.incorporarPoblado(this);
     }
 
     public int produccion(){return 1;}
