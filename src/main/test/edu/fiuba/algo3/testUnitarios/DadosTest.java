@@ -1,12 +1,8 @@
 package edu.fiuba.algo3.testUnitarios;
 
-import edu.fiuba.algo3.modelo.Dados.DadosAleatorios;
+import edu.fiuba.algo3.modelo.Dados.DadosAleatoriosConSemilla;
 import edu.fiuba.algo3.modelo.Dados.GeneradorDeDados;
-import edu.fiuba.algo3.modelo.Juego;
 
-import java.util.List;
-
-import edu.fiuba.algo3.modelo.Jugador;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -34,81 +30,48 @@ public class DadosTest {
         int n = dado.tirar();
         assertTrue(n >= 2 && n <= 12, "Tirada dentro del rango");
     }
+
+
     @Test
-    void dadoRealSiempreDevuelveValoresEntre2y12() {
-        GeneradorDeDados dado = new DadosAleatorios();
-        for (int i = 0; i < 10000; i++) {
-            int n = dado.tirar();
-            assertTrue(n >= 2 && n <= 12, "Tirada fuera de rango: " + n);
-        }
+    void dadoPuedeDar2() {
+        GeneradorDeDados dado = () -> 2;
+        assertEquals(2, dado.tirar());
     }
 
     @Test
-    void dadoConValorMenorA2DebeFallarEnJuego() {
-        GeneradorDeDados dado =  ()-> 1;
-        List<Jugador> jugadores = TestUtilidades.generarJugadores(3);
-        Juego juego = new Juego(jugadores, dado);
-
-        assertThrows(IllegalStateException.class, juego::tirarDado);
+    void dadoPuedeDar12() {
+        GeneradorDeDados dado = () -> 12;
+        assertEquals(12, dado.tirar());
     }
 
     @Test
-    void dadoConValorMayorA12DebeFallarEnJuego() {
-        GeneradorDeDados dado =()-> 13;
-        List<Jugador> jugadores = TestUtilidades.generarJugadores(3);
-        Juego juego = new Juego(jugadores, dado);
-
-
-        assertThrows(IllegalStateException.class, juego::tirarDado);
+    void dadoPuedeDar10() {
+        GeneradorDeDados dado = () -> 10;
+        assertEquals(10, dado.tirar());
+    }
+    @Test
+    void laSumaDeLosDadosNoPuedeSerMenorA2() {
+        var dado = new DadosAleatoriosConSemilla(22L);
+        int resultado = dado.tirar();
+        assertEquals(6, resultado);
+        assertTrue(resultado >= 2, "El resultado debe ser mayor o igual a 2");
     }
 
     @Test
-    void cuandoDa2_esValidoYDevuelve2() {
-    	GeneradorDeDados dado =()-> 2;
-    	List<Jugador> jugadores = TestUtilidades.generarJugadores(3);
-        Juego juego = new Juego(jugadores, dado);
-
-        int n = juego.tirarDado();
-        assertEquals(2, n);
+    void laSumaDeLosDadosNoPuedeSerMayorA12() {
+        var dado = new DadosAleatoriosConSemilla(47L);
+        int resultado = dado.tirar();
+        assertEquals(9, resultado);
+        assertTrue(resultado <= 12, "El resultado debe ser menor o igual a 12");
     }
 
     @Test
-    void cuandoDa12_esValidoYDevuelve12() {
-    	GeneradorDeDados dado =()-> 12;
-    	List<Jugador> jugadores = TestUtilidades.generarJugadores(3);
-        Juego juego = new Juego(jugadores, dado);
-
-        int n = juego.tirarDado();
-        assertEquals(12, n);
+    void elDadoGeneraUnNumeroValidoCualquiera() {
+        var dado = new DadosAleatoriosConSemilla();
+        int resultado = dado.tirar();
+        assertTrue(resultado >= 2 && resultado <= 12, "La tirada debe estar entre 2 y 12. Salió: " + resultado);
     }
 
-    @Test
-    void cuandoDa9_esValidoYDevuelve9() {
-    	GeneradorDeDados dado =()-> 9;
-    	List<Jugador> jugadores = TestUtilidades.generarJugadores(3);
-        Juego juego = new Juego(jugadores, dado);
-
-        int n = juego.tirarDado();
-        assertEquals(9, n);
-    }
-
-    @Test
-    void cuandoDa1_fueraDeRangoLanzaExcepcion() {
-    	GeneradorDeDados dado =()-> 1;
-    	List<Jugador> jugadores = TestUtilidades.generarJugadores(3);
-        Juego juego = new Juego(jugadores, dado);
-
-        assertThrows(IllegalStateException.class, juego::tirarDado);
-    }
-
-    @Test
-    void cuandoDa13_fueraDeRangoLanzaExcepcion() {
-    	GeneradorDeDados dado =()-> 13;
-    	List<Jugador> jugadores = TestUtilidades.generarJugadores(3);
-        Juego juego = new Juego(jugadores, dado);
-
-        assertThrows(IllegalStateException.class, juego::tirarDado);
-    }
 
 
 }

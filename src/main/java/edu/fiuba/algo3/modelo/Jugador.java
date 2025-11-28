@@ -1,11 +1,12 @@
 package edu.fiuba.algo3.modelo;
+import edu.fiuba.algo3.Excepciones.NoTieneCarta;
 import edu.fiuba.algo3.modelo.CartaDeDesarrollo.Carta;
 import edu.fiuba.algo3.modelo.Intercambio.Puerto;
 import edu.fiuba.algo3.modelo.Pieza.*;
 import edu.fiuba.algo3.modelo.Recurso.*;
 import edu.fiuba.algo3.modelo.Tablero.Tablero;
 import edu.fiuba.algo3.modelo.Ubicacion.UbicacionVertice;
-
+import edu.fiuba.algo3.Excepciones.*;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.*;
@@ -97,7 +98,7 @@ public class Jugador {
                 return;
             }
         }
-        throw new IllegalArgumentException("No posees cantidad suficiente");
+        throw new SinRecursos("No posees cantidad suficiente de " + tipo);
     }
     
     public void moverLadron(UbicacionVertice ubicacion, Jugador victima) {
@@ -201,31 +202,27 @@ public class Jugador {
     public void recibirCartaDesarrollo(Carta carta) {
         cartasDesarrolloRecienCompradas.add(carta);
     }
-    //al terminar el turno en el cual compro cartas mi lista de cartasDesarrolloRecienCompradasdebe estar vacia nuevante
     public void prepararCartasDesarrolloParaNuevoTurno() {
         cartasDesarrollo.addAll(cartasDesarrolloRecienCompradas);
         cartasDesarrolloRecienCompradas.clear();
     }
     public void jugarCartaDesarrollo(Carta carta) {
         if (cartasDesarrolloRecienCompradas.contains(carta)) {
-            throw new IllegalStateException("ERROR carta recein comprada no la podes usar en este turno.");
+            throw new ErrorNoUsoDeCartaInvalido("carta recein comprada no la podes usar en este turno.");
         }
         if (!cartasDesarrollo.contains(carta)) {
-            throw new IllegalArgumentException("ERROR no tenes esta carta");
+            throw new NoTieneCarta("no tenes esta carta");
         }
         carta.usar(this);
         cartasDesarrollo.remove(carta);
     }
 
 
-
-    //como el jugador debe poder ver que cartar de desarrollotiene puedo hacer:
     public List<Carta> obtenerCartasDesarrollo() {
         List<Carta> todas = new ArrayList<>();
         todas.addAll(cartasDesarrollo);
         todas.addAll(cartasDesarrolloRecienCompradas);
         return Collections.unmodifiableList(todas);
-        //uso: unmodifiableList para respetar encapsulamiento y single responsability
     }
 
     public boolean esJugador(Jugador propietario) {
