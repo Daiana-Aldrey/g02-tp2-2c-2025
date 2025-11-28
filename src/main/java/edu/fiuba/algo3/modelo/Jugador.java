@@ -154,10 +154,10 @@ public class Jugador {
     
     
     public void intercambiar(List<Recurso> pedidos, List<Recurso> ofertas, Jugador ofertante) {
-        if (pedidos == null || pedidos.isEmpty()) {
+        if (pedidos.isEmpty()) {
             throw new SinRecursos("Debe haber al menos un recurso pedido");
         }
-        if (ofertas == null || ofertas.isEmpty()) {
+        if (ofertas.isEmpty()) {
             throw new SinRecursos("Debe haber al menos un recurso ofertado");
         }
 
