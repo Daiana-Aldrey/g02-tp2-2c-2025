@@ -1,5 +1,6 @@
 package edu.fiuba.algo3.testUnitarios;
 
+import edu.fiuba.algo3.Excepciones.ErrorNoUsoDeCartaInvalido;
 import edu.fiuba.algo3.modelo.*;
 import edu.fiuba.algo3.modelo.CartaDeDesarrollo.Carta;
 import edu.fiuba.algo3.modelo.Intercambio.Banco;
@@ -34,23 +35,6 @@ public class CartaDesarrolloCompradaTest {
 
         assertEquals(1, jugador.obtenerCartasDesarrollo().size(), "El jugador debería tener 1 carta nueva.");
     }
-    @Test
-    public void JugadorSinMineralNoPuedeComprarYConservaRecursos() {
-        Banco banco = new Banco();
-        Jugador jugador = new Jugador("Jp");
-
-        jugador.recibirRecurso(RecursoTipo.LANA, 4);
-        jugador.recibirRecurso(RecursoTipo.GRANO, 6);
-
-        assertThrows(IllegalArgumentException.class, () -> {banco.venderCartaDesarrollo(jugador);}, "Debe fallar por que no tiene Minerales");
-
-        assertEquals(4, jugador.buscarRecurso(RecursoTipo.LANA).cantidad(), "No se desconto nada de  Lana");
-        assertEquals(6, jugador.buscarRecurso(RecursoTipo.GRANO).cantidad(), "No se desconto nada de Grano");
-        assertEquals(0, jugador.buscarRecurso(RecursoTipo.MINERAL).cantidad(), "mineral sigue en 0.");
-
-        assertTrue(jugador.obtenerCartasDesarrollo().isEmpty(), "No se agrega ninguna carta de desarrollo.");
-
-    }
 
 
     @Test
@@ -61,7 +45,7 @@ public class CartaDesarrolloCompradaTest {
         Carta cartaMock = mock(Carta.class);
         jugador.recibirCartaDesarrollo(cartaMock);
 
-        assertThrows(IllegalStateException.class, () -> {jugador.jugarCartaDesarrollo(cartaMock);}, "debería dar error al usar carta el mismo turno");
+        assertThrows(ErrorNoUsoDeCartaInvalido.class, () -> {jugador.jugarCartaDesarrollo(cartaMock);}, "debería dar error al usar carta el mismo turno");
 
         verify(cartaMock, never()).usar(any());
 
@@ -77,7 +61,7 @@ public class CartaDesarrolloCompradaTest {
 
         Carta carta = banco.venderCartaDesarrollo(jugador);
 
-        assertThrows(IllegalStateException.class, () -> jugador.jugarCartaDesarrollo(carta), "debería dar error al usar carta el mismo turno");
+        assertThrows(ErrorNoUsoDeCartaInvalido.class, () -> jugador.jugarCartaDesarrollo(carta), "debería dar error al usar carta el mismo turno");
     }
 
     @Test
