@@ -34,82 +34,82 @@ public class TestIntegrales {
         genTablero.generarEstructura(grafo);
         genTablero.generarTerrenos(grafo, new Ladron());
 
-        VerticeTerreno v1 = (VerticeTerreno) grafo.buscarVertice(new UbicacionVertice('A'));
-        VerticeTerreno v2 = (VerticeTerreno) grafo.buscarVertice(new UbicacionVertice('B'));
-        VerticeTerreno v3 = (VerticeTerreno) grafo.buscarVertice(new UbicacionVertice('C'));
-        VerticeTerreno v4 = (VerticeTerreno) grafo.buscarVertice(new UbicacionVertice('D'));
-        VerticeTerreno v5 = (VerticeTerreno) grafo.buscarVertice(new UbicacionVertice('E'));
-        VerticeTerreno v6 = (VerticeTerreno) grafo.buscarVertice(new UbicacionVertice('F'));
-        VerticeTerreno v7 = (VerticeTerreno) grafo.buscarVertice(new UbicacionVertice('G'));
-        VerticeTerreno v8 = (VerticeTerreno) grafo.buscarVertice(new UbicacionVertice('H'));
-        VerticeTerreno v9 = (VerticeTerreno) grafo.buscarVertice(new UbicacionVertice('I'));
-        VerticeTerreno v10 = (VerticeTerreno) grafo.buscarVertice(new UbicacionVertice('J'));
-        VerticeTerreno v11 = (VerticeTerreno) grafo.buscarVertice(new UbicacionVertice('K'));
-        VerticeTerreno v12 = (VerticeTerreno) grafo.buscarVertice(new UbicacionVertice('L'));
-        VerticeTerreno v13 = (VerticeTerreno) grafo.buscarVertice(new UbicacionVertice('M'));
-        VerticeTerreno v14 = (VerticeTerreno) grafo.buscarVertice(new UbicacionVertice('N'));
-        VerticeTerreno v15 = (VerticeTerreno) grafo.buscarVertice(new UbicacionVertice('O'));
-        VerticeTerreno v16 = (VerticeTerreno) grafo.buscarVertice(new UbicacionVertice('P'));
-        VerticeTerreno v17 = (VerticeTerreno) grafo.buscarVertice(new UbicacionVertice('Q'));
-        VerticeTerreno v18 = (VerticeTerreno) grafo.buscarVertice(new UbicacionVertice('R'));
-        VerticeTerreno v19 = (VerticeTerreno)grafo.buscarVertice(new UbicacionVertice('S'));
+        VerticeTerreno vertice1 = (VerticeTerreno) grafo.buscarVertice(new UbicacionVertice('A'));
+        VerticeTerreno vertice2 = (VerticeTerreno) grafo.buscarVertice(new UbicacionVertice('B'));
+        VerticeTerreno vertice3 = (VerticeTerreno) grafo.buscarVertice(new UbicacionVertice('C'));
+        VerticeTerreno vertice4 = (VerticeTerreno) grafo.buscarVertice(new UbicacionVertice('D'));
+        VerticeTerreno vertice5 = (VerticeTerreno) grafo.buscarVertice(new UbicacionVertice('E'));
+        VerticeTerreno vertice6 = (VerticeTerreno) grafo.buscarVertice(new UbicacionVertice('F'));
+        VerticeTerreno vertice7 = (VerticeTerreno) grafo.buscarVertice(new UbicacionVertice('G'));
+        VerticeTerreno vertice8 = (VerticeTerreno) grafo.buscarVertice(new UbicacionVertice('H'));
+        VerticeTerreno vertice9 = (VerticeTerreno) grafo.buscarVertice(new UbicacionVertice('I'));
+        VerticeTerreno vertice10 = (VerticeTerreno) grafo.buscarVertice(new UbicacionVertice('J'));
+        VerticeTerreno vertice11 = (VerticeTerreno) grafo.buscarVertice(new UbicacionVertice('K'));
+        VerticeTerreno vertice12 = (VerticeTerreno) grafo.buscarVertice(new UbicacionVertice('L'));
+        VerticeTerreno vertice13 = (VerticeTerreno) grafo.buscarVertice(new UbicacionVertice('M'));
+        VerticeTerreno vertice14 = (VerticeTerreno) grafo.buscarVertice(new UbicacionVertice('N'));
+        VerticeTerreno vertice15 = (VerticeTerreno) grafo.buscarVertice(new UbicacionVertice('O'));
+        VerticeTerreno vertice16 = (VerticeTerreno) grafo.buscarVertice(new UbicacionVertice('P'));
+        VerticeTerreno vertice17 = (VerticeTerreno) grafo.buscarVertice(new UbicacionVertice('Q'));
+        VerticeTerreno vertice18 = (VerticeTerreno) grafo.buscarVertice(new UbicacionVertice('R'));
+        VerticeTerreno vertice19 = (VerticeTerreno)grafo.buscarVertice(new UbicacionVertice('S'));
 
-        assertTrue(v1.tieneTerreno("Montania"));
-        assertTrue(v1.tieneFichaDeNumero(2));
+        assertTrue(vertice1.tieneTerreno("Montania"));
+        assertTrue(vertice1.tieneFichaDeNumero(2));
 
-        assertTrue(v2.tieneTerreno("Colina"));
-        assertTrue(v2.tieneFichaDeNumero(6));
+        assertTrue(vertice2.tieneTerreno("Colina"));
+        assertTrue(vertice2.tieneFichaDeNumero(6));
 
-        assertTrue(v3.tieneTerreno("Colina"));
-        assertTrue(v3.tieneFichaDeNumero(3));
+        assertTrue(vertice3.tieneTerreno("Colina"));
+        assertTrue(vertice3.tieneFichaDeNumero(3));
 
-        assertTrue(v4.tieneTerreno("Bosque"));
-        assertTrue(v4.tieneFichaDeNumero(8));
+        assertTrue(vertice4.tieneTerreno("Bosque"));
+        assertTrue(vertice4.tieneFichaDeNumero(8));
 
-        assertTrue(v5.tieneTerreno("Bosque"));
-        assertTrue(v5.tieneFichaDeNumero(10));
+        assertTrue(vertice5.tieneTerreno("Bosque"));
+        assertTrue(vertice5.tieneFichaDeNumero(10));
 
-        assertTrue(v6.tieneTerreno("Bosque"));
-        assertTrue(v6.tieneFichaDeNumero(9));
+        assertTrue(vertice6.tieneTerreno("Bosque"));
+        assertTrue(vertice6.tieneFichaDeNumero(9));
 
-        assertTrue(v7.tieneTerreno("Bosque"));
-        assertTrue(v7.tieneFichaDeNumero(12));
+        assertTrue(vertice7.tieneTerreno("Bosque"));
+        assertTrue(vertice7.tieneFichaDeNumero(12));
 
-        assertTrue(v8.tieneTerreno("Campo"));
-        assertTrue(v8.tieneFichaDeNumero(11));
+        assertTrue(vertice8.tieneTerreno("Campo"));
+        assertTrue(vertice8.tieneFichaDeNumero(11));
 
-        assertTrue(v9.tieneTerreno("Colina"));
-        assertTrue(v9.tieneFichaDeNumero(4));
+        assertTrue(vertice9.tieneTerreno("Colina"));
+        assertTrue(vertice9.tieneFichaDeNumero(4));
 
-        assertTrue(v10.tieneTerreno("Campo"));
-        assertTrue(v10.tieneFichaDeNumero(8));
+        assertTrue(vertice10.tieneTerreno("Campo"));
+        assertTrue(vertice10.tieneFichaDeNumero(8));
 
-        assertTrue(v11.tieneTerreno("Desierto"));
-        assertTrue(v11.tieneFichaDeNumero(0));
+        assertTrue(vertice11.tieneTerreno("Desierto"));
+        assertTrue(vertice11.tieneFichaDeNumero(0));
 
-        assertTrue(v12.tieneTerreno("Campo"));
-        assertTrue(v12.tieneFichaDeNumero(10));
+        assertTrue(vertice12.tieneTerreno("Campo"));
+        assertTrue(vertice12.tieneFichaDeNumero(10));
 
-        assertTrue(v13.tieneTerreno("Montania"));
-        assertTrue(v13.tieneFichaDeNumero(9));
+        assertTrue(vertice13.tieneTerreno("Montania"));
+        assertTrue(vertice13.tieneFichaDeNumero(9));
 
-        assertTrue(v14.tieneTerreno("Montania"));
-        assertTrue(v14.tieneFichaDeNumero(4));
+        assertTrue(vertice14.tieneTerreno("Montania"));
+        assertTrue(vertice14.tieneFichaDeNumero(4));
 
-        assertTrue(v15.tieneTerreno("Pastizal"));
-        assertTrue(v15.tieneFichaDeNumero(5));
+        assertTrue(vertice15.tieneTerreno("Pastizal"));
+        assertTrue(vertice15.tieneFichaDeNumero(5));
 
-        assertTrue(v16.tieneTerreno("Pastizal"));
-        assertTrue(v16.tieneFichaDeNumero(6));
+        assertTrue(vertice16.tieneTerreno("Pastizal"));
+        assertTrue(vertice16.tieneFichaDeNumero(6));
 
-        assertTrue(v17.tieneTerreno("Pastizal"));
-        assertTrue(v17.tieneFichaDeNumero(3));
+        assertTrue(vertice17.tieneTerreno("Pastizal"));
+        assertTrue(vertice17.tieneFichaDeNumero(3));
 
-        assertTrue(v18.tieneTerreno("Pastizal"));
-        assertTrue(v18.tieneFichaDeNumero(11));
+        assertTrue(vertice18.tieneTerreno("Pastizal"));
+        assertTrue(vertice18.tieneFichaDeNumero(11));
 
-        assertTrue(v19.tieneTerreno("Campo"));
-        assertTrue(v19.tieneFichaDeNumero(5));
+        assertTrue(vertice19.tieneTerreno("Campo"));
+        assertTrue(vertice19.tieneFichaDeNumero(5));
     }
 
     @Test
