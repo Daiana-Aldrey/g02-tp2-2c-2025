@@ -98,7 +98,7 @@ public class Jugador {
                 return;
             }
         }
-        throw new SinRecursos("No posees cantidad suficiente de " + tipo);
+        throw new SinRecursos("No posees cantidad suficiente");
     }
     
     public void moverLadron(UbicacionVertice ubicacion, Jugador victima) {
