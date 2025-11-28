@@ -45,19 +45,11 @@ public abstract class Recurso {
         receptor.recibirRecurso(this, cantidad);
     }
 
-
     public int cantidad() {
         return cantidad;
     }
 
-    public boolean esSuficiente(int cant){
-        return cantidad >= cant;
-    }
-
-    //primer dispatch
     public abstract boolean podesIncrementar(Recurso recursoDelJugador, int cantidad);
-
-    //segundo dispatch
     protected abstract boolean incrementarMadera(Recurso recursorecibido, int cant);
     protected abstract boolean incrementarMineral(Recurso recursorecibido, int cant);
     protected abstract boolean incrementarLadrillo(Recurso recursorecibido, int cant);

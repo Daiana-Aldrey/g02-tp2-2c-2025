@@ -67,15 +67,6 @@ public class Jugador {
 	    }
 	}
 
-    //metodo solo para tests
-    public Recurso buscarRecurso(Recurso recursoBuscado) {
-        for (Recurso r : recursos) {
-            if (r.getClass() == recursoBuscado.getClass()) {
-                return r;
-            }
-        }
-        return null;
-    }
 
     public void construirPieza(String tipo, List<Ubicacion> ubicacion) {
         Pieza pieza = Pieza.crear(tipo, this);
@@ -223,10 +214,6 @@ public class Jugador {
         todas.addAll(cartasDesarrolloRecienCompradas);
         return Collections.unmodifiableList(todas);
     }
-
-    public boolean esJugador(Jugador propietario) {
-        return this.nombre.equals(propietario.nombre);
-    }
     
     public int cantidadDeCartas() {
         return totalRecursos();
@@ -277,6 +264,15 @@ public class Jugador {
 
     public void agregarPuerto(Puerto puerto){
         puertos.add(puerto);
+    }
+
+    public Recurso buscarRecurso(Recurso recursoBuscado) {
+        for (Recurso r : recursos) {
+            if (r.getClass() == recursoBuscado.getClass()) {
+                return r;
+            }
+        }
+        return null;
     }
 }
   
