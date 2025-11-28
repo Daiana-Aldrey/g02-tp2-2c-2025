@@ -8,6 +8,7 @@ import edu.fiuba.algo3.modelo.Recurso.*;
 import edu.fiuba.algo3.modelo.Tablero.*;
 import edu.fiuba.algo3.modelo.Terreno.*;
 
+import edu.fiuba.algo3.modelo.Ubicacion.Ubicacion;
 import edu.fiuba.algo3.modelo.Ubicacion.UbicacionVertice;
 import edu.fiuba.algo3.Excepciones.*;
 import org.junit.jupiter.api.Assertions;
@@ -77,13 +78,13 @@ public class JuegoTest {
 	    List<Jugador> jugadores = List.of(jugador1, jugador2, jugador3);
 
 	    Juego juego = new Juego(jugadores, dadoPrueba);
-        List<List<UbicacionVertice>> verticesPoblados = List.of(
+        List<List<Ubicacion>> verticesPoblados = List.of(
                 List.of(new UbicacionVertice(10)),
                 List.of(new UbicacionVertice(41)),
                 List.of(new UbicacionVertice(25))
         );
 
-        List<List<UbicacionVertice>> verticesCaminos = List.of(
+        List<List<Ubicacion>> verticesCaminos = List.of(
                 List.of(new UbicacionVertice(10),new UbicacionVertice(11)),
                 List.of(new UbicacionVertice(41),new UbicacionVertice(42)),
                 List.of(new UbicacionVertice(25),new UbicacionVertice(36))

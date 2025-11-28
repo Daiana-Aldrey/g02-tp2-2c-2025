@@ -1,15 +1,20 @@
 package edu.fiuba.algo3.entrega_2.TestIntegrales;
-import edu.fiuba.algo3.Excepciones.ErrorNoUsoDeCartaInvalido;
-import edu.fiuba.algo3.modelo.*;
-import edu.fiuba.algo3.modelo.CartaDeDesarrollo.*;
-import edu.fiuba.algo3.modelo.Intercambio.*;
-import edu.fiuba.algo3.modelo.*;
-import edu.fiuba.algo3.modelo.Dados.*;
-import edu.fiuba.algo3.modelo.Pieza.*;
+
+import edu.fiuba.algo3.Excepciones.ColocacionInvalida;
+import edu.fiuba.algo3.modelo.CartaDeDesarrollo.Carta;
+import edu.fiuba.algo3.modelo.Dados.GeneradorDeDados;
+import edu.fiuba.algo3.modelo.GeneradorNumerosAleatorios;
+import edu.fiuba.algo3.modelo.Intercambio.Banco;
+import edu.fiuba.algo3.modelo.Intercambio.PuertoGenerico;
+import edu.fiuba.algo3.modelo.Juego;
+import edu.fiuba.algo3.modelo.Jugador;
 import edu.fiuba.algo3.modelo.Recurso.*;
 import edu.fiuba.algo3.modelo.Tablero.*;
-import edu.fiuba.algo3.modelo.Terreno.*;
+import edu.fiuba.algo3.modelo.Terreno.Bosque;
 import edu.fiuba.algo3.modelo.Ubicacion.UbicacionVertice;
+import edu.fiuba.algo3.modelo.Intercambio.PuertoEspecifico;
+import edu.fiuba.algo3.Excepciones.ErrorNoUsoDeCartaInvalido;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -83,10 +88,10 @@ public class TestIntegrales {
         luis.recibirRecurso(new Lana(), 10);
         luis.recibirRecurso(new Grano(), 10);
 
-        marcelo.recibirRecurso(new Madera(), 3);
-        marcelo.recibirRecurso(new Ladrillo(), 3);
-        marcelo.recibirRecurso(new Lana(), 2);
-        marcelo.recibirRecurso(new Grano(), 2);
+        marcelo.recibirRecurso(new Madera(), 4);
+        marcelo.recibirRecurso(new Ladrillo(), 4);
+        marcelo.recibirRecurso(new Lana(), 3);
+        marcelo.recibirRecurso(new Grano(), 3);
 
         luis.construirPieza("camino", new ArrayList<>(List.of(new UbicacionVertice(3), new UbicacionVertice(4))));
         luis.construirPieza("poblado", new ArrayList<>(List.of(new UbicacionVertice(4))));
@@ -101,21 +106,21 @@ public class TestIntegrales {
         assertEquals(9, luis.buscarRecurso(new Lana()).cantidad());
         assertEquals(9, luis.buscarRecurso(new Grano()).cantidad());
 
-        assertEquals(1, marcelo.buscarRecurso(new Madera()).cantidad());
-        assertEquals(1, marcelo.buscarRecurso(new Ladrillo()).cantidad());
-        assertEquals(1, marcelo.buscarRecurso(new Lana()).cantidad());
-        assertEquals(1, marcelo.buscarRecurso(new Grano()).cantidad());
+        assertEquals(2, marcelo.buscarRecurso(new Madera()).cantidad());
+        assertEquals(2, marcelo.buscarRecurso(new Ladrillo()).cantidad());
+        assertEquals(2, marcelo.buscarRecurso(new Lana()).cantidad());
+        assertEquals(2, marcelo.buscarRecurso(new Grano()).cantidad());
 
-        assertThrows(IllegalArgumentException.class, () -> {
+        assertThrows(ColocacionInvalida.class, () -> {
             luis.construirPieza("poblado", new ArrayList<>(List.of(new UbicacionVertice(19))));;
         });
-        assertThrows(IllegalArgumentException.class, () -> {
+        assertThrows(ColocacionInvalida.class, () -> {
             marcelo.construirPieza("poblado", new ArrayList<>(List.of(new UbicacionVertice(5))));;
         });
-        assertThrows(IllegalArgumentException.class, () -> {
+        assertThrows(ColocacionInvalida.class, () -> {
             luis.construirPieza("poblado", new ArrayList<>(List.of(new UbicacionVertice(1))));;
         });
-        assertThrows(IllegalArgumentException.class, () -> {
+        assertThrows(ColocacionInvalida.class, () -> {
             marcelo.construirPieza("poblado", new ArrayList<>(List.of(new UbicacionVertice(3))));;
         });
     }

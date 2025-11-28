@@ -2,7 +2,6 @@ package edu.fiuba.algo3.modelo.Dados;
 
 import edu.fiuba.algo3.modelo.GeneradorNumerosAleatorios;
 
-import java.util.concurrent.ThreadLocalRandom;
 
 public class DadosAleatorios  implements GeneradorDeDados {
     @Override

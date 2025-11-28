@@ -1,4 +1,5 @@
 package edu.fiuba.algo3.testUnitarios;
+import edu.fiuba.algo3.Excepciones.ColocacionInvalida;
 import edu.fiuba.algo3.modelo.*;
 
 import edu.fiuba.algo3.modelo.Pieza.*;
@@ -8,8 +9,8 @@ import edu.fiuba.algo3.modelo.Ubicacion.UbicacionVertice;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mock;
 
 public class VerticeEdificioTest {
 
@@ -61,6 +62,17 @@ public class VerticeEdificioTest {
         vertice1.colocarPieza(pieza);
 
         assertFalse(vertice2.estaDisponible());
+    }
+
+    @Test
+    public void seIntentaAgregarPiezaEnUnVerticeNoDisponibleYLanzaExcepcion() {
+        Pieza pieza = new Poblado(mock(Jugador.class));
+        VerticeEdificio vertice = new VerticeEdificio(ubicacionMock);
+        vertice.colocarPieza(pieza);
+
+        assertThrows(ColocacionInvalida.class, () -> {
+            vertice.colocarPieza(pieza);
+        });
     }
 
     @Test

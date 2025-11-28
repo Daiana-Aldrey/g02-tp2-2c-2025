@@ -1,9 +1,11 @@
 package edu.fiuba.algo3.modelo.Tablero;
-import edu.fiuba.algo3.modelo.*;
+import edu.fiuba.algo3.Excepciones.ColocacionInvalida;
+import edu.fiuba.algo3.Excepciones.SinPiezas;
+import edu.fiuba.algo3.modelo.Jugador;
 import edu.fiuba.algo3.modelo.Pieza.Ladron;
 import edu.fiuba.algo3.modelo.Pieza.Pieza;
 import edu.fiuba.algo3.modelo.Terreno.Terreno;
-import edu.fiuba.algo3.modelo.Ubicacion.UbicacionVertice;
+import edu.fiuba.algo3.modelo.Ubicacion.Ubicacion;;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -14,17 +16,17 @@ public class VerticeTerreno extends Vertice {
      private Terreno terreno;
      private boolean ladron;
 
-     public VerticeTerreno(UbicacionVertice ubicacion, Terreno terreno, int fichaDeNumero) {
+     public VerticeTerreno(Ubicacion ubicacion, Terreno terreno, int fichaDeNumero) {
         this.ubicacion = ubicacion;
         edificios = new ArrayList<>();
         this.terreno = terreno;
         this.fichaDeNumero = fichaDeNumero;
-         ladron = false;
+        ladron = false;
      }
 
      public void colocarLadron(Ladron ladron) {
          if (this.ladron) {
-             throw new IllegalStateException("Ya esta colocando ladron, intente en otro terreno");
+             throw new ColocacionInvalida("Ya esta colocando ladron, intente en otro terreno");
          }
          this.ladron = true;
          ladron.moverA(this);     
@@ -49,7 +51,7 @@ public class VerticeTerreno extends Vertice {
 
     public void cosecharTerreno() {
          if (!hayPiezasAdyacentes()) {
-             throw new IllegalStateException("No hay piezas adyacente para dar recursos.");
+             throw new SinPiezas("No hay piezas adyacente para dar recursos.");
          }
          if (ladron) {
              return;
@@ -76,7 +78,7 @@ public class VerticeTerreno extends Vertice {
             i++;
         }
     }
-    //metodo usado unicamente para test integral
+
     public boolean tieneTerreno(String terreno) {
          return this.terreno.sosEsteTerreno(terreno);
     }

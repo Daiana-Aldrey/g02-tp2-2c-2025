@@ -1,22 +1,25 @@
 package edu.fiuba.algo3.testUnitarios;
 
-import edu.fiuba.algo3.modelo.*;
-import edu.fiuba.algo3.modelo.Dados.*;
-import edu.fiuba.algo3.modelo.Pieza.*;
+import edu.fiuba.algo3.Excepciones.ColocacionInvalida;
+import edu.fiuba.algo3.modelo.Dados.GeneradorDeDados;
+import edu.fiuba.algo3.modelo.GeneradorNumerosAleatorios;
+import edu.fiuba.algo3.modelo.Juego;
+import edu.fiuba.algo3.modelo.Jugador;
+import edu.fiuba.algo3.modelo.Pieza.Pieza;
+import edu.fiuba.algo3.modelo.Pieza.Poblado;
 import edu.fiuba.algo3.modelo.Recurso.*;
 import edu.fiuba.algo3.modelo.Tablero.*;
-import edu.fiuba.algo3.modelo.Terreno.*;
-
+import edu.fiuba.algo3.modelo.Terreno.Montania;
+import edu.fiuba.algo3.modelo.Terreno.Terreno;
+import edu.fiuba.algo3.modelo.Ubicacion.Ubicacion;
 import edu.fiuba.algo3.modelo.Ubicacion.UbicacionVertice;
+
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.Assertions;
-import static org.mockito.Mockito.spy;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.ArgumentMatchers.any;
 
 
 public class JugadorTest {
@@ -58,7 +61,7 @@ public class JugadorTest {
             jugador.recibirRecurso(costo, costo.cantidad());
         }
   
-        List<UbicacionVertice> ubicacion = List.of(new UbicacionVertice(2));
+        List<Ubicacion> ubicacion = List.of(new UbicacionVertice(2));
         jugador.construirPieza("poblado", ubicacion);
 
         Assertions.assertTrue(tablero.hayEdificio(ubicacion.get(0)));
@@ -274,14 +277,14 @@ public class JugadorTest {
     @Test
     public void SeIntentaPonerPrimerCaminoNoAlLadoDeUnPobladoYSeLanzaUnaExcepcion() {
         Jugador jugador1 = new Jugador("Luis");
-        List<UbicacionVertice> ubicaciones = new ArrayList<>();
+        List<Ubicacion> ubicaciones = new ArrayList<>();
 
         ubicaciones.add(new UbicacionVertice(10));
         ubicaciones.add(new UbicacionVertice(9));
 
         jugador1.colocarPiezaInicial("poblado", List.of(new UbicacionVertice(1)));
 
-        assertThrows(IllegalArgumentException.class, () -> {
+        assertThrows(ColocacionInvalida.class, () -> {
             jugador1.colocarPiezaInicial("camino", ubicaciones);
         });
     }
@@ -302,7 +305,7 @@ public class JugadorTest {
 
         jugador.construirPieza("camino", List.of(new UbicacionVertice(9), new UbicacionVertice(10)));
 
-        assertThrows(IllegalArgumentException.class, () -> {
+        assertThrows(ColocacionInvalida.class, () -> {
             jugador.construirPieza("poblado", List.of(new UbicacionVertice(20)));
         });
     }

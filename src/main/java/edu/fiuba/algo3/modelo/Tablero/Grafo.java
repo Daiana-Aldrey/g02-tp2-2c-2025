@@ -1,11 +1,14 @@
 package edu.fiuba.algo3.modelo.Tablero;
 
+import edu.fiuba.algo3.Excepciones.AristaInvalida;
 import edu.fiuba.algo3.Excepciones.CaminoInvalido;
+import edu.fiuba.algo3.Excepciones.VerticeInvalido;
 import edu.fiuba.algo3.modelo.Juego;
 import edu.fiuba.algo3.modelo.Jugador;
 import edu.fiuba.algo3.modelo.Pieza.Camino;
 import edu.fiuba.algo3.modelo.Pieza.Ladron;
 import edu.fiuba.algo3.modelo.Pieza.Pieza;
+import edu.fiuba.algo3.modelo.Ubicacion.Ubicacion;
 import edu.fiuba.algo3.modelo.Ubicacion.UbicacionVertice;
 
 import java.util.ArrayList;
@@ -34,7 +37,7 @@ public class Grafo {
         Vertice vertice2 = buscarVertice(ubicacion2);
 
         if (hayArista(vertice1, vertice2)) {
-            throw new IllegalArgumentException("Ya existe arista");
+            throw new AristaInvalida("Ya existe arista");
         }
 
         Arista arista = new Arista(ubicacion1,ubicacion2);
@@ -60,7 +63,7 @@ public class Grafo {
         return encontrado;
     }
 
-    public Vertice buscarVertice(UbicacionVertice ubicacion) {
+    public Vertice buscarVertice(Ubicacion ubicacion) {
         int i = 0;
         boolean encontrado = false;
         while (i < vertices.size() && !encontrado) {
@@ -71,12 +74,12 @@ public class Grafo {
             }
         }
         if (!encontrado) {
-            throw new IllegalArgumentException("Vertice no encontrado");
+            throw new VerticeInvalido("Vertice no encontrado");
         }
         return vertices.get(i);
     }
 
-    public Arista buscarArista(UbicacionVertice ubicacion1, UbicacionVertice ubicacion2) {
+    public Arista buscarArista(Ubicacion ubicacion1, Ubicacion ubicacion2) {
         int i = 0;
         boolean encontrado = false;
 
@@ -89,7 +92,7 @@ public class Grafo {
         }
 
         if (!encontrado) {
-            throw new IllegalArgumentException("Arista no encontrada");
+            throw new AristaInvalida("Arista no encontrada");
         }
 
         return aristas.get(i);
@@ -101,14 +104,14 @@ public class Grafo {
     }
 
 
-    public void colocarCamino(UbicacionVertice ubicacion1, UbicacionVertice ubicacion2, Camino pieza) {
+    public void colocarCamino(Ubicacion ubicacion1, Ubicacion ubicacion2, Camino pieza) {
         Arista aristaEncontrada = buscarArista(ubicacion1, ubicacion2);
         aristaEncontrada.colocarCamino(pieza);
     }
-    public void colocarPieza(UbicacionVertice ubicacion, Pieza pieza) {
+    public void colocarPieza(Ubicacion ubicacion, Pieza pieza) {
         Vertice verticeEncontrado = buscarVertice(ubicacion);
         if (verticeEncontrado.contieneTerreno()) {
-            throw new IllegalArgumentException("No se puede colocar una pieza en un vertice donde se alojan terrenos");
+            throw new VerticeInvalido("No se puede colocar una pieza en un vertice donde se alojan terrenos");
         }
         VerticeEdificio verticeEdificioEncontrado = (VerticeEdificio) verticeEncontrado;
         verticeEdificioEncontrado.colocarPieza(pieza);
@@ -132,28 +135,28 @@ public class Grafo {
         return compatibles;
     }
 
-    public void removerPieza(UbicacionVertice ubicacion) {
+    public void removerPieza(Ubicacion ubicacion) {
         Vertice vertice = buscarVertice(ubicacion);
         if (vertice.contieneTerreno()) {
-            throw new IllegalArgumentException("Ubicacion erronea");
+            throw new VerticeInvalido("Ubicacion erronea");
         }
         VerticeEdificio verticeEdificio = (VerticeEdificio) vertice;
         verticeEdificio.removerPieza();
     }
 
-    public void colocarLadron(UbicacionVertice ubicacion, Ladron ladron, Jugador jugador) {
+    public void colocarLadron(Ubicacion ubicacion, Ladron ladron, Jugador jugador) {
         Vertice verticeEncontrado = buscarVertice(ubicacion);
         VerticeTerreno verticeTerreno = (VerticeTerreno) verticeEncontrado;
         verticeTerreno.colocarLadron(ladron);
     }
 
-    public boolean verticeTenesPieza(UbicacionVertice ubicacion) {
+    public boolean verticeTenesPieza(Ubicacion ubicacion) {
         Vertice verticeEncontrado = buscarVertice(ubicacion);
         VerticeEdificio verticeEdificioEncontrado = (VerticeEdificio) verticeEncontrado;
         return verticeEdificioEncontrado.hayPieza();
     }
 
-    public boolean aristaTenesCamino(UbicacionVertice ubicacion1, UbicacionVertice ubicacion2) {
+    public boolean aristaTenesCamino(Ubicacion ubicacion1, Ubicacion ubicacion2) {
         Arista aristaEncontrada = buscarArista(ubicacion1, ubicacion2);
         return aristaEncontrada.hayCamino();
     }

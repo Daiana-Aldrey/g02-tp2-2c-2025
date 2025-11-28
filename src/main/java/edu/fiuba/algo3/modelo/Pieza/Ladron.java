@@ -1,5 +1,4 @@
 package edu.fiuba.algo3.modelo.Pieza;
-import edu.fiuba.algo3.modelo.Ubicacion.*;
 import edu.fiuba.algo3.modelo.Tablero.*;
 import edu.fiuba.algo3.modelo.*;
 import edu.fiuba.algo3.Excepciones.*;

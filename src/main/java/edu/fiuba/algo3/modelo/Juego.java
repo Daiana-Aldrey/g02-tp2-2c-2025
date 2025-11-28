@@ -2,8 +2,9 @@ package edu.fiuba.algo3.modelo;
 import edu.fiuba.algo3.modelo.Dados.GeneradorDeDados;
 import edu.fiuba.algo3.modelo.Intercambio.Banco;
 import edu.fiuba.algo3.modelo.Tablero.Tablero;
-import edu.fiuba.algo3.modelo.Ubicacion.UbicacionVertice;
+import edu.fiuba.algo3.modelo.Ubicacion.Ubicacion;
 import edu.fiuba.algo3.Excepciones.*;
+import edu.fiuba.algo3.modelo.Ubicacion.UbicacionVertice;
 
 import java.util.*;
 
@@ -41,7 +42,7 @@ public class Juego {
 		return generador.tirar();
 	}
 
-	public void inicializarPiezas(List<List<UbicacionVertice>> verticesPoblados, List<List<UbicacionVertice>> verticesCaminos) {
+	public void inicializarPiezas(List<List<Ubicacion>> verticesPoblados, List<List<Ubicacion>> verticesCaminos) {
 		for (int i = 0; i < cantJugadores; i++) {
 			Jugador jugador = jugadores.get(i);
 			jugador.colocarPiezaInicial("poblado", verticesPoblados.get(i));

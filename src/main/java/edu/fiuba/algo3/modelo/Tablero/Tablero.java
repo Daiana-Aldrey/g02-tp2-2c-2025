@@ -5,6 +5,7 @@ import edu.fiuba.algo3.modelo.Pieza.Camino;
 import edu.fiuba.algo3.modelo.Pieza.Ladron;
 import edu.fiuba.algo3.modelo.Pieza.Pieza;
 import edu.fiuba.algo3.modelo.Terreno.Terreno;
+import edu.fiuba.algo3.modelo.Ubicacion.Ubicacion;
 import edu.fiuba.algo3.modelo.Ubicacion.UbicacionVertice;
 
 import java.util.*;
@@ -70,11 +71,11 @@ public final class Tablero {
         grafo.removerPieza(ubicacion);
     }
 
-    public boolean hayEdificio(UbicacionVertice ubicacion) {
+    public boolean hayEdificio(Ubicacion ubicacion) {
         return grafo.verticeTenesPieza(ubicacion);
     }
 
-    public boolean hayCamino(UbicacionVertice ubicacion1, UbicacionVertice ubicacion2) {
+    public boolean hayCamino(Ubicacion ubicacion1, Ubicacion ubicacion2) {
         return grafo.aristaTenesCamino(ubicacion1, ubicacion2);
     }
 }

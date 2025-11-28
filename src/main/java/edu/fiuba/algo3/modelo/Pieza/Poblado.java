@@ -1,5 +1,8 @@
 package edu.fiuba.algo3.modelo.Pieza;
 
+import edu.fiuba.algo3.Excepciones.CantidadUbicacionesInvalida;
+import edu.fiuba.algo3.Excepciones.ColocacionInvalida;
+import edu.fiuba.algo3.Excepciones.SinPiezas;
 import edu.fiuba.algo3.modelo.Jugador;
 import edu.fiuba.algo3.modelo.Recurso.*;
 import edu.fiuba.algo3.modelo.Tablero.Tablero;
@@ -29,26 +32,26 @@ public class Poblado extends Pieza {
     }
     
     @Override
-    public void colocarPrimera(List<UbicacionVertice> ubicacion) {
+    public void colocarPrimera(List<Ubicacion> ubicacion) {
     	if (ubicacion.size() != 1) {
-            throw new IllegalArgumentException("Un poblado necesita exactamente 1 ubicación");
+            throw new CantidadUbicacionesInvalida("Un poblado necesita exactamente 1 ubicación");
         }
     	  
-          UbicacionVertice ubicacionIntento = ubicacion.get(0);
+          UbicacionVertice ubicacionIntento = (UbicacionVertice) ubicacion.get(0);
           Tablero tablero = Tablero.getInstance();
           tablero.colocarEdificio(ubicacionIntento, this);
           propietario.incorporarPoblado(this);
     }
 
     @Override
-    public void colocar(List<UbicacionVertice> ubicacion) {
+    public void colocar(List<Ubicacion> ubicacion) {
         if (ubicacion.size() != 1) {
-            throw new IllegalArgumentException("Un poblado necesita exactamente 1 ubicación");
+            throw new CantidadUbicacionesInvalida("Un poblado necesita exactamente 1 ubicación");
         }
 
-        UbicacionVertice ubicacionIntento = ubicacion.get(0);
+        UbicacionVertice ubicacionIntento = (UbicacionVertice) ubicacion.get(0);
         if (!propietario.tenesPiezaEnUbicacion(ubicacionIntento)) {
-            throw new IllegalArgumentException("Tiene que tener un camino que lo conecte");
+            throw new ColocacionInvalida("Poblado tiene que tener un camino que lo conecte");
         }
 
         Tablero tablero = Tablero.getInstance();
@@ -59,7 +62,7 @@ public class Poblado extends Pieza {
     public int produccion(){return 1;}
 
     @Override
-    public boolean tenesUbicacion(UbicacionVertice ubicacion) {
+    public boolean tenesUbicacion(Ubicacion ubicacion) {
         return ubicacion.equals(this.ubicacion);
     }
 
@@ -70,7 +73,7 @@ public class Poblado extends Pieza {
     }
 
     @Override
-    public void setearUbicacion(UbicacionVertice ubicacion) {
+    public void setearUbicacion(Ubicacion ubicacion) {
         this.ubicacion = ubicacion;
     }
 }

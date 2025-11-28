@@ -1,10 +1,12 @@
 package edu.fiuba.algo3.testUnitarios;
 
-import edu.fiuba.algo3.modelo.*;
-import edu.fiuba.algo3.modelo.Pieza.*;
+import edu.fiuba.algo3.Excepciones.AristaInvalida;
+import edu.fiuba.algo3.Excepciones.ColocacionInvalida;
+import edu.fiuba.algo3.Excepciones.VerticeInvalido;
+import edu.fiuba.algo3.modelo.Jugador;
+import edu.fiuba.algo3.modelo.Pieza.Camino;
 import edu.fiuba.algo3.modelo.Tablero.*;
-import edu.fiuba.algo3.modelo.Terreno.*;
-
+import edu.fiuba.algo3.modelo.Terreno.Bosque;
 import edu.fiuba.algo3.modelo.Ubicacion.UbicacionVertice;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -12,7 +14,6 @@ import org.mockito.Mock;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.mock;
 
 public class GrafoTest {
     @Mock
@@ -31,7 +32,7 @@ public class GrafoTest {
     @Test
     public void grafoEncuentraElVerticeBuscado() {
         Grafo grafo = new Grafo();
-        VerticeEdificio verticeEdificioBuscado = new VerticeEdificio(new  UbicacionVertice('1'));
+        VerticeEdificio verticeEdificioBuscado = new VerticeEdificio(new UbicacionVertice('1'));
 
         grafo.agregarVertice(verticeEdificioBuscado);
 
@@ -46,7 +47,7 @@ public class GrafoTest {
 
         grafo.agregarVertice(vertice1);
 
-        assertThrows(RuntimeException.class, () -> {
+        assertThrows(VerticeInvalido.class, () -> {
             grafo.buscarVertice(new UbicacionVertice('3'));
         });
     }
@@ -61,7 +62,7 @@ public class GrafoTest {
 
         grafo.agregarVertice(vertice1);
         grafo.agregarVertice(vertice2);
-        grafo.agregarArista(ubicacion1,ubicacion2);
+        grafo.agregarArista(ubicacion1, ubicacion2);
 
         assertTrue(grafo.hayArista(vertice1, vertice2));
     }
@@ -79,29 +80,15 @@ public class GrafoTest {
 
         grafo.agregarArista(ubicacion1, ubicacion2);
 
-        assertThrows(RuntimeException.class, () -> {
+        assertThrows(AristaInvalida.class, () -> {
             grafo.agregarArista(ubicacion2, ubicacion1);
-        });
-    }
-
-    @Test
-    public void seIntentaAgregarPiezaEnUnVerticeNoDisponibleYLanzaExcepcion() {
-        Grafo grafo = new Grafo();
-        Pieza pieza = new Poblado(mock(Jugador.class));
-
-        grafo.agregarVertice(new VerticeEdificio(new UbicacionVertice('1')));
-
-        grafo.colocarPieza(new UbicacionVertice('1'),pieza);
-
-        assertThrows(IllegalArgumentException.class, () -> {
-            grafo.colocarPieza(new UbicacionVertice('1'),pieza);
         });
     }
 
     @Test
     public void grafoEncuentraElVerticeTerrenoBuscado() {
         Grafo grafo = new Grafo();
-        Vertice buscado = new VerticeTerreno(new UbicacionVertice('A'), new Bosque(),9);
+        Vertice buscado = new VerticeTerreno(new UbicacionVertice('A'), new Bosque(), 9);
 
         grafo.agregarVertice(buscado);
 
@@ -145,35 +132,9 @@ public class GrafoTest {
 
         grafo.colocarCamino(ubicacion1, ubicacion2, new Camino(luis));
 
-        assertThrows(IllegalArgumentException.class, () -> {
-            grafo.colocarCamino(ubicacion2, ubicacion1,new Camino(luis));
-        });
-    }
-
-    @Test
-    public void seIntentaPonerUnCaminodoDondeNoHayunaPiezaDelMismoJugadorYLanzaExcepcion() {
-        Grafo grafo = new Grafo();
-
-        UbicacionVertice ubicacion1 = new UbicacionVertice('1');
-        UbicacionVertice ubicacion2 = new UbicacionVertice('2');
-        UbicacionVertice ubicacion3 = new UbicacionVertice('3');
-        Vertice vertice1 = new VerticeEdificio(ubicacion1);
-        Vertice vertice2 = new VerticeEdificio(ubicacion2);
-        Vertice vertice3 = new VerticeEdificio(ubicacion3);
-
-        grafo.agregarVertice(vertice1);
-        grafo.agregarVertice(vertice2);
-        grafo.agregarVertice(vertice3);
-        grafo.agregarArista(ubicacion1, ubicacion2);
-        grafo.agregarArista(ubicacion2, ubicacion3);
-
-        Jugador luis = new Jugador("Luis");
-
-        grafo.colocarPieza(ubicacion1, new Poblado(luis));
-        grafo.colocarPieza(ubicacion3, new Poblado(luis));
-
-        assertThrows(IllegalArgumentException.class, () -> {
-            grafo.colocarCamino(ubicacion1, ubicacion2, new Camino(new Jugador("Federico")));
+        assertThrows(ColocacionInvalida.class, () -> {
+            grafo.colocarCamino(ubicacion2, ubicacion1, new Camino(luis));
         });
     }
 }
+

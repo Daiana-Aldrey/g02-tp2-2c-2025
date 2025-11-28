@@ -1,5 +1,6 @@
 package edu.fiuba.algo3.modelo.Recurso;
 
+import edu.fiuba.algo3.Excepciones.SinRecursos;
 import edu.fiuba.algo3.modelo.Jugador;
 
 public abstract class Recurso {
@@ -27,7 +28,7 @@ public abstract class Recurso {
 
     public void decrementar(int cantidadPedida) {
     	if (cantidadPedida > cantidad) {
-            throw new IllegalArgumentException("No posees cantidad suficiente" );
+            throw new SinRecursos("No posees cantidad suficiente" );
 	    }
 
         this.cantidad -= cantidadPedida;

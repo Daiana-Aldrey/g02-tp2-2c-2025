@@ -1,8 +1,10 @@
 package edu.fiuba.algo3.testUnitarios;
 
+import edu.fiuba.algo3.Excepciones.CantidadUbicacionesInvalida;
+import edu.fiuba.algo3.Excepciones.ColocacionInvalida;
 import edu.fiuba.algo3.modelo.Jugador;
 import edu.fiuba.algo3.modelo.Pieza.Camino;
-import edu.fiuba.algo3.modelo.Recurso.RecursoTipo;
+import edu.fiuba.algo3.modelo.Ubicacion.Ubicacion;
 import edu.fiuba.algo3.modelo.Ubicacion.UbicacionVertice;
 import org.junit.jupiter.api.Test;
 
@@ -11,9 +13,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.mock;
 
 public class CaminoTest {
+
+    @Test
+    public void SeEnviaUnaSolaUbicacionParaColocarYSeLanzaExcepcion() {
+        List<Ubicacion> ubicaciones = new ArrayList<>();
+        ubicaciones.add(new UbicacionVertice(1));
+
+        Camino camino = new Camino(mock(Jugador.class));
+
+        assertThrows(CantidadUbicacionesInvalida.class, () ->  {
+            camino.colocar(ubicaciones);
+        });
+    }
+
     @Test
     public void SeIntentaPonerPrimerCaminoNoAlLadoDeUnPobladoYSeLanzaUnaExcepcion() {
         Jugador jugador1 = new Jugador("Luis");
@@ -21,7 +36,7 @@ public class CaminoTest {
 
         jugador1.colocarPiezaInicial("poblado", List.of(new UbicacionVertice(1)));
 
-        assertThrows(IllegalArgumentException.class, () -> {
+        assertThrows(ColocacionInvalida.class, () -> {
             camino.colocarPrimera(List.of(new UbicacionVertice(3),  new UbicacionVertice(2)));
         });
 
@@ -44,7 +59,7 @@ public class CaminoTest {
 
         Camino camino3 = new Camino(jugador1);
 
-        assertThrows(IllegalArgumentException.class, () -> {
+        assertThrows(ColocacionInvalida.class, () -> {
             camino3.colocar(List.of(new UbicacionVertice(9),  new UbicacionVertice(10)));
         });
 

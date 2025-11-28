@@ -5,6 +5,7 @@ import edu.fiuba.algo3.modelo.Intercambio.Puerto;
 import edu.fiuba.algo3.modelo.Pieza.*;
 import edu.fiuba.algo3.modelo.Recurso.*;
 import edu.fiuba.algo3.modelo.Tablero.Tablero;
+import edu.fiuba.algo3.modelo.Ubicacion.Ubicacion;
 import edu.fiuba.algo3.modelo.Ubicacion.UbicacionVertice;
 import edu.fiuba.algo3.Excepciones.*;
 import java.util.List;
@@ -19,8 +20,6 @@ public class Jugador {
     private List<Ciudad>  ciudades = new ArrayList<>();
     private List<Camino>  caminos  = new ArrayList<>();
     private List<Puerto> puertos = new ArrayList<>();
-    //private List<Recurso> recursos = new ArrayList<>();
-    //ENTREGA2
     private List<Carta> cartasDesarrollo = new ArrayList<>();
     private List<Carta> cartasDesarrolloRecienCompradas = new ArrayList<>();
 
@@ -47,7 +46,7 @@ public class Jugador {
         puntosDeVictoria += 2;
 	}
 	
-	public void colocarPiezaInicial(String tipo, List<UbicacionVertice> ubicacion) {
+	public void colocarPiezaInicial(String tipo, List<Ubicacion> ubicacion) {
 	    Pieza pieza = Pieza.crear(tipo, this);
 	    pieza.colocarPrimera(ubicacion);
 	}    
@@ -78,7 +77,7 @@ public class Jugador {
         return null;
     }
 
-    public void construirPieza(String tipo, List<UbicacionVertice> ubicacion) {
+    public void construirPieza(String tipo, List<Ubicacion> ubicacion) {
         Pieza pieza = Pieza.crear(tipo, this);
         List<Recurso> precio = pieza.costoDeConstruccion();
         pagarRecursos(precio);
@@ -165,10 +164,10 @@ public class Jugador {
     
     public void intercambiar(List<Recurso> pedidos, List<Recurso> ofertas, Jugador ofertante) {
         if (pedidos == null || pedidos.isEmpty()) {
-            throw new IllegalArgumentException("Debe haber al menos un recurso pedido");
+            throw new SinRecursos("Debe haber al menos un recurso pedido");
         }
         if (ofertas == null || ofertas.isEmpty()) {
-            throw new IllegalArgumentException("Debe haber al menos un recurso ofertado");
+            throw new SinRecursos("Debe haber al menos un recurso ofertado");
         }
 
         for (Recurso pedido : pedidos) {
@@ -235,7 +234,7 @@ public class Jugador {
 
     public int puntosDeVictoria(){return puntosDeVictoria;}
 
-    public boolean tenesPobladoEnUbicacion(UbicacionVertice ubicacion) {
+    public boolean tenesPobladoEnUbicacion(Ubicacion ubicacion) {
         int i = 0;
         boolean encontrado = false;
         Poblado poblado;
@@ -249,7 +248,7 @@ public class Jugador {
         return encontrado;
     }
 
-    public boolean tenesPiezaEnUbicacion(UbicacionVertice ubicacion) {
+    public boolean tenesPiezaEnUbicacion(Ubicacion ubicacion) {
         int i = 0;
         boolean encontrado = false;
         Camino camino;

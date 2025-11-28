@@ -1,7 +1,7 @@
-package edu.fiuba.algo3.modelo.Ubicacion;
+package edu.fiuba.algo3.modelo.Terreno;
 
+import edu.fiuba.algo3.Excepciones.ObjetoNoUsable;
 import edu.fiuba.algo3.modelo.Pieza.Pieza;
-import edu.fiuba.algo3.modelo.Terreno.*;
 
 import java.util.List;
 
@@ -13,6 +13,6 @@ public class NoTerreno extends Terreno {
 
     @Override
     public void repartirRecurso(List<Pieza> edificios) {
-        throw new UnsupportedOperationException("Error: No se puede repartir recurso desde un Terreno Nulo.");
+        throw new ObjetoNoUsable("Error: No se puede repartir recurso desde un Terreno Nulo.");
     }
 }

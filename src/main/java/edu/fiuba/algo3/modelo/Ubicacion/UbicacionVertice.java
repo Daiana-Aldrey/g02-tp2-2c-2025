@@ -13,7 +13,7 @@ public class UbicacionVertice extends Ubicacion {
     }
 
     @Override
-    public boolean tieneUbicacion(char ubicacion) {
+    protected boolean tieneUbicacion(char ubicacion) {
         return this.ubicacion == ubicacion;
     }
 

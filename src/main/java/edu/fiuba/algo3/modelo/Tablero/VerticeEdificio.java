@@ -1,6 +1,6 @@
 package edu.fiuba.algo3.modelo.Tablero;
 
-import edu.fiuba.algo3.modelo.Jugador;
+import edu.fiuba.algo3.Excepciones.ColocacionInvalida;
 import edu.fiuba.algo3.modelo.Pieza.NoPieza;
 import edu.fiuba.algo3.modelo.Pieza.Pieza;
 import edu.fiuba.algo3.modelo.Ubicacion.UbicacionVertice;
@@ -26,7 +26,7 @@ public class VerticeEdificio extends Vertice {
 
     public void colocarPieza(Pieza edificio) {
         if (!disponible) {
-            throw new IllegalArgumentException("No se puede poner la pieza en el vertice");
+            throw new ColocacionInvalida("vertice no disponoble");
         }
 
         this.pieza = edificio;
@@ -60,10 +60,6 @@ public class VerticeEdificio extends Vertice {
         for (VerticeTerreno terreno : terrenos) {
             terreno.agregarEdificio(pieza);
         }
-    }
-
-    public boolean perteneceA(Jugador jugador) {
-        return pieza != null && pieza.esDe(jugador);
     }
 
     public void removerPieza() {

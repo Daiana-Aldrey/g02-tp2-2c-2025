@@ -1,5 +1,7 @@
 package edu.fiuba.algo3.modelo.Pieza;
 
+import edu.fiuba.algo3.Excepciones.CantidadUbicacionesInvalida;
+import edu.fiuba.algo3.Excepciones.ColocacionInvalida;
 import edu.fiuba.algo3.modelo.Jugador;
 import edu.fiuba.algo3.modelo.Recurso.Ladrillo;
 import edu.fiuba.algo3.modelo.Recurso.Madera;
@@ -32,12 +34,12 @@ public class Camino extends Pieza {
     }
 
     @Override
-    public void colocarPrimera(List<UbicacionVertice> ubicaciones) {
+    public void colocarPrimera(List<Ubicacion> ubicaciones) {
         if (ubicaciones.size() != 2) {
-            throw new IllegalArgumentException("Un camino necesita exactamente 2 vértices");
+            throw new CantidadUbicacionesInvalida("Un camino necesita exactamente 2 ubicaciones");
         }
-        UbicacionVertice ubicacion1 = ubicaciones.get(0);
-        UbicacionVertice ubicacion2 = ubicaciones.get(1);
+        UbicacionVertice ubicacion1 = (UbicacionVertice) ubicaciones.get(0);
+        UbicacionVertice ubicacion2 = (UbicacionVertice) ubicaciones.get(1);
 
         if(propietario.tenesPobladoEnUbicacion(ubicacion1) || propietario.tenesPobladoEnUbicacion(ubicacion2)) {
             Tablero tablero = Tablero.getInstance();
@@ -45,18 +47,18 @@ public class Camino extends Pieza {
 
             propietario.incorporarCamino(this);
         } else {
-            throw new IllegalArgumentException("No se encuentra poblado para empezar camino");
+            throw new ColocacionInvalida("No se encuentra poblado para empezar camino");
         }
     }
 
     @Override
-    public void colocar(List<UbicacionVertice> ubicaciones) {
+    public void colocar(List<Ubicacion> ubicaciones) {
         if (ubicaciones.size() != 2) {
-            throw new IllegalArgumentException("Un camino necesita exactamente 2 vértices");
+            throw new CantidadUbicacionesInvalida("Un camino necesita exactamente 2 vértices");
         }
 
-        UbicacionVertice ubicacion1 = ubicaciones.get(0);
-        UbicacionVertice ubicacion2 = ubicaciones.get(1);
+        UbicacionVertice ubicacion1 = (UbicacionVertice)ubicaciones.get(0);
+        UbicacionVertice ubicacion2 = (UbicacionVertice) ubicaciones.get(1);
 
         if (propietario.tenesPiezaEnUbicacion(ubicacion1) || propietario.tenesPiezaEnUbicacion(ubicacion2)) {
             Tablero tablero = Tablero.getInstance();
@@ -64,12 +66,12 @@ public class Camino extends Pieza {
 
             propietario.incorporarCamino(this);
         } else {
-            throw new IllegalArgumentException("No se encuentra poblado/camino para colocar un camino");
+            throw new ColocacionInvalida("No se encuentra poblado/camino para colocar un camino");
         }
     }
 
     @Override
-    public boolean tenesUbicacion(UbicacionVertice ubicacion) {
+    public boolean tenesUbicacion(Ubicacion ubicacion) {
         return (this.ubicacion1.equals(ubicacion) || this.ubicacion2.equals(ubicacion));
     }
 
@@ -80,11 +82,11 @@ public class Camino extends Pieza {
     }
 
     @Override
-    public void setearUbicacion(UbicacionVertice ubicacion) {
+    public void setearUbicacion(Ubicacion ubicacion) {
         this.ubicacion1 = ubicacion;
     }
 
-    public void setearSegundaUbicacion(UbicacionVertice ubicacion) {
+    public void setearSegundaUbicacion(Ubicacion ubicacion) {
         this.ubicacion2 = ubicacion;
     }
 }

@@ -1,5 +1,6 @@
 package edu.fiuba.algo3.testUnitarios;
 
+import edu.fiuba.algo3.Excepciones.ColocacionInvalida;
 import edu.fiuba.algo3.modelo.*;
 import edu.fiuba.algo3.modelo.Pieza.Camino;
 import edu.fiuba.algo3.modelo.Tablero.Arista;
@@ -30,7 +31,7 @@ public class AristaTest {
         Arista arista = new Arista(new UbicacionVertice(1),new UbicacionVertice(2));
         arista.colocarCamino(new Camino(new Jugador("Juan")));
 
-        assertThrows( IllegalArgumentException.class, () -> {
+        assertThrows(ColocacionInvalida.class, () -> {
             arista.colocarCamino(new Camino(new Jugador("Juana")));
         });
     }

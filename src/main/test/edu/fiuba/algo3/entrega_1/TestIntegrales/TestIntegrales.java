@@ -1,14 +1,18 @@
 package edu.fiuba.algo3.entrega_1.TestIntegrales;
 
-import edu.fiuba.algo3.modelo.*;
-import edu.fiuba.algo3.modelo.Dados.*;
-import edu.fiuba.algo3.modelo.Pieza.*;
+import edu.fiuba.algo3.Excepciones.ColocacionInvalida;
+import edu.fiuba.algo3.modelo.Dados.GeneradorDeDados;
+import edu.fiuba.algo3.modelo.GeneradorNumerosAleatorios;
+import edu.fiuba.algo3.modelo.Juego;
+import edu.fiuba.algo3.modelo.Jugador;
+import edu.fiuba.algo3.modelo.Pieza.Ladron;
+import edu.fiuba.algo3.modelo.Pieza.Pieza;
+import edu.fiuba.algo3.modelo.Pieza.Poblado;
 import edu.fiuba.algo3.modelo.Recurso.*;
 import edu.fiuba.algo3.modelo.Tablero.*;
-import edu.fiuba.algo3.modelo.Terreno.*;
+import edu.fiuba.algo3.modelo.Terreno.Bosque;
+import edu.fiuba.algo3.modelo.Terreno.Montania;
 import edu.fiuba.algo3.modelo.Ubicacion.UbicacionVertice;
-import edu.fiuba.algo3.testUnitarios.JugadorTest.JugadorQueNoMueveLadron;
-
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -128,13 +132,13 @@ public class TestIntegrales {
        assertTrue(tablero.hayEdificio(new UbicacionVertice(1)));
         assertTrue(tablero.hayEdificio(new UbicacionVertice(5)));
 
-        assertThrows(IllegalArgumentException.class, () -> {
+        assertThrows(ColocacionInvalida.class, () -> {
             federico.colocarPiezaInicial("poblado", new ArrayList<>(List.of(new UbicacionVertice(6))));
         });
-        assertThrows(IllegalArgumentException.class, () -> {
+        assertThrows(ColocacionInvalida.class, () -> {
             ricardo.colocarPiezaInicial("poblado", new ArrayList<>(List.of(new UbicacionVertice(2))));;
         });
-        assertThrows(IllegalArgumentException.class, () -> {
+        assertThrows(ColocacionInvalida.class, () -> {
             fabiano.colocarPiezaInicial("poblado", new ArrayList<>(List.of(new UbicacionVertice(1))));;
         });
     }

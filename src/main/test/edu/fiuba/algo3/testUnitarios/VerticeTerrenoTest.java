@@ -1,5 +1,7 @@
 package edu.fiuba.algo3.testUnitarios;
 
+import edu.fiuba.algo3.Excepciones.ColocacionInvalida;
+import edu.fiuba.algo3.Excepciones.SinPiezas;
 import edu.fiuba.algo3.modelo.*;
 import edu.fiuba.algo3.modelo.Pieza.*;
 import edu.fiuba.algo3.modelo.Tablero.*;
@@ -40,7 +42,7 @@ public class VerticeTerrenoTest {
     public void verticeNoPermiteCosecharTerrenoPorNoTenerPiezasAdyacentes () {
         VerticeTerreno vertice = new VerticeTerreno(new UbicacionVertice('A'), new Bosque(),8);
 
-        assertThrows(IllegalStateException.class, () -> {
+        assertThrows(SinPiezas.class, () -> {
             vertice.cosecharTerreno();
         });
 
@@ -48,13 +50,13 @@ public class VerticeTerrenoTest {
     
 
     @Test
-    public void seIntentaColocarElLadronEnUnTerrenoDondeYEstabaSituadoYSeLanzaUnaExcepcion () {
+    public void seIntentaColocarElLadronEnUnTerrenoDondeYaEstabaSituadoYSeLanzaUnaExcepcion () {
         VerticeTerreno vertice = new VerticeTerreno(new UbicacionVertice('B'), new Bosque(),8);
 
         Ladron ladron = new Ladron();
         vertice.colocarLadron(ladron);
 
-        assertThrows(IllegalStateException.class, () -> {
+        assertThrows(ColocacionInvalida.class, () -> {
             vertice.colocarLadron(ladron);
         });
     }

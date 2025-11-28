@@ -1,5 +1,6 @@
 package edu.fiuba.algo3.testUnitarios;
 
+import edu.fiuba.algo3.Excepciones.ColocacionInvalida;
 import edu.fiuba.algo3.modelo.*;
 import edu.fiuba.algo3.modelo.Pieza.Camino;
 import edu.fiuba.algo3.modelo.Pieza.Pieza;
@@ -52,7 +53,7 @@ public class TableroTest {
         tablero.colocarEdificio(new UbicacionVertice('5'), p1);
         Pieza p2 = new Poblado(new Jugador("Juan"));
 
-        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+        Assertions.assertThrows(ColocacionInvalida.class, () -> {
             tablero.colocarEdificio(new UbicacionVertice('5'), p2);
         });
     }

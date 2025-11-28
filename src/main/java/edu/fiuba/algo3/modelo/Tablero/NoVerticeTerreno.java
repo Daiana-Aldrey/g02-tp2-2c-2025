@@ -1,10 +1,11 @@
-package edu.fiuba.algo3.modelo.Ubicacion;
-import edu.fiuba.algo3.modelo.Tablero.*;
+package edu.fiuba.algo3.modelo.Tablero;
 import edu.fiuba.algo3.modelo.*;
+import edu.fiuba.algo3.modelo.Terreno.NoTerreno;
+import edu.fiuba.algo3.modelo.Ubicacion.NoUbicacion;
 
 public class NoVerticeTerreno extends VerticeTerreno {
     public NoVerticeTerreno() {
-        super(new NoUbicacionVertice(), new NoTerreno(), 0); 
+        super(new NoUbicacion(), new NoTerreno(), 0);
     }
    
     @Override

@@ -1,8 +1,9 @@
 package edu.fiuba.algo3.modelo.Pieza;
 
+import edu.fiuba.algo3.Excepciones.PiezaNoEncontrada;
 import edu.fiuba.algo3.modelo.*;
 import edu.fiuba.algo3.modelo.Recurso.Recurso;
-import edu.fiuba.algo3.modelo.Ubicacion.UbicacionVertice;
+import edu.fiuba.algo3.modelo.Ubicacion.Ubicacion;
 
 import java.util.*;
 
@@ -23,7 +24,7 @@ public abstract class Pieza {
                 return new Ciudad(propietario);
 
             default:
-                throw new IllegalArgumentException(
+                throw new PiezaNoEncontrada(
                     "Tipo de pieza no válido: " + tipo + ". Debe ser 'poblado', 'camino' o 'ciudad'.");
         }
     }
@@ -34,9 +35,9 @@ public abstract class Pieza {
         propietario.recibirRecurso(recurso, cantidad);
     }
 
-    public abstract void colocarPrimera(List<UbicacionVertice> ubicaciones);
+    public abstract void colocarPrimera(List<Ubicacion> ubicaciones);
 
-    public abstract void colocar(List<UbicacionVertice> ubicaciones);
+    public abstract void colocar(List<Ubicacion> ubicaciones);
 
     public boolean esDe(Jugador jugador) {
         return this.propietario == jugador;
@@ -52,10 +53,10 @@ public abstract class Pieza {
 
     public int produccion(){return 0;}
 
-    public abstract boolean tenesUbicacion(UbicacionVertice ubicacion);
+    public abstract boolean tenesUbicacion(Ubicacion ubicacion);
 
     public abstract boolean usable();
 
-    public abstract void setearUbicacion(UbicacionVertice ubicacion);
+    public abstract void setearUbicacion(Ubicacion ubicacion);
 }
     
