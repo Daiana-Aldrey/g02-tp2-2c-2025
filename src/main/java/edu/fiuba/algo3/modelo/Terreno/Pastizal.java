@@ -1,9 +1,7 @@
 package edu.fiuba.algo3.modelo.Terreno;
 
 import edu.fiuba.algo3.modelo.Pieza.Pieza;
-import edu.fiuba.algo3.modelo.Recurso.Ladrillo;
 import edu.fiuba.algo3.modelo.Recurso.Lana;
-import edu.fiuba.algo3.modelo.Recurso.RecursoTipo;
 
 import java.util.List;
 
