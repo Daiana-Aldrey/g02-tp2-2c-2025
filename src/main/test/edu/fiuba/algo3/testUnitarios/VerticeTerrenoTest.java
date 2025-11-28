@@ -46,22 +46,6 @@ public class VerticeTerrenoTest {
 
     }
     
-    @Test
-    public void verticeTerrenoConUnSoloEdificioLlamaAfectarPorLadronEnEsaPieza() {
-        Terreno terrenoMock = mock(Terreno.class);
-
-        VerticeTerreno vt = new VerticeTerreno(new UbicacionVertice('X'), terrenoMock,8);
-
-        Jugador jugadorQueMueve = mock(Jugador.class);
-        Pieza piezaVictima = mock(Pieza.class);
-
-        vt.agregarEdificio(piezaVictima);
-
-        vt.robarPara(jugadorQueMueve);
-
-        verify(piezaVictima, times(1)).afectarPorLadron(jugadorQueMueve);
-        verifyNoMoreInteractions(piezaVictima);
-    }
 
     @Test
     public void seIntentaColocarElLadronEnUnTerrenoDondeYEstabaSituadoYSeLanzaUnaExcepcion () {

@@ -7,6 +7,7 @@ import edu.fiuba.algo3.modelo.Recurso.*;
 import edu.fiuba.algo3.modelo.Tablero.*;
 import edu.fiuba.algo3.modelo.Terreno.*;
 import edu.fiuba.algo3.modelo.Ubicacion.UbicacionVertice;
+import edu.fiuba.algo3.testUnitarios.JugadorTest.JugadorQueNoMueveLadron;
 
 import org.junit.jupiter.api.Test;
 
@@ -295,31 +296,30 @@ public class TestIntegrales {
 
         GeneradorDeTablero generador = new GeneradorDeTablero(new GeneradorNumerosAleatorios());
         generador.generarEstructura(grafo);
-
-        UbicacionVertice ubicacionX = new UbicacionVertice('x');
-        Vertice vertice1 = new VerticeTerreno(ubicacionX, new Bosque(), 8);
-        grafo.agregarVertice(vertice1);
+        UbicacionVertice ubicacionX = new UbicacionVertice('X');
+        VerticeTerreno verticeBosque = new VerticeTerreno(ubicacionX, new Bosque(), 8);
+        grafo.agregarVertice(verticeBosque);
 
         UbicacionVertice ubicacion1 = new UbicacionVertice(1);
-        grafo.agregarArista(ubicacion1,ubicacionX);
+        grafo.agregarArista(ubicacion1, ubicacionX);
 
         tablero.setearGrafo(grafo);
 
         Jugador jugador = new Jugador("Jugador");
-
         Pieza poblado = new Poblado(jugador);
 
         tablero.colocarEdificio(ubicacion1, poblado);
-
-        tablero.moverLadronA(ubicacionX, jugador);
+        Ladron ladron = new Ladron();
+        verticeBosque.colocarLadron(ladron);
 
         int antes = jugador.cantidadDeCartas();
-        tablero.cosechar(8);
+        tablero.cosechar(8); 
         int despues = jugador.cantidadDeCartas();
 
         assertEquals(antes, despues,
                 "Un terreno con el Ladrón NO debe producir recursos");
     }
+
 
     @Test
     public void jugadorDescartaLaMitadDeCartasSiSale7yTieneMasDe7Cartas() {
@@ -328,21 +328,23 @@ public class TestIntegrales {
 
         GeneradorDeDados dado = () -> 7;
 
-        Jugador jugador1 = new Jugador("Juli");
- 	    Jugador jugador2 = new Jugador("Valen");
- 	    Jugador jugador3 = new Jugador("Sofi");
- 	    List<Jugador> jugadores = List.of(jugador1, jugador2, jugador3);
- 	    Juego juego = new Juego(jugadores, dado);
+        Jugador jugador1 = new JugadorQueNoMueveLadron("Juli");
+        Jugador jugador2 = new Jugador("Valen");
+        Jugador jugador3 = new Jugador("Sofi");
+        List<Jugador> jugadores = List.of(jugador1, jugador2, jugador3);
 
-        jugador3.recibirRecurso(RecursoTipo.MADERA, 5);
-        jugador3.recibirRecurso(RecursoTipo.LADRILLO, 4);
+        Juego juego = new Juego(jugadores, dado);
+        Jugador jugador = juego.jugadores().get(0); 
 
-        assertEquals(9, jugador3.cantidadDeCartas(), "Precondición: debe tener 9 cartas");
+        jugador.recibirRecurso(RecursoTipo.MADERA, 5);
+        jugador.recibirRecurso(RecursoTipo.LADRILLO, 4);
+
+        assertEquals(9, jugador.cantidadDeCartas(), "Precondición: debe tener 9 cartas");
 
         int tirada = juego.tirarDado();
         juego.manejarTirada(tirada);
 
-        assertEquals(5, jugador3.cantidadDeCartas(),
+        assertEquals(5, jugador.cantidadDeCartas(),
                 "Después de tirar 7, descarta la mitad y queda con 5 cartas");
     }
 
@@ -374,7 +376,7 @@ public class TestIntegrales {
         int cartasAntesVictima = jugadorVictima.cantidadDeCartas();
         int cartasAntesActivo = jugadorActivo.cantidadDeCartas();
 
-        jugadorActivo.moverLadron(new UbicacionVertice('B'));
+        jugadorActivo.moverLadron(new UbicacionVertice('B'), jugadorVictima);
 
         assertEquals(cartasAntesVictima - 1, jugadorVictima.cantidadDeCartas(),
                 "La víctima debería tener una carta menos después del robo");
@@ -382,7 +384,16 @@ public class TestIntegrales {
                 "El jugador activo debería tener una carta más después del robo");
     }
 
+    class JugadorQueNoMueveLadron extends Jugador {
 
+        public JugadorQueNoMueveLadron(String nombre) {
+            super(nombre);
+        }
+
+        @Override
+        public void moverLadron(UbicacionVertice ubicacion, Jugador victima) {
+         }
+    }
 
 
 

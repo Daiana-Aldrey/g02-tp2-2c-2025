@@ -106,9 +106,9 @@ public class Jugador {
         throw new IllegalArgumentException("No posees cantidad suficiente de " + tipo);
     }
     
-    public void moverLadron(UbicacionVertice ubicacion) {
+    public void moverLadron(UbicacionVertice ubicacion, Jugador victima) {
     	Tablero tablero = Tablero.getInstance();
-    	tablero.moverLadronA(ubicacion, this);
+    	tablero.moverLadronA(ubicacion, this,victima);
     }
     
 	public void turno() { 	

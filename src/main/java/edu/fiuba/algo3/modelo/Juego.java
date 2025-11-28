@@ -87,8 +87,9 @@ public class Juego {
 		for (Jugador j : jugadores) {
 			j.descartarMitad();
 		}
-		UbicacionVertice destino = new UbicacionVertice('B'); //esto se preguntara por controlador
-		jugadorTurno.moverLadron(destino);
+		UbicacionVertice destino = new UbicacionVertice('B');
+		Jugador victima = jugadores.get(1);
+		jugadorTurno.moverLadron(destino,victima);
 	}
 
 	public List<Jugador> jugadores() {

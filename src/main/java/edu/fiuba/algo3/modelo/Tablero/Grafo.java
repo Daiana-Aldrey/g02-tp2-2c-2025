@@ -145,7 +145,6 @@ public class Grafo {
         Vertice verticeEncontrado = buscarVertice(ubicacion);
         VerticeTerreno verticeTerreno = (VerticeTerreno) verticeEncontrado;
         verticeTerreno.colocarLadron(ladron);
-        verticeTerreno.robarPara(jugador);
     }
 
     public boolean verticeTenesPieza(UbicacionVertice ubicacion) {

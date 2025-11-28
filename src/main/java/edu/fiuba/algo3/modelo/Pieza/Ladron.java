@@ -1,22 +1,29 @@
 package edu.fiuba.algo3.modelo.Pieza;
-
-import edu.fiuba.algo3.modelo.Ubicacion.NoUbicacion;
-import edu.fiuba.algo3.modelo.Ubicacion.Ubicacion;
 import edu.fiuba.algo3.modelo.Ubicacion.UbicacionVertice;
+import edu.fiuba.algo3.modelo.Tablero.*;
+import edu.fiuba.algo3.modelo.*;
+import edu.fiuba.algo3.Excepciones.*;
 
 public class Ladron {
-
-    private Ubicacion ubicacion;
+    private VerticeTerreno ubicacion;
+    
 
     public Ladron() {
-        this.ubicacion = new NoUbicacion();
+        this.ubicacion = null;
     }
 
-    public void moverA(UbicacionVertice destino) {
-        this.ubicacion = destino;
+    public void moverA(VerticeTerreno nuevaUbicacion) {
+        if (ubicacion != null) {
+            ubicacion.sacarLadron();  
+        }
+        ubicacion = nuevaUbicacion;
     }
-
-    public boolean tieneUbicacion(UbicacionVertice ubicacion) {
-        return (ubicacion.equals(this.ubicacion));
+    
+    public void robar(Jugador beneficiario, Jugador victima) {
+    	boolean victimaValida = ubicacion.poseePiezaAdyacente(victima);
+    	if(!victimaValida) {
+    		throw new VictimaInvalida("Victima no valida");
+    	}
+    	beneficiario.robarCartaAleatoriaA(victima);
     }
 }

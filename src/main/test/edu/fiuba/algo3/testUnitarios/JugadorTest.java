@@ -14,7 +14,9 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.Assertions;
-
+import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.ArgumentMatchers.any;
 
 
 public class JugadorTest {
@@ -206,13 +208,13 @@ public class JugadorTest {
 
         GeneradorDeDados dado = () -> 7;
 
-        Jugador jugador1 = new Jugador("Juli");
-	    Jugador jugador2 = new Jugador("Valen");
-	    Jugador jugador3 = new Jugador("Sofi");
-	    List<Jugador> jugadores = List.of(jugador1, jugador2, jugador3);
-	    
-	    Juego juego = new Juego(jugadores, dado);
-        Jugador jugador = juego.jugadores().get(0);
+        Jugador jugador1 = new JugadorQueNoMueveLadron("Juli");
+        Jugador jugador2 = new Jugador("Valen");
+        Jugador jugador3 = new Jugador("Sofi");
+        List<Jugador> jugadores = List.of(jugador1, jugador2, jugador3);
+
+        Juego juego = new Juego(jugadores, dado);
+        Jugador jugador = juego.jugadores().get(0); 
 
         jugador.recibirRecurso(RecursoTipo.MADERA, 5);
         jugador.recibirRecurso(RecursoTipo.LADRILLO, 4);
@@ -225,6 +227,8 @@ public class JugadorTest {
         assertEquals(5, jugador.cantidadDeCartas(),
                 "Después de tirar 7, descarta la mitad y queda con 5 cartas");
     }
+
+
     
     @Test
     public void jugadorActivoMueveAlLadronYRobaCartaAJugadorAdyacenteANuevoTerreno() {
@@ -259,7 +263,7 @@ public class JugadorTest {
         int cartasAntesVictima = jugadorVictima.cantidadDeCartas();
         int cartasAntesActivo = jugadorActivo.cantidadDeCartas();
 
-        jugadorActivo.moverLadron(new UbicacionVertice('B'));
+        jugadorActivo.moverLadron(new UbicacionVertice('B'), jugadorVictima);
 
         assertEquals(cartasAntesVictima - 1, jugadorVictima.cantidadDeCartas(),
                 "La víctima debería tener una carta menos después del robo");
@@ -303,4 +307,15 @@ public class JugadorTest {
         });
     }
     
+    
+    public class JugadorQueNoMueveLadron extends Jugador {
+
+        public JugadorQueNoMueveLadron(String nombre) {
+            super(nombre);
+        }
+
+        @Override
+        public void moverLadron(UbicacionVertice ubicacion, Jugador victima) {
+         }
+    }
 }

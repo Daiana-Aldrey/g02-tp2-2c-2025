@@ -22,12 +22,25 @@ public class VerticeTerreno extends Vertice {
          ladron = false;
      }
 
-    public void colocarLadron(Ladron ladron) {
+     public void colocarLadron(Ladron ladron) {
          if (this.ladron) {
              throw new IllegalStateException("Ya esta colocando ladron, intente en otro terreno");
          }
          this.ladron = true;
-         ladron.moverA(ubicacion);
+         ladron.moverA(this);     
+     }
+    
+    public void sacarLadron() {
+    	ladron = false;
+    }
+    
+    public boolean poseePiezaAdyacente(Jugador propietario) {
+        for (Pieza p : edificios) {
+            if (p.esDe(propietario)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public boolean tieneFichaDeNumero(int resultadoDados) {
@@ -50,16 +63,6 @@ public class VerticeTerreno extends Vertice {
 
     public boolean hayPiezasAdyacentes() {
          return !edificios.isEmpty();
-    }
-    
-
-    public void robarPara(Jugador jugadorQueMueve) {
-        if (!hayPiezasAdyacentes()) return;
-
-        GeneradorNumerosAleatorios aleatorio= GeneradorNumerosAleatorios.getInstance();
-        Pieza piezaVictima = edificios.get(aleatorio.generarEnRangoDesdeCero(edificios.size()));
-
-        piezaVictima.afectarPorLadron(jugadorQueMueve);    
     }
 
     public void removerPieza(Pieza piezaActual) {

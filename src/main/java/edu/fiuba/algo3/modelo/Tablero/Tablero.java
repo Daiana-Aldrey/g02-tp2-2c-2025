@@ -53,8 +53,9 @@ public final class Tablero {
         grafo.terrenosCompatibles(numeroDado);
     }
 
-    public void moverLadronA(UbicacionVertice ubicacion, Jugador jugadorQueMueve) {
+    public void moverLadronA(UbicacionVertice ubicacion, Jugador jugadorQueMueve,Jugador victima) {
         grafo.colocarLadron(ubicacion, ladron, jugadorQueMueve);
+        ladron.robar(jugadorQueMueve, victima);
     }
 
     public void reset() {
