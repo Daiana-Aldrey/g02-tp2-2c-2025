@@ -38,11 +38,7 @@ public class Juego {
 	}
 
 	public int tirarDado() {
-		int n = generador.tirar();
-		if (n < 2 || n > 12) {
-			throw new IllegalStateException("Tirada fuera de rango: " + n);
-		}
-		return n;
+		return generador.tirar();
 	}
 
 	public void inicializarPiezas(List<List<UbicacionVertice>> verticesPoblados, List<List<UbicacionVertice>> verticesCaminos) {

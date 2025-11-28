@@ -1,4 +1,5 @@
 package edu.fiuba.algo3.entrega_2.TestIntegrales;
+import edu.fiuba.algo3.Excepciones.ErrorNoUsoDeCartaInvalido;
 import edu.fiuba.algo3.modelo.*;
 import edu.fiuba.algo3.modelo.CartaDeDesarrollo.*;
 import edu.fiuba.algo3.modelo.Intercambio.*;
@@ -349,12 +350,11 @@ public class TestIntegrales {
 
         Carta carta = jugador1.obtenerCartasDesarrollo().get(0);
 
-        assertThrows(IllegalStateException.class, () -> jugador1.jugarCartaDesarrollo(carta), "No deberia usar la carta en el mismo turnoque la  compra.");
+        assertThrows(ErrorNoUsoDeCartaInvalido.class, () -> jugador1.jugarCartaDesarrollo(carta), "No deberia usar la carta en el mismo turnoque la  compra.");
 
         juego.finalizarTurnoActual();
 
-        assertDoesNotThrow(() -> jugador1.jugarCartaDesarrollo(carta),
-                "finalizo el turno, podes usar la carta.");
+        assertDoesNotThrow(() -> jugador1.jugarCartaDesarrollo(carta), "finalizo el turno, podes usar la carta.");
 
         assertEquals(0, jugador1.obtenerCartasDesarrollo().size(), "usaste tu unica carta no tenes mas");
     }

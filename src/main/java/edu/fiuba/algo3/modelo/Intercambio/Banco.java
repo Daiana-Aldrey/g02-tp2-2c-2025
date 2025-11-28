@@ -4,35 +4,23 @@ import edu.fiuba.algo3.modelo.CartaDeDesarrollo.*;
 import edu.fiuba.algo3.modelo.Jugador;
 import edu.fiuba.algo3.modelo.Recurso.Recurso;
 import edu.fiuba.algo3.modelo.Recurso.RecursoTipo;
+import edu.fiuba.algo3.Excepciones.NoTieneCarta;
 
 import java.util.*;
 
 public class Banco {
     private final Deque<Carta> mazoDesarrollo;
 
-    public Banco() {
-        this.mazoDesarrollo = new ArrayDeque<>(crearMazoMezclado());
+    public Banco(FabricaMazoCartasDesarrollo fabrica) {
+        this.mazoDesarrollo = new ArrayDeque<>(fabrica.crearMazoDesarrollo());
     }
-    private List<Carta> crearMazoMezclado() {
-        List<Carta> cartas = new ArrayList<>();
+    public Banco(){
+        this (new MazoCartasDesarrollo());}
 
-        for (int i = 0; i < 14; i++) {cartas.add(new CartaCaballero());}
-        for (int i = 0; i < 5; i++) {cartas.add(new CartaPuntoVictoria());}
-        for (int i = 0; i < 2; i++) {cartas.add(new CartaMonopolio());}
-        for (int i = 0; i < 2; i++) {cartas.add(new CartaConstruccionCarreteras());}
-        for (int i = 0; i < 2; i++) {cartas.add(new CartaDescubrimiento());}
-
-        Collections.shuffle(cartas);
-        return cartas;
-    }
-
-    public boolean tieneCartasDesarrollo() {
-        return !mazoDesarrollo.isEmpty();
-    }
 
     public Carta venderCartaDesarrollo(Jugador jugador) {
         if (mazoDesarrollo.isEmpty()) {
-            throw new IllegalStateException("No hay más cartas.");
+            throw new NoTieneCarta("No hay más cartas.");
         }
         //  Precio una carta de desarrollo
         List<Recurso> precio = List.of(
