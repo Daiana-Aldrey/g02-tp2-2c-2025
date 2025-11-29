@@ -49,20 +49,20 @@ public abstract class Recurso {
         return cantidad;
     }
 
-    public abstract boolean podesIncrementar(Recurso recursoDelJugador, int cantidad);
-    protected abstract boolean incrementar(Madera recursorecibido, int cant);
-    protected abstract boolean incrementar(Mineral recursorecibido, int cant);
-    protected abstract boolean incrementar(Ladrillo recursorecibido, int cant);
-    protected abstract boolean incrementar(Lana recursorecibido, int cant);
-    protected abstract boolean incrementar(Grano recursorecibido, int cant);
+    public abstract void podesIncrementar(Recurso recursoDelJugador, int cantidad);
+    protected abstract void incrementar(Madera recursorecibido, int cant);
+    protected abstract void incrementar(Mineral recursorecibido, int cant);
+    protected abstract void incrementar(Ladrillo recursorecibido, int cant);
+    protected abstract void incrementar(Lana recursorecibido, int cant);
+    protected abstract void incrementar(Grano recursorecibido, int cant);
 
 
-    public abstract boolean podesDecrementar(Recurso recursoDelJugador, int cant);
-    protected abstract boolean decrementar(Madera recursoADecrementar, int cant);
-    protected abstract boolean decrementar(Ladrillo recursoADecrementar, int cant);
-    protected abstract boolean decrementar(Grano recursoADecrementar, int cant);
-    protected abstract boolean decrementar(Lana recursoADecrementar, int cant);
-    protected abstract boolean decrementar(Mineral recursoADecrementar, int cant);
+    public abstract void podesDecrementar(Recurso recursoDelJugador, int cant);
+    protected abstract void decrementar(Madera recursoADecrementar, int cant);
+    protected abstract void decrementar(Ladrillo recursoADecrementar, int cant);
+    protected abstract void decrementar(Grano recursoADecrementar, int cant);
+    protected abstract void decrementar(Lana recursoADecrementar, int cant);
+    protected abstract void decrementar(Mineral recursoADecrementar, int cant);
 
     public abstract Recurso crearCon(int cant);
 

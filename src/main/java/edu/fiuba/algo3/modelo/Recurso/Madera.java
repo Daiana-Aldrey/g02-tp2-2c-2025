@@ -1,5 +1,7 @@
 package edu.fiuba.algo3.modelo.Recurso;
 
+import edu.fiuba.algo3.Excepciones.RecursoIncorrecto;
+
 public class Madera extends Recurso{
     public Madera(){
         super();
@@ -10,65 +12,63 @@ public class Madera extends Recurso{
     }
 
     @Override
-    public boolean podesIncrementar(Recurso recursoDelJugador, int cantidad) {
-        return recursoDelJugador.incrementar(this, cantidad);
+    public void podesIncrementar(Recurso recursoDelJugador, int cantidad) {
+        recursoDelJugador.incrementar(this, cantidad);
     }
 
     @Override
-    protected boolean incrementar(Madera recursoRecibido, int cant) {
+    protected void incrementar(Madera recursoRecibido, int cant) {
         this.incrementar(cant);
-        return true;
     }
 
     @Override
-    protected boolean incrementar(Mineral recursoRecibido, int cant) {
-        return false;
+    protected void incrementar(Mineral recursoRecibido, int cant) {
+        throw new RecursoIncorrecto();
     }
 
     @Override
-    protected boolean incrementar(Ladrillo recursoRecibido, int cant) {
-        return false;
+    protected void incrementar(Ladrillo recursoRecibido, int cant) {
+        throw new RecursoIncorrecto();
     }
 
     @Override
-    protected boolean incrementar(Lana recursoRecibido, int cant) {
-        return false;
+    protected void incrementar(Lana recursoRecibido, int cant) {
+        throw new RecursoIncorrecto();
     }
 
     @Override
-    protected boolean incrementar(Grano recursoRecibido, int cant) {
-        return false;
+    protected void incrementar(Grano recursoRecibido, int cant) {
+        throw new RecursoIncorrecto();
     }
 
     @Override
-    public boolean podesDecrementar(Recurso recursoDelJugador, int cant) {
-        return recursoDelJugador.decrementar(this, cant);
+    public void podesDecrementar(Recurso recursoDelJugador, int cant) {
+        recursoDelJugador.decrementar(this, cant);
     }
 
     @Override
-    protected boolean decrementar(Madera recursoADecrementar, int cant) {
+    protected void decrementar(Madera recursoADecrementar, int cant) {
         this.decrementar(cant);
-        return true;
     }
 
     @Override
-    protected boolean decrementar(Ladrillo recursoADecrementar, int cant) {
-        return false;
+    protected void decrementar(Ladrillo recursoADecrementar, int cant) {
+        throw new RecursoIncorrecto();
     }
 
     @Override
-    protected boolean decrementar(Grano recursoADecrementar, int cant) {
-        return false;
+    protected void decrementar(Grano recursoADecrementar, int cant) {
+        throw new RecursoIncorrecto();
     }
 
     @Override
-    protected boolean decrementar(Lana recursoADecrementar, int cant) {
-        return false;
+    protected void decrementar(Lana recursoADecrementar, int cant) {
+        throw new RecursoIncorrecto();
     }
 
     @Override
-    protected boolean decrementar(Mineral recursoADecrementar, int cant) {
-        return false;
+    protected void decrementar(Mineral recursoADecrementar, int cant) {
+        throw new RecursoIncorrecto();
     }
 
     @Override

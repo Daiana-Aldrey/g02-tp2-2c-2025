@@ -61,10 +61,14 @@ public class Jugador {
 	
 	public void recibirRecurso(Recurso recursoARecibir, int cantidad) {
 	    for (Recurso miRecurso : recursos) {
-	        if (recursoARecibir.podesIncrementar(miRecurso, cantidad)) {
-	            return;
-	        }
-	    }
+            try {
+                recursoARecibir.podesIncrementar(miRecurso, cantidad);
+                return;
+            } catch (RecursoIncorrecto e) {
+
+            }
+
+        }
 	}
 
 
@@ -84,9 +88,13 @@ public class Jugador {
 
     public void descontarRecurso(Recurso recursoADecrementar, int cantidad) {
         for (Recurso miRecurso : recursos) {
-            if(recursoADecrementar.podesDecrementar(miRecurso, cantidad)){
+            try {
+                recursoADecrementar.podesDecrementar(miRecurso, cantidad);
                 return;
+            } catch (RecursoIncorrecto e) {
+
             }
+
         }
         throw new SinRecursos("No posees cantidad suficiente");
     }
@@ -187,7 +195,7 @@ public class Jugador {
             i++;
         }
     }
-    //ENTREGA2
+
     public void recibirCartaDesarrollo(Carta carta) {
         cartasDesarrolloRecienCompradas.add(carta);
     }
