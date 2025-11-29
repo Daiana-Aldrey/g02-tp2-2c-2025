@@ -50,19 +50,19 @@ public abstract class Recurso {
     }
 
     public abstract boolean podesIncrementar(Recurso recursoDelJugador, int cantidad);
-    protected abstract boolean incrementarMadera(Recurso recursorecibido, int cant);
-    protected abstract boolean incrementarMineral(Recurso recursorecibido, int cant);
-    protected abstract boolean incrementarLadrillo(Recurso recursorecibido, int cant);
-    protected abstract boolean incrementarLana(Recurso recursorecibido, int cant);
-    protected abstract boolean incrementarGrano(Recurso recursorecibido, int cant);
+    protected abstract boolean incrementar(Madera recursorecibido, int cant);
+    protected abstract boolean incrementar(Mineral recursorecibido, int cant);
+    protected abstract boolean incrementar(Ladrillo recursorecibido, int cant);
+    protected abstract boolean incrementar(Lana recursorecibido, int cant);
+    protected abstract boolean incrementar(Grano recursorecibido, int cant);
 
 
     public abstract boolean podesDecrementar(Recurso recursoDelJugador, int cant);
-    protected abstract boolean decrementarMadera(Recurso recursoADecrementar, int cant);
-    protected abstract boolean decrementarLadrillo(Recurso recursoADecrementar, int cant);
-    protected abstract boolean decrementarGrano(Recurso recursoADecrementar, int cant);
-    protected abstract boolean decrementarLana(Recurso recursoADecrementar, int cant);
-    protected abstract boolean decrementarMineral(Recurso recursoADecrementar, int cant);
+    protected abstract boolean decrementar(Madera recursoADecrementar, int cant);
+    protected abstract boolean decrementar(Ladrillo recursoADecrementar, int cant);
+    protected abstract boolean decrementar(Grano recursoADecrementar, int cant);
+    protected abstract boolean decrementar(Lana recursoADecrementar, int cant);
+    protected abstract boolean decrementar(Mineral recursoADecrementar, int cant);
 
     public abstract Recurso crearCon(int cant);
 

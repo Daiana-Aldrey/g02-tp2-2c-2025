@@ -11,63 +11,63 @@ public class Grano extends Recurso{
 
     @Override
     public boolean podesIncrementar(Recurso recursoDelJugador, int cantidad) {
-        return recursoDelJugador.incrementarGrano(this, cantidad);
+        return recursoDelJugador.incrementar(this, cantidad);
     }
 
     @Override
-    protected boolean incrementarMadera(Recurso recursorecibido, int cant) {
+    protected boolean incrementar(Madera recursorecibido, int cant) {
         return false;
     }
 
     @Override
-    protected boolean incrementarMineral(Recurso recursorecibido, int cant) {
+    protected boolean incrementar(Mineral recursorecibido, int cant) {
         return false;
     }
 
     @Override
-    protected boolean incrementarLadrillo(Recurso recursorecibido, int cant) {
+    protected boolean incrementar(Ladrillo recursorecibido, int cant) {
         return false;
     }
 
     @Override
-    protected boolean incrementarLana(Recurso recursorecibido, int cant) {
+    protected boolean incrementar(Lana recursorecibido, int cant) {
         return false;
     }
 
     @Override
-    protected boolean incrementarGrano(Recurso recursorecibido, int cant) {
+    protected boolean incrementar(Grano recursorecibido, int cant) {
         this.incrementar(cant);
         return true;
     }
 
     @Override
     public boolean podesDecrementar(Recurso recursoDelJugador, int cant) {
-        return recursoDelJugador.decrementarGrano(this,cant);
+        return recursoDelJugador.decrementar(this,cant);
     }
 
     @Override
-    protected boolean decrementarMadera(Recurso recursoADecrementar, int cant) {
+    protected boolean decrementar(Madera recursoADecrementar, int cant) {
         return false;
     }
 
     @Override
-    protected boolean decrementarLadrillo(Recurso recursoADecrementar, int cant) {
+    protected boolean decrementar(Ladrillo recursoADecrementar, int cant) {
         return false;
     }
 
     @Override
-    protected boolean decrementarGrano(Recurso recursoADecrementar, int cant) {
+    protected boolean decrementar(Grano recursoADecrementar, int cant) {
         this.decrementar(cant);
         return true;
     }
 
     @Override
-    protected boolean decrementarLana(Recurso recursoADecrementar, int cant) {
+    protected boolean decrementar(Lana recursoADecrementar, int cant) {
         return false;
     }
 
     @Override
-    protected boolean decrementarMineral(Recurso recursoADecrementar, int cant) {
+    protected boolean decrementar(Mineral recursoADecrementar, int cant) {
         return false;
     }
 
