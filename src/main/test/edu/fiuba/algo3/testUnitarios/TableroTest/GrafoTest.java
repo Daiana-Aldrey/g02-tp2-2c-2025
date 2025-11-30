@@ -1,4 +1,4 @@
-package edu.fiuba.algo3.testUnitarios;
+package edu.fiuba.algo3.testUnitarios.TableroTest;
 
 import edu.fiuba.algo3.Excepciones.AristaInvalida;
 import edu.fiuba.algo3.Excepciones.ColocacionInvalida;

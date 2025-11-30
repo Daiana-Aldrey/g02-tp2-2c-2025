@@ -1,4 +1,4 @@
-package edu.fiuba.algo3.testUnitarios;
+package edu.fiuba.algo3.testUnitarios.PiezaTest;
 
 import edu.fiuba.algo3.Excepciones.CantidadUbicacionesInvalida;
 import edu.fiuba.algo3.Excepciones.ColocacionInvalida;
@@ -8,7 +8,6 @@ import edu.fiuba.algo3.modelo.Ubicacion.Ubicacion;
 import edu.fiuba.algo3.modelo.Ubicacion.UbicacionVertice;
 import org.junit.jupiter.api.Test;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,10 +33,10 @@ public class CaminoTest {
         Jugador jugador1 = new Jugador("Luis");
         Camino camino = new Camino(jugador1);
 
-        jugador1.colocarPiezaInicial("poblado", List.of(new UbicacionVertice(1)));
+        jugador1.colocarPiezaInicial("poblado", List.of(new UbicacionVertice(15)));
 
         assertThrows(ColocacionInvalida.class, () -> {
-            camino.colocarPrimera(List.of(new UbicacionVertice(3),  new UbicacionVertice(2)));
+            camino.colocarPrimera(List.of(new UbicacionVertice(10),  new UbicacionVertice(11)));
         });
 
     }

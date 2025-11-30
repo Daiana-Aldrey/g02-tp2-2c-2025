@@ -1,8 +1,7 @@
-package edu.fiuba.algo3.testUnitarios;
+package edu.fiuba.algo3.testUnitarios.TableroTest;
 
 import edu.fiuba.algo3.Excepciones.ColocacionInvalida;
 import edu.fiuba.algo3.Excepciones.SinPiezas;
-import edu.fiuba.algo3.modelo.*;
 import edu.fiuba.algo3.modelo.Pieza.*;
 import edu.fiuba.algo3.modelo.Tablero.*;
 import edu.fiuba.algo3.modelo.Terreno.*;
@@ -10,7 +9,6 @@ import edu.fiuba.algo3.modelo.Ubicacion.UbicacionVertice;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
 
 
 public class VerticeTerrenoTest {

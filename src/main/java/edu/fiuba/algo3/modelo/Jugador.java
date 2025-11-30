@@ -1,5 +1,6 @@
 package edu.fiuba.algo3.modelo;
 import edu.fiuba.algo3.Excepciones.NoTieneCarta;
+import edu.fiuba.algo3.modelo.Bonificacion.RutaMayor;
 import edu.fiuba.algo3.modelo.CartaDeDesarrollo.Carta;
 import edu.fiuba.algo3.modelo.Intercambio.Puerto;
 import edu.fiuba.algo3.modelo.Pieza.*;
@@ -15,6 +16,7 @@ import java.util.*;
 public class Jugador {
 	private String nombre;
     private int puntosDeVictoria = 0;
+    private RutaMayor medidor;
 	private List<Recurso> recursos;
     private List<Poblado> poblados = new ArrayList<>();
     private List<Ciudad>  ciudades = new ArrayList<>();
@@ -26,14 +28,15 @@ public class Jugador {
 
     public Jugador(String nombre) {
 		this.nombre = nombre;
-		this.recursos = new ArrayList<Recurso>();
+		this.recursos = new ArrayList<>();
 		
 		inicializarRecursos();
 	}
 
 
 	public void incorporarCamino(Camino camino) {
-		caminos.add(camino);
+        caminos.add(camino);
+        medidor.calcularRutaMayor();
 	}
     
 	public void incorporarPoblado(Poblado poblado) {
@@ -280,6 +283,14 @@ public class Jugador {
             }
         }
         return null;
+    }
+
+    public void otorgarPuntos(int puntosVictoria) {
+        this.puntosDeVictoria = this.puntosDeVictoria + puntosVictoria;
+    }
+
+    public void sacarPuntos(int puntosVictoria) {
+        this.puntosDeVictoria = this.puntosDeVictoria - puntosVictoria;
     }
 }
   

@@ -1,4 +1,4 @@
-package edu.fiuba.algo3.testUnitarios;
+package edu.fiuba.algo3.testUnitarios.PiezaTest;
 
 import edu.fiuba.algo3.Excepciones.CantidadUbicacionesInvalida;
 import edu.fiuba.algo3.Excepciones.ColocacionInvalida;

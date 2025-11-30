@@ -86,4 +86,32 @@ public class Camino extends Pieza {
     public void setearSegundaUbicacion(Ubicacion ubicacion) {
         this.ubicacion2 = ubicacion;
     }
+
+    public void guardarUbicacion(List<Ubicacion> ubicaciones) {
+        if(!ubicaciones.contains(this.ubicacion1)) {
+            ubicaciones.add(this.ubicacion1);
+        }
+        if(!ubicaciones.contains(this.ubicacion2)) {
+            ubicaciones.add(this.ubicacion2);
+        }
+    }
+
+    public void guardarAdyacentes(Map<Ubicacion, List<Ubicacion>> adyacentes) {
+        if (!adyacentes.containsKey(this.ubicacion1)) {
+            adyacentes.put(this.ubicacion1, new ArrayList<>());
+            List<Ubicacion> valor1 = adyacentes.get(this.ubicacion1);
+            valor1.add(this.ubicacion2);
+        } else {
+            List<Ubicacion> valor1 = adyacentes.get(this.ubicacion1);
+            valor1.add(this.ubicacion2);
+        }
+        if (!adyacentes.containsKey(this.ubicacion2)) {
+            adyacentes.put(this.ubicacion2, new ArrayList<>());
+            List<Ubicacion> valor2 = adyacentes.get(this.ubicacion2);
+            valor2.add(this.ubicacion1);
+        }  else {
+            List<Ubicacion> valor2 = adyacentes.get(this.ubicacion2);
+            valor2.add(this.ubicacion1);
+        }
+    }
 }
