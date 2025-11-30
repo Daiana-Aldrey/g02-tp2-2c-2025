@@ -27,7 +27,6 @@ public class Juego {
 		this.jugadores = jugadores;
 		this.tablero = Tablero.getInstance();
         this.cartaGranCaballeria = CartaGranCaballeria.getInstance();
-        this.cartaGranCaballeria.setearJugadores(jugadores);
 		this.banco = new Banco();
 		this.rondas = 0;
 		this.generador = generador;

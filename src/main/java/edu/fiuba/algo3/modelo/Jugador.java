@@ -289,6 +289,10 @@ public class Jugador {
         return this.cantidadDeUsosCartaCaballero > jugador.cantidadDeUsosCartaCaballero;
     }
 
+    public boolean tengoMasDe2UsosCartaCaballero() {
+        return this.cantidadDeUsosCartaCaballero > 2;
+    }
+
     public void otorgarPuntos(int puntosVictoria) {
         this.puntosDeVictoria = this.puntosDeVictoria + puntosVictoria;
     }
