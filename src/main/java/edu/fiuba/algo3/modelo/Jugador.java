@@ -16,7 +16,7 @@ import java.util.*;
 public class Jugador {
 	private String nombre;
     private int puntosDeVictoria = 0;
-    private RutaMayor medidor;
+    private RutaMayor ruta;
 	private List<Recurso> recursos;
     private List<Poblado> poblados = new ArrayList<>();
     private List<Ciudad>  ciudades = new ArrayList<>();
@@ -29,6 +29,7 @@ public class Jugador {
     public Jugador(String nombre) {
 		this.nombre = nombre;
 		this.recursos = new ArrayList<>();
+        this.ruta = new RutaMayor(this, caminos);
 		
 		inicializarRecursos();
 	}
@@ -36,7 +37,7 @@ public class Jugador {
 
 	public void incorporarCamino(Camino camino) {
         caminos.add(camino);
-        medidor.calcularRutaMayor();
+        ruta.calcularRutaMayor();
 	}
     
 	public void incorporarPoblado(Poblado poblado) {
