@@ -1,17 +1,19 @@
 package edu.fiuba.algo3.modelo;
+import edu.fiuba.algo3.modelo.CartaDeBonificacion.CartaGranCaballeria;
 import edu.fiuba.algo3.modelo.Dados.GeneradorDeDados;
 import edu.fiuba.algo3.modelo.Intercambio.Banco;
 import edu.fiuba.algo3.modelo.Tablero.Tablero;
 import edu.fiuba.algo3.modelo.Ubicacion.Ubicacion;
 import edu.fiuba.algo3.Excepciones.*;
 import edu.fiuba.algo3.modelo.Ubicacion.UbicacionVertice;
-
+import edu.fiuba.algo3.modelo.CartaDeBonificacion.CartaGranCaballeria;
 import java.util.*;
 
 public class Juego {
 	  private final Tablero tablero;
 	  private final Banco banco;
 	  private List<Jugador> jugadores;
+      private final CartaGranCaballeria cartaGranCaballeria;
 	  private Jugador jugadorTurno;
 	  private final int cantJugadores;
 	  private int rondas;
@@ -24,6 +26,8 @@ public class Juego {
 		this.cantJugadores = jugadores.size();
 		this.jugadores = jugadores;
 		this.tablero = Tablero.getInstance();
+        this.cartaGranCaballeria = CartaGranCaballeria.getInstance();
+        this.cartaGranCaballeria.setearJugadores(jugadores);
 		this.banco = new Banco();
 		this.rondas = 0;
 		this.generador = generador;

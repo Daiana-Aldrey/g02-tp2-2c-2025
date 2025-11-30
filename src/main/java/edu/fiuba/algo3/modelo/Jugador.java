@@ -17,6 +17,7 @@ public class Jugador {
 	private String nombre;
     private int puntosDeVictoria = 0;
     private RutaMayor ruta;
+    private int cantidadDeUsosCartaCaballero = 0;
 	private List<Recurso> recursos;
     private List<Poblado> poblados = new ArrayList<>();
     private List<Ciudad>  ciudades = new ArrayList<>();
@@ -30,7 +31,7 @@ public class Jugador {
 		this.nombre = nombre;
 		this.recursos = new ArrayList<>();
         this.ruta = new RutaMayor(this, caminos);
-		
+
 		inicializarRecursos();
 	}
 
@@ -284,6 +285,14 @@ public class Jugador {
             }
         }
         return null;
+    }
+
+    public void aumentarCantidadDeUsosCartaCaballero(int cantidad) {
+        this.cantidadDeUsosCartaCaballero = this.cantidadDeUsosCartaCaballero + cantidad;
+    }
+
+    public boolean tengoMasCantidadDeUsosCartaCaballero(Jugador jugador) {
+        return this.cantidadDeUsosCartaCaballero > jugador.cantidadDeUsosCartaCaballero;
     }
 
     public void otorgarPuntos(int puntosVictoria) {
