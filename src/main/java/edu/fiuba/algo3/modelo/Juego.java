@@ -1,6 +1,7 @@
 package edu.fiuba.algo3.modelo;
 import edu.fiuba.algo3.modelo.Dados.GeneradorDeDados;
 import edu.fiuba.algo3.modelo.Intercambio.Banco;
+import edu.fiuba.algo3.modelo.RondaInicial.*;
 import edu.fiuba.algo3.modelo.Tablero.Tablero;
 import edu.fiuba.algo3.modelo.Ubicacion.Ubicacion;
 import edu.fiuba.algo3.Excepciones.*;
@@ -101,6 +102,19 @@ public class Juego {
 		jugadorTurno.prepararCartasDesarrolloParaNuevoTurno();
 		// nos va a servir mas adelante
 	}
+
+    public void colocacionInicial(
+            List<List<Ubicacion>> pobladosR1,
+            List<List<Ubicacion>> caminosR1,
+            List<List<Ubicacion>> pobladosR2,
+            List<List<Ubicacion>> caminosR2) {
+
+        RondaColocacion ronda1 = new RondaOrdenada();
+        RondaColocacion ronda2 = new RondaInversa();
+
+        ronda1.ejecutarRonda(jugadores, pobladosR1, caminosR1);
+        ronda2.ejecutarRonda(jugadores, pobladosR2, caminosR2);
+    }
 
 }
 
