@@ -69,13 +69,10 @@ public class Jugador {
             try {
                 recursoARecibir.podesIncrementar(miRecurso, cantidad);
                 return;
-            } catch (RecursoIncorrecto e) {
-
+            } catch (RecursoIncorrecto ignored) {
             }
-
         }
 	}
-
 
     public void construirPieza(String tipo, List<Ubicacion> ubicacion) {
         Pieza pieza = Pieza.crear(tipo, this);
@@ -83,7 +80,6 @@ public class Jugador {
         pagarRecursos(precio);
         pieza.colocar(ubicacion);
     }
-
 
     public void pagarRecursos(List<Recurso> precio) {
         for (Recurso rPrecio : precio) {
@@ -109,11 +105,10 @@ public class Jugador {
     	tablero.moverLadronA(ubicacion, this,victima);
     }
     
-	public void turno() { 	
+	public void turno() {
 		System.out.print("acciones");
 	}
-   
-	
+
     public int totalRecursos() {
         int total = 0;
         for (Recurso r : recursos) {
@@ -122,7 +117,6 @@ public class Jugador {
         return total;
     }
 
- 
     public void descartarMitad() {
         int total = totalRecursos();
         if (total <= 7) return;
@@ -301,6 +295,10 @@ public class Jugador {
 
     public void sacarPuntos(int puntosVictoria) {
         this.puntosDeVictoria = this.puntosDeVictoria - puntosVictoria;
+    }
+
+    public boolean gano() {
+        return puntosDeVictoria >= 10;
     }
 }
   

@@ -2,6 +2,7 @@ package edu.fiuba.algo3.modelo;
 import edu.fiuba.algo3.modelo.CartaDeBonificacion.CartaGranCaballeria;
 import edu.fiuba.algo3.modelo.Dados.GeneradorDeDados;
 import edu.fiuba.algo3.modelo.Intercambio.Banco;
+import edu.fiuba.algo3.modelo.RondaInicial.*;
 import edu.fiuba.algo3.modelo.Tablero.Tablero;
 import edu.fiuba.algo3.modelo.Ubicacion.Ubicacion;
 import edu.fiuba.algo3.Excepciones.*;
@@ -19,10 +20,9 @@ public class Juego {
 	  private int rondas;
 	  private final GeneradorDeDados generador;
 
-	  
 
 	public Juego(List<Jugador> jugadores, GeneradorDeDados generador) {
-		this.jugadores = new ArrayList<Jugador>();
+
 		this.cantJugadores = jugadores.size();
 		this.jugadores = jugadores;
 		this.tablero = Tablero.getInstance();
@@ -31,7 +31,7 @@ public class Juego {
 		this.banco = new Banco();
 		this.rondas = 0;
 		this.generador = generador;
-		
+
 		validarCantJugadores(cantJugadores);
 		this.jugadorTurno = jugadores.get(0);
 	}
@@ -54,23 +54,7 @@ public class Juego {
 			jugador.colocarPiezaInicial("camino", verticesCaminos.get(i));
 		}
 	}
-	
-	public void siguienteRonda() {
-		for(int i = 0; i < cantJugadores; i++) {
-			jugadorTurno = jugadores.get(i);
-			int numDados = tirarDado();
-			manejarTirada(numDados); 
-			jugadores.get(i).turno();
-		}
-	}
-	
-	public void Jugar() {
-		while(rondas <2) {
-			siguienteRonda();
-			rondas ++;
-		}
-	}
-	
+
 	public int cantidadJugadores(){
 		return cantJugadores;
 	}
@@ -82,7 +66,6 @@ public class Juego {
 			tablero.cosechar(n);
 		}
 	}
-
 
 	private void aplicarEventoSiete() {
 		for (Jugador j : jugadores) {
@@ -106,5 +89,49 @@ public class Juego {
 		// nos va a servir mas adelante
 	}
 
+    public void colocacionInicial(
+            List<List<Ubicacion>> pobladosR1,
+            List<List<Ubicacion>> caminosR1,
+            List<List<Ubicacion>> pobladosR2,
+            List<List<Ubicacion>> caminosR2) {
+
+        RondaColocacion ronda1 = new RondaOrdenada();
+        RondaColocacion ronda2 = new RondaInversa();
+
+        ronda1.ejecutarRonda(jugadores, pobladosR1, caminosR1);
+        ronda2.ejecutarRonda(jugadores, pobladosR2, caminosR2);
+    }
+
+    private boolean verificarVictoria(){
+        for(Jugador jugador : jugadores){
+            if(jugador.gano()){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void jugarTurno(Jugador jugadorActual){
+        this.jugadorTurno = jugadorActual;
+
+        int resultadoDados = tirarDado();
+        manejarTirada(resultadoDados);
+
+        jugadorTurno.turno();
+        finalizarTurnoActual();
+    }
+
+    private void pasarAlSiguienteJugador() {
+        int indiceActual = jugadores.indexOf(jugadorTurno);
+        int siguiente = (indiceActual + 1) % cantJugadores;
+        jugadorTurno = jugadores.get(siguiente);
+    }
+
+    public void jugar() {
+        while (!verificarVictoria()) {
+            jugarTurno(jugadorTurno);
+            pasarAlSiguienteJugador();
+        }
+    }
 }
 
