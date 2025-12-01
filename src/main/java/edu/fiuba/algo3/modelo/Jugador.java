@@ -54,7 +54,12 @@ public class Jugador {
 	public void colocarPiezaInicial(String tipo, List<Ubicacion> ubicacion) {
 	    Pieza pieza = Pieza.crear(tipo, this);
 	    pieza.colocarPrimera(ubicacion);
-	}    
+	}
+
+    public void colocarCaminoPorCarta(List<Ubicacion> ubicaciones) {
+        Camino camino = new Camino(this);
+        camino.colocar(ubicaciones);
+    }
 
 	private void inicializarRecursos() {
 		recursos.add(new Madera());
