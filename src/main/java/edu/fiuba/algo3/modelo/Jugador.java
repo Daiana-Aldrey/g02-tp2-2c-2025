@@ -261,18 +261,6 @@ public class Jugador {
         return encontrado;
     }
 
-    public int seleccionarTasaPara(Recurso recurso){
-        int mejor = 4;
-
-        for(Puerto puerto : puertos){
-            int posible = puerto.tasaPara(recurso);
-            if(posible < mejor){
-                mejor = posible;
-            }
-        }
-
-        return mejor;
-    }
 
     public void agregarPuerto(Puerto puerto){
         puertos.add(puerto);

@@ -15,15 +15,8 @@ public class PuertoGenerico extends Puerto {
     }
 
     @Override
-    public void realizarComercio(Jugador jugador,
-            Recurso oferta,
-            Recurso pedido,
-            int cantidadPedida) {
-
-        int costo = tasa * cantidadPedida;
-        Banco.getInstance().intercambiar(jugador,
-                oferta, pedido,
-                cantidadPedida,
-                costo);
+    public void realizarComercio(Jugador jugador,Recurso oferta,Recurso pedido,int cantPedida) {
+        int costo = tasa * cantPedida;
+        Banco.getInstance().intercambiar(jugador, oferta, pedido,cantPedida,costo);
     }
 }

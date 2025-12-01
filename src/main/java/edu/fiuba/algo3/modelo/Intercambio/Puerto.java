@@ -6,6 +6,7 @@ import edu.fiuba.algo3.modelo.Recurso.*;
 import edu.fiuba.algo3.modelo.Tablero.*;
 import edu.fiuba.algo3.modelo.Ubicacion.*;
 import edu.fiuba.algo3.modelo.Pieza.*;
+import edu.fiuba.algo3.Excepciones.*;
 
 public abstract class Puerto implements Comercializar {
     protected Muelle muelle1;
@@ -26,22 +27,17 @@ public abstract class Puerto implements Comercializar {
                muelle2.perteneceAJugador(jugador);
     }
     
-    public final void comercializar(Jugador jugador,
-                                    Recurso recursoOferta,
-                                    Recurso recursoPedido,
-                                    int cantidadPedida) {
+    public final void comercializar(Jugador jugador,Recurso oferta,Recurso pedido,int cantPedida) {
 
         if (!jugadorTieneAcceso(jugador)) {
-            throw new IllegalArgumentException("El jugador no tiene acceso a este puerto");
+            throw new PuertoNoAccesible("El jugador no tiene acceso a este puerto");
         }
 
-        realizarComercio(jugador, recursoOferta, recursoPedido, cantidadPedida);
+        realizarComercio(jugador, oferta, pedido, cantPedida);
     }
 
-    protected abstract void realizarComercio(Jugador jugador,
-                                             Recurso recursoOferta,
-                                             Recurso recursoPedido,
-                                             int cantidadPedida);
+    protected abstract void realizarComercio(Jugador jugador, Recurso oferta, Recurso pedido, int cantPedida);
+    
     
     public Muelle getMuelle1() { return muelle1; }
     public Muelle getMuelle2() { return muelle2; }

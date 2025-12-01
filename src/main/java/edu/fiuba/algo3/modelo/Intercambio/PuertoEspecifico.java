@@ -6,22 +6,24 @@ import edu.fiuba.algo3.modelo.Intercambio.*;
 import edu.fiuba.algo3.modelo.Ubicacion.*;
 import edu.fiuba.algo3.modelo.Recurso.*;
 import edu.fiuba.algo3.modelo.Jugador.*;
+import edu.fiuba.algo3.Excepciones.*;
 
 public class PuertoEspecifico extends Puerto {
 
     private final int tasa = 2;
-    private final Class<? extends Recurso> tipoOferta;
+    private final Recurso oferta;
 
-    public PuertoEspecifico(Class<? extends Recurso> tipoOferta,
-                            UbicacionVertice u1,
-                            UbicacionVertice u2) {
+    public PuertoEspecifico(Recurso oferta, UbicacionVertice u1, UbicacionVertice u2) {
         super(u1, u2);
-        this.tipoOferta = tipoOferta;
+        this.oferta = oferta;
     }
 
-    private void verificarOferta(Recurso oferta) {
-        if (!tipoOferta.isInstance(oferta)) {
-            throw new IllegalArgumentException("Este puerto solo acepta: " + tipoOferta.getSimpleName());
+    private void verificarOferta(Recurso ofertaJugador) {
+        try {
+            this.oferta.podesIncrementar(ofertaJugador, 0);
+            
+        } catch (RuntimeException e) {
+            throw new RecursoOfertaIncorrecto("Este puerto solo acepta: " + oferta.getClass().getSimpleName());
         }
     }
 
