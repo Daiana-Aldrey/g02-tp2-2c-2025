@@ -1,23 +1,18 @@
 package edu.fiuba.algo3.testUnitarios;
 
 import edu.fiuba.algo3.modelo.*;
-import edu.fiuba.algo3.modelo.*;
 import edu.fiuba.algo3.modelo.Dados.*;
-import edu.fiuba.algo3.modelo.Pieza.*;
 import edu.fiuba.algo3.modelo.Recurso.*;
 import edu.fiuba.algo3.modelo.Tablero.*;
 import edu.fiuba.algo3.modelo.Terreno.*;
-
 import edu.fiuba.algo3.modelo.Ubicacion.Ubicacion;
 import edu.fiuba.algo3.modelo.Ubicacion.UbicacionVertice;
 import edu.fiuba.algo3.Excepciones.*;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
+import org.mockito.*;
 import java.util.List;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.*;
-
+import static org.mockito.Mockito.*;
 
 
 public class JuegoTest {
@@ -202,9 +197,66 @@ public class JuegoTest {
         Recurso mineralJ3 = jugador3.buscarRecurso(new Mineral());
         assertTrue(mineralJ3.cantidad() == 0);
     }
-    
-    
-    
+
+    @Test
+    public void testColocacionInicialOrdenCorrecto() {
+        Jugador j1 = mock(Jugador.class);
+        Jugador j2 = mock(Jugador.class);
+        Jugador j3 = mock(Jugador.class);
+
+        List<Jugador> jugadores = List.of(j1, j2, j3);
+        GeneradorDeDados dado = () -> 8;
+        Juego juego = new Juego(jugadores, dado);
+
+        List<List<Ubicacion>> pobladosR1 = List.of(
+                List.of(new UbicacionVertice(1)),
+                List.of(new UbicacionVertice(2)),
+                List.of(new UbicacionVertice(3))
+        );
+
+        List<List<Ubicacion>> caminosR1 = List.of(
+                List.of(new UbicacionVertice(10)),
+                List.of(new UbicacionVertice(20)),
+                List.of(new UbicacionVertice(30))
+        );
+
+        List<List<Ubicacion>> pobladosR2 = List.of(
+                List.of(new UbicacionVertice(4)),
+                List.of(new UbicacionVertice(5)),
+                List.of(new UbicacionVertice(6))
+        );
+
+        List<List<Ubicacion>> caminosR2 = List.of(
+                List.of(new UbicacionVertice(40)),
+                List.of(new UbicacionVertice(50)),
+                List.of(new UbicacionVertice(60))
+        );
+
+        juego.colocacionInicial(pobladosR1, caminosR1, pobladosR2, caminosR2);
+        InOrder orden = inOrder(j1, j2, j3);
+
+
+        orden.verify(j1).colocarPiezaInicial("poblado", pobladosR1.get(0));
+        orden.verify(j1).colocarPiezaInicial("camino", caminosR1.get(0));
+
+        orden.verify(j2).colocarPiezaInicial("poblado", pobladosR1.get(1));
+        orden.verify(j2).colocarPiezaInicial("camino", caminosR1.get(1));
+
+        orden.verify(j3).colocarPiezaInicial("poblado", pobladosR1.get(2));
+        orden.verify(j3).colocarPiezaInicial("camino", caminosR1.get(2));
+
+
+
+        orden.verify(j3).colocarPiezaInicial("poblado", pobladosR2.get(2));
+        orden.verify(j3).colocarPiezaInicial("camino", caminosR2.get(2));
+
+        orden.verify(j2).colocarPiezaInicial("poblado", pobladosR2.get(1));
+        orden.verify(j2).colocarPiezaInicial("camino", caminosR2.get(1));
+
+        orden.verify(j1).colocarPiezaInicial("poblado", pobladosR2.get(0));
+        orden.verify(j1).colocarPiezaInicial("camino", caminosR2.get(0));
+    }
+
 }
 
 

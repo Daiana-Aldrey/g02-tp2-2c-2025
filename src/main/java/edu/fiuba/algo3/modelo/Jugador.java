@@ -17,6 +17,7 @@ public class Jugador {
 	private String nombre;
     private int puntosDeVictoria = 0;
     private RutaMayor ruta;
+    private int cantidadDeUsosCartaCaballero = 0;
 	private List<Recurso> recursos;
     private List<Poblado> poblados = new ArrayList<>();
     private List<Ciudad>  ciudades = new ArrayList<>();
@@ -30,7 +31,7 @@ public class Jugador {
 		this.nombre = nombre;
 		this.recursos = new ArrayList<>();
         this.ruta = new RutaMayor(this, caminos);
-		
+
 		inicializarRecursos();
 	}
 
@@ -53,12 +54,7 @@ public class Jugador {
 	public void colocarPiezaInicial(String tipo, List<Ubicacion> ubicacion) {
 	    Pieza pieza = Pieza.crear(tipo, this);
 	    pieza.colocarPrimera(ubicacion);
-	}
-
-    public void colocarCaminoPorCarta(List<Ubicacion> ubicacion) {
-        Camino camino = new Camino(this);
-        camino.colocar(ubicacion);
-    }
+	}    
 
 	private void inicializarRecursos() {
 		recursos.add(new Madera());
@@ -73,10 +69,8 @@ public class Jugador {
             try {
                 recursoARecibir.podesIncrementar(miRecurso, cantidad);
                 return;
-            } catch (RecursoIncorrecto e) {
-
+            } catch (RecursoIncorrecto ignored) {
             }
-
         }
 	}
 
@@ -86,7 +80,6 @@ public class Jugador {
         pagarRecursos(precio);
         pieza.colocar(ubicacion);
     }
-
 
     public void pagarRecursos(List<Recurso> precio) {
         for (Recurso rPrecio : precio) {
@@ -112,11 +105,10 @@ public class Jugador {
     	tablero.moverLadronA(ubicacion, this,victima);
     }
     
-	public void turno() { 	
+	public void turno() {
 		System.out.print("acciones");
 	}
-   
-	
+
     public int totalRecursos() {
         int total = 0;
         for (Recurso r : recursos) {
@@ -125,7 +117,6 @@ public class Jugador {
         return total;
     }
 
- 
     public void descartarMitad() {
         int total = totalRecursos();
         if (total <= 7) return;
@@ -295,12 +286,28 @@ public class Jugador {
         return caminos;
     }
 
+    public void aumentarCantidadDeUsosCartaCaballero(int cantidad) {
+        this.cantidadDeUsosCartaCaballero = this.cantidadDeUsosCartaCaballero + cantidad;
+    }
+
+    public boolean tengoMasCantidadDeUsosCartaCaballero(Jugador jugador) {
+        return this.cantidadDeUsosCartaCaballero > jugador.cantidadDeUsosCartaCaballero;
+    }
+
+    public boolean tengoMasDe2UsosCartaCaballero() {
+        return this.cantidadDeUsosCartaCaballero > 2;
+    }
+
     public void otorgarPuntos(int puntosVictoria) {
         this.puntosDeVictoria = this.puntosDeVictoria + puntosVictoria;
     }
 
     public void sacarPuntos(int puntosVictoria) {
         this.puntosDeVictoria = this.puntosDeVictoria - puntosVictoria;
+    }
+
+    public boolean gano() {
+        return puntosDeVictoria >= 10;
     }
 }
   

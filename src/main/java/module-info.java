@@ -14,4 +14,5 @@ module edu.fiuba.algo3 {
     exports edu.fiuba.algo3.modelo.Intercambio;
     exports edu.fiuba.algo3.modelo.Dados;
     exports edu.fiuba.algo3.modelo.Ubicacion;
+    exports edu.fiuba.algo3.modelo.RondaInicial;
 }
