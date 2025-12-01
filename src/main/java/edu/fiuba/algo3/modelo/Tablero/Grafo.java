@@ -10,6 +10,7 @@ import edu.fiuba.algo3.modelo.Pieza.Ladron;
 import edu.fiuba.algo3.modelo.Pieza.Pieza;
 import edu.fiuba.algo3.modelo.Ubicacion.Ubicacion;
 import edu.fiuba.algo3.modelo.Ubicacion.UbicacionVertice;
+import edu.fiuba.algo3.modelo.Intercambio.Puerto;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -160,4 +161,5 @@ public class Grafo {
         Arista aristaEncontrada = buscarArista(ubicacion1, ubicacion2);
         return aristaEncontrada.hayCamino();
     }
+    
 }

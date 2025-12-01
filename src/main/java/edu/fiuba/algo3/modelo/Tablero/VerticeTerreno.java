@@ -5,7 +5,7 @@ import edu.fiuba.algo3.modelo.Jugador;
 import edu.fiuba.algo3.modelo.Pieza.Ladron;
 import edu.fiuba.algo3.modelo.Pieza.Pieza;
 import edu.fiuba.algo3.modelo.Terreno.Terreno;
-import edu.fiuba.algo3.modelo.Ubicacion.Ubicacion;;
+import edu.fiuba.algo3.modelo.Ubicacion.Ubicacion;
 
 import java.util.List;
 import java.util.ArrayList;

@@ -11,12 +11,12 @@ public class Arista {
     private Pieza camino;
     private Ubicacion ubicacion1;
     private Ubicacion ubicacion2;
+    
 
     public Arista(Ubicacion ubicacion1, Ubicacion ubicacion2) {
         disponible = true;
         this.ubicacion1 = ubicacion1;
         this.ubicacion2 = ubicacion2;
-
         this.camino = new NoPieza(ubicacion2);
     }
 
@@ -51,4 +51,5 @@ public class Arista {
         }
         return hayCamino;
     }
+    
 }

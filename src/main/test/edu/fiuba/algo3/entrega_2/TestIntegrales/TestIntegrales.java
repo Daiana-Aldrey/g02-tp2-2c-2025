@@ -4,11 +4,11 @@ import edu.fiuba.algo3.Excepciones.ColocacionInvalida;
 import edu.fiuba.algo3.modelo.CartaDeDesarrollo.Carta;
 import edu.fiuba.algo3.modelo.Dados.GeneradorDeDados;
 import edu.fiuba.algo3.modelo.GeneradorNumerosAleatorios;
-import edu.fiuba.algo3.modelo.Intercambio.Banco;
-import edu.fiuba.algo3.modelo.Intercambio.PuertoGenerico;
+import edu.fiuba.algo3.modelo.Intercambio.*;
 import edu.fiuba.algo3.modelo.Juego;
 import edu.fiuba.algo3.modelo.Jugador;
 import edu.fiuba.algo3.modelo.Recurso.*;
+import edu.fiuba.algo3.modelo.Pieza.*;
 import edu.fiuba.algo3.modelo.Tablero.*;
 import edu.fiuba.algo3.modelo.Terreno.Bosque;
 import edu.fiuba.algo3.modelo.Ubicacion.UbicacionVertice;
@@ -172,101 +172,80 @@ public class TestIntegrales {
         assertEquals(4, jugador1.puntosDeVictoria());
     }
 
-    @Test
     public void comercioMaritimoAplicaTasaEstandarCuatroAUno() {
-        Tablero tablero = Tablero.getInstance();
-        Grafo grafo = new Grafo();
+        Banco banco = Banco.getInstance();
 
-        GeneradorDeTablero generador = new GeneradorDeTablero(new GeneradorNumerosAleatorios());
-        generador.generarEstructura(grafo);
+        Jugador jugador = new Jugador("Valen");
+        jugador.recibirRecurso(new Madera(), 4);
+        banco.comercializar(jugador, new Madera(), new Grano(), 1);
 
-        UbicacionVertice ubicacionA = new UbicacionVertice('A');
-        UbicacionVertice ubicacion10 = new UbicacionVertice(10);
-        Vertice verticeTerreno = new VerticeTerreno(ubicacionA, new Bosque(), 8);
-        grafo.agregarVertice(verticeTerreno);
-        grafo.agregarArista(ubicacion10,ubicacionA);
-        tablero.setearGrafo(grafo);
+        Recurso madera = jugador.buscarRecurso(new Madera());
+        Recurso grano  = jugador.buscarRecurso(new Grano());
 
-        GeneradorDeDados dado = () -> 8;
-
-        Jugador jugador1 = new Jugador("Juli");
- 	    Jugador jugador2 = new Jugador("Valen");
- 	    Jugador jugador3 = new Jugador("Sofi");
- 	    List<Jugador> jugadores = List.of(jugador1, jugador2, jugador3);
- 	    Juego juego = new Juego(jugadores, dado);
-
-        jugador2.recibirRecurso(new Madera(), 4);
-
-        Banco banco = new Banco();
-        banco.comerciar(jugador2, new Madera(), new Grano(), 1);
-
-        Recurso madera = jugador2.buscarRecurso(new Madera());
         assertEquals(0, madera.cantidad());
-
-        Recurso grano = jugador2.buscarRecurso(new Grano());
         assertEquals(1, grano.cantidad());
     }
 
     @Test
     public void comercioMaritimoAplicaTasaTresAUnoConPuertoGenerico() {
         Tablero tablero = Tablero.getInstance();
-        Grafo grafo = new Grafo();
+        tablero.reset();
 
-        GeneradorDeTablero generador = new GeneradorDeTablero(new GeneradorNumerosAleatorios());
-        generador.generarEstructura(grafo);
+        Puerto puertoGenerico = null;
+        for (Puerto p : tablero.getPuertos()) {
+            if (p instanceof PuertoGenerico) {
+                puertoGenerico = p;
+                break;
+            }
+        }
 
-        UbicacionVertice ubicacionA = new UbicacionVertice('A');
-        UbicacionVertice ubicacion10 = new UbicacionVertice(10);
-        Vertice verticeTerreno = new VerticeTerreno(ubicacionA, new Bosque(), 8);
-        grafo.agregarVertice(verticeTerreno);
-        grafo.agregarArista(ubicacion10,ubicacionA);
+        UbicacionVertice muelle = puertoGenerico.getMuelle1().getUbicacion();
+        Jugador jugador = new Jugador("Valen");
+        Pieza poblado = new Poblado(jugador);   
+        tablero.colocarEdificio(muelle, poblado);
 
-        tablero.setearGrafo(grafo);
+        jugador.recibirRecurso(new Madera(), 3);
+        puertoGenerico.comercializar(jugador, new Madera(), new Lana(), 1);
 
-        GeneradorDeDados dado = () -> 8;
-
-        Jugador jugador1 = new Jugador("Juli");
- 	    Jugador jugador2 = new Jugador("Valen");
- 	    Jugador jugador3 = new Jugador("Sofi");
- 	    List<Jugador> jugadores = List.of(jugador1, jugador2, jugador3);
- 	    Juego juego = new Juego(jugadores, dado);
-
-        jugador3.agregarPuerto(new PuertoGenerico());
-        jugador3.recibirRecurso(new Madera(), 3);
-
-        Banco banco = new Banco();
-        banco.comerciar(jugador3, new Madera(), new Lana(), 1);
-
-        assertEquals(0, jugador3.buscarRecurso(new Madera()).cantidad());
-        assertEquals(1, jugador3.buscarRecurso(new Lana()).cantidad());
+        assertEquals(0, jugador.buscarRecurso(new Madera()).cantidad());
+        assertEquals(1, jugador.buscarRecurso(new Lana()).cantidad());
     }
 
+
     @Test
-    public void comercioMaritimoAplicaTasaDosAUnoConPuertoEspecifico(){
+    public void comercioMaritimoAplicaTasaDosAUnoConPuertoEspecificoDeMadera() {
         Tablero tablero = Tablero.getInstance();
-        Grafo grafo = new Grafo();
+        tablero.reset();
 
-        GeneradorDeTablero generador = new GeneradorDeTablero(new GeneradorNumerosAleatorios());
-        generador.generarEstructura(grafo);
+        UbicacionVertice v28 = new UbicacionVertice(28);
+        UbicacionVertice v39 = new UbicacionVertice(39);
 
-        UbicacionVertice ubicacionA = new UbicacionVertice('A');
-        UbicacionVertice ubicacion10 = new UbicacionVertice(10);
-        Vertice verticeTerreno = new VerticeTerreno(ubicacionA, new Bosque(), 8);
-        grafo.agregarVertice(verticeTerreno);
-        grafo.agregarArista(ubicacion10,ubicacionA);
+        Puerto puertoMadera = null;
+        for (Puerto p : tablero.getPuertos()) {
+            if (!(p instanceof PuertoEspecifico)) continue;
 
-        tablero.setearGrafo(grafo);
+            UbicacionVertice u1 = p.getMuelle1().getUbicacion();
+            UbicacionVertice u2 = p.getMuelle2().getUbicacion();
 
-        Jugador jugador1 = new Jugador("Juli");
+            boolean coincide = (u1.equals(v28) && u2.equals(v39)) ||
+                               (u1.equals(v39) && u2.equals(v28));
 
-        jugador1.agregarPuerto(new PuertoEspecifico(new Madera()));
-        jugador1.recibirRecurso(new Madera(), 2);
+            if (coincide) {
+                puertoMadera = p;
+                break;
+            }
+        }
 
-        Banco banco = new Banco();
-        banco.comerciar(jugador1,new Madera(), new Mineral(),1);
+        UbicacionVertice muelle = puertoMadera.getMuelle1().getUbicacion();
 
-        assertEquals(0, jugador1.buscarRecurso(new Madera()).cantidad());
-        assertEquals(1, jugador1.buscarRecurso(new Mineral()).cantidad());
+        Jugador jugador = new Jugador("Juli");
+        Pieza poblado = new Poblado(jugador); 
+        tablero.colocarEdificio(muelle, poblado);
+        jugador.recibirRecurso(new Madera(), 2);
+        puertoMadera.comercializar(jugador, new Madera(), new Mineral(), 1);
+
+        assertEquals(0, jugador.buscarRecurso(new Madera()).cantidad());
+        assertEquals(1, jugador.buscarRecurso(new Mineral()).cantidad());
     }
 
     @Test

@@ -136,5 +136,7 @@ public class GrafoTest {
             grafo.colocarCamino(ubicacion2, ubicacion1, new Camino(luis));
         });
     }
+    
+
 }
 

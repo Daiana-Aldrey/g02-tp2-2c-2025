@@ -7,21 +7,30 @@ import edu.fiuba.algo3.Excepciones.NoTieneCarta;
 
 import java.util.*;
 
-public class Banco {
+public class Banco implements Comercializar{
     private final Deque<Carta> mazoDesarrollo;
+    private int tasaBancaria;
+    
+    private static final Banco INSTANCE = new Banco();
 
     public Banco(FabricaMazoCartasDesarrollo fabrica) {
         this.mazoDesarrollo = new ArrayDeque<>(fabrica.crearMazoDesarrollo());
+        this.tasaBancaria = 4;
     }
+    
     public Banco(){
-        this (new MazoCartasDesarrollo());}
+        this (new MazoCartasDesarrollo());
+    }
 
+    public static Banco getInstance() {
+    	return INSTANCE;
+    }
 
     public Carta venderCartaDesarrollo(Jugador jugador) {
         if (mazoDesarrollo.isEmpty()) {
             throw new NoTieneCarta("No hay más cartas.");
         }
-        //  Precio una carta de desarrollo
+      
         List<Recurso> precio = List.of(
                 new Lana(1),
                 new Grano(1),
@@ -34,11 +43,15 @@ public class Banco {
         return carta;
     }
 
-    public void comerciar(Jugador jugador, Recurso recursoDado, Recurso recursoRecibido, int cantidadSolicitada) {
-        int tasa = jugador.seleccionarTasaPara(recursoDado);
-        int costo = tasa * cantidadSolicitada;
+	public void comercializar(Jugador jugador,Recurso recursoOferta, Recurso recursoPedido,int cantPedida) {
+		int costo = tasaBancaria * cantPedida;
+		intercambiar(jugador, recursoOferta, recursoPedido, cantPedida, costo);
+	}
 
-        jugador.descontarRecurso(recursoDado.crearCon(costo), costo);
-        jugador.recibirRecurso(recursoRecibido.crearCon(cantidadSolicitada), cantidadSolicitada);
+    public void intercambiar(Jugador jugador,Recurso recursoOferta, Recurso recursoPedido, int cantPedida, int costo) {
+    	Recurso recursoADescontar = recursoOferta.crearCon(costo);
+        Recurso recursoAEntregar = recursoPedido.crearCon(cantPedida);
+        jugador.descontarRecurso(recursoADescontar, costo);
+        jugador.recibirRecurso(recursoAEntregar, cantPedida);
     }
 }
