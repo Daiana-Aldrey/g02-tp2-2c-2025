@@ -53,7 +53,12 @@ public class Jugador {
 	public void colocarPiezaInicial(String tipo, List<Ubicacion> ubicacion) {
 	    Pieza pieza = Pieza.crear(tipo, this);
 	    pieza.colocarPrimera(ubicacion);
-	}    
+	}
+
+    public void colocarCaminoPorCarta(List<Ubicacion> ubicacion) {
+        Camino camino = new Camino(this);
+        camino.colocar(ubicacion);
+    }
 
 	private void inicializarRecursos() {
 		recursos.add(new Madera());
@@ -74,7 +79,6 @@ public class Jugador {
 
         }
 	}
-
 
     public void construirPieza(String tipo, List<Ubicacion> ubicacion) {
         Pieza pieza = Pieza.crear(tipo, this);
@@ -203,10 +207,12 @@ public class Jugador {
     public void recibirCartaDesarrollo(Carta carta) {
         cartasDesarrolloRecienCompradas.add(carta);
     }
+
     public void prepararCartasDesarrolloParaNuevoTurno() {
         cartasDesarrollo.addAll(cartasDesarrolloRecienCompradas);
         cartasDesarrolloRecienCompradas.clear();
     }
+
     public void jugarCartaDesarrollo(Carta carta) {
         if (cartasDesarrolloRecienCompradas.contains(carta)) {
             throw new ErrorNoUsoDeCartaInvalido("carta recein comprada no la podes usar en este turno.");
@@ -217,7 +223,6 @@ public class Jugador {
         carta.usar(this);
         cartasDesarrollo.remove(carta);
     }
-
 
     public List<Carta> obtenerCartasDesarrollo() {
         List<Carta> todas = new ArrayList<>();
@@ -284,6 +289,10 @@ public class Jugador {
             }
         }
         return null;
+    }
+
+    public List<Camino> getCaminos() {
+        return caminos;
     }
 
     public void otorgarPuntos(int puntosVictoria) {

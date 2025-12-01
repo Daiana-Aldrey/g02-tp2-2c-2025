@@ -2,10 +2,14 @@ package edu.fiuba.algo3.entrega3.TestIntegradores;
 
 import edu.fiuba.algo3.modelo.Bonificacion.BonificadorRutaMayor;
 import edu.fiuba.algo3.modelo.Bonificacion.RutaMayor;
+import edu.fiuba.algo3.modelo.CartaDeDesarrollo.Carta;
+import edu.fiuba.algo3.modelo.CartaDeDesarrollo.CartaConstruccionCarreteras;
 import edu.fiuba.algo3.modelo.Jugador;
+import edu.fiuba.algo3.modelo.Ubicacion.UbicacionVertice;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -46,5 +50,32 @@ public class TesIntegradores {
         assertEquals(0,jugador1.puntosDeVictoria());
         assertEquals(2,jugador2.puntosDeVictoria());
         assertEquals(0,jugador3.puntosDeVictoria());
+    }
+
+    @Test
+    public void SeUsaCartaDeConstruccionDeCarreterasCorrectamente() {
+        CartaConstruccionCarreteras carta = new CartaConstruccionCarreteras();
+        Jugador jugador1 = new Jugador("Jaz");
+
+        jugador1.colocarPiezaInicial("poblado", List.of(new UbicacionVertice(42)));
+        jugador1.colocarPiezaInicial("camino", List.of(new UbicacionVertice(42),new UbicacionVertice(43)));
+
+        carta.setearUbicacionesPrimerCamino(new UbicacionVertice(43), new UbicacionVertice(44));
+        carta.setearUbicacionesSegundaCamino(new UbicacionVertice(44), new UbicacionVertice(45));
+
+        jugador1.recibirCartaDesarrollo(carta);
+        jugador1.prepararCartasDesarrolloParaNuevoTurno();
+
+        List<Carta> esperado1 = List.of(carta);
+        List<Carta> obtenido1 = jugador1.obtenerCartasDesarrollo();
+
+        assertEquals(esperado1, obtenido1);
+
+        jugador1.jugarCartaDesarrollo(carta);
+
+        int esperado2 = 3;
+        int obtenido2 = jugador1.getCaminos().size();
+
+        assertEquals(esperado2, obtenido2);
     }
 }
