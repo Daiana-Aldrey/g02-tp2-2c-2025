@@ -9,7 +9,7 @@ public class Muelle {
     
     public Muelle(UbicacionVertice ubicacion) {
         this.ubicacion = ubicacion;
-        this.pieza = null;
+        this.pieza = new NoPieza(ubicacion);
     }
 
     public void notificarConstruccion(UbicacionVertice ubicacion, Pieza pieza) {
@@ -19,7 +19,7 @@ public class Muelle {
     }
 
     public boolean perteneceAJugador(Jugador jugador) {
-        return pieza != null && pieza.esDe(jugador);
+        return pieza.esDe(jugador);
     }
     
     public UbicacionVertice getUbicacion() {
