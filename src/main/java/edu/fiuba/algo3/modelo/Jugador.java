@@ -302,5 +302,10 @@ public class Jugador {
     public boolean gano() {
         return puntosDeVictoria >= 10;
     }
+    
+    public String nombre() {
+        return nombre;
+    }
+
 }
   

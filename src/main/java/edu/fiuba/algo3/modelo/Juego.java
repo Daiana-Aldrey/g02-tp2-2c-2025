@@ -136,5 +136,10 @@ public class Juego {
             pasarAlSiguienteJugador();
         }
     }
+    
+    
+    public Jugador jugadorActual() {
+        return jugadorTurno;
+    }
 }
 
