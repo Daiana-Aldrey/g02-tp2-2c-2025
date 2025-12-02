@@ -74,4 +74,9 @@ public class Mineral extends Recurso{
     public Recurso crearCon(int cant) {
         return new Mineral(cant);
     }
+
+    @Override
+    public String recurso() {
+        return "mineral";
+    }
 }

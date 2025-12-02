@@ -75,4 +75,9 @@ public class Ladrillo extends Recurso{
     public Recurso crearCon(int cant) {
         return new Ladrillo(cant);
     }
+
+    @Override
+    public String recurso() {
+        return "ladrillo";
+    }
 }

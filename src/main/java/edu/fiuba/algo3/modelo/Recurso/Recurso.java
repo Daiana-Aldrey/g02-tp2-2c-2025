@@ -66,4 +66,6 @@ public abstract class Recurso {
 
     public abstract Recurso crearCon(int cant);
 
+    public abstract String recurso();
+
 }

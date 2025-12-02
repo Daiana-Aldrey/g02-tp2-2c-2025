@@ -23,6 +23,7 @@ public class VistaJuego extends BorderPane implements Observador {
     private final JuegoObservable modelo;
     private final ControladorJuego controlador;
     private final VistaDados vistaDados;
+    private VistaRecursos vistaRecursos;
     private final Label estadoLabel;
     private final Button tirarDadoBtn;
     private final Button verRecursosBtn;
@@ -119,6 +120,29 @@ public class VistaJuego extends BorderPane implements Observador {
         barra.setStyle("-fx-background-color: #3b2145;"); 
 
         setBottom(barra);
+
+        //Vista de Recursos del jugador
+        HBox listaRecursos = new HBox(20,
+                izquierda,
+                spacerIzq,
+                bankBtn,
+                spacerDer,
+                derecha
+        );
+        listaRecursos.setPadding(new Insets(10, 20, 10, 20));
+        listaRecursos.setAlignment(Pos.CENTER);
+        listaRecursos.setStyle("-fx-background-color: #3b2145;");
+
+        this.vistaRecursos = new VistaRecursos(modelo.juego().jugadorActual());
+
+        HBox contenedorRecursos = new HBox(vistaRecursos);
+        contenedorRecursos.setPadding(new Insets(5, 20, 5, 20));
+        contenedorRecursos.setAlignment(Pos.CENTER_RIGHT);
+
+        VBox zonaInferior = new VBox(8, contenedorRecursos, listaRecursos);
+        zonaInferior.setAlignment(Pos.CENTER_RIGHT);
+
+        setBottom(zonaInferior);
 
         // controladores a implementar
         tirarDadoBtn.setOnAction(e -> controlador.manejarTirarDados());

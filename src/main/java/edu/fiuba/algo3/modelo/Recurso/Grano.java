@@ -75,4 +75,9 @@ public class Grano extends Recurso{
     public Recurso crearCon(int cant) {
         return new Grano(cant);
     }
+
+    @Override
+    public String recurso() {
+        return "grano";
+    }
 }

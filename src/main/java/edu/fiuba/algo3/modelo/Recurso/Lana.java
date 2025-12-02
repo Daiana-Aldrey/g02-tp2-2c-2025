@@ -74,4 +74,9 @@ public class Lana extends Recurso{
     public Recurso crearCon(int cant) {
         return new Lana(cant);
     }
+
+    @Override
+    public String recurso() {
+        return "lana";
+    }
 }

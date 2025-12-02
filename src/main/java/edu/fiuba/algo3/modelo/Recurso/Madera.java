@@ -76,4 +76,9 @@ public class Madera extends Recurso{
         return new Madera(cant);
     }
 
+    @Override
+    public String recurso() {
+        return "madera";
+    }
+
 }
