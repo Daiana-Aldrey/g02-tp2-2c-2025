@@ -20,14 +20,13 @@ public class JuegoTest {
 	@Test
 	public void juegoInicializaJugadoresCorrectamente() {
 	    Tablero.getInstance().reset();
-	    GeneradorDeDados dadoPrueba = () -> 7;
 
 	    Jugador jugador1 = new Jugador("Juli");
 	    Jugador jugador2 = new Jugador("Valen");
 	    Jugador jugador3 = new Jugador("Sofi");
 	    List<Jugador> jugadores = List.of(jugador1, jugador2, jugador3);
 
-	    Juego juego = new Juego(jugadores, dadoPrueba);
+	    Juego juego = new Juego(jugadores);
 
 	    Assertions.assertEquals(3,juego.cantidadJugadores());
 	}
@@ -36,19 +35,16 @@ public class JuegoTest {
 	public void juegoLanzaExcepcionSiHayMenosDeTresJugadores() {
 	    Tablero.getInstance().reset();
 
-	    GeneradorDeDados dadoPrueba = () -> 7;
-
 	    Jugador jugador1 = new Jugador("Valen");
 	    Jugador jugador2 = new Jugador("Sofi");
 	    List<Jugador> jugadores = List.of(jugador1, jugador2);
 
-	    assertThrows(CantJugadoresInvalida.class, () -> new Juego(jugadores, dadoPrueba));
+	    assertThrows(CantJugadoresInvalida.class, () -> new Juego(jugadores));
 	}
 
 	@Test
 	public void juegoLanzaExcepcionSiHayMasDeCuatroJugadores() {
 	    Tablero.getInstance().reset();
-	    GeneradorDeDados dadoPrueba = () -> 7;
 
 	    Jugador jugador1 = new Jugador("Juli");
 	    Jugador jugador2 = new Jugador("Valen");
@@ -57,7 +53,7 @@ public class JuegoTest {
 	    Jugador jugador5 = new Jugador("Fran");
 
 	    List<Jugador> jugadores = List.of(jugador1, jugador2, jugador3, jugador4, jugador5);
-	    assertThrows(CantJugadoresInvalida.class, () -> new Juego(jugadores, dadoPrueba));
+	    assertThrows(CantJugadoresInvalida.class, () -> new Juego(jugadores));
 	}
   
     @Test
@@ -65,14 +61,12 @@ public class JuegoTest {
         Tablero tablero = Tablero.getInstance();
         tablero.reset();
 
-        GeneradorDeDados dadoPrueba = () -> 7;
-
         Jugador jugador1 = new Jugador("Juli");
 	    Jugador jugador2 = new Jugador("Valen");
 	    Jugador jugador3 = new Jugador("Sofi");
 	    List<Jugador> jugadores = List.of(jugador1, jugador2, jugador3);
 
-	    Juego juego = new Juego(jugadores, dadoPrueba);
+	    Juego juego = new Juego(jugadores);
         List<List<Ubicacion>> verticesPoblados = List.of(
                 List.of(new UbicacionVertice(10)),
                 List.of(new UbicacionVertice(41)),
@@ -108,14 +102,13 @@ public class JuegoTest {
 
         tablero.setearGrafo(grafo);
 
-        GeneradorDeDados dado = () -> 8;
 
         Jugador jugador1 = new Jugador("Juli");
 	    Jugador jugador2 = new Jugador("Valen");
 	    Jugador jugador3 = new Jugador("Sofi");
 	    List<Jugador> jugadores = List.of(jugador1, jugador2, jugador3);
 
-	    Juego juego = new Juego(jugadores, dado);
+	    Juego juego = new Juego(jugadores);
 
         Jugador jugador = juego.jugadores().get(0);
         jugador.recibirRecurso(new Madera(), 10);
@@ -125,7 +118,8 @@ public class JuegoTest {
 
         jugador.colocarPiezaInicial("poblado", List.of(ubicacion10));
 
-        int tirada = juego.tirarDado();  
+        Dados dados =  new Dados(2);
+        int tirada = dados.tiradaFalsa(8);  
         juego.manejarTirada(tirada);
 
         Recurso mineral = jugador.buscarRecurso(new Mineral());
@@ -155,14 +149,12 @@ public class JuegoTest {
 
         tablero.setearGrafo(grafo);
 
-        GeneradorDeDados dado = () -> 8;
-
         Jugador jugador1 = new Jugador("Juli");
         Jugador jugador2 = new Jugador("Valen");
         Jugador jugador3 = new Jugador("Sofi");
         List<Jugador> jugadores = List.of(jugador1, jugador2, jugador3);
 
-        Juego juego = new Juego(jugadores, dado);
+        Juego juego = new Juego(jugadores);
 
         for (Jugador j : juego.jugadores()) {
             j.recibirRecurso(new Madera(),   10);
@@ -184,7 +176,8 @@ public class JuegoTest {
         jugador3.colocarPiezaInicial("camino",  List.of(new UbicacionVertice(6), new UbicacionVertice(7)));
         jugador3.colocarPiezaInicial("poblado", List.of(new UbicacionVertice(36)));
 
-        int tirada = juego.tirarDado();
+        Dados dados =  new Dados(2);
+        int tirada = dados.tiradaFalsa(8);
         juego.manejarTirada(tirada);
 
         Recurso mineralJ1 = jugador1.buscarRecurso(new Mineral());
@@ -205,8 +198,7 @@ public class JuegoTest {
         Jugador j3 = mock(Jugador.class);
 
         List<Jugador> jugadores = List.of(j1, j2, j3);
-        GeneradorDeDados dado = () -> 8;
-        Juego juego = new Juego(jugadores, dado);
+        Juego juego = new Juego(jugadores);
 
         List<List<Ubicacion>> pobladosR1 = List.of(
                 List.of(new UbicacionVertice(1)),

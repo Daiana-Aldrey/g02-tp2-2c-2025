@@ -1,7 +1,8 @@
 package edu.fiuba.algo3.entrega_1.TestIntegrales;
 
 import edu.fiuba.algo3.Excepciones.ColocacionInvalida;
-import edu.fiuba.algo3.modelo.Dados.GeneradorDeDados;
+import edu.fiuba.algo3.modelo.Dados.Dados;
+import edu.fiuba.algo3.modelo.Dados.*;
 import edu.fiuba.algo3.modelo.GeneradorNumerosAleatorios;
 import edu.fiuba.algo3.modelo.Juego;
 import edu.fiuba.algo3.modelo.Jugador;
@@ -166,14 +167,12 @@ public class TestIntegrales {
 
         tablero.setearGrafo(grafo);
 
-        GeneradorDeDados dado = () -> 8;
-
         Jugador jugador1 = new Jugador("Juli");
 	    Jugador jugador2 = new Jugador("Valen");
 	    Jugador jugador3 = new Jugador("Sofi");
 	    List<Jugador> jugadores = List.of(jugador1, jugador2, jugador3);
 
-	    Juego juego = new Juego(jugadores, dado);
+	    Juego juego = new Juego(jugadores);
 
         for (Jugador j : juego.jugadores()) {
             j.recibirRecurso(new Madera(),   10);
@@ -195,7 +194,8 @@ public class TestIntegrales {
         jugador3.colocarPiezaInicial("camino",  List.of(new UbicacionVertice(6), new UbicacionVertice(7)));
         jugador3.colocarPiezaInicial("poblado", List.of(new UbicacionVertice(36)));
 
-        int tirada = juego.tirarDado();
+        Dados dados =  new Dados(2);
+        int tirada = dados.tiradaFalsa(8);
         juego.manejarTirada(tirada);
 
         Recurso mineralJ1 = jugador1.buscarRecurso(new Mineral());
@@ -216,11 +216,11 @@ public class TestIntegrales {
  	    Jugador jugador3 = new Jugador("Sofi");
  	    List<Jugador> jugadores = List.of(jugador1, jugador2, jugador3);
 
- 	    GeneradorDeDados dado = () -> 12;
- 	    Juego juego = new Juego(jugadores, dado);
+ 	   Dados dados =  new Dados(2);
+       int tirada = dados.tiradaFalsa(12);
+ 	   Juego juego = new Juego(jugadores);
 
-        int n = juego.tirarDado();
-        assertEquals(12, n);
+        assertEquals(12, tirada);
     }
 
     @Test
@@ -240,17 +240,17 @@ public class TestIntegrales {
 
         tablero.setearGrafo(grafo);
 
-        GeneradorDeDados dado = () -> 8;
 
         Jugador jugador1 = new Jugador("Juli");
  	    Jugador jugador2 = new Jugador("Valen");
  	    Jugador jugador3 = new Jugador("Sofi");
  	    List<Jugador> jugadores = List.of(jugador1, jugador2, jugador3);
- 	    Juego juego = new Juego(jugadores, dado);
+ 	    Juego juego = new Juego(jugadores);
 
         jugador1.colocarPiezaInicial("poblado", List.of(ubicacion10));
 
-        int tirada = juego.tirarDado();
+        Dados dados =  new Dados(2);
+        int tirada = dados.tiradaFalsa(8);
         juego.manejarTirada(tirada);
 
         Recurso mineral = jugador1.buscarRecurso(new Mineral());
@@ -273,20 +273,20 @@ public class TestIntegrales {
 
         tablero.setearGrafo(grafo);
 
-        GeneradorDeDados dado = () -> 8;
 
         Jugador jugador1 = new Jugador("Juli");
  	    Jugador jugador2 = new Jugador("Valen");
  	    Jugador jugador3 = new Jugador("Sofi");
  	    List<Jugador> jugadores = List.of(jugador1, jugador2, jugador3);
- 	    Juego juego = new Juego(jugadores, dado);
+ 	    Juego juego = new Juego(jugadores);
 
         jugador2.colocarPiezaInicial("poblado", List.of(ubicacion10));
         jugador2.recibirRecurso(new Grano(), 2);
         jugador2.recibirRecurso(new Mineral(), 3);
         jugador2.construirPieza("ciudad", List.of(ubicacion10));
 
-        int tirada = juego.tirarDado();
+        Dados dados =  new Dados(2);
+        int tirada = dados.tiradaFalsa(8);
         juego.manejarTirada(tirada);
 
         Recurso madera = jugador2.buscarRecurso(new Madera());
@@ -330,14 +330,12 @@ public class TestIntegrales {
         Tablero tablero = Tablero.getInstance();
         tablero.reset();
 
-        GeneradorDeDados dado = () -> 7;
-
         Jugador jugador1 = new JugadorQueNoMueveLadron("Juli");
         Jugador jugador2 = new Jugador("Valen");
         Jugador jugador3 = new Jugador("Sofi");
         List<Jugador> jugadores = List.of(jugador1, jugador2, jugador3);
 
-        Juego juego = new Juego(jugadores, dado);
+        Juego juego = new Juego(jugadores);
         Jugador jugador = juego.jugadores().get(0); 
 
         jugador.recibirRecurso(new Madera(), 5);
@@ -345,7 +343,8 @@ public class TestIntegrales {
 
         assertEquals(9, jugador.cantidadDeCartas(), "Precondición: debe tener 9 cartas");
 
-        int tirada = juego.tirarDado();
+        Dados dados =  new Dados(2);
+        int tirada = dados.tiradaFalsa(7);
         juego.manejarTirada(tirada);
 
         assertEquals(5, jugador.cantidadDeCartas(),
@@ -356,7 +355,6 @@ public class TestIntegrales {
     public void jugadorActivoMueveAlLadronYRobaCartaAJugadorAdyacenteANuevoTerreno() {
         Tablero tablero = Tablero.getInstance();
         tablero.reset();
-        GeneradorDeDados dado = () -> 7;
         Jugador jugador1 = new Jugador("Juli");
  	    Jugador jugador2 = new Jugador("Valen");
  	    Jugador jugador3 = new Jugador("Sofi");

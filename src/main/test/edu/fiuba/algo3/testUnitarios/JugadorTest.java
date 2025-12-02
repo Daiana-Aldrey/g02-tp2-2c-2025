@@ -1,7 +1,8 @@
 package edu.fiuba.algo3.testUnitarios;
 
 import edu.fiuba.algo3.Excepciones.ColocacionInvalida;
-import edu.fiuba.algo3.modelo.Dados.GeneradorDeDados;
+import edu.fiuba.algo3.modelo.Dados.Dados;
+import edu.fiuba.algo3.modelo.Dados.*;
 import edu.fiuba.algo3.modelo.GeneradorNumerosAleatorios;
 import edu.fiuba.algo3.modelo.Juego;
 import edu.fiuba.algo3.modelo.Jugador;
@@ -38,20 +39,19 @@ public class JugadorTest {
 	public void jugadorPuedeConstruirPobladoSiTieneRecursosSuficientes() {
         Tablero tablero = Tablero.getInstance();
         tablero.reset();
-        GeneradorDeDados dadoPrueba = () -> 7;
-
+  
         Jugador jugador1 = new Jugador("Juli");
 	    Jugador jugador2 = new Jugador("Valen");
 	    Jugador jugador3 = new Jugador("Sofi");
 	    List<Jugador> jugadores = List.of(jugador1, jugador2, jugador3);
-	    Juego juego = new Juego(jugadores, dadoPrueba);
+	    Juego juego = new Juego(jugadores);
 
         Jugador jugador = juego.jugadores().get(0);
         jugador.colocarPiezaInicial("poblado", List.of(new UbicacionVertice(4)));
         jugador.colocarPiezaInicial("camino", List.of(new UbicacionVertice(3), new UbicacionVertice(4)));
 
         jugador.recibirRecurso(new Madera(), 1);
-        jugador.recibirRecurso(new Ladrillo(), 1); //cambiar
+        jugador.recibirRecurso(new Ladrillo(), 1); 
 
         jugador.construirPieza("camino",List.of(new UbicacionVertice(2), new UbicacionVertice(3)));
         Pieza pobladoDeReferencia = Pieza.crear("poblado", jugador);
@@ -144,22 +144,21 @@ public class JugadorTest {
         grafo.agregarArista(ubicacion10,ubicacion1);
 
         tablero.setearGrafo(grafo);
-
-        GeneradorDeDados dado = () -> 8;
         
         Jugador jugador1 = new Jugador("Juli");
 	    Jugador jugador2 = new Jugador("Valen");
 	    Jugador jugador3 = new Jugador("Sofi");
 	    List<Jugador> jugadores = List.of(jugador1, jugador2, jugador3);
 	    
-	    Juego juego = new Juego(jugadores, dado);
+	    Juego juego = new Juego(jugadores);
 
         Jugador jugador = juego.jugadores().get(0);
 
 
         jugador.colocarPiezaInicial("poblado", List.of(ubicacion10));
 
-        int tirada = juego.tirarDado();
+        Dados dados =  new Dados(2);
+        int tirada = dados.tiradaFalsa(8);
         juego.manejarTirada(tirada);
 
         Recurso mineral = jugador.buscarRecurso(new Mineral());
@@ -181,14 +180,12 @@ public class JugadorTest {
 
         tablero.setearGrafo(grafo);
 
-        GeneradorDeDados dado = () -> 8;
-
         Jugador jugador1 = new Jugador("Juli");
 	    Jugador jugador2 = new Jugador("Valen");
 	    Jugador jugador3 = new Jugador("Sofi");
 	    List<Jugador> jugadores = List.of(jugador1, jugador2, jugador3);
 	    
-	    Juego juego = new Juego(jugadores, dado);
+	    Juego juego = new Juego(jugadores);
 
         Jugador jugador = juego.jugadores().get(0);
 
@@ -197,7 +194,8 @@ public class JugadorTest {
         jugador.recibirRecurso(new Mineral(), 3);
         jugador.construirPieza("ciudad", List.of(ubicacion10));
 
-        int tirada = juego.tirarDado();
+        Dados dados =  new Dados(2);
+        int tirada = dados.tiradaFalsa(8);
         juego.manejarTirada(tirada);
 
         Recurso mineral = jugador.buscarRecurso(new Mineral());
@@ -209,14 +207,12 @@ public class JugadorTest {
         Tablero tablero = Tablero.getInstance();
         tablero.reset();
 
-        GeneradorDeDados dado = () -> 7;
-
         Jugador jugador1 = new JugadorQueNoMueveLadron("Juli");
         Jugador jugador2 = new Jugador("Valen");
         Jugador jugador3 = new Jugador("Sofi");
         List<Jugador> jugadores = List.of(jugador1, jugador2, jugador3);
 
-        Juego juego = new Juego(jugadores, dado);
+        Juego juego = new Juego(jugadores);
         Jugador jugador = juego.jugadores().get(0); 
 
         jugador.recibirRecurso(new Madera(), 5);
@@ -224,7 +220,8 @@ public class JugadorTest {
 
         assertEquals(9, jugador.cantidadDeCartas(), "Precondición: debe tener 9 cartas");
 
-        int tirada = juego.tirarDado();
+        Dados dados =  new Dados(2);
+        int tirada = dados.tiradaFalsa(7);
         juego.manejarTirada(tirada);
 
         assertEquals(5, jugador.cantidadDeCartas(),
@@ -237,16 +234,14 @@ public class JugadorTest {
     public void jugadorActivoMueveAlLadronYRobaCartaAJugadorAdyacenteANuevoTerreno() {
         Tablero tablero = Tablero.getInstance();
         tablero.reset(); 
-        GeneradorDeDados dado = () -> 7;
         
         Jugador jugador1 = new Jugador("Juli");
 	    Jugador jugador2 = new Jugador("Valen");
 	    Jugador jugador3 = new Jugador("Sofi");
 	    List<Jugador> jugadores = List.of(jugador1, jugador2, jugador3);
 	    
-	    Juego juego = new Juego(jugadores, dado);
-
-
+	    Juego juego = new Juego(jugadores);
+	    
         Jugador jugadorActivo = juego.jugadores().get(0);
         jugadorActivo.recibirRecurso(new Madera(), 10);
         jugadorActivo.recibirRecurso(new Ladrillo(), 10);

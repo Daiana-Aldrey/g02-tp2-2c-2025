@@ -1,6 +1,6 @@
 package edu.fiuba.algo3.modelo;
 import edu.fiuba.algo3.modelo.CartaDeBonificacion.CartaGranCaballeria;
-import edu.fiuba.algo3.modelo.Dados.GeneradorDeDados;
+import edu.fiuba.algo3.modelo.Dados.*;
 import edu.fiuba.algo3.modelo.Intercambio.Banco;
 import edu.fiuba.algo3.modelo.RondaInicial.*;
 import edu.fiuba.algo3.modelo.Tablero.Tablero;
@@ -18,10 +18,10 @@ public class Juego {
 	  private Jugador jugadorTurno;
 	  private final int cantJugadores;
 	  private int rondas;
-	  private final GeneradorDeDados generador;
+	  private final Dados dados;
 
 
-	public Juego(List<Jugador> jugadores, GeneradorDeDados generador) {
+	public Juego(List<Jugador> jugadores) {
 
 		this.cantJugadores = jugadores.size();
 		this.jugadores = jugadores;
@@ -29,7 +29,7 @@ public class Juego {
         this.cartaGranCaballeria = CartaGranCaballeria.getInstance();
 		this.banco = new Banco();
 		this.rondas = 0;
-		this.generador = generador;
+		this.dados = new Dados(2);
 
 		validarCantJugadores(cantJugadores);
 		this.jugadorTurno = jugadores.get(0);
@@ -41,8 +41,12 @@ public class Juego {
 	    }
 	}
 
-	public int tirarDado() {
-		return generador.tirar();
+	public int[] tirarDados() {
+        return dados.tirar();
+    }
+	
+	public int sumarTirada() {
+		return dados.sumarTirada();
 	}
 
 	public void inicializarPiezas(List<List<Ubicacion>> verticesPoblados, List<List<Ubicacion>> verticesCaminos) {
@@ -113,7 +117,7 @@ public class Juego {
     public void jugarTurno(Jugador jugadorActual){
         this.jugadorTurno = jugadorActual;
 
-        int resultadoDados = tirarDado();
+        int resultadoDados = dados.sumarTirada();
         manejarTirada(resultadoDados);
 
         jugadorTurno.turno();

@@ -1,6 +1,5 @@
 package edu.fiuba.algo3.testUnitarios;
 import edu.fiuba.algo3.modelo.*;
-import edu.fiuba.algo3.modelo.Dados.GeneradorDeDados;
 import edu.fiuba.algo3.modelo.Recurso.*;
 import edu.fiuba.algo3.modelo.Tablero.Tablero;
 import org.junit.jupiter.api.Test;

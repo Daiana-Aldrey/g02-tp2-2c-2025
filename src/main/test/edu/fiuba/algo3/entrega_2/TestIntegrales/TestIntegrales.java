@@ -2,7 +2,7 @@ package edu.fiuba.algo3.entrega_2.TestIntegrales;
 
 import edu.fiuba.algo3.Excepciones.ColocacionInvalida;
 import edu.fiuba.algo3.modelo.CartaDeDesarrollo.Carta;
-import edu.fiuba.algo3.modelo.Dados.GeneradorDeDados;
+import edu.fiuba.algo3.modelo.Dados.*;
 import edu.fiuba.algo3.modelo.GeneradorNumerosAleatorios;
 import edu.fiuba.algo3.modelo.Intercambio.*;
 import edu.fiuba.algo3.modelo.Juego;
@@ -139,13 +139,12 @@ public class TestIntegrales {
         grafo.agregarVertice(verticeTerreno);
         grafo.agregarArista(ubicacion10,ubicacionA);
         tablero.setearGrafo(grafo);
-        GeneradorDeDados dado = () -> 8;
 
         Jugador jugador1 = new Jugador("Juli");
  	    Jugador jugador2 = new Jugador("Valen");
  	    Jugador jugador3 = new Jugador("Sofi");
  	    List<Jugador> jugadores = List.of(jugador1, jugador2, jugador3);
- 	    Juego juego = new Juego(jugadores, dado);
+ 	    Juego juego = new Juego(jugadores);
 
         assertEquals(0, jugador1.puntosDeVictoria());
 
@@ -292,12 +291,11 @@ public class TestIntegrales {
     }
     @Test
     void validacionComprarCartaDesarrolloDescuentaRecursosAgregaCartaAlJugador() {
-        GeneradorDeDados dado = () -> 8;
         Jugador jugador1 = new Jugador("Juli");
   	    Jugador jugador2 = new Jugador("Valen");
   	    Jugador jugador3 = new Jugador("Sofi");
   	    List<Jugador> jugadores = List.of(jugador1, jugador2, jugador3);
-  	    Juego juego = new Juego(jugadores, dado);
+  	    Juego juego = new Juego(jugadores);
 
         jugador1.recibirRecurso(new Lana(), 1);
         jugador1.recibirRecurso(new Grano(), 1);
@@ -318,12 +316,11 @@ public class TestIntegrales {
 
     @Test
     void CartaRecienCompradaNoPuedeUsarseEnTurnoActual_SiTrasFinalizarTurno() {
-    	 GeneradorDeDados dado = () -> 8;
          Jugador jugador1 = new Jugador("Juli");
    	    Jugador jugador2 = new Jugador("Valen");
    	    Jugador jugador3 = new Jugador("Sofi");
    	    List<Jugador> jugadores = List.of(jugador1, jugador2, jugador3);
-   	    Juego juego = new Juego(jugadores, dado);
+   	    Juego juego = new Juego(jugadores);
 
 
         jugador1.recibirRecurso(new Lana(), 1);
