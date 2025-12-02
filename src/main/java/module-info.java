@@ -3,8 +3,9 @@ module edu.fiuba.algo3 {
     requires json.simple;
     requires junit;
     requires jdk.compiler;
+    requires java.desktop;
     exports edu.fiuba.algo3;
-    //exports edu.fiuba.algo3.vistas;
+    exports edu.fiuba.algo3.vistas;
     exports edu.fiuba.algo3.modelo;
     exports edu.fiuba.algo3.modelo.Tablero;
     exports edu.fiuba.algo3.modelo.Pieza;
