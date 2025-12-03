@@ -1,7 +1,7 @@
 package edu.fiuba.algo3.vistas;
 
 import edu.fiuba.algo3.modelo.JuegoObservable;
-import edu.fiuba.algo3.controlador.ControladorJuego;
+import edu.fiuba.algo3.controllers.ControladorJuego;
 import edu.fiuba.algo3.observador.Observador;
 import edu.fiuba.algo3.observador.Observable;
 

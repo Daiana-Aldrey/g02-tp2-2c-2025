@@ -1,8 +1,7 @@
-package edu.fiuba.algo3.controlador;
+package edu.fiuba.algo3.controllers;
 
 import edu.fiuba.algo3.modelo.JuegoObservable;
 import edu.fiuba.algo3.vistas.VistaJuego;
-import edu.fiuba.algo3.modelo.Juego.*;
 
 public class ControladorJuego {
 

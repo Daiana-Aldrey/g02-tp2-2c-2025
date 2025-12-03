@@ -94,6 +94,10 @@ public final class Tablero {
     public List<Puerto> getPuertos() {
         return puertos;
     }
+
+    public Vertice getTerreno(UbicacionVertice ubicacion) {
+        return grafo.buscarVertice(ubicacion);
+    }
 }
 
 
