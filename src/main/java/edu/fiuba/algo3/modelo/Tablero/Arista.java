@@ -51,5 +51,8 @@ public class Arista {
         }
         return hayCamino;
     }
-    
+
+    public Pieza obtenerPieza() {
+        return this.camino;
+    }
 }

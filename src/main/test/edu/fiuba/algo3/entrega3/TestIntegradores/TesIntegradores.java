@@ -2,6 +2,7 @@ package edu.fiuba.algo3.entrega3.TestIntegradores;
 
 import edu.fiuba.algo3.modelo.Bonificacion.BonificadorRutaMayor;
 import edu.fiuba.algo3.modelo.Bonificacion.RutaMayor;
+import edu.fiuba.algo3.modelo.CartaDeBonificacion.CartaGranCaballeria;
 import edu.fiuba.algo3.modelo.CartaDeDesarrollo.Carta;
 import edu.fiuba.algo3.modelo.CartaDeDesarrollo.CartaConstruccionCarreteras;
 import edu.fiuba.algo3.modelo.Jugador;
@@ -77,5 +78,42 @@ public class TesIntegradores {
         int obtenido2 = jugador1.getCaminos().size();
 
         assertEquals(esperado2, obtenido2);
+    }
+
+    @Test
+    public void SeVerificaCartaDeBonificacionGranCaballeria() {
+        CartaGranCaballeria carta = new CartaGranCaballeria();
+
+        Jugador jugador1 = new Jugador("Maria");
+        Jugador jugador2 = new Jugador("Hernan");
+        Jugador jugador3 = new Jugador("Juan");
+
+        jugador1.aumentarCantidadDeUsosCartaCaballero(2);
+        carta.verificarBonificacion(jugador1);
+
+        assertEquals(0, jugador1.puntosDeVictoria());
+
+        jugador2.aumentarCantidadDeUsosCartaCaballero(3);
+        carta.verificarBonificacion(jugador2);
+
+        assertEquals(jugador2, carta.obtenerBonificado());
+        assertEquals(2, jugador2.puntosDeVictoria());
+
+        jugador3.aumentarCantidadDeUsosCartaCaballero(1);
+        carta.verificarBonificacion(jugador3);
+
+        assertEquals(jugador2, carta.obtenerBonificado());
+
+        jugador3.aumentarCantidadDeUsosCartaCaballero(2);
+        carta.verificarBonificacion(jugador3);
+
+        assertEquals(jugador2, carta.obtenerBonificado());
+
+        jugador1.aumentarCantidadDeUsosCartaCaballero(2);
+        carta.verificarBonificacion(jugador1);
+
+        assertEquals(jugador1, carta.obtenerBonificado());
+        assertEquals(2, jugador1.puntosDeVictoria());
+        assertEquals(0, jugador2.puntosDeVictoria());
     }
 }

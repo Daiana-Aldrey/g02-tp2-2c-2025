@@ -33,4 +33,8 @@ public class CartaGranCaballeria {
     public void disminuirPuntosDeVictoria(int puntosDeVictoria, Jugador jugador) {
         jugador.sacarPuntos(puntosDeVictoria);
     }
+
+    public Jugador obtenerBonificado() {
+        return this.jugadorBonificado;
+    }
 }

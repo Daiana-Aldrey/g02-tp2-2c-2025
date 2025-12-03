@@ -1,4 +1,5 @@
 package edu.fiuba.algo3.modelo;
+import javafx.scene.paint.Color;
 import edu.fiuba.algo3.Excepciones.NoTieneCarta;
 import edu.fiuba.algo3.modelo.Bonificacion.RutaMayor;
 import edu.fiuba.algo3.modelo.CartaDeDesarrollo.Carta;
@@ -15,6 +16,7 @@ import java.util.*;
 
 public class Jugador {
 	private String nombre;
+    private Color color;
     private int puntosDeVictoria = 0;
     private RutaMayor ruta;
     private int cantidadDeUsosCartaCaballero = 0;
@@ -29,12 +31,21 @@ public class Jugador {
 
     public Jugador(String nombre) {
 		this.nombre = nombre;
+        this.color = Color.BLUE;
 		this.recursos = new ArrayList<>();
         this.ruta = new RutaMayor(this, caminos);
 
 		inicializarRecursos();
 	}
 
+    public Jugador(String nombre, Color color) {
+        this.nombre = nombre;
+        this.color = color;
+        this.recursos = new ArrayList<>();
+        this.ruta = new RutaMayor(this, caminos);
+
+        inicializarRecursos();
+    }
 
 	public void incorporarCamino(Camino camino) {
         caminos.add(camino);
@@ -279,6 +290,9 @@ public class Jugador {
         return caminos;
     }
 
+    public Color obtenerColor() {
+        return this.color;
+    }
     public void aumentarCantidadDeUsosCartaCaballero(int cantidad) {
         this.cantidadDeUsosCartaCaballero = this.cantidadDeUsosCartaCaballero + cantidad;
     }

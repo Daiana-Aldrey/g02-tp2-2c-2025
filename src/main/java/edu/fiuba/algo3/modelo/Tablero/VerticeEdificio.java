@@ -92,5 +92,9 @@ public class VerticeEdificio extends Vertice {
         }
         return hayPieza;
     }
+
+    public Pieza obtenerPieza() {
+        return this.pieza;
+    }
 }
 
