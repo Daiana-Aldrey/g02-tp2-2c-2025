@@ -1,6 +1,6 @@
 package edu.fiuba.algo3.vistas;
 import edu.fiuba.algo3.modelo.JuegoObservable;
-import edu.fiuba.algo3.controllers.HandlerTirarDados;
+import edu.fiuba.algo3.controllers.*;
 import edu.fiuba.algo3.observador.Observador;
 import edu.fiuba.algo3.observador.Observable;
 
@@ -15,6 +15,8 @@ import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Circle;
 import javafx.scene.paint.Color;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 public class VistaJuego extends BorderPane implements Observador {
 
@@ -50,9 +52,17 @@ public class VistaJuego extends BorderPane implements Observador {
         Button verCartasBtn = new BotonAccion("Ver Cartas", e -> mostrarEstado("Sin implementar"));
         Button intercambiarBtn = new BotonAccion("Intercambiar", e -> mostrarEstado("Sin implementar"));
         
-        Button bankBtn = new Button("BANK");
-        bankBtn.setStyle("-fx-background-color: #f0f0f0; -fx-font-weight: bold; -fx-background-radius: 20;");
-
+        
+        Button bankBtn = new Button();
+        ImageView viewBanco = new ImageView();
+        viewBanco.setImage(new Image("banco.png")); 
+        viewBanco.setFitHeight(60); 
+        viewBanco.setPreserveRatio(true);
+        bankBtn.setGraphic(viewBanco);
+        bankBtn.setStyle("-fx-background-color: transparent; -fx-cursor: hand;");
+        bankBtn.setOnAction(new HandlerBanco(modelo));
+        
+        
         Button tirarDadoBtn = new BotonAccion("Tirar dados", new HandlerTirarDados(modelo));
         Button pasarTurnoBtn = new BotonAccion("⏭ Pasar turno", e -> mostrarEstado("Sin implementar"));
 
