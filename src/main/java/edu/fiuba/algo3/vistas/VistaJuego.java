@@ -1,8 +1,10 @@
 package edu.fiuba.algo3.vistas;
 import edu.fiuba.algo3.modelo.JuegoObservable;
 import edu.fiuba.algo3.controllers.*;
+import edu.fiuba.algo3.vistas.*;
 import edu.fiuba.algo3.observador.Observador;
 import edu.fiuba.algo3.observador.Observable;
+import javafx.scene.layout.StackPane;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -25,12 +27,16 @@ public class VistaJuego extends BorderPane implements Observador {
     private final Label estadoLabel;
     private final Label jugadorInferiorLabel;
     private VistaRecursos vistaRecursos;
+    private VistaPropuesta vistaPropuesta;
 
     public VistaJuego(JuegoObservable modelo) {
         this.modelo = modelo;
         this.modelo.agregarObservador(this);
-
+        this.vistaPropuesta = new VistaPropuesta(modelo);
         this.setStyle("-fx-background-color: #87cfe8;");
+        
+        StackPane panelCentral = new StackPane();
+        panelCentral.setAlignment(Pos.CENTER);
 
         // dados
         vistaDados = new VistaDados();
@@ -49,10 +55,11 @@ public class VistaJuego extends BorderPane implements Observador {
         // botones
         Button verRecursosBtn = new BotonAccion("Ver Recursos", e -> mostrarEstado("Sin implementar"));
         Button verCartasBtn = new BotonAccion("Ver Cartas", e -> mostrarEstado("Sin implementar"));
-        Button intercambiarBtn = new BotonAccion("Intercambiar", e -> mostrarEstado("Sin implementar"));
+        Button intercambiarBtn = new BotonAccion("Intercambiar", new HandlerIntercambio(modelo));
         Button tirarDadoBtn = new BotonAccion("Tirar dados", new HandlerTirarDados(modelo));
         Button pasarTurnoBtn = new Button(); 
         pasarTurnoBtn.setOnAction(new HandlerPasarTurno(modelo));
+        
         
         
         //pasar turno
@@ -105,6 +112,11 @@ public class VistaJuego extends BorderPane implements Observador {
         VBox zonaInferior = new VBox(0, contenedorRecursos, barra);
         zonaInferior.setAlignment(Pos.BOTTOM_CENTER);
         setBottom(zonaInferior);
+        
+        StackPane.setAlignment(vistaPropuesta, Pos.TOP_RIGHT);
+        StackPane.setMargin(vistaPropuesta, new Insets(60, 20, 0, 0));
+        panelCentral.getChildren().addAll(contenedorDados, vistaPropuesta);
+        setCenter(panelCentral);
 
         actualizarVistaDados();
     }
@@ -115,15 +127,15 @@ public class VistaJuego extends BorderPane implements Observador {
     @Override
     public void actualizar(Observable observado, Object evento) {
         if (evento instanceof String) {
-            String mensaje = (String) evento;
-            
-            if (mensaje.equals("DADOS")) {
-                actualizarVistaDados();
+            String msg = (String) evento;
+            if (msg.equals("DADOS")) {
+            	actualizarVistaDados();
             }
-            else if (mensaje.equals("TURNO")) {
-                actualizarNombreJugador(); 
+            if (msg.equals("TURNO")) {
+            	actualizarNombreJugador();
             }
-            else if (mensaje.equals("RECURSOS")) {
+            if (msg.equals("NUEVA_PROPUESTA") || msg.equals("PROPUESTA_CERRADA")) {
+                vistaPropuesta.actualizarPropuesta();
             }
         }
     }
