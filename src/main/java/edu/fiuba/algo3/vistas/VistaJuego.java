@@ -46,13 +46,23 @@ public class VistaJuego extends BorderPane implements Observador {
         setTop(estadoLabel);
 
  
-        
         // botones
         Button verRecursosBtn = new BotonAccion("Ver Recursos", e -> mostrarEstado("Sin implementar"));
         Button verCartasBtn = new BotonAccion("Ver Cartas", e -> mostrarEstado("Sin implementar"));
         Button intercambiarBtn = new BotonAccion("Intercambiar", e -> mostrarEstado("Sin implementar"));
+        Button tirarDadoBtn = new BotonAccion("Tirar dados", new HandlerTirarDados(modelo));
+        Button pasarTurnoBtn = new Button(); 
+        pasarTurnoBtn.setOnAction(e -> mostrarEstado("Sin implementar"));
         
         
+        //pasar turno
+        ImageView viewTurno = new ImageView(new Image("pasar_turno.png"));
+        viewTurno.setFitHeight(50); 
+        viewTurno.setPreserveRatio(true);
+        pasarTurnoBtn.setGraphic(viewTurno);
+        pasarTurnoBtn.setStyle("-fx-background-color: transparent; -fx-cursor: hand;");
+      
+        //Banco
         Button bankBtn = new Button();
         ImageView viewBanco = new ImageView();
         viewBanco.setImage(new Image("banco.png")); 
@@ -62,9 +72,6 @@ public class VistaJuego extends BorderPane implements Observador {
         bankBtn.setStyle("-fx-background-color: transparent; -fx-cursor: hand;");
         bankBtn.setOnAction(new HandlerBanco(modelo));
         
-        
-        Button tirarDadoBtn = new BotonAccion("Tirar dados", new HandlerTirarDados(modelo));
-        Button pasarTurnoBtn = new BotonAccion("⏭ Pasar turno", e -> mostrarEstado("Sin implementar"));
 
         //jugador
         Circle avatarJugador = new Circle(20, Color.BLACK);
@@ -74,36 +81,33 @@ public class VistaJuego extends BorderPane implements Observador {
         VBox panelJugador = new VBox(2, avatarJugador, jugadorInferiorLabel);
         panelJugador.setAlignment(Pos.CENTER);
 
-        //botones
-        HBox izquierda = new HBox(15, verRecursosBtn, verCartasBtn, intercambiarBtn);
-        izquierda.setAlignment(Pos.CENTER_LEFT);
+        // organizar botones en barra
+        HBox grupoFinDeTurno = new HBox(5, pasarTurnoBtn, panelJugador);
+        grupoFinDeTurno.setAlignment(Pos.CENTER);
 
-        HBox derecha = new HBox(15, tirarDadoBtn, pasarTurnoBtn, panelJugador);
-        derecha.setAlignment(Pos.CENTER_RIGHT);
+        Region spacer = new Region();
+        HBox.setHgrow(spacer, Priority.ALWAYS);
 
-        Region spacerIzq = new Region();
-        Region spacerDer = new Region();
-        HBox.setHgrow(spacerIzq, Priority.ALWAYS);
-        HBox.setHgrow(spacerDer, Priority.ALWAYS);
+        HBox controlesDerecha = new HBox(15, bankBtn, intercambiarBtn, verCartasBtn, tirarDadoBtn, grupoFinDeTurno);
+        controlesDerecha.setAlignment(Pos.CENTER_RIGHT);
 
-        // barra
-        HBox barra = new HBox(20, izquierda, spacerIzq, bankBtn, spacerDer, derecha);
+        //barra
+        HBox barra = new HBox(20, spacer, controlesDerecha);
         barra.setPadding(new Insets(10, 20, 10, 20));
         barra.setAlignment(Pos.CENTER);
         barra.setStyle("-fx-background-color: #3b2145;");
 
-      //recursos
+        // Recursos
         this.vistaRecursos = new VistaRecursos(modelo.juego().jugadorActual());
         HBox contenedorRecursos = new HBox(vistaRecursos);
-        contenedorRecursos.setPadding(new Insets(5, 20, 5, 20)); 
-        contenedorRecursos.setAlignment(Pos.CENTER_RIGHT); 
+        contenedorRecursos.setPadding(new Insets(5, 20, 5, 20));
+        contenedorRecursos.setAlignment(Pos.CENTER_RIGHT);
         VBox zonaInferior = new VBox(0, contenedorRecursos, barra);
         zonaInferior.setAlignment(Pos.BOTTOM_CENTER);
-
         setBottom(zonaInferior);
+
         actualizarVistaDados();
     }
-
     private void mostrarEstado(String mensaje) {
         estadoLabel.setText(mensaje);
     }
