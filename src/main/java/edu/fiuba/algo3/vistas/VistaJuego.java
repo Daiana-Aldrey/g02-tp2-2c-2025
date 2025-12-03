@@ -52,7 +52,7 @@ public class VistaJuego extends BorderPane implements Observador {
         Button intercambiarBtn = new BotonAccion("Intercambiar", e -> mostrarEstado("Sin implementar"));
         Button tirarDadoBtn = new BotonAccion("Tirar dados", new HandlerTirarDados(modelo));
         Button pasarTurnoBtn = new Button(); 
-        pasarTurnoBtn.setOnAction(e -> mostrarEstado("Sin implementar"));
+        pasarTurnoBtn.setOnAction(new HandlerPasarTurno(modelo));
         
         
         //pasar turno
@@ -114,11 +114,26 @@ public class VistaJuego extends BorderPane implements Observador {
 
     @Override
     public void actualizar(Observable observado, Object evento) {
-        if (evento instanceof String && evento.equals("DADOS")) {
-            actualizarVistaDados();
+        if (evento instanceof String) {
+            String mensaje = (String) evento;
+            
+            if (mensaje.equals("DADOS")) {
+                actualizarVistaDados();
+            }
+            else if (mensaje.equals("TURNO")) {
+                actualizarNombreJugador(); 
+            }
+            else if (mensaje.equals("RECURSOS")) {
+            }
         }
     }
 
+    private void actualizarNombreJugador() {
+        String nombre = modelo.getNombreJugadorActual();
+        jugadorInferiorLabel.setText(nombre);
+        mostrarEstado("Turno de: " + nombre);
+    }
+    
     private void actualizarVistaDados() {
         int d1 = modelo.getDado1();
         int d2 = modelo.getDado2();

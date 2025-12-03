@@ -89,7 +89,6 @@ public class Juego {
 
 	public void finalizarTurnoActual() {
 		jugadorTurno.prepararCartasDesarrolloParaNuevoTurno();
-		// nos va a servir mas adelante
 	}
 
     public void colocacionInicial(
@@ -124,7 +123,7 @@ public class Juego {
         finalizarTurnoActual();
     }
 
-    private void pasarAlSiguienteJugador() {
+    public void pasarAlSiguienteJugador() {
         int indiceActual = jugadores.indexOf(jugadorTurno);
         int siguiente = (indiceActual + 1) % cantJugadores;
         jugadorTurno = jugadores.get(siguiente);

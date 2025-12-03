@@ -38,35 +38,34 @@ public class JuegoObservable extends Observable {
     }
     
     
-public void realizarIntercambio(String nombreRecursoOferta, String nombreRecursoPedido) {
-        
-        // 1. Obtener instancias reales del modelo
+    public void realizarIntercambio(String nombreRecursoOferta, String nombreRecursoPedido) {
         Banco banco = Banco.getInstance();
         Jugador jugadorActual = juego.jugadorActual();
-
-        // 2. Convertir String ("Madera") a Objeto Recurso (new Madera())
         Recurso recursoOferta = mapearRecurso(nombreRecursoOferta);
         Recurso recursoPedido = mapearRecurso(nombreRecursoPedido);
-
-        // 3. Ejecutar la lógica del Banco
-        // Nota: El banco pide (jugador, oferta, pedido, cantidadQuePido)
-        // La tasa 4:1 ya la maneja el banco internamente o la calculamos.
-        // Asumimos que pedimos 1 unidad.
         banco.comercializar(jugadorActual, recursoOferta, recursoPedido, 1);
 
-        // 4. Avisar a la vista que actualizaron los recursos
         notificarObservadores("RECURSOS"); 
     }
 
-    // Helper privado para transformar texto en objetos
+
     private Recurso mapearRecurso(String nombre) {
         switch (nombre.toLowerCase()) {
             case "madera": return new Madera(0);
             case "ladrillo": return new Ladrillo(0);
-            case "oveja": case "lana": return new Lana(0); // Ajustar según tu nombre de clase
+            case "oveja": case "lana": return new Lana(0); 
             case "trigo": case "grano": return new Grano(0);
             case "piedra": case "mineral": return new Mineral(0);
             default: throw new RuntimeException("Recurso desconocido");
         }
+    }
+    
+    public void siguienteTurno() {
+        juego.pasarAlSiguienteJugador();
+        notificarObservadores("TURNO");
+    }
+    
+    public String getNombreJugadorActual() {
+        return juego.jugadorActual().nombre();
     }
 }
