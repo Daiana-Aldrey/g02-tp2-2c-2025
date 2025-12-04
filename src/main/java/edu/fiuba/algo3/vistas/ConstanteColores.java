@@ -16,7 +16,7 @@ public class ConstanteColores {
     private static Paint terracota = Color.web("F55C4A");
     private static Paint verdePastizal = Color.web("A0EB6E");
     private static Paint amarilloCampo = Color.web("F5EB1A");
-    private static Paint verdeBosque = Color.web("00520B");
+    private static Paint verdeBosque = Color.web("008f39");
     private static Paint grisMotania = Color.web("C6D3EB");
     private static Paint arena = Color.web("DEBD76");
 
