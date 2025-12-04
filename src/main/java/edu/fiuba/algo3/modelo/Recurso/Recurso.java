@@ -68,4 +68,6 @@ public abstract class Recurso {
 
     public abstract String recurso();
 
+    public boolean esNulo() {return false;}
+
 }

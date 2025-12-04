@@ -18,6 +18,7 @@ public class Jugador {
 	private String nombre;
     private Color color;
     private int puntosDeVictoria = 0;
+    private int caballerosJugados = 0;
     private RutaMayor ruta;
     private int cantidadDeUsosCartaCaballero = 0;
 	private List<Recurso> recursos;
@@ -55,11 +56,13 @@ public class Jugador {
 	public void incorporarPoblado(Poblado poblado) {
 		poblados.add(poblado);
         puntosDeVictoria += 1;
+        //ganarPuntosDeVictoria(1);
 	}
 	
 	public void incorporarCiudad(Ciudad ciudad) {
         ciudades.add(ciudad);
         puntosDeVictoria += 2;
+        //ganarPuntosDeVictoria(2);
 	}
 	
 	public void colocarPiezaInicial(String tipo, List<Ubicacion> ubicacion) {
@@ -239,6 +242,11 @@ public class Jugador {
         return totalRecursos();
     }
 
+    public void sumarPuntosDeVictoria(int puntos) {
+        this.puntosDeVictoria += puntos;
+    }
+
+
     public int puntosDeVictoria(){return puntosDeVictoria;}
 
     public boolean tenesPobladoEnUbicacion(Ubicacion ubicacion) {
@@ -281,6 +289,7 @@ public class Jugador {
             }
         }
         return null;
+        //return new Recurso Nulo(); para no usar null
     }
 
     public List<Camino> getCaminos() {
@@ -317,6 +326,25 @@ public class Jugador {
     public String nombre() {
         return nombre;
     }
+
+    public void entregarTodo(Recurso recursoModelo, Jugador ladron) {
+        Recurso miRecurso = this.buscarRecurso(recursoModelo);
+        if (miRecurso.esNulo()) {
+            return;
+        }
+        int cantidad = miRecurso.cantidad();
+        if (cantidad > 0) {
+            miRecurso.transferirA(ladron, cantidad);
+        }
+    }
+    public void registrarCaballeroJugado() {
+        caballerosJugados += 1;
+    }
+
+    public int caballerosJugados() {
+        return caballerosJugados;
+    }
+
 
 }
   
