@@ -93,27 +93,25 @@ public class VistaJuego extends BorderPane implements Observador {
         HBox grupoFinDeTurno = new HBox(5, pasarTurnoBtn, panelJugador);
         grupoFinDeTurno.setAlignment(Pos.CENTER);
 
-        Region spacer = new Region();
-        HBox.setHgrow(spacer, Priority.ALWAYS);
+        // Recursos en barra
+        this.vistaRecursos = new VistaRecursos(modelo.juego().jugadorActual());
+        HBox contenedorRecursos = new HBox(vistaRecursos);
+        contenedorRecursos.setAlignment(Pos.CENTER_LEFT);
+
+       /* Region spacer = new Region();
+        HBox.setHgrow(spacer, Priority.ALWAYS);*/
 
         HBox controlesDerecha = new HBox(15, bankBtn, intercambiarBtn, verCartasBtn, tirarDadoBtn, grupoFinDeTurno);
         controlesDerecha.setAlignment(Pos.CENTER_RIGHT);
 
         //barra
-        HBox barra = new HBox(20, spacer, controlesDerecha);
+        HBox barra = new HBox(20, contenedorRecursos, controlesDerecha);
         barra.setPadding(new Insets(10, 20, 10, 20));
         barra.setAlignment(Pos.CENTER);
         barra.setStyle("-fx-background-color: #3b2145;");
 
-        // Recursos
-        this.vistaRecursos = new VistaRecursos(modelo.juego().jugadorActual());
-        HBox contenedorRecursos = new HBox(vistaRecursos);
-        contenedorRecursos.setPadding(new Insets(5, 20, 5, 20));
-        contenedorRecursos.setAlignment(Pos.CENTER_RIGHT);
-        VBox zonaInferior = new VBox(0, contenedorRecursos, barra);
-        zonaInferior.setAlignment(Pos.BOTTOM_CENTER);
-        setBottom(zonaInferior);
-        
+        setBottom(barra);
+
         StackPane.setAlignment(vistaPropuesta, Pos.TOP_RIGHT);
         StackPane.setMargin(vistaPropuesta, new Insets(60, 20, 0, 0));
         panelCentral.getChildren().addAll(contenedorDados, vistaPropuesta);
