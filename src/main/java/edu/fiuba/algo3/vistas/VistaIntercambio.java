@@ -60,7 +60,7 @@ public class VistaIntercambio {
         HBox fila = new HBox(10);
         fila.setAlignment(Pos.CENTER);
 
-        String[] recursos = {"Madera", "Ladrillo", "Lana", "Trigo", "Piedra"};
+        String[] recursos = {"Madera", "Ladrillo", "Lana", "Grano", "Mineral"};
 
         for (String nombreRecurso : recursos) {
             Button boton = crearBotonFicha(nombreRecurso, esOferta);
@@ -80,11 +80,15 @@ public class VistaIntercambio {
         btn.setUserData(nombre); 
         try {
             //las imagens tienen que llamrse "madera.png", "piedra.png"
-            String ruta = "/imagenes/" + nombre.toLowerCase() + ".png";
+            String ruta = "/recursos/" + nombre.toLowerCase() + ".png";
             ImageView imgView = new ImageView(new Image(getClass().getResourceAsStream(ruta)));
             imgView.setFitWidth(50);
             imgView.setFitHeight(70);
             imgView.setPreserveRatio(true);
+            btn.setPrefSize(80, 100);
+            btn.setMinSize(80, 100);
+            btn.setMaxSize(80, 100);
+
             btn.setGraphic(imgView);
         } catch (Exception e) {
             //texto por si falla

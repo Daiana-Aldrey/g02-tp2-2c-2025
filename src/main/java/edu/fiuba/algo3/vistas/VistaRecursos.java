@@ -1,6 +1,5 @@
 package edu.fiuba.algo3.vistas;
 
-import edu.fiuba.algo3.modelo.Recurso.*;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -18,17 +17,17 @@ public class VistaRecursos extends HBox {
     public VistaRecursos() {
         setSpacing(20);
         this.setAlignment(Pos.CENTER);
-        madera = crearVistaDeRecurso("madera.png");
-        lana   = crearVistaDeRecurso("lana.png");
-        grano  = crearVistaDeRecurso("grano.png");
-        ladrillo= crearVistaDeRecurso("ladrillo.png");
-        mineral= crearVistaDeRecurso("mineral.png");
+        madera = crearVistaDeRecursoDelJugador("recursos/madera.png");
+        lana   = crearVistaDeRecursoDelJugador("recursos/lana.png");
+        grano  = crearVistaDeRecursoDelJugador("recursos/grano.png");
+        ladrillo= crearVistaDeRecursoDelJugador("recursos/ladrillo.png");
+        mineral= crearVistaDeRecursoDelJugador("recursos/mineral.png");
 
         getChildren().addAll(madera, lana, grano, ladrillo, mineral);
 
     }
 
-    private HBox crearVistaDeRecurso(String imgNombre) {
+    private HBox crearVistaDeRecursoDelJugador(String imgNombre) {
         Image icono = new Image("file:src/main/resources/" + imgNombre);
         ImageView vista = new ImageView(icono);
         vista.setFitWidth(50);
