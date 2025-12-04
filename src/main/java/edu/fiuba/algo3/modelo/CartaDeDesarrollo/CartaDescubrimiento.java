@@ -23,9 +23,9 @@ public class CartaDescubrimiento extends Carta {
 
     @Override
     public void usar(Jugador jugador) {
-        if (recursosElegidos.size() != CANTRECURSOSELEGIDOS) {
-            throw new AccionNoPermitida("error con los recursos elegidos.");
-        }
+//        if (recursosElegidos.size() != CANTRECURSOSELEGIDOS) {
+//            throw new AccionNoPermitida("error con los recursos elegidos.");
+//        }
 
         for (Recurso recurso : recursosElegidos) {
             jugador.recibirRecurso(recurso, 1);

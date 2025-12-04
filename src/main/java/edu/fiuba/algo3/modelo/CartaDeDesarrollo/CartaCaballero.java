@@ -19,9 +19,9 @@ public class CartaCaballero extends Carta {
 
     @Override
     public void usar(Jugador jugadorQueJuegaLaCarta) {
-        if (!configurada) {
-            throw new ErrorNoUsoDeCartaInvalido("configurar Caballero antes de usarlo.");
-        }
+//        if (!configurada) {
+//            throw new ErrorNoUsoDeCartaInvalido("configurar Caballero antes de usarlo.");
+//        }
         jugadorQueJuegaLaCarta.moverLadron(destino, victima);
         jugadorQueJuegaLaCarta.registrarCaballeroJugado();
     }

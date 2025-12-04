@@ -23,9 +23,9 @@ public class CartaMonopolio extends Carta {
 
     @Override
     public void usar(Jugador ladron) {
-        if ( recursoElegido.esNulo() || victimas.isEmpty()) {
-            throw new AccionNoPermitida("Debes configurar la carta Monopolio antes de usarla.");
-        }
+//        if ( recursoElegido.esNulo() || victimas.isEmpty()) {
+//            throw new AccionNoPermitida("Debes configurar la carta Monopolio antes de usarla.");
+//        }
 
         for (Jugador victima : victimas) {
             if (!victima.equals(ladron)) {
