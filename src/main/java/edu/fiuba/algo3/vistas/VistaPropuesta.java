@@ -97,13 +97,13 @@ public class VistaPropuesta extends VBox {
                 item.setAlignment(Pos.CENTER_LEFT);
                 
                 String nombreClase = r.getClass().getSimpleName();
-                
+
                 // Parche chiquito por si usas "Grano" en la clase y "trigo.png" en archivo
                 if (nombreClase.equals("Grano")) nombreClase = "Trigo";
                 if (nombreClase.equals("Mineral")) nombreClase = "Piedra";
                 
                 try {
-                    ImageView img = new ImageView(new Image(getClass().getResourceAsStream("/" + nombreClase.toLowerCase() + ".png")));
+                    ImageView img = new ImageView(new Image(getClass().getResourceAsStream("/recursos/" + nombreClase.toLowerCase() + ".png")));
                     img.setFitWidth(20); 
                     img.setFitHeight(28);
                     img.setPreserveRatio(true);

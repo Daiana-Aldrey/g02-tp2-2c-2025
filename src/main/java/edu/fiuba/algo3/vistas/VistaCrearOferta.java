@@ -23,7 +23,7 @@ public class VistaCrearOferta {
     private List<Recurso> listaOferta;
     private List<Recurso> listaDemanda;
 
-    private final String[] nombresImagenes = {"Madera", "Ladrillo", "Lana", "Trigo", "Piedra"};
+    private final String[] nombresImagenes = {"Madera", "Ladrillo", "Lana", "Grano", "Mineral"};
     
     private Label lblMensaje;
 
@@ -124,9 +124,9 @@ public class VistaCrearOferta {
 
         ImageView imgView = new ImageView();
         try {
-            String ruta = "/imagenes/" + nombreImagen.toLowerCase() + ".png";
+            String ruta = "/recursos/" + nombreImagen.toLowerCase() + ".png";
             imgView.setImage(new Image(getClass().getResourceAsStream(ruta)));
-            imgView.setFitWidth(50); imgView.setFitHeight(65); imgView.setPreserveRatio(true);
+            imgView.setFitWidth(60); imgView.setFitHeight(65); imgView.setPreserveRatio(true);
         } catch (Exception e) {
             carta.getChildren().add(new Label(nombreImagen.substring(0, 3)));
         }

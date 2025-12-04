@@ -82,7 +82,7 @@ public class VistaIntercambio {
             //las imagens tienen que llamrse "madera.png", "piedra.png"
             String ruta = "/recursos/" + nombre.toLowerCase() + ".png";
             ImageView imgView = new ImageView(new Image(getClass().getResourceAsStream(ruta)));
-            imgView.setFitWidth(50);
+            imgView.setFitWidth(70);
             imgView.setFitHeight(70);
             imgView.setPreserveRatio(true);
             btn.setPrefSize(80, 100);
