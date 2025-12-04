@@ -32,8 +32,8 @@ public class VistaTablero extends Application {
         if (y % 2 == 0){
         hexagono.getPoints().addAll(new Double[]{
                 tamcol * x + 100.0, tamfil * y + 50.0,
-                tamcol * x + 175.0, tamfil * y + 25.0,
                 tamcol * x + 250.0, tamfil * y + 50.0,
+                tamcol * x + 175.0, tamfil * y + 25.0,
                 tamcol * x + 250.0, tamfil * y + 130.0,
                 tamcol * x + 175.0, tamfil * y + 155.0,
                 tamcol * x + 100.0, tamfil * y + 130.0,

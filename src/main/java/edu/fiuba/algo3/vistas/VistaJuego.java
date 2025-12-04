@@ -54,7 +54,7 @@ public class VistaJuego extends BorderPane implements Observador {
  
         // botones
         Button verRecursosBtn = new BotonAccion("Ver Recursos", e -> mostrarEstado("Sin implementar"));
-        Button verCartasBtn = new BotonAccion("Ver Cartas", e -> mostrarEstado("Sin implementar"));
+        Button verCartasBtn = new BotonAccion("Ver Cartas", new HandlerVerCartas(modelo));
         Button intercambiarBtn = new BotonAccion("Intercambiar", new HandlerIntercambio(modelo));
         Button tirarDadoBtn = new BotonAccion("Tirar dados", new HandlerTirarDados(modelo));
         Button pasarTurnoBtn = new Button(); 
