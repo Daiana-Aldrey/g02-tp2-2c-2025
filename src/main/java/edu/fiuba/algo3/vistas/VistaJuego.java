@@ -94,7 +94,7 @@ public class VistaJuego extends BorderPane implements Observador {
         grupoFinDeTurno.setAlignment(Pos.CENTER);
 
         // Recursos en barra
-        this.vistaRecursos = new VistaRecursos(modelo.juego().jugadorActual());
+        this.vistaRecursos = new VistaRecursos();
         HBox contenedorRecursos = new HBox(vistaRecursos);
         contenedorRecursos.setAlignment(Pos.CENTER_LEFT);
 

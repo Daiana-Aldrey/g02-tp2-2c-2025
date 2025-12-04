@@ -1,6 +1,5 @@
 package edu.fiuba.algo3.vistas;
 
-import edu.fiuba.algo3.modelo.Jugador;
 import edu.fiuba.algo3.modelo.Recurso.*;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
@@ -9,7 +8,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 
 public class VistaRecursos extends HBox {
-    private Jugador jugador;
 
     private HBox madera;
     private HBox lana;
@@ -17,8 +15,7 @@ public class VistaRecursos extends HBox {
     private HBox ladrillo;
     private HBox mineral;
 
-    public VistaRecursos(Jugador jugador) {
-        this.jugador = jugador;
+    public VistaRecursos() {
         setSpacing(20);
         this.setAlignment(Pos.CENTER);
         madera = crearVistaDeRecurso("madera.png");
@@ -28,7 +25,7 @@ public class VistaRecursos extends HBox {
         mineral= crearVistaDeRecurso("mineral.png");
 
         getChildren().addAll(madera, lana, grano, ladrillo, mineral);
-        actualizar();
+
     }
 
     private HBox crearVistaDeRecurso(String imgNombre) {
@@ -54,19 +51,5 @@ public class VistaRecursos extends HBox {
         );
 
         return fila;
-    }
-
-
-    public void cambiarJugador(Jugador nuevoJugador) {
-        this.jugador = nuevoJugador;
-        actualizar();
-    }
-
-    public void actualizar() {
-        ((Label) madera.getChildren().get(1)).setText(String.valueOf(jugador.buscarRecurso(new Madera()).cantidad()));
-        ((Label) lana.getChildren().get(1)).setText(String.valueOf(jugador.buscarRecurso(new Lana()).cantidad()));
-        ((Label) grano.getChildren().get(1)).setText(String.valueOf(jugador.buscarRecurso(new Grano()).cantidad()));
-        ((Label) ladrillo.getChildren().get(1)).setText(String.valueOf(jugador.buscarRecurso(new Ladrillo()).cantidad()));
-        ((Label) mineral.getChildren().get(1)).setText(String.valueOf(jugador.buscarRecurso(new Mineral()).cantidad()));
     }
 }
