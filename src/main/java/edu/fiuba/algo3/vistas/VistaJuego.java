@@ -1,7 +1,6 @@
 package edu.fiuba.algo3.vistas;
 import edu.fiuba.algo3.modelo.JuegoObservable;
 import edu.fiuba.algo3.controllers.*;
-import edu.fiuba.algo3.vistas.*;
 import edu.fiuba.algo3.observador.Observador;
 import edu.fiuba.algo3.observador.Observable;
 import javafx.scene.layout.StackPane;
@@ -81,8 +80,10 @@ public class VistaJuego extends BorderPane implements Observador {
         
 
         //jugador
-        Circle avatarJugador = new Circle(20, Color.BLACK);
-        avatarJugador.setStroke(Color.WHITE);
+        Image img = new Image("jugador.png");
+        ImageView avatarJugador = new ImageView(img);
+        avatarJugador.setFitHeight(40);
+        avatarJugador.setFitWidth(40);
         jugadorInferiorLabel = new Label(modelo.juego().jugadorActual().nombre()); 
         jugadorInferiorLabel.setStyle("-fx-text-fill: white; -fx-font-weight: bold;");
         VBox panelJugador = new VBox(2, avatarJugador, jugadorInferiorLabel);

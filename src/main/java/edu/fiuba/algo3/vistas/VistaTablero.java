@@ -1,7 +1,6 @@
 package edu.fiuba.algo3.vistas;
 
 import edu.fiuba.algo3.controllers.ControladorTablero;
-import edu.fiuba.algo3.modelo.Tablero.Tablero;
 import javafx.scene.Group;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -24,6 +23,7 @@ public class VistaTablero {
     private static final int DESPLAZAMIENTOMITAD = 75;
     private static final int DESPLAZAMIENTOTEXTONUMEROY = 94;
     private static final int DESPLAZAMIENTOTEXTOPROBABILIDADY = 104;
+
     private ControladorTablero controlador;
     private int indice;
     List<Polygon> hexagonos;
@@ -43,11 +43,6 @@ public class VistaTablero {
         desplazamientoY = 0;
 
         coordenarHexagonos();
-        setControlador(new ControladorTablero(Tablero.getInstance(), this));
-        controlador.colocarTerrenos();
-        for (Group group : hexagonosConFicha) {
-            tablero.getChildren().add(group);
-        }
     }
 
     public Group getVistaTablero() {
@@ -160,8 +155,8 @@ public class VistaTablero {
         Image img = new Image("cactus.png");
         ImageView view = new ImageView(img);
 
-        view.setFitHeight(40);
-        view.setFitWidth(40);
+        view.setFitHeight(50);
+        view.setFitWidth(50);
 
         int[] posicionMatriz = obtenerColumnaFila(indice, desplazamientoX, desplazamientoY);
         int x =  posicionMatriz[COLUMNA];
@@ -494,6 +489,13 @@ public class VistaTablero {
             img.setX(TAMANIOCOLUMNA * x + 157 - DESPLAZAMIENTOMITAD);
         }
         img.setY(TAMANIOFILA * y + 23);
+    }
+
+    public void crearVista() {
+        controlador.colocarTerrenos();
+        for (Group group : hexagonosConFicha) {
+            tablero.getChildren().add(group);
+        }
     }
 
 }

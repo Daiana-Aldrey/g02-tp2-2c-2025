@@ -1,8 +1,10 @@
 package edu.fiuba.algo3.vistas;
 
+import edu.fiuba.algo3.controllers.ControladorTablero;
 import edu.fiuba.algo3.modelo.Juego;
 import edu.fiuba.algo3.modelo.JuegoObservable;
 import edu.fiuba.algo3.modelo.Jugador;
+import edu.fiuba.algo3.modelo.Tablero.Tablero;
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -29,6 +31,11 @@ public class App extends Application {
         VistaJuego vistaJuego = new VistaJuego(modeloObservable);
 
         VistaTablero vistaTablero = new VistaTablero();
+        Tablero tablero = Tablero.getInstance();
+        ControladorTablero controladorTablero = new ControladorTablero(tablero, vistaTablero);
+        vistaTablero.setControlador(controladorTablero);
+        vistaTablero.crearVista();
+
         Group groupTablero = vistaTablero.getVistaTablero();
         groupTablero.setTranslateY(-50);
 
