@@ -2,9 +2,7 @@ package edu.fiuba.algo3.vistas;
 
 import edu.fiuba.algo3.controllers.ControladorTablero;
 import edu.fiuba.algo3.modelo.Tablero.Tablero;
-import javafx.application.Application;
 import javafx.scene.Group;
-import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
@@ -13,28 +11,48 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
-import javafx.stage.Stage;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class VistaTablero extends Application {
+public class VistaTablero {
     private static final int CANTIDADHEXAGONOS = 19;
     private static final int TAMANIOFILA = 125;
     private static final int TAMANIOCOLUMNA = 153;
     private static final int COLUMNA = 0;
     private static final int FILA = 1;
     private static final int DESPLAZAMIENTOMITAD = 75;
+    private static final int DESPLAZAMIENTOTEXTONUMEROY = 94;
+    private static final int DESPLAZAMIENTOTEXTOPROBABILIDADY = 104;
     private ControladorTablero controlador;
-    //luego poner en el constructor
-    private int indice = 0;
-    List<Polygon> hexagonos = new ArrayList<>();
-    List<Rectangle> rectangles = new ArrayList<>();
-    List<Text> texts = new ArrayList<>();
-    List<Group> hexagonosConFicha = new ArrayList<>();
-    Group tablero = new Group();
-    int desplazamientoX = 0;
-    int desplazamientoY = 0;
+    private int indice;
+    List<Polygon> hexagonos;
+    List<Rectangle> rectangulos;
+    List<Group> hexagonosConFicha;
+    Group tablero;
+    int desplazamientoX;
+    int desplazamientoY;
+
+    public VistaTablero() {
+        indice = 0;
+        hexagonos = new ArrayList<>();
+        rectangulos = new ArrayList<>();
+        hexagonosConFicha = new ArrayList<>();
+        tablero = new Group();
+        desplazamientoX = 0;
+        desplazamientoY = 0;
+
+        coordenarHexagonos();
+        setControlador(new ControladorTablero(Tablero.getInstance(), this));
+        controlador.colocarTerrenos();
+        for (Group group : hexagonosConFicha) {
+            tablero.getChildren().add(group);
+        }
+    }
+
+    public Group getVistaTablero() {
+        return tablero;
+    }
 
     private Polygon crearHexagono(int x, int y){
         Polygon hexagono = new Polygon();
@@ -43,21 +61,21 @@ public class VistaTablero extends Application {
 
         if (y % 2 == 0){
         hexagono.getPoints().addAll(new Double[]{
-                TAMANIOCOLUMNA * x + 100.0, TAMANIOFILA * y + 60.0,
-                TAMANIOCOLUMNA * x + 175.0, TAMANIOFILA * y + 25.0,
-                TAMANIOCOLUMNA * x + 250.0, TAMANIOFILA * y + 60.0,
-                TAMANIOCOLUMNA * x + 250.0, TAMANIOFILA * y + 145.0,
-                TAMANIOCOLUMNA * x + 175.0, TAMANIOFILA * y + 180.0,
-                TAMANIOCOLUMNA * x + 100.0, TAMANIOFILA * y + 145.0,
+                TAMANIOCOLUMNA * x + 100.0, TAMANIOFILA * y + 35.0,
+                TAMANIOCOLUMNA * x + 175.0, TAMANIOFILA * y + 0.0,
+                TAMANIOCOLUMNA * x + 250.0, TAMANIOFILA * y + 35.0,
+                TAMANIOCOLUMNA * x + 250.0, TAMANIOFILA * y + 120.0,
+                TAMANIOCOLUMNA * x + 175.0, TAMANIOFILA * y + 155.0,
+                TAMANIOCOLUMNA * x + 100.0, TAMANIOFILA * y + 120.0,
         });
         } else {
             hexagono.getPoints().addAll(new Double[]{
-                    TAMANIOCOLUMNA * x + 100.0 - DESPLAZAMIENTOMITAD, TAMANIOFILA * y + 60.0,
-                    TAMANIOCOLUMNA * x + 175.0 - DESPLAZAMIENTOMITAD, TAMANIOFILA * y + 25.0,
-                    TAMANIOCOLUMNA * x + 250.0 - DESPLAZAMIENTOMITAD, TAMANIOFILA * y + 60.0,
-                    TAMANIOCOLUMNA * x + 250.0 - DESPLAZAMIENTOMITAD, TAMANIOFILA * y + 145.0,
-                    TAMANIOCOLUMNA * x + 175.0 - DESPLAZAMIENTOMITAD, TAMANIOFILA * y + 180.0,
-                    TAMANIOCOLUMNA * x + 100.0 - DESPLAZAMIENTOMITAD, TAMANIOFILA * y + 145.0,
+                    TAMANIOCOLUMNA * x + 100.0 - DESPLAZAMIENTOMITAD, TAMANIOFILA * y + 35.0,
+                    TAMANIOCOLUMNA * x + 175.0 - DESPLAZAMIENTOMITAD, TAMANIOFILA * y + 0.0,
+                    TAMANIOCOLUMNA * x + 250.0 - DESPLAZAMIENTOMITAD, TAMANIOFILA * y + 35.0,
+                    TAMANIOCOLUMNA * x + 250.0 - DESPLAZAMIENTOMITAD, TAMANIOFILA * y + 120.0,
+                    TAMANIOCOLUMNA * x + 175.0 - DESPLAZAMIENTOMITAD, TAMANIOFILA * y + 155.0,
+                    TAMANIOCOLUMNA * x + 100.0 - DESPLAZAMIENTOMITAD, TAMANIOFILA * y + 120.0,
             });
         }
         return hexagono;
@@ -65,9 +83,6 @@ public class VistaTablero extends Application {
 
     private Rectangle crearRectangulo(int x, int y){
         Rectangle rectangle = new Rectangle();
-        rectangle.setX(TAMANIOCOLUMNA * x + 152);
-        rectangle.setY(TAMANIOFILA * y + 85);
-
         rectangle.setWidth(45.0f);
         rectangle.setHeight(45.0f);
 
@@ -77,7 +92,7 @@ public class VistaTablero extends Application {
             rectangle.setX(TAMANIOCOLUMNA * x + 152 - DESPLAZAMIENTOMITAD);
         }
 
-        rectangle.setY(TAMANIOFILA * y + 95);
+        rectangle.setY(TAMANIOFILA * y + 70);
 
         rectangle.setArcWidth(30.0);
         rectangle.setArcHeight(20.0);
@@ -87,17 +102,6 @@ public class VistaTablero extends Application {
         rectangle.setStrokeWidth(1);
 
         return rectangle;
-    }
-    @Override
-    public void start(Stage stage) throws Exception {
-        coordenarHexagonos();
-        setControlador(new ControladorTablero(Tablero.getInstance(), this));
-        controlador.colocarTerrenos();
-        for (Group group : hexagonosConFicha) {
-            tablero.getChildren().add(group);
-        }
-        arrancar(stage);
-
     }
 
     private void coordenarHexagonos(){
@@ -139,12 +143,6 @@ public class VistaTablero extends Application {
         return posicionMatriz;
     }
 
-    public void arrancar(Stage stage) {
-        Scene scene = new Scene(tablero,600, 300);
-        stage.setScene(scene);
-
-        stage.show();
-    }
 
     public void ponerPastizal(){
         Polygon hexagono = hexagonos.get(indice);
@@ -170,7 +168,7 @@ public class VistaTablero extends Application {
         int y =  posicionMatriz[FILA];
 
         view.setX(x * TAMANIOCOLUMNA + 100);
-        view.setY(y * TAMANIOFILA + 80);
+        view.setY(y * TAMANIOFILA + 55);
 
         Group desiertoSinFicha = new Group(hexagono, view);
         hexagonosConFicha.add(desiertoSinFicha);
@@ -240,8 +238,8 @@ public class VistaTablero extends Application {
             textoPosibilidad.setX(TAMANIOCOLUMNA * x + 172 - DESPLAZAMIENTOMITAD);
         }
 
-        textoNumero.setY(TAMANIOFILA * y + 119);
-        textoPosibilidad.setY(TAMANIOFILA * y + 129);
+        textoNumero.setY(TAMANIOFILA * y + DESPLAZAMIENTOTEXTONUMEROY);
+        textoPosibilidad.setY(TAMANIOFILA * y + DESPLAZAMIENTOTEXTOPROBABILIDADY);
 
         hexagonosConFicha.get(hexagonosConFicha.size() - 1).getChildren().addAll(textoNumero, textoPosibilidad);
     }
@@ -264,8 +262,8 @@ public class VistaTablero extends Application {
             textoPosibilidad.setX(TAMANIOCOLUMNA * x + 169 - DESPLAZAMIENTOMITAD);
         }
 
-        textoNumero.setY(TAMANIOFILA * y + 119);
-        textoPosibilidad.setY(TAMANIOFILA * y + 129);
+        textoNumero.setY(TAMANIOFILA * y + DESPLAZAMIENTOTEXTONUMEROY);
+        textoPosibilidad.setY(TAMANIOFILA * y + DESPLAZAMIENTOTEXTOPROBABILIDADY);
 
         hexagonosConFicha.get(hexagonosConFicha.size() - 1).getChildren().addAll(textoNumero, textoPosibilidad);
     }
@@ -288,8 +286,8 @@ public class VistaTablero extends Application {
             textoPosibilidad.setX(TAMANIOCOLUMNA * x + 167 - DESPLAZAMIENTOMITAD);
         }
 
-        textoNumero.setY(TAMANIOFILA * y + 119);
-        textoPosibilidad.setY(TAMANIOFILA * y + 129);
+        textoNumero.setY(TAMANIOFILA * y + DESPLAZAMIENTOTEXTONUMEROY);
+        textoPosibilidad.setY(TAMANIOFILA * y + DESPLAZAMIENTOTEXTOPROBABILIDADY);
 
         hexagonosConFicha.get(hexagonosConFicha.size() - 1).getChildren().addAll(textoNumero, textoPosibilidad);
     }
@@ -312,8 +310,8 @@ public class VistaTablero extends Application {
             textoPosibilidad.setX(TAMANIOCOLUMNA * x + 163 - DESPLAZAMIENTOMITAD);
         }
 
-        textoNumero.setY(TAMANIOFILA * y + 119);
-        textoPosibilidad.setY(TAMANIOFILA * y + 129);
+        textoNumero.setY(TAMANIOFILA * y + DESPLAZAMIENTOTEXTONUMEROY);
+        textoPosibilidad.setY(TAMANIOFILA * y + DESPLAZAMIENTOTEXTOPROBABILIDADY);
         textoNumero.setFill(Color.BLACK);
 
         hexagonosConFicha.get(hexagonosConFicha.size() - 1).getChildren().addAll(textoNumero, textoPosibilidad);
@@ -340,8 +338,8 @@ public class VistaTablero extends Application {
             textoPosibilidad.setX(TAMANIOCOLUMNA * x + 161 - DESPLAZAMIENTOMITAD);
         }
 
-        textoNumero.setY(TAMANIOFILA * y + 119);
-        textoPosibilidad.setY(TAMANIOFILA * y + 129);
+        textoNumero.setY(TAMANIOFILA * y + DESPLAZAMIENTOTEXTONUMEROY);
+        textoPosibilidad.setY(TAMANIOFILA * y + DESPLAZAMIENTOTEXTOPROBABILIDADY);
 
         hexagonosConFicha.get(hexagonosConFicha.size() - 1).getChildren().addAll(textoNumero, textoPosibilidad);
     }
@@ -367,8 +365,8 @@ public class VistaTablero extends Application {
             textoPosibilidad.setX(TAMANIOCOLUMNA * x + 161 - DESPLAZAMIENTOMITAD);
         }
 
-        textoNumero.setY(TAMANIOFILA * y + 119);
-        textoPosibilidad.setY(TAMANIOFILA * y + 129);
+        textoNumero.setY(TAMANIOFILA * y + DESPLAZAMIENTOTEXTONUMEROY);
+        textoPosibilidad.setY(TAMANIOFILA * y + DESPLAZAMIENTOTEXTOPROBABILIDADY);
 
         hexagonosConFicha.get(hexagonosConFicha.size() - 1).getChildren().addAll(textoNumero, textoPosibilidad);
     }
@@ -392,8 +390,8 @@ public class VistaTablero extends Application {
             textoPosibilidad.setX(TAMANIOCOLUMNA * x + 163 - DESPLAZAMIENTOMITAD);
         }
 
-        textoNumero.setY(TAMANIOFILA * y + 119);
-        textoPosibilidad.setY(TAMANIOFILA * y + 129);
+        textoNumero.setY(TAMANIOFILA * y + DESPLAZAMIENTOTEXTONUMEROY);
+        textoPosibilidad.setY(TAMANIOFILA * y + DESPLAZAMIENTOTEXTOPROBABILIDADY);
 
         hexagonosConFicha.get(hexagonosConFicha.size() - 1).getChildren().addAll(textoNumero, textoPosibilidad);
     }
@@ -417,8 +415,8 @@ public class VistaTablero extends Application {
             textoPosibilidad.setX(TAMANIOCOLUMNA * x + 167 - DESPLAZAMIENTOMITAD);
         }
 
-        textoNumero.setY(TAMANIOFILA * y + 119);
-        textoPosibilidad.setY(TAMANIOFILA * y + 129);
+        textoNumero.setY(TAMANIOFILA * y + DESPLAZAMIENTOTEXTONUMEROY);
+        textoPosibilidad.setY(TAMANIOFILA * y + DESPLAZAMIENTOTEXTOPROBABILIDADY);
 
         hexagonosConFicha.get(hexagonosConFicha.size() - 1).getChildren().addAll(textoNumero, textoPosibilidad);
     }
@@ -442,8 +440,8 @@ public class VistaTablero extends Application {
             textoPosibilidad.setX(TAMANIOCOLUMNA * x + 169 - DESPLAZAMIENTOMITAD);
         }
 
-        textoNumero.setY(TAMANIOFILA * y + 119);
-        textoPosibilidad.setY(TAMANIOFILA * y + 129);
+        textoNumero.setY(TAMANIOFILA * y + DESPLAZAMIENTOTEXTONUMEROY);
+        textoPosibilidad.setY(TAMANIOFILA * y + DESPLAZAMIENTOTEXTOPROBABILIDADY);
 
         hexagonosConFicha.get(hexagonosConFicha.size() - 1).getChildren().addAll(textoNumero, textoPosibilidad);
     }
@@ -467,8 +465,8 @@ public class VistaTablero extends Application {
             textoPosibilidad.setX(TAMANIOCOLUMNA * x + 172 - DESPLAZAMIENTOMITAD);
         }
 
-        textoNumero.setY(TAMANIOFILA * y + 119);
-        textoPosibilidad.setY(TAMANIOFILA * y + 129);
+        textoNumero.setY(TAMANIOFILA * y + DESPLAZAMIENTOTEXTONUMEROY);
+        textoPosibilidad.setY(TAMANIOFILA * y + DESPLAZAMIENTOTEXTOPROBABILIDADY);
 
         hexagonosConFicha.get(hexagonosConFicha.size() - 1).getChildren().addAll(textoNumero, textoPosibilidad);
     }
@@ -495,9 +493,7 @@ public class VistaTablero extends Application {
         } else {
             img.setX(TAMANIOCOLUMNA * x + 157 - DESPLAZAMIENTOMITAD);
         }
-        img.setY(TAMANIOFILA * y + 48);
+        img.setY(TAMANIOFILA * y + 23);
     }
 
-    public static void main(String args[]){        launch(args);
-    }
 }

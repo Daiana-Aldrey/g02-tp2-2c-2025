@@ -4,7 +4,9 @@ import edu.fiuba.algo3.modelo.Juego;
 import edu.fiuba.algo3.modelo.JuegoObservable;
 import edu.fiuba.algo3.modelo.Jugador;
 import javafx.application.Application;
+import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 import java.util.List;
@@ -13,6 +15,7 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) {
+        StackPane root = new StackPane();
 
         List<Jugador> jugadores = List.of(
                 new Jugador("Jugador 1"),
@@ -23,10 +26,15 @@ public class App extends Application {
         Juego juego = new Juego(jugadores);
 
         JuegoObservable modeloObservable = new JuegoObservable(juego);
-        VistaJuego vista = new VistaJuego(modeloObservable);
-        VistaTablero vistaTablero = new VistaTablero();
+        VistaJuego vistaJuego = new VistaJuego(modeloObservable);
 
-        Scene escena = new Scene(vista, 1024, 768);
+        VistaTablero vistaTablero = new VistaTablero();
+        Group groupTablero = vistaTablero.getVistaTablero();
+        groupTablero.setTranslateY(-50);
+
+        root.getChildren().addAll(vistaJuego, groupTablero);
+
+        Scene escena = new Scene(root, 1300, 800);
         stage.setTitle("Catán - Algo3");
         stage.setScene(escena);
         stage.show();
