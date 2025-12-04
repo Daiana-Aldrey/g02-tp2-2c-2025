@@ -2,6 +2,7 @@ package edu.fiuba.algo3.modelo;
 import edu.fiuba.algo3.modelo.CartaDeBonificacion.CartaGranCaballeria;
 import edu.fiuba.algo3.modelo.Dados.*;
 import edu.fiuba.algo3.modelo.Intercambio.Banco;
+import edu.fiuba.algo3.modelo.Recurso.Recurso;
 import edu.fiuba.algo3.modelo.RondaInicial.*;
 import edu.fiuba.algo3.modelo.Tablero.Tablero;
 import edu.fiuba.algo3.modelo.Ubicacion.Ubicacion;
@@ -139,6 +140,10 @@ public class Juego {
     
     public Jugador jugadorActual() {
         return jugadorTurno;
+    }
+
+    public List<Recurso> recursosJugadorActual(){
+        return jugadorActual().recursos();
     }
 }
 

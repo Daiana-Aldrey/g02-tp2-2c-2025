@@ -52,7 +52,6 @@ public class VistaJuego extends BorderPane implements Observador {
 
  
         // botones
-        Button verRecursosBtn = new BotonAccion("Ver Recursos", e -> mostrarEstado("Sin implementar"));
         Button verCartasBtn = new BotonAccion("Ver Cartas", new HandlerVerCartas(modelo));
         Button intercambiarBtn = new BotonAccion("Intercambiar", new HandlerIntercambio(modelo));
         Button tirarDadoBtn = new BotonAccion("Tirar dados", new HandlerTirarDados(modelo));
@@ -132,10 +131,15 @@ public class VistaJuego extends BorderPane implements Observador {
             }
             if (msg.equals("TURNO")) {
             	actualizarNombreJugador();
+                vistaRecursos.actualizarRecursos(modelo.juego().recursosJugadorActual());
             }
             if (msg.equals("NUEVA_PROPUESTA") || msg.equals("PROPUESTA_CERRADA")) {
                 vistaPropuesta.actualizarPropuesta();
             }
+            if(msg.equals("RECURSO")){
+                vistaRecursos.actualizarRecursos(modelo.juego().recursosJugadorActual());
+            }
+
         }
     }
 

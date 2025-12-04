@@ -345,6 +345,10 @@ public class Jugador {
         return caballerosJugados;
     }
 
+    public List<Recurso> recursos(){
+        return recursos;
+    }
+
 
 }
   

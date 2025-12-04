@@ -1,43 +1,42 @@
 package edu.fiuba.algo3.vistas;
 
+import edu.fiuba.algo3.modelo.Recurso.Recurso;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class VistaRecursos extends HBox {
 
-    private HBox madera;
-    private HBox lana;
-    private HBox grano;
-    private HBox ladrillo;
-    private HBox mineral;
+    private final Map<String, Label> labelsRecursos = new HashMap<>();
 
     public VistaRecursos() {
         setSpacing(20);
-        this.setAlignment(Pos.CENTER);
-        madera = crearVistaDeRecursoDelJugador("recursos/madera.png");
-        lana   = crearVistaDeRecursoDelJugador("recursos/lana.png");
-        grano  = crearVistaDeRecursoDelJugador("recursos/grano.png");
-        ladrillo= crearVistaDeRecursoDelJugador("recursos/ladrillo.png");
-        mineral= crearVistaDeRecursoDelJugador("recursos/mineral.png");
+        setAlignment(Pos.CENTER);
 
-        getChildren().addAll(madera, lana, grano, ladrillo, mineral);
+        String[] recursos = {"madera", "lana", "grano", "ladrillo", "mineral"};
 
+        for (String recurso : recursos) {
+            HBox panel = crearVistaDeRecursoDelJugador("recursos/" + recurso + ".png", recurso);
+            getChildren().add(panel);
+        }
     }
 
-    private HBox crearVistaDeRecursoDelJugador(String imgNombre) {
+    private HBox crearVistaDeRecursoDelJugador(String imgNombre, String nombreRecurso) {
         Image icono = new Image("file:src/main/resources/" + imgNombre);
         ImageView vista = new ImageView(icono);
         vista.setFitWidth(50);
         vista.setFitHeight(50);
 
         Label cantidad = new Label("0");
+        labelsRecursos.put(nombreRecurso, cantidad); // guardamos la referencia del label en el mapa
 
         HBox fila = new HBox(5, vista, cantidad);
         fila.setAlignment(Pos.CENTER_LEFT);
-
         fila.setMinHeight(50);
         fila.setMaxHeight(50);
 
@@ -50,5 +49,14 @@ public class VistaRecursos extends HBox {
         );
 
         return fila;
+    }
+
+    public void actualizarRecursos(List<Recurso> recursos) {
+        for (Recurso r : recursos) {
+            Label lbl = labelsRecursos.get(r.recurso().toLowerCase());
+            if (lbl != null) {
+                lbl.setText(String.valueOf(r.cantidad()));
+            }
+        }
     }
 }
