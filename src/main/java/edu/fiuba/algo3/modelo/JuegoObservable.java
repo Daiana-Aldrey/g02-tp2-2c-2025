@@ -1,10 +1,10 @@
 package edu.fiuba.algo3.modelo;
 
+import edu.fiuba.algo3.modelo.Ubicacion.Ubicacion;
 import edu.fiuba.algo3.observador.Observable;
 import edu.fiuba.algo3.modelo.Recurso.*;
 import edu.fiuba.algo3.modelo.Intercambio.*;
 import java.util.List;
-import java.util.ArrayList;
 
 public class JuegoObservable extends Observable {
 
@@ -27,8 +27,17 @@ public class JuegoObservable extends Observable {
  
     public void realizarTirada() {
         this.ultimaTirada = juego.tirarDados();
-        notificarObservadores("DADOS"); 
+        notificarObservadores("DADOS");
+
+        int suma = getSuma();
+        juego.manejarTirada(suma);
+        notificarObservadores("RECURSOS");
+
+        if (suma == 7){
+            notificarObservadores("LADRON");
+        }
     }
+
     public int getDado1() { 
         return (ultimaTirada == null) ? 1 : ultimaTirada[0]; 
     }
@@ -46,7 +55,6 @@ public class JuegoObservable extends Observable {
     public String getNombreJugadorActual() {
         return juego.jugadorActual().nombre();
     }
-
  
     public void realizarIntercambio(String nombreRecursoOferta, String nombreRecursoPedido) {
         Banco banco = Banco.getInstance();
@@ -54,9 +62,8 @@ public class JuegoObservable extends Observable {
         Recurso recursoOferta = crearRecursoPorNombre(nombreRecursoOferta);
         Recurso recursoPedido = crearRecursoPorNombre(nombreRecursoPedido);
         banco.comercializar(jugadorActual, recursoOferta, recursoPedido, 1);
-        notificarObservadores("RECURSOS"); 
+        notificarObservadores("RECURSOS");
     }
-
     
     public boolean jugadorTieneRecurso(String nombreRecurso, int cantidadRequerida) {
         Jugador jugador = juego.jugadorActual();
@@ -67,7 +74,6 @@ public class JuegoObservable extends Observable {
         	return false;
         return recursoReal.cantidad() >= cantidadRequerida;
     }
-
   
     public void crearPropuesta(List<Recurso> oferta, List<Recurso> demanda) {
         this.ofertaActual = oferta;
@@ -118,7 +124,6 @@ public class JuegoObservable extends Observable {
     public String getNombreJugadorProponente() { 
     	return (jugadorProponente != null) ? jugadorProponente.nombre() : ""; 
     }
-
   
     public List<Recurso> getOferta() { 
     	return ofertaActual;
@@ -136,6 +141,12 @@ public class JuegoObservable extends Observable {
             case "piedra": case "mineral": return new Mineral(0);
             default: throw new RuntimeException("Recurso desconocido: " + nombre);
         }
+    }
+
+    public void construirPiezaObervable(String tipo, List<Ubicacion> ubicacion){
+        juego.jugadorActual().construirPieza(tipo, ubicacion);
+        notificarObservadores("RECURSOS");
+        notificarObservadores("CONSTRUCCION");
     }
 
 }

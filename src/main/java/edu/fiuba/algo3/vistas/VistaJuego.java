@@ -136,7 +136,7 @@ public class VistaJuego extends BorderPane implements Observador {
             if (msg.equals("NUEVA_PROPUESTA") || msg.equals("PROPUESTA_CERRADA")) {
                 vistaPropuesta.actualizarPropuesta();
             }
-            if(msg.equals("RECURSO")){
+            if(msg.equals("RECURSOS")){
                 vistaRecursos.actualizarRecursos(modelo.juego().recursosJugadorActual());
             }
 

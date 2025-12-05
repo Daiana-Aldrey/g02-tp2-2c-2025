@@ -148,10 +148,6 @@ public class VistaCrearOferta {
         btnMas.setOnAction(e -> {
             if (esOferta) {
                 String nombreClase = recursoObj.getClass().getSimpleName();
-                
-                //el nombre de la clase es lo que se muestra, me falta readapatar el modelo para estos dos nombres
-                if (nombreClase.equals("Grano")) nombreClase = "Trigo";
-                if (nombreClase.equals("Mineral")) nombreClase = "Piedra";
 
                 if (!modelo.jugadorTieneRecurso(nombreClase, recursoObj.cantidad() + 1)) {
                     carta.setStyle("-fx-background-color: #ffffff; -fx-border-color: #e74c3c; -fx-border-radius: 6; -fx-border-width: 2;");
