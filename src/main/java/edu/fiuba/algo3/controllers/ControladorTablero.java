@@ -1,11 +1,9 @@
 package edu.fiuba.algo3.controllers;
 
-import edu.fiuba.algo3.modelo.Tablero.Tablero;
-import edu.fiuba.algo3.modelo.Tablero.Vertice;
-import edu.fiuba.algo3.modelo.Tablero.VerticeEdificio;
-import edu.fiuba.algo3.modelo.Tablero.VerticeTerreno;
+import edu.fiuba.algo3.modelo.Tablero.*;
 import edu.fiuba.algo3.modelo.Ubicacion.Ubicacion;
 import edu.fiuba.algo3.modelo.Ubicacion.UbicacionVertice;
+import edu.fiuba.algo3.vistas.VistaArista;
 import edu.fiuba.algo3.vistas.VistaTablero;
 import edu.fiuba.algo3.vistas.VistaVerticeEdificio;
 
@@ -14,8 +12,9 @@ import java.util.List;
 public class ControladorTablero {
     private Tablero modelo;
     private VistaTablero vistaTablero;
-    private VistaVerticeEdificio vistaVertice;
-    List<Vertice> vertices;
+    private List<Vertice> vertices;
+    private List<Arista> aristas;
+
 
 
     public ControladorTablero(Tablero modelo, VistaTablero vista) {
@@ -23,6 +22,7 @@ public class ControladorTablero {
         this.vistaTablero = vista;
 
         vertices = modelo.obtenerVertices();
+        aristas = modelo.obtenerAristas();
     }
 
     public void colocarTerrenos() {
@@ -87,4 +87,20 @@ public class ControladorTablero {
             vistaTablero.crearVertice(vistaVertice, ubicacion);
         }
     }
+
+    public void colocarAristas() {
+        Arista aristaObjeto;
+        VistaArista vistaArista;
+        Ubicacion ubicacion1;
+        Ubicacion ubicacion2;
+        for (int i = 0; i < 72; i++) {
+            aristaObjeto = aristas.get(i);
+            ubicacion1 = aristaObjeto.obtenerPrimeraUbicacion();
+            ubicacion2 = aristaObjeto.obtenerSegundaUbicacion();
+            vistaArista = new VistaArista(aristaObjeto);
+            vistaTablero.crearArista(vistaArista, ubicacion1, ubicacion2);
+        }
+    }
+
+
 }

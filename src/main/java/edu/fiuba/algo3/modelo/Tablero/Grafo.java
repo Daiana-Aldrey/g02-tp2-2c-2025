@@ -165,5 +165,8 @@ public class Grafo {
     public List<Vertice> obtenerVertices() {
         return vertices;
     }
-    
+
+    public List<Arista> obtenerAristas() {
+        return aristas;
+    }
 }

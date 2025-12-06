@@ -20,7 +20,7 @@ public class VistaTablero {
 
     private static final int TAMANIOFILA = 125;
     private static final int TAMANIOCOLUMNA = 153;
-    private static final int TAMANIOARISTA = 75;
+    private static final int TAMANIOARISTA = 76;
 
     private static final int COLUMNA = 0;
     private static final int FILA = 1;
@@ -28,6 +28,7 @@ public class VistaTablero {
     private static final int DESPLAZAMIENTOTEXTONUMEROY = 114;
     private static final int DESPLAZAMIENTOTEXTOPROBABILIDADY = 124;
     private static final int[] VERTICEPRIMEROFILA = {8,17,28,39,48,55};
+    private static final int[] VERTICEULTIMOFILA = {7,16,27,38,47,54};
 
     private static final int PRIMERAFILA = 0;
     private static final int SEGUNDAFILA = 1;
@@ -42,6 +43,7 @@ public class VistaTablero {
     List<Rectangle> rectangulos;
     List<Group> hexagonosConFicha;
     List<VistaVerticeEdificio> vertices;
+    List<VistaArista> aristas;
     Group tablero;
 
     public VistaTablero() {
@@ -50,6 +52,7 @@ public class VistaTablero {
         rectangulos = new ArrayList<>();
         hexagonosConFicha = new ArrayList<>();
         vertices = new ArrayList<>();
+        aristas = new ArrayList<>();
 
         tablero = new Group();
 
@@ -510,24 +513,49 @@ public class VistaTablero {
 
         if (y == PRIMERAFILA || y == TERCERAFILA || y == QUINTAFILA) {
             if (x % 2 == 0) {
-                vistaVertice.setTranslateX(TAMANIOARISTA * x + 240);
+                vistaVertice.setTranslateX(TAMANIOARISTA * x + 234);
                 vistaVertice.setTranslateY(TAMANIOFILA * y + 27);
             } else {
-                vistaVertice.setTranslateX(TAMANIOARISTA * x + 240);
+                vistaVertice.setTranslateX(TAMANIOARISTA * x + 234);
                 vistaVertice.setTranslateY(TAMANIOFILA * y - 2);
             }
         } if (y == SEGUNDAFILA || y == CUARTAFILA  || y == SEXTAFILA) {
             if (x % 2 == 0) {
-                vistaVertice.setTranslateX(TAMANIOARISTA * x + 240);
+                vistaVertice.setTranslateX(TAMANIOARISTA * x + 234);
                 vistaVertice.setTranslateY(TAMANIOFILA * y - 2);
             } else {
-                vistaVertice.setTranslateX(TAMANIOARISTA * x + 240);
+                vistaVertice.setTranslateX(TAMANIOARISTA * x + 234);
                 vistaVertice.setTranslateY(TAMANIOFILA * y + 27);
             }
         }
 
 
         vertices.add(vistaVertice);
+    }
+
+    public void crearArista(VistaArista vistaArista, Ubicacion ubicacion, Ubicacion ubicacion2) {
+        int vertice1 = ubicacion.getUbicacionInt();
+        int vertice2 = ubicacion2.getUbicacionInt();
+
+        VistaVerticeEdificio vistaVertice1 = vertices.get(vertice1 - 1);
+        VistaVerticeEdificio vistaVertice2 = vertices.get(vertice2 - 1);
+
+        vistaVertice1.agregarAdyacente(vistaVertice2);
+        vistaVertice2.agregarAdyacente(vistaVertice1);
+
+        double coordenadaX1 = vistaVertice1.getTranslateX();
+        double coordenadaY1 = vistaVertice1.getTranslateY();
+
+        double coordenadaX2 = vistaVertice2.getTranslateX();
+        double coordenadaY2 = vistaVertice2.getTranslateY();
+
+        double coordenadaAristaX = (coordenadaX2 + coordenadaX1) / 2;
+        double coordenadaAristaY = (coordenadaY2 + coordenadaY1) / 2;
+
+        vistaArista.setTranslateX(coordenadaAristaX);
+        vistaArista.setTranslateY(coordenadaAristaY);
+
+        aristas.add(vistaArista);
     }
 
     private int[] obtenerFilaColumnaVertice(int vertice) {
@@ -561,11 +589,15 @@ public class VistaTablero {
     public void crearVista() {
         controlador.colocarTerrenos();
         controlador.colocarVertices();
+        controlador.colocarAristas();
         for (Group group : hexagonosConFicha) {
             tablero.getChildren().add(group);
         }
         for (VistaVerticeEdificio vertice: vertices) {
             tablero.getChildren().add(vertice);
+        }
+        for (VistaArista arista: aristas) {
+            tablero.getChildren().add(arista);
         }
     }
 }

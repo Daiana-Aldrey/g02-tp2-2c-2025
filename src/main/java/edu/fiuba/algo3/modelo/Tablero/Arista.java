@@ -55,4 +55,12 @@ public class Arista {
     public Pieza obtenerPieza() {
         return this.camino;
     }
+
+    public Ubicacion obtenerPrimeraUbicacion() {
+        return ubicacion1;
+    }
+
+    public Ubicacion obtenerSegundaUbicacion() {
+        return ubicacion2;
+    }
 }

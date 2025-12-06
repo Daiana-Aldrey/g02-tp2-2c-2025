@@ -102,6 +102,10 @@ public final class Tablero {
     public List<Vertice> obtenerVertices() {
         return grafo.obtenerVertices();
     }
+
+    public List<Arista> obtenerAristas() {
+        return grafo.obtenerAristas();
+    }
 }
 
 
