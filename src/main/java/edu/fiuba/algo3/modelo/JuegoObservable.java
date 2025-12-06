@@ -1,10 +1,15 @@
 package edu.fiuba.algo3.modelo;
 
+import edu.fiuba.algo3.modelo.CartaDeDesarrollo.Carta;
 import edu.fiuba.algo3.modelo.Ubicacion.Ubicacion;
 import edu.fiuba.algo3.observador.Observable;
 import edu.fiuba.algo3.modelo.Recurso.*;
 import edu.fiuba.algo3.modelo.Intercambio.*;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class JuegoObservable extends Observable {
 
@@ -24,7 +29,7 @@ public class JuegoObservable extends Observable {
     	return juego; 
     }
 
- 
+
     public void realizarTirada() {
         this.ultimaTirada = juego.tirarDados();
         notificarObservadores("DADOS");
@@ -147,6 +152,40 @@ public class JuegoObservable extends Observable {
         juego.jugadorActual().construirPieza(tipo, ubicacion);
         notificarObservadores("RECURSOS");
         notificarObservadores("CONSTRUCCION");
+    }
+
+    public List<Map<String, String>> obtenerCartasDesarrolloJugadorActual() {
+        Jugador jugador = juego.jugadorActual();
+        List<Map<String, String>> lista = new ArrayList<>();
+
+        for (Carta carta : jugador.getCartasDesarrollo()) {
+            Map<String, String> datos = new HashMap<>();
+
+            datos.put("nombre", carta.getNombre());
+            datos.put("descripcion", carta.getDescripcion());
+
+            String nombreClase = carta.getClass().getSimpleName();
+
+            String imagen = nombreClase + ".png";
+            datos.put("imagen", imagen);
+
+            lista.add(datos);
+        }
+
+        return lista;
+    }
+
+    public void usarCarta(String nombreCarta) {
+        Jugador jugador = juego.jugadorActual();
+        Carta carta = jugador.obtenerCartaPorNombre(nombreCarta);
+
+        if (carta == null) {
+            throw new RuntimeException("El jugador no tiene la carta: " + nombreCarta);
+        }
+
+        jugador.jugarCartaDesarrollo(carta);
+        notificarObservadores("RECURSOS");
+        notificarObservadores("CARTAS");
     }
 
 }

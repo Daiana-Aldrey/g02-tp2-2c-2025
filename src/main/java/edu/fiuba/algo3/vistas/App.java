@@ -45,6 +45,7 @@ public class App extends Application {
         Scene escena = new Scene(root, 1300, 800);
         stage.setTitle("Catán - Algo3");
         stage.setScene(escena);
+        stage.setMaximized(true);
         stage.show();
     }
 

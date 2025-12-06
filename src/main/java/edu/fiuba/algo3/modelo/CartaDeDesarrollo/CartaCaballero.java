@@ -10,6 +10,11 @@ public class CartaCaballero extends Carta {
     private Jugador victima;
     private boolean configurada = false;
 
+    public CartaCaballero() {
+        nombre = "Caballero";
+        descripcion = "Permite mover el ladrón y robar un recurso de un jugador adyacente.";
+    }
+
     public void configurar(UbicacionVertice destino, Jugador victima) {
         // Asumimos que la UI valida que no sean nulos / inválidos.
         this.destino = destino;

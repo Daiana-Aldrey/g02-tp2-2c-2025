@@ -56,13 +56,11 @@ public class Jugador {
 	public void incorporarPoblado(Poblado poblado) {
 		poblados.add(poblado);
         puntosDeVictoria += 1;
-        //ganarPuntosDeVictoria(1);
 	}
 	
 	public void incorporarCiudad(Ciudad ciudad) {
         ciudades.add(ciudad);
         puntosDeVictoria += 2;
-        //ganarPuntosDeVictoria(2);
 	}
 	
 	public void colocarPiezaInicial(String tipo, List<Ubicacion> ubicacion) {
@@ -242,11 +240,6 @@ public class Jugador {
         return totalRecursos();
     }
 
-    public void sumarPuntosDeVictoria(int puntos) {
-        this.puntosDeVictoria += puntos;
-    }
-
-
     public int puntosDeVictoria(){return puntosDeVictoria;}
 
     public boolean tenesPobladoEnUbicacion(Ubicacion ubicacion) {
@@ -349,6 +342,18 @@ public class Jugador {
         return recursos;
     }
 
+    public List<Carta> getCartasDesarrollo(){
+        return cartasDesarrollo;
+    }
+
+    public Carta obtenerCartaPorNombre(String nombre) {
+        for (Carta c : cartasDesarrollo) {
+            if (c.getNombre().equals(nombre)) {
+                return c;
+            }
+        }
+        return null;
+    }
 
 }
   

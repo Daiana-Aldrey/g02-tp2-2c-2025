@@ -8,6 +8,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CartaMonopolio extends Carta {
+    public CartaMonopolio(){
+        nombre = "Monopolio";
+        descripcion = "Los demás jugadores deben entregarle todas las cartas del recurso que elija el jugador";
+    }
 
     private Recurso recursoElegido = new RecursoNulo();
     private final List<Jugador> victimas = new ArrayList<>();

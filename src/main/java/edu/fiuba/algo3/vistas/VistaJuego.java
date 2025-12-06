@@ -97,9 +97,6 @@ public class VistaJuego extends BorderPane implements Observador {
         HBox contenedorRecursos = new HBox(vistaRecursos);
         contenedorRecursos.setAlignment(Pos.CENTER_LEFT);
 
-       /* Region spacer = new Region();
-        HBox.setHgrow(spacer, Priority.ALWAYS);*/
-
         HBox controlesDerecha = new HBox(15, bankBtn, intercambiarBtn, verCartasBtn, tirarDadoBtn, grupoFinDeTurno);
         controlesDerecha.setAlignment(Pos.CENTER_RIGHT);
 
@@ -139,7 +136,6 @@ public class VistaJuego extends BorderPane implements Observador {
             if(msg.equals("RECURSOS")){
                 vistaRecursos.actualizarRecursos(modelo.juego().recursosJugadorActual());
             }
-
         }
     }
 

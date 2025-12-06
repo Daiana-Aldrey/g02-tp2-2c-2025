@@ -33,7 +33,7 @@ public class VistaRecursos extends HBox {
         vista.setFitHeight(50);
 
         Label cantidad = new Label("0");
-        labelsRecursos.put(nombreRecurso, cantidad); // guardamos la referencia del label en el mapa
+        labelsRecursos.put(nombreRecurso, cantidad);
 
         HBox fila = new HBox(5, vista, cantidad);
         fila.setAlignment(Pos.CENTER_LEFT);

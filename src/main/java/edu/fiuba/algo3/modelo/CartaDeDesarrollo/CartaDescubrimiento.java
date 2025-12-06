@@ -7,6 +7,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CartaDescubrimiento extends Carta {
+    public CartaDescubrimiento(){
+        nombre = "Descubrimiento";
+        descripcion = "Permite al jugador tomar dos recursos a su elección de la banca";
+    }
 
     static final int CANTRECURSOSELEGIDOS = 2;
 
