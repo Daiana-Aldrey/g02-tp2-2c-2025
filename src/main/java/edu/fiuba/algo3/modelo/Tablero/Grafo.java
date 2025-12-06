@@ -161,5 +161,9 @@ public class Grafo {
         Arista aristaEncontrada = buscarArista(ubicacion1, ubicacion2);
         return aristaEncontrada.hayCamino();
     }
+
+    public List<Vertice> obtenerVertices() {
+        return vertices;
+    }
     
 }

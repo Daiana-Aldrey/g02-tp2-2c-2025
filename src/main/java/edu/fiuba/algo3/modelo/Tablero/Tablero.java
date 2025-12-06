@@ -98,6 +98,10 @@ public final class Tablero {
     public Vertice getTerreno(UbicacionVertice ubicacion) {
         return grafo.buscarVertice(ubicacion);
     }
+
+    public List<Vertice> obtenerVertices() {
+        return grafo.obtenerVertices();
+    }
 }
 
 

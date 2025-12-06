@@ -1,34 +1,37 @@
 package edu.fiuba.algo3.vistas;
 
 import edu.fiuba.algo3.modelo.Tablero.VerticeEdificio;
+import javafx.scene.control.Button;
 import javafx.scene.shape.Circle;
 import javafx.scene.paint.Color;
 
 
-public class VistaVerticeEdificio extends Circle {
+public class VistaVerticeEdificio extends Button {
 
     private final VerticeEdificio vertice;
 
-    public VistaVerticeEdificio(VerticeEdificio vertice, Runnable onClick) {
+    public VistaVerticeEdificio(VerticeEdificio vertice) {
         this.vertice = vertice;
 
-        /*
-        setCenterX(vertice.getX());
-        setCenterY(vertice.getY());
-        setRadius(15);
-         */
+        double radius = 20;
+        double diameter = radius * 2;
 
-        setFill(Color.BEIGE);
-        setStroke(Color.BLACK);
+        Circle circulo = new Circle(radius);
+        circulo.setFill(Color.BEIGE);
+        circulo.setStroke(Color.BLACK);
 
-        setOnMouseClicked(e -> onClick.run());
+        setPrefSize(diameter, diameter);
+        setMinSize(diameter, diameter);
+        setMaxSize(diameter, diameter);
+
+        setShape(circulo);
     }
 
     public void actualizar() {
         if (vertice.estaDisponible()) {
-            setFill(vertice.obtenerPieza().obtenerJugador().obtenerColor());
+            setVisible(true);
         } else {
-            setFill(Color.BEIGE);
+            setVisible(false);
         }
     }
 }

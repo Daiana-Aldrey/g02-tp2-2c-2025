@@ -37,9 +37,10 @@ public class App extends Application {
         vistaTablero.crearVista();
 
         Group groupTablero = vistaTablero.getVistaTablero();
-        groupTablero.setTranslateY(-50);
+        groupTablero.setTranslateY(-55);
 
-        root.getChildren().addAll(vistaJuego, groupTablero);
+        root.getChildren().add(vistaJuego);
+        root.getChildren().add(groupTablero);
 
         Scene escena = new Scene(root, 1300, 800);
         stage.setTitle("Catán - Algo3");

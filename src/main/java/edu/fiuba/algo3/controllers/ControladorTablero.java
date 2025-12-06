@@ -1,23 +1,33 @@
 package edu.fiuba.algo3.controllers;
 
 import edu.fiuba.algo3.modelo.Tablero.Tablero;
+import edu.fiuba.algo3.modelo.Tablero.Vertice;
+import edu.fiuba.algo3.modelo.Tablero.VerticeEdificio;
 import edu.fiuba.algo3.modelo.Tablero.VerticeTerreno;
+import edu.fiuba.algo3.modelo.Ubicacion.Ubicacion;
 import edu.fiuba.algo3.modelo.Ubicacion.UbicacionVertice;
 import edu.fiuba.algo3.vistas.VistaTablero;
+import edu.fiuba.algo3.vistas.VistaVerticeEdificio;
+
+import java.util.List;
 
 public class ControladorTablero {
     private Tablero modelo;
-    private VistaTablero vista;
+    private VistaTablero vistaTablero;
+    private VistaVerticeEdificio vistaVertice;
+    List<Vertice> vertices;
 
 
     public ControladorTablero(Tablero modelo, VistaTablero vista) {
         this.modelo = modelo;
-        this.vista = vista;
+        this.vistaTablero = vista;
+
+        vertices = modelo.obtenerVertices();
     }
 
     public void colocarTerrenos() {
         int numeroHexadono = 0;
-        for (char i = 'A' ; i <= 'S'; i++) {
+        for (char i = 'A'; i <= 'S'; i++) {
             VerticeTerreno terreno = (VerticeTerreno) modelo.getTerreno(new UbicacionVertice(i));
             colocarTerrenoCorrespondiente(terreno);
             colocarFichaCorrespondiente(terreno, numeroHexadono);
@@ -27,42 +37,54 @@ public class ControladorTablero {
 
     public void colocarFichaCorrespondiente(VerticeTerreno terreno, int numeroHexadono) {
         if (terreno.tieneFichaDeNumero(2)) {
-            vista.ponerFicha2(numeroHexadono);
+            vistaTablero.ponerFicha2(numeroHexadono);
         } else if (terreno.tieneFichaDeNumero(3)) {
-            vista.ponerFicha3(numeroHexadono);
+            vistaTablero.ponerFicha3(numeroHexadono);
         } else if (terreno.tieneFichaDeNumero(4)) {
-            vista.ponerFicha4(numeroHexadono);
+            vistaTablero.ponerFicha4(numeroHexadono);
         } else if (terreno.tieneFichaDeNumero(5)) {
-            vista.ponerFicha5(numeroHexadono);
+            vistaTablero.ponerFicha5(numeroHexadono);
         } else if (terreno.tieneFichaDeNumero(6)) {
-            vista.ponerFicha6(numeroHexadono);
+            vistaTablero.ponerFicha6(numeroHexadono);
         } else if (terreno.tieneFichaDeNumero(8)) {
-            vista.ponerFicha8(numeroHexadono);
+            vistaTablero.ponerFicha8(numeroHexadono);
         } else if (terreno.tieneFichaDeNumero(9)) {
-            vista.ponerFicha9(numeroHexadono);
+            vistaTablero.ponerFicha9(numeroHexadono);
         } else if (terreno.tieneFichaDeNumero(10)) {
-            vista.ponerFicha10(numeroHexadono);
+            vistaTablero.ponerFicha10(numeroHexadono);
         } else if (terreno.tieneFichaDeNumero(11)) {
-            vista.ponerFicha11(numeroHexadono);
+            vistaTablero.ponerFicha11(numeroHexadono);
         } else if (terreno.tieneFichaDeNumero(12)) {
-            vista.ponerFicha12(numeroHexadono);
+            vistaTablero.ponerFicha12(numeroHexadono);
         }
     }
 
     public void colocarTerrenoCorrespondiente(VerticeTerreno terreno) {
         if (terreno.tieneTerreno("Pastizal")) {
-            vista.ponerPastizal();
+            vistaTablero.ponerPastizal();
         } else if (terreno.tieneTerreno("Bosque")) {
-            vista.ponerBosque();
+            vistaTablero.ponerBosque();
         } else if (terreno.tieneTerreno("Colina")) {
-            vista.ponerColina();
+            vistaTablero.ponerColina();
         } else if (terreno.tieneTerreno("Desierto")) {
-            vista.ponerDesierto();
+            vistaTablero.ponerDesierto();
         } else if (terreno.tieneTerreno("Campo")) {
-            vista.ponerCampo();
+            vistaTablero.ponerCampo();
         } else if (terreno.tieneTerreno("Montania")) {
-            vista.ponerMotania();
+            vistaTablero.ponerMotania();
         }
 
+    }
+
+    public void colocarVertices() {
+        VerticeEdificio verticeObjeto;
+        VistaVerticeEdificio vistaVertice;
+        Ubicacion ubicacion;
+        for (int i = 0; i < 54; i++) {
+            verticeObjeto = (VerticeEdificio) vertices.get(i);
+            ubicacion = verticeObjeto.obtenerUbicacion();
+            vistaVertice = new VistaVerticeEdificio(verticeObjeto);
+            vistaTablero.crearVertice(vistaVertice, ubicacion);
+        }
     }
 }

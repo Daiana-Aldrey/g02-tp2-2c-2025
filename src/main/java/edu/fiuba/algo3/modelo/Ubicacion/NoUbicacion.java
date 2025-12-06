@@ -6,4 +6,9 @@ public class NoUbicacion extends Ubicacion {
         boolean tieneUbicacion = false;
         return tieneUbicacion;
     }
+
+    @Override
+    public int getUbicacionInt() {
+        return 0;
+    }
 }

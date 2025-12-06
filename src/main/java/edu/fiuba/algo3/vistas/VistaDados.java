@@ -28,6 +28,9 @@ public class VistaDados extends HBox {
         borde.setFill(Color.WHITE);
         borde.setStroke(Color.BLACK);
 
+        borde.setArcHeight(30);
+        borde.setArcWidth(20);
+
         pane.getChildren().add(borde);
         return pane;
     }

@@ -3,6 +3,7 @@ package edu.fiuba.algo3.modelo.Tablero;
 import edu.fiuba.algo3.Excepciones.ColocacionInvalida;
 import edu.fiuba.algo3.modelo.Pieza.NoPieza;
 import edu.fiuba.algo3.modelo.Pieza.Pieza;
+import edu.fiuba.algo3.modelo.Ubicacion.Ubicacion;
 import edu.fiuba.algo3.modelo.Ubicacion.UbicacionVertice;
 
 import java.util.ArrayList;
@@ -95,6 +96,10 @@ public class VerticeEdificio extends Vertice {
 
     public Pieza obtenerPieza() {
         return this.pieza;
+    }
+
+    public Ubicacion obtenerUbicacion() {
+        return ubicacion;
     }
 }
 

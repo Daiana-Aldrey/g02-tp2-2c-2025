@@ -18,6 +18,11 @@ public class UbicacionVertice extends Ubicacion {
     }
 
     @Override
+    public int getUbicacionInt() {
+        return (int) ubicacion;
+    }
+
+    @Override
     public boolean equals(Object obj){
         UbicacionVertice ubicacion = (UbicacionVertice) obj;
         return ubicacion.tieneUbicacion(this.ubicacion);

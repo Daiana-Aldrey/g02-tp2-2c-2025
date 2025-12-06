@@ -1,6 +1,7 @@
 package edu.fiuba.algo3.vistas;
 
 import edu.fiuba.algo3.controllers.ControladorTablero;
+import edu.fiuba.algo3.modelo.Ubicacion.Ubicacion;
 import javafx.scene.Group;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -16,31 +17,41 @@ import java.util.List;
 
 public class VistaTablero {
     private static final int CANTIDADHEXAGONOS = 19;
+
     private static final int TAMANIOFILA = 125;
     private static final int TAMANIOCOLUMNA = 153;
+    private static final int TAMANIOARISTA = 75;
+
     private static final int COLUMNA = 0;
     private static final int FILA = 1;
-    private static final int DESPLAZAMIENTOMITAD = 75;
-    private static final int DESPLAZAMIENTOTEXTONUMEROY = 94;
-    private static final int DESPLAZAMIENTOTEXTOPROBABILIDADY = 104;
+    private static final int DESPLAZAMIENTOMITAD = 76;
+    private static final int DESPLAZAMIENTOTEXTONUMEROY = 114;
+    private static final int DESPLAZAMIENTOTEXTOPROBABILIDADY = 124;
+    private static final int[] VERTICEPRIMEROFILA = {8,17,28,39,48,55};
+
+    private static final int PRIMERAFILA = 0;
+    private static final int SEGUNDAFILA = 1;
+    private static final int TERCERAFILA = 2;
+    private static final int CUARTAFILA = 3;
+    private static final int QUINTAFILA = 4;
+    private static final int SEXTAFILA = 5;
 
     private ControladorTablero controlador;
     private int indice;
     List<Polygon> hexagonos;
     List<Rectangle> rectangulos;
     List<Group> hexagonosConFicha;
+    List<VistaVerticeEdificio> vertices;
     Group tablero;
-    int desplazamientoX;
-    int desplazamientoY;
 
     public VistaTablero() {
         indice = 0;
         hexagonos = new ArrayList<>();
         rectangulos = new ArrayList<>();
         hexagonosConFicha = new ArrayList<>();
+        vertices = new ArrayList<>();
+
         tablero = new Group();
-        desplazamientoX = 0;
-        desplazamientoY = 0;
 
         coordenarHexagonos();
     }
@@ -49,28 +60,28 @@ public class VistaTablero {
         return tablero;
     }
 
-    private Polygon crearHexagono(int x, int y){
+    private Polygon crearHexagono(int x, int y) {
         Polygon hexagono = new Polygon();
         hexagono.setStroke(ConstanteColores.coloresTablero[ConstanteColores.ARENA]);
         hexagono.setStrokeWidth(12);
 
         if (y % 2 == 0){
         hexagono.getPoints().addAll(new Double[]{
-                TAMANIOCOLUMNA * x + 100.0, TAMANIOFILA * y + 35.0,
-                TAMANIOCOLUMNA * x + 175.0, TAMANIOFILA * y + 0.0,
-                TAMANIOCOLUMNA * x + 250.0, TAMANIOFILA * y + 35.0,
-                TAMANIOCOLUMNA * x + 250.0, TAMANIOFILA * y + 120.0,
-                TAMANIOCOLUMNA * x + 175.0, TAMANIOFILA * y + 155.0,
-                TAMANIOCOLUMNA * x + 100.0, TAMANIOFILA * y + 120.0,
+                TAMANIOCOLUMNA * x + 100.0, TAMANIOFILA * y + 55.0,
+                TAMANIOCOLUMNA * x + 175.0, TAMANIOFILA * y + 20.0,
+                TAMANIOCOLUMNA * x + 250.0, TAMANIOFILA * y + 55.0,
+                TAMANIOCOLUMNA * x + 250.0, TAMANIOFILA * y + 140.0,
+                TAMANIOCOLUMNA * x + 175.0, TAMANIOFILA * y + 175.0,
+                TAMANIOCOLUMNA * x + 100.0, TAMANIOFILA * y + 140.0,
         });
         } else {
             hexagono.getPoints().addAll(new Double[]{
-                    TAMANIOCOLUMNA * x + 100.0 - DESPLAZAMIENTOMITAD, TAMANIOFILA * y + 35.0,
-                    TAMANIOCOLUMNA * x + 175.0 - DESPLAZAMIENTOMITAD, TAMANIOFILA * y + 0.0,
-                    TAMANIOCOLUMNA * x + 250.0 - DESPLAZAMIENTOMITAD, TAMANIOFILA * y + 35.0,
-                    TAMANIOCOLUMNA * x + 250.0 - DESPLAZAMIENTOMITAD, TAMANIOFILA * y + 120.0,
-                    TAMANIOCOLUMNA * x + 175.0 - DESPLAZAMIENTOMITAD, TAMANIOFILA * y + 155.0,
-                    TAMANIOCOLUMNA * x + 100.0 - DESPLAZAMIENTOMITAD, TAMANIOFILA * y + 120.0,
+                    TAMANIOCOLUMNA * x + 100.0 - DESPLAZAMIENTOMITAD, TAMANIOFILA * y + 55.0,
+                    TAMANIOCOLUMNA * x + 175.0 - DESPLAZAMIENTOMITAD, TAMANIOFILA * y + 20.0,
+                    TAMANIOCOLUMNA * x + 250.0 - DESPLAZAMIENTOMITAD, TAMANIOFILA * y + 55.0,
+                    TAMANIOCOLUMNA * x + 250.0 - DESPLAZAMIENTOMITAD, TAMANIOFILA * y + 140.0,
+                    TAMANIOCOLUMNA * x + 175.0 - DESPLAZAMIENTOMITAD, TAMANIOFILA * y + 175.0,
+                    TAMANIOCOLUMNA * x + 100.0 - DESPLAZAMIENTOMITAD, TAMANIOFILA * y + 140.0,
             });
         }
         return hexagono;
@@ -87,7 +98,7 @@ public class VistaTablero {
             rectangle.setX(TAMANIOCOLUMNA * x + 152 - DESPLAZAMIENTOMITAD);
         }
 
-        rectangle.setY(TAMANIOFILA * y + 70);
+        rectangle.setY(TAMANIOFILA * y + 90);
 
         rectangle.setArcWidth(30.0);
         rectangle.setArcHeight(20.0);
@@ -99,11 +110,11 @@ public class VistaTablero {
         return rectangle;
     }
 
-    private void coordenarHexagonos(){
+    private void coordenarHexagonos() {
         int x, y;
         int[] posicionMatriz;
         for (int i = 0; i < CANTIDADHEXAGONOS; i++) {
-            posicionMatriz = obtenerColumnaFila(i, desplazamientoX, desplazamientoY);
+            posicionMatriz = obtenerColumnaFila(i);
             x = posicionMatriz[COLUMNA];
             y = posicionMatriz[FILA];
 
@@ -112,25 +123,24 @@ public class VistaTablero {
         }
     }
 
-    public int[] obtenerColumnaFila(int hexagono , int desplazarmientoX, int desplazarmientoY) {
-        int x,y = 0;
-        int x1 = desplazarmientoX;
-        int y1 = desplazarmientoY;
+    public int[] obtenerColumnaFila(int hexagono) {
+        int x, y = 0;
+
         if (hexagono < 3) {
-            x = x1 + 2 + hexagono;
-            y = y1;
+            x = 2 + hexagono;
+            y = PRIMERAFILA;
         } else if (hexagono < 7) {
-            x = x1 + 1 + hexagono - 2;
-            y = y1 + 1;
+            x = hexagono - 1;
+            y = SEGUNDAFILA;
         } else if (hexagono < 12) {
-            x = x1 + hexagono - 6;
-            y = y1 + 2;
+            x =  hexagono - 6;
+            y =  TERCERAFILA;
         } else if (hexagono < 16) {
-            x = x1 + 1 + hexagono - 11;
-            y = y1 + 3;
+            x =  hexagono - 10;
+            y =  CUARTAFILA;
         } else {
-            x = x1 + 2 + hexagono - 16;
-            y = y1 + 4;
+            x = hexagono - 14;
+            y = QUINTAFILA;
         }
 
         int[] posicionMatriz = {x,y};
@@ -158,19 +168,19 @@ public class VistaTablero {
         view.setFitHeight(50);
         view.setFitWidth(50);
 
-        int[] posicionMatriz = obtenerColumnaFila(indice, desplazamientoX, desplazamientoY);
-        int x =  posicionMatriz[COLUMNA];
-        int y =  posicionMatriz[FILA];
+        int[] posicionMatriz = obtenerColumnaFila(indice);
+        int x = posicionMatriz[COLUMNA];
+        int y = posicionMatriz[FILA];
 
         view.setX(x * TAMANIOCOLUMNA + 100);
-        view.setY(y * TAMANIOFILA + 55);
+        view.setY(y * TAMANIOFILA + 75);
 
         Group desiertoSinFicha = new Group(hexagono, view);
         hexagonosConFicha.add(desiertoSinFicha);
         indice++;
     }
 
-    public void ponerBosque(){
+    public void ponerBosque() {
         Polygon hexagono = hexagonos.get(indice);
         hexagono.setFill(ConstanteColores.coloresTablero[ConstanteColores.VERDEOSCURO]);
 
@@ -181,7 +191,7 @@ public class VistaTablero {
     }
 
 
-    public void ponerMotania(){
+    public void ponerMotania() {
         Polygon hexagono = hexagonos.get(indice);
         hexagono.setFill(ConstanteColores.coloresTablero[ConstanteColores.GRIS]);
 
@@ -191,7 +201,7 @@ public class VistaTablero {
         agruparHexagonoConFicha(hexagono, view);
     }
 
-    public void ponerCampo(){
+    public void ponerCampo() {
         Polygon hexagono = hexagonos.get(indice);
         hexagono.setFill(ConstanteColores.coloresTablero[ConstanteColores.AMARILLOCAMPO]);
 
@@ -201,7 +211,7 @@ public class VistaTablero {
         agruparHexagonoConFicha(hexagono, view);
     }
 
-    public void ponerColina(){
+    public void ponerColina() {
         Polygon hexagono = hexagonos.get(indice);
         hexagono.setFill(ConstanteColores.coloresTablero[ConstanteColores.TERRACOTA]);
 
@@ -215,8 +225,8 @@ public class VistaTablero {
         this.controlador = controlador;
     }
 
-    public void ponerFicha2(int numeroHexagono){
-        int[] posicionMatriz = obtenerColumnaFila(numeroHexagono,desplazamientoX,desplazamientoY);
+    public void ponerFicha2(int numeroHexagono) {
+        int[] posicionMatriz = obtenerColumnaFila(numeroHexagono);
         int x = posicionMatriz[COLUMNA];
         int y = posicionMatriz[FILA];
 
@@ -225,7 +235,7 @@ public class VistaTablero {
         Text textoPosibilidad = new Text(".");
         textoPosibilidad.setFont(Font.font("Arial", FontWeight.BOLD, 20));
 
-        if(y % 2 == 0) {
+        if (y % 2 == 0) {
             textoNumero.setX(TAMANIOCOLUMNA * x + 169);
             textoPosibilidad.setX(TAMANIOCOLUMNA * x + 172);
         } else {
@@ -240,7 +250,7 @@ public class VistaTablero {
     }
 
     public void ponerFicha3(int numeroHexagono) {
-        int[] posicionMatriz = obtenerColumnaFila(numeroHexagono,desplazamientoX,desplazamientoY);
+        int[] posicionMatriz = obtenerColumnaFila(numeroHexagono);
         int x = posicionMatriz[COLUMNA];
         int y = posicionMatriz[FILA];
 
@@ -249,7 +259,7 @@ public class VistaTablero {
         Text textoPosibilidad = new Text("..");
         textoPosibilidad.setFont(Font.font("Arial", FontWeight.BOLD, 20));
 
-        if(y % 2 == 0) {
+        if (y % 2 == 0) {
             textoNumero.setX(TAMANIOCOLUMNA * x + 169);
             textoPosibilidad.setX(TAMANIOCOLUMNA * x + 169);
         } else {
@@ -264,7 +274,7 @@ public class VistaTablero {
     }
 
     public void ponerFicha4(int numeroHexagono) {
-        int[] posicionMatriz = obtenerColumnaFila(numeroHexagono,desplazamientoX,desplazamientoY);
+        int[] posicionMatriz = obtenerColumnaFila(numeroHexagono);
         int x = posicionMatriz[COLUMNA];
         int y = posicionMatriz[FILA];
 
@@ -273,7 +283,7 @@ public class VistaTablero {
         Text textoPosibilidad = new Text("...");
         textoPosibilidad.setFont(Font.font("Arial", FontWeight.BOLD, 20));
 
-        if(y % 2 == 0) {
+        if (y % 2 == 0) {
             textoNumero.setX(TAMANIOCOLUMNA * x + 169);
             textoPosibilidad.setX(TAMANIOCOLUMNA * x + 167);
         } else {
@@ -288,7 +298,7 @@ public class VistaTablero {
     }
 
     public void ponerFicha5(int numeroHexagono) {
-        int[] posicionMatriz = obtenerColumnaFila(numeroHexagono,desplazamientoX,desplazamientoY);
+        int[] posicionMatriz = obtenerColumnaFila(numeroHexagono);
         int x = posicionMatriz[COLUMNA];
         int y = posicionMatriz[FILA];
 
@@ -297,7 +307,7 @@ public class VistaTablero {
         Text textoPosibilidad = new Text("....");
         textoPosibilidad.setFont(Font.font("Arial", FontWeight.BOLD, 20));
 
-        if(y % 2 == 0) {
+        if (y % 2 == 0) {
             textoNumero.setX(TAMANIOCOLUMNA * x + 169);
             textoPosibilidad.setX(TAMANIOCOLUMNA * x + 163);
         } else {
@@ -313,7 +323,7 @@ public class VistaTablero {
     }
 
     public void ponerFicha6(int numeroHexagono) {
-        int[] posicionMatriz = obtenerColumnaFila(numeroHexagono,desplazamientoX,desplazamientoY);
+        int[] posicionMatriz = obtenerColumnaFila(numeroHexagono);
         int x = posicionMatriz[COLUMNA];
         int y = posicionMatriz[FILA];
 
@@ -325,7 +335,7 @@ public class VistaTablero {
         textoPosibilidad.setFont(Font.font("Arial", FontWeight.BOLD, 20));
         textoPosibilidad.setFill(Color.RED);
 
-        if(y % 2 == 0) {
+        if (y % 2 == 0) {
             textoNumero.setX(TAMANIOCOLUMNA * x + 169);
             textoPosibilidad.setX(TAMANIOCOLUMNA * x + 161);
         } else {
@@ -340,7 +350,7 @@ public class VistaTablero {
     }
 
     public void ponerFicha8(int numeroHexagono) {
-        int[] posicionMatriz = obtenerColumnaFila(numeroHexagono,desplazamientoX,desplazamientoY);
+        int[] posicionMatriz = obtenerColumnaFila(numeroHexagono);
         int x = posicionMatriz[COLUMNA];
         int y = posicionMatriz[FILA];
 
@@ -352,7 +362,7 @@ public class VistaTablero {
         textoPosibilidad.setFont(Font.font("Arial", FontWeight.BOLD, 20));
         textoPosibilidad.setFill(Color.RED);
 
-        if(y % 2 == 0) {
+        if (y % 2 == 0) {
             textoNumero.setX(TAMANIOCOLUMNA * x + 169);
             textoPosibilidad.setX(TAMANIOCOLUMNA * x + 161);
         } else {
@@ -367,7 +377,7 @@ public class VistaTablero {
     }
 
     public void ponerFicha9(int numeroHexagono) {
-        int[] posicionMatriz = obtenerColumnaFila(numeroHexagono,desplazamientoX,desplazamientoY);
+        int[] posicionMatriz = obtenerColumnaFila(numeroHexagono);
         int x = posicionMatriz[COLUMNA];
         int y = posicionMatriz[FILA];
 
@@ -377,7 +387,7 @@ public class VistaTablero {
         Text textoPosibilidad = new Text("....");
         textoPosibilidad.setFont(Font.font("Arial", FontWeight.BOLD, 20));
 
-        if(y % 2 == 0) {
+        if (y % 2 == 0) {
             textoNumero.setX(TAMANIOCOLUMNA * x + 169);
             textoPosibilidad.setX(TAMANIOCOLUMNA * x + 163);
         } else {
@@ -391,8 +401,8 @@ public class VistaTablero {
         hexagonosConFicha.get(hexagonosConFicha.size() - 1).getChildren().addAll(textoNumero, textoPosibilidad);
     }
 
-    public void  ponerFicha10(int numeroHexagono) {
-        int[] posicionMatriz = obtenerColumnaFila(numeroHexagono,desplazamientoX,desplazamientoY);
+    public void ponerFicha10(int numeroHexagono) {
+        int[] posicionMatriz = obtenerColumnaFila(numeroHexagono);
         int x = posicionMatriz[COLUMNA];
         int y = posicionMatriz[FILA];
 
@@ -402,7 +412,7 @@ public class VistaTablero {
         Text textoPosibilidad = new Text("...");
         textoPosibilidad.setFont(Font.font("Arial", FontWeight.BOLD, 20));
 
-        if(y % 2 == 0) {
+        if (y % 2 == 0) {
             textoNumero.setX(TAMANIOCOLUMNA * x + 163);
             textoPosibilidad.setX(TAMANIOCOLUMNA * x + 167);
         } else {
@@ -416,8 +426,8 @@ public class VistaTablero {
         hexagonosConFicha.get(hexagonosConFicha.size() - 1).getChildren().addAll(textoNumero, textoPosibilidad);
     }
 
-    public void  ponerFicha11(int numeroHexagono) {
-        int[] posicionMatriz = obtenerColumnaFila(numeroHexagono,desplazamientoX,desplazamientoY);
+    public void ponerFicha11(int numeroHexagono) {
+        int[] posicionMatriz = obtenerColumnaFila(numeroHexagono);
         int x = posicionMatriz[COLUMNA];
         int y = posicionMatriz[FILA];
 
@@ -441,8 +451,8 @@ public class VistaTablero {
         hexagonosConFicha.get(hexagonosConFicha.size() - 1).getChildren().addAll(textoNumero, textoPosibilidad);
     }
 
-    public void  ponerFicha12(int numeroHexagono) {
-        int[] posicionMatriz = obtenerColumnaFila(numeroHexagono,desplazamientoX,desplazamientoY);
+    public void ponerFicha12(int numeroHexagono) {
+        int[] posicionMatriz = obtenerColumnaFila(numeroHexagono);
         int x = posicionMatriz[COLUMNA];
         int y = posicionMatriz[FILA];
 
@@ -467,7 +477,7 @@ public class VistaTablero {
     }
 
     private void agruparHexagonoConFicha(Polygon hexagono, ImageView img) {
-        int[] coordenadas = obtenerColumnaFila(indice, desplazamientoX, desplazamientoY);
+        int[] coordenadas = obtenerColumnaFila(indice);
         int x = coordenadas[COLUMNA];
         int y = coordenadas[FILA];
         Rectangle rectangulo = crearRectangulo(x, y);
@@ -476,7 +486,7 @@ public class VistaTablero {
         img.setFitHeight(37);
         colocarImagen(img, x, y);
 
-        Group terrenoConFicha = new Group(hexagono,rectangulo, img);
+        Group terrenoConFicha = new Group(hexagono, rectangulo, img);
         hexagonosConFicha.add(terrenoConFicha);
 
         indice++;
@@ -488,14 +498,74 @@ public class VistaTablero {
         } else {
             img.setX(TAMANIOCOLUMNA * x + 157 - DESPLAZAMIENTOMITAD);
         }
-        img.setY(TAMANIOFILA * y + 23);
+        img.setY(TAMANIOFILA * y + 43);
+    }
+
+    public void crearVertice(VistaVerticeEdificio vistaVertice, Ubicacion ubicacion) {
+        int vertice = ubicacion.getUbicacionInt();
+
+        int[] posicionMatriz = obtenerFilaColumnaVertice(vertice);
+        int x = posicionMatriz[COLUMNA];
+        int y = posicionMatriz[FILA];
+
+        if (y == PRIMERAFILA || y == TERCERAFILA || y == QUINTAFILA) {
+            if (x % 2 == 0) {
+                vistaVertice.setTranslateX(TAMANIOARISTA * x + 240);
+                vistaVertice.setTranslateY(TAMANIOFILA * y + 27);
+            } else {
+                vistaVertice.setTranslateX(TAMANIOARISTA * x + 240);
+                vistaVertice.setTranslateY(TAMANIOFILA * y - 2);
+            }
+        } if (y == SEGUNDAFILA || y == CUARTAFILA  || y == SEXTAFILA) {
+            if (x % 2 == 0) {
+                vistaVertice.setTranslateX(TAMANIOARISTA * x + 240);
+                vistaVertice.setTranslateY(TAMANIOFILA * y - 2);
+            } else {
+                vistaVertice.setTranslateX(TAMANIOARISTA * x + 240);
+                vistaVertice.setTranslateY(TAMANIOFILA * y + 27);
+            }
+        }
+
+
+        vertices.add(vistaVertice);
+    }
+
+    private int[] obtenerFilaColumnaVertice(int vertice) {
+        int x = 0;
+        int y = 0;
+        if (vertice < VERTICEPRIMEROFILA[PRIMERAFILA]) {
+            x = 1 + vertice;
+            y = PRIMERAFILA;
+        } else if (vertice < VERTICEPRIMEROFILA[SEGUNDAFILA]) {
+            x = vertice - 7;
+            y = SEGUNDAFILA;
+        } else if (vertice < VERTICEPRIMEROFILA[TERCERAFILA]) {
+            x = vertice - 17;
+            y = TERCERAFILA;
+        } else if (vertice < VERTICEPRIMEROFILA[CUARTAFILA]) {
+            x = vertice - 28;
+            y = CUARTAFILA;
+        } else if (vertice < VERTICEPRIMEROFILA[QUINTAFILA]){
+            x = vertice - 38;
+            y = QUINTAFILA;
+        } else if (vertice < VERTICEPRIMEROFILA[SEXTAFILA]) {
+            x = vertice - 46;
+            y = SEXTAFILA;
+        }
+
+        int[] posicionMatriz = {x,y};
+
+        return posicionMatriz;
     }
 
     public void crearVista() {
         controlador.colocarTerrenos();
+        controlador.colocarVertices();
         for (Group group : hexagonosConFicha) {
             tablero.getChildren().add(group);
         }
+        for (VistaVerticeEdificio vertice: vertices) {
+            tablero.getChildren().add(vertice);
+        }
     }
-
 }
