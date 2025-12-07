@@ -1,5 +1,6 @@
 package edu.fiuba.algo3.vistas;
 
+import edu.fiuba.algo3.controllers.ControladorIngresoNombres;
 import edu.fiuba.algo3.controllers.ControladorTablero;
 import edu.fiuba.algo3.modelo.Juego;
 import edu.fiuba.algo3.modelo.JuegoObservable;
@@ -17,13 +18,13 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) {
-        StackPane root = new StackPane();
+        ControladorIngresoNombres controlador = new ControladorIngresoNombres(stage);
+        VistaInicio vistaInicio = new VistaInicio(stage, controlador);
+        vistaInicio.mostrar();
+    }
 
-        List<Jugador> jugadores = List.of(
-                new Jugador("Jugador 1"),
-                new Jugador("Jugador 2"),
-                new Jugador("Jugador 3")
-        );
+    public void iniciarJuego(Stage stage, List<Jugador> jugadores) {
+        StackPane root = new StackPane();
 
         Juego juego = new Juego(jugadores);
 
