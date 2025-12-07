@@ -17,14 +17,14 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) {
+        ControladorIngresoNombres controlador = new ControladorIngresoNombres(stage);
+        VistaInicio vistaInicio = new VistaInicio(stage, controlador);
+        vistaInicio.mostrar();
+    }
+
+    public void iniciarJuego(Stage stage, List<Jugador> jugadores) {
         StackPane root = new StackPane();
         root.setStyle("-fx-background-color: #87cfe8;");
-
-        List<Jugador> jugadores = List.of(
-                new Jugador("Jugador 1"),
-                new Jugador("Jugador 2"),
-                new Jugador("Jugador 3")
-        );
 
         Juego juego = new Juego(jugadores);
 
@@ -43,7 +43,7 @@ public class App extends Application {
         groupTablero.setTranslateY(-55);
 
         root.getChildren().add(vistaJuego);
-        root.getChildren().addAll(groupTablero);
+        root.getChildren().add(groupTablero);
 
         Scene escena = new Scene(root, 1300, 800);
         stage.setTitle("Catán - Algo3");
