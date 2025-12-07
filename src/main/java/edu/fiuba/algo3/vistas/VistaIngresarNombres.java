@@ -8,12 +8,14 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,10 +33,64 @@ public class VistaIngresarNombres {
     }
 
     public void mostrar() {
+        // Layout principal como BorderPane
+        BorderPane contenedorPrincipal = new BorderPane();
+        contenedorPrincipal.setStyle("-fx-background-color: #e7d3a8;");
+
+        // Botón Volver con imagen y texto
+        Image imgVolver = new Image(getClass().getResourceAsStream("/volver.png"));
+        ImageView ivVolver = new ImageView(imgVolver);
+        ivVolver.setFitHeight(25);
+        ivVolver.setPreserveRatio(true);
+
+        Text textoVolver = new Text("Volver");
+        textoVolver.setFont(Font.font("System", FontWeight.BOLD, 20));
+
+        HBox contenidoBoton = new HBox(5, ivVolver, textoVolver);
+        contenidoBoton.setAlignment(Pos.CENTER_LEFT);
+
+        Button volver = new Button();
+        volver.setGraphic(contenidoBoton);
+        volver.setStyle("-fx-background-color: transparent;");
+        volver.setOnAction(e -> new VistaInicio(stage, controlador).mostrar());
+
+        volver.setStyle(
+                        "-fx-background-color: #d9a86c;" +
+                        "-fx-border-color: #cccccc;" +
+                        "-fx-border-radius: 8;" +
+                        "-fx-background-radius: 8;" +
+                        "-fx-border-width: 1;"
+        );
+
+        //Hover
+        volver.setOnMouseEntered(e -> volver.setStyle(
+                        "-fx-background-color: #d9a86c;" +
+                        "-fx-border-color: #3399ff;" +
+                        "-fx-border-radius: 8;" +
+                        "-fx-background-radius: 8;" +
+                        "-fx-border-width: 1;"
+        ));
+
+        volver.setOnMouseExited(e -> volver.setStyle(
+                        "-fx-background-color: #d9a86c;" +
+                        "-fx-border-color: #cccccc;" +
+                        "-fx-border-radius: 8;" +
+                        "-fx-background-radius: 8;" +
+                        "-fx-border-width: 1;"
+        ));
+
+
+
+        HBox topBar = new HBox(volver);
+        topBar.setPadding(new Insets(15));
+        topBar.setAlignment(Pos.TOP_LEFT);
+
+        contenedorPrincipal.setTop(topBar);
+
+
         VBox layoutPrincipal = new VBox(30);
         layoutPrincipal.setAlignment(Pos.TOP_CENTER);
         layoutPrincipal.setPadding(new Insets(30));
-        layoutPrincipal.setStyle("-fx-background-color: #e7d3a8;");
 
         // Título
         Text titulo = new Text("Ingresá los nombres de los jugadores");
@@ -59,7 +115,6 @@ public class VistaIngresarNombres {
             );
             tarjeta.setPrefWidth(200);
 
-            // Imagen jugador.png
             ImageView imgJugador;
             try {
                 Image img = new Image(getClass().getResourceAsStream("/jugador.png"));
@@ -84,30 +139,30 @@ public class VistaIngresarNombres {
 
         layoutPrincipal.getChildren().add(filaTarjetas);
 
+        // Botón continuar
         Button continuar = new Button("Continuar");
         continuar.setFont(Font.font("System", FontWeight.BOLD, 18));
         VBox.setMargin(continuar, new Insets(20, 0, 0, 0));
 
-        // Estilo inicial: bordes redondeados y fondo
+        // Estilo inicial
         continuar.setStyle(
-                "-fx-background-color: #d9a86c;" +   // color de fondo
-                        "-fx-text-fill: black;" +            // color del texto
-                        "-fx-background-radius: 15;" +      // bordes redondeados
-                        "-fx-border-radius: 15;" +          // borde redondeado
-                        "-fx-border-color: transparent;" +  // borde inicial transparente
+                "-fx-background-color: #d9a86c;" +
+                        "-fx-text-fill: black;" +
+                        "-fx-background-radius: 15;" +
+                        "-fx-border-radius: 15;" +
+                        "-fx-border-color: transparent;" +
                         "-fx-border-width: 2;"
         );
 
-        // Efecto al pasar el cursor
+        // Hover efecto
         continuar.setOnMouseEntered(e -> continuar.setStyle(
                 "-fx-background-color: #d9a86c;" +
                         "-fx-text-fill: black;" +
                         "-fx-background-radius: 15;" +
                         "-fx-border-radius: 15;" +
-                        "-fx-border-color: #3399ff;" +   // borde azul al hover
+                        "-fx-border-color: #3399ff;" +
                         "-fx-border-width: 2;"
         ));
-
         continuar.setOnMouseExited(e -> continuar.setStyle(
                 "-fx-background-color: #d9a86c;" +
                         "-fx-text-fill: black;" +
@@ -133,7 +188,9 @@ public class VistaIngresarNombres {
 
         layoutPrincipal.getChildren().add(continuar);
 
-        Scene escena = new Scene(layoutPrincipal, 800, 600);
+        contenedorPrincipal.setCenter(layoutPrincipal);
+
+        Scene escena = new Scene(contenedorPrincipal, 800, 600);
         stage.setScene(escena);
         stage.setTitle("Ingresar nombres - Catán");
         stage.setMaximized(true);
