@@ -5,15 +5,11 @@ import edu.fiuba.algo3.observador.Observador;
 import edu.fiuba.algo3.observador.Observable;
 import javafx.scene.Cursor;
 import javafx.scene.control.ContentDisplay;
-import javafx.scene.layout.StackPane;
+import javafx.scene.layout.*;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
-import javafx.scene.layout.VBox;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
@@ -45,7 +41,7 @@ public class VistaJuego extends BorderPane implements Observador {
         // dados
         vistaDados = new VistaDados();
         HBox contenedorDados = new HBox(vistaDados);
-        contenedorDados.setPadding(new Insets(50, 0, 0, 50));
+        contenedorDados.setPadding(new Insets(50, 100, 0, 50));
         contenedorDados.setAlignment(Pos.TOP_LEFT);
         setCenter(contenedorDados);
 
@@ -64,7 +60,7 @@ public class VistaJuego extends BorderPane implements Observador {
         pasarTurnoBtn.setOnAction(new HandlerPasarTurno(modelo));
 
         //boton dado
-        Button tirarDadoBtn = new BotonAccion("Tirar",new HandlerTirarDados(modelo));
+        Button tirarDadoBtn = new BotonAccion("Tirar", new HandlerTirarDados(modelo));
         tirarDadoBtn.setContentDisplay(ContentDisplay.BOTTOM);
 
         Image iconoDado = new Image("cubo-de-dados.png");
@@ -125,19 +121,28 @@ public class VistaJuego extends BorderPane implements Observador {
         // Botones de Pieza
         this.vistaPieza = new VistaPieza();
 
+        Button botonCancelar = vistaPieza.obtenerBotonCancelar();
+        // Region spacer = new Region();
+        // HBox.setHgrow(spacer, Priority.ALWAYS);
+        // contenedorDados.getChildren().addAll(spacer,botonCancelar);
+
         // organizador barra derecha
-        HBox controlesDerecha = new HBox(15, bankBtn, intercambiarBtn, verCartasBtn,vistaPieza, tirarDadoBtn, grupoFinDeTurno);
+        HBox controlesDerecha = new HBox(15, bankBtn, intercambiarBtn, verCartasBtn,vistaPieza,tirarDadoBtn, grupoFinDeTurno);
         controlesDerecha.setAlignment(Pos.CENTER_RIGHT);
 
         //barra
-        HBox barra = new HBox(contenedorRecursos, controlesDerecha);
+        HBox barraSup = new HBox(botonCancelar);
+        HBox barraInf = new HBox(contenedorRecursos, controlesDerecha);
+        VBox barraPadre = new VBox(barraSup, barraInf);
         HBox.setHgrow(contenedorRecursos, Priority.ALWAYS);
         HBox.setHgrow(controlesDerecha, Priority.ALWAYS);
 
-        barra.setPadding(new Insets(10, 20, 10, 20));
-        barra.setStyle("-fx-background-color: #3b2145;");
+        barraSup.setPadding(new Insets(10, 20, 10, 20));
+        barraInf.setPadding(new Insets(10, 20, 10, 20));
+        barraInf.setStyle("-fx-background-color: #3b2145;");
 
-        setBottom(barra);
+        barraSup.setAlignment(Pos.CENTER_RIGHT);
+        setBottom(barraPadre);
 
         StackPane.setAlignment(vistaPropuesta, Pos.TOP_RIGHT);
         StackPane.setMargin(vistaPropuesta, new Insets(60, 20, 0, 0));

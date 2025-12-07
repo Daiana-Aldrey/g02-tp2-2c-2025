@@ -12,29 +12,63 @@ public class ControladorPieza {
     private Button btnCiudad;
     private Button btnCamino;
     private Button btnPoblado;
+    private Button btnCancelar;
+
+    private boolean visibleCamino;
+    private boolean visiblePoblado;
 
     private List<VistaVerticeEdificio> vertices;
     private List<VistaArista> aristas;
 
-    public ControladorPieza(VistaPieza vistaPieza, Button btnCiudad, Button btnCamino, Button btnPoblado) {
+    public ControladorPieza(VistaPieza vistaPieza, Button btnCiudad, Button btnCamino, Button btnPoblado, Button btnCancelar) {
         this.vista = vistaPieza;
         this.btnPoblado = btnPoblado;
         this.btnCiudad = btnCiudad;
         this.btnCamino = btnCamino;
+        this.btnCancelar = btnCancelar;
+
+        visibleCamino = false;
+        visiblePoblado = false;
+
     }
 
-     public void darComportamiento(){
+    public void darComportamiento() {
         btnPoblado.setOnAction(e -> {
-            for(VistaVerticeEdificio vista: vertices){
+            for (VistaVerticeEdificio vista : vertices) {
                 vista.actualizar();
             }
+            btnCancelar.setVisible(true);
+            visiblePoblado = true;
         });
         btnCamino.setOnAction(e -> {
-            for(VistaArista vista: aristas){
+            for (VistaArista vista : aristas) {
                 vista.actualizar();
             }
+            btnCancelar.setVisible(true);
+            visibleCamino = true;
         });
-     }
+
+        invisibilicarBotones();
+    }
+
+    private void invisibilicarBotones() {
+        btnCancelar.setOnAction(e -> {
+            if (visibleCamino) {
+                for (VistaArista arista : aristas) {
+                    arista.setVisible(false);
+                }
+                visibleCamino = false;
+            }
+            if (visiblePoblado) {
+                for (VistaVerticeEdificio vista : vertices) {
+                    vista.setVisible(false);
+                }
+                visiblePoblado = false;
+            }
+            btnCancelar.setVisible(false);
+        });
+    }
+
 
     public void setVertices(List<VistaVerticeEdificio> vertices) {
         this.vertices = vertices;

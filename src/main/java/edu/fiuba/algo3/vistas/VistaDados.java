@@ -22,9 +22,9 @@ public class VistaDados extends HBox {
 
     private Pane crearDado() {
         Pane pane = new Pane();
-        pane.setMinSize(60, 60);
+        pane.setMinSize(70, 70);
 
-        Rectangle borde = new Rectangle(60, 60);
+        Rectangle borde = new Rectangle(70, 70);
         borde.setFill(Color.WHITE);
         borde.setStroke(Color.BLACK);
 
@@ -59,12 +59,12 @@ public class VistaDados extends HBox {
 
     private double[][] obtenerPosiciones(int numero) {
         switch (numero) {
-            case 1: return new double[][] {{30, 30}};
-            case 2: return new double[][] {{18, 18}, {42, 42}};
-            case 3: return new double[][] {{18, 18}, {30, 30}, {42, 42}};
-            case 4: return new double[][] {{18, 18}, {42, 18}, {18, 42}, {42, 42}};
-            case 5: return new double[][] {{18, 18}, {42, 18}, {30, 30}, {18, 42}, {42, 42}};
-            case 6: return new double[][] {{18, 18}, {42, 18}, {18, 30}, {42, 30}, {18, 42}, {42, 42}};
+            case 1: return new double[][] {{35, 35}};
+            case 2: return new double[][] {{17, 17}, {52, 52}};
+            case 3: return new double[][] {{17, 17}, {35, 35}, {52, 52}};
+            case 4: return new double[][] {{17, 17}, {52, 17}, {17, 52}, {52, 52}};
+            case 5: return new double[][] {{17, 17}, {52, 17}, {35, 35}, {17, 52}, {52, 52}};
+            case 6: return new double[][] {{17, 17}, {52, 17}, {17, 35}, {52, 35}, {17, 52}, {52, 52}};
         }
         return new double[0][0];
     }
