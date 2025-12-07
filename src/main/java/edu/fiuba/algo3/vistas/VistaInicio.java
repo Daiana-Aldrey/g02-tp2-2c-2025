@@ -3,6 +3,7 @@ package edu.fiuba.algo3.vistas;
 import edu.fiuba.algo3.controllers.ControladorIngresoNombres;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
@@ -50,6 +51,7 @@ public class VistaInicio {
         for (Button btn : botonesArray) {
             btn.setPrefWidth(160);
             btn.setPrefHeight(50);
+            btn.setCursor(Cursor.HAND);
             btn.setStyle(
                     "-fx-background-color: #d9a86c;" +
                             "-fx-text-fill: black;" +

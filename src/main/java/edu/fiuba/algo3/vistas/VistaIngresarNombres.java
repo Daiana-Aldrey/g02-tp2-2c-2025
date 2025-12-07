@@ -3,6 +3,7 @@ package edu.fiuba.algo3.vistas;
 import edu.fiuba.algo3.controllers.ControladorIngresoNombres;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
@@ -52,6 +53,7 @@ public class VistaIngresarNombres {
         Button volver = new Button();
         volver.setGraphic(contenidoBoton);
         volver.setStyle("-fx-background-color: transparent;");
+        volver.setCursor(Cursor.HAND);
         volver.setOnAction(e -> new VistaInicio(stage, controlador).mostrar());
 
         volver.setStyle(
@@ -142,6 +144,7 @@ public class VistaIngresarNombres {
         // Botón continuar
         Button continuar = new Button("Continuar");
         continuar.setFont(Font.font("System", FontWeight.BOLD, 18));
+        continuar.setCursor(Cursor.HAND);
         VBox.setMargin(continuar, new Insets(20, 0, 0, 0));
 
         // Estilo inicial

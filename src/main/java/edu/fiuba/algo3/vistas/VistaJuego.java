@@ -1,14 +1,11 @@
 package edu.fiuba.algo3.vistas;
 import edu.fiuba.algo3.modelo.JuegoObservable;
 import edu.fiuba.algo3.controllers.*;
-import edu.fiuba.algo3.modelo.Tablero.Tablero;
 import edu.fiuba.algo3.observador.Observador;
 import edu.fiuba.algo3.observador.Observable;
 import javafx.scene.Cursor;
-import javafx.scene.Group;
 import javafx.scene.control.ContentDisplay;
 import javafx.scene.layout.StackPane;
-
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -16,10 +13,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
-import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
-import javafx.scene.shape.Circle;
-import javafx.scene.paint.Color;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
@@ -59,9 +53,10 @@ public class VistaJuego extends BorderPane implements Observador {
         estadoLabel = new Label("Bienvenido a Catán");
         estadoLabel.setStyle("-fx-font-size: 16px; -fx-font-weight: bold;");
         BorderPane.setMargin(estadoLabel, new Insets(10));
-        setTop(estadoLabel);
 
- 
+        setTop(new VistaBarraSuperior(estadoLabel));
+
+
         // botones
         Button verCartasBtn = new BotonAccion("Ver Cartas", new HandlerVerCartas(modelo));
         Button intercambiarBtn = new BotonAccion("Intercambiar", new HandlerIntercambio(modelo));
