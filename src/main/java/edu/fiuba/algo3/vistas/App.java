@@ -1,5 +1,6 @@
 package edu.fiuba.algo3.vistas;
 
+import edu.fiuba.algo3.controllers.ControladorIngresoNombres;
 import edu.fiuba.algo3.controllers.ControladorTablero;
 import edu.fiuba.algo3.modelo.Juego;
 import edu.fiuba.algo3.modelo.JuegoObservable;
