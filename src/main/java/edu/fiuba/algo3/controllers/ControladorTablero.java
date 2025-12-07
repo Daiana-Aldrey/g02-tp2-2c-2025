@@ -3,9 +3,8 @@ package edu.fiuba.algo3.controllers;
 import edu.fiuba.algo3.modelo.Tablero.*;
 import edu.fiuba.algo3.modelo.Ubicacion.Ubicacion;
 import edu.fiuba.algo3.modelo.Ubicacion.UbicacionVertice;
-import edu.fiuba.algo3.vistas.VistaArista;
-import edu.fiuba.algo3.vistas.VistaTablero;
-import edu.fiuba.algo3.vistas.VistaVerticeEdificio;
+import edu.fiuba.algo3.vistas.*;
+import edu.fiuba.algo3.modelo.Intercambio.*;
 
 import java.util.List;
 
@@ -99,6 +98,28 @@ public class ControladorTablero {
             ubicacion2 = aristaObjeto.obtenerSegundaUbicacion();
             vistaArista = new VistaArista(aristaObjeto);
             vistaTablero.crearArista(vistaArista, ubicacion1, ubicacion2);
+        }
+    }
+    
+    public void colocarPuertos() {
+        List<Puerto> puertos = modelo.getPuertos(); 
+        for (Puerto puerto : puertos) {
+            String nombreRecurso = "general";
+
+            if (puerto instanceof PuertoEspecifico) {
+                nombreRecurso = ((PuertoEspecifico) puerto).getOferta().getClass().getSimpleName();
+            } 
+            
+            //System.out.println("Procesando puerto de: " + nombreRecurso);
+
+            VistaPuerto vistaP = new VistaPuerto(nombreRecurso);
+
+            int u1 = puerto.getMuelle1().getUbicacion().getUbicacionInt() - 1; 
+            int u2 = puerto.getMuelle2().getUbicacion().getUbicacionInt() - 1;
+            
+            //System.out.println("Ubicación muelles: " + u1 + " y " + u2);
+
+            vistaTablero.dibujarPuerto(vistaP, u1, u2);
         }
     }
 

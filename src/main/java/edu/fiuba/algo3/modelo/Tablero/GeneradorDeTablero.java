@@ -191,15 +191,15 @@ public class GeneradorDeTablero {
         List<Puerto> puertos = new ArrayList<>();
         
         puertos.add(new PuertoGenerico(new UbicacionVertice(1), new UbicacionVertice(2)));
-        puertos.add(new PuertoGenerico(new UbicacionVertice(6), new UbicacionVertice(7)));
+        puertos.add(new PuertoGenerico(new UbicacionVertice(15), new UbicacionVertice(16)));
+        puertos.add(new PuertoGenerico(new UbicacionVertice(28), new UbicacionVertice(29)));
         puertos.add(new PuertoGenerico(new UbicacionVertice(48), new UbicacionVertice(49)));
-        puertos.add(new PuertoGenerico(new UbicacionVertice(53), new UbicacionVertice(54)));
 
-        puertos.add(new PuertoEspecifico(new Lana(), new UbicacionVertice(8), new UbicacionVertice(17)));
-        puertos.add(new PuertoEspecifico(new Grano(), new UbicacionVertice(16), new UbicacionVertice(27)));
-        puertos.add(new PuertoEspecifico(new Mineral(), new UbicacionVertice(27), new UbicacionVertice(38)));
-        puertos.add(new PuertoEspecifico(new Madera(), new UbicacionVertice(28), new UbicacionVertice(39)));
-        puertos.add(new PuertoEspecifico(new Ladrillo(), new UbicacionVertice(47), new UbicacionVertice(48)));
+        puertos.add(new PuertoEspecifico(new Madera(), new UbicacionVertice(51), new UbicacionVertice(52)));
+        puertos.add(new PuertoEspecifico(new Grano(), new UbicacionVertice(37), new UbicacionVertice(38)));
+        puertos.add(new PuertoEspecifico(new Mineral(), new UbicacionVertice(8), new UbicacionVertice(18)));
+        puertos.add(new PuertoEspecifico(new Ladrillo(), new UbicacionVertice(4), new UbicacionVertice(5)));
+        puertos.add(new PuertoEspecifico(new Lana(), new UbicacionVertice(46), new UbicacionVertice(47)));
 
         return puertos;
     }
