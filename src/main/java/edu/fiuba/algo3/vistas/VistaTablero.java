@@ -619,4 +619,7 @@ public class VistaTablero {
         controlador.colocarPuertos();
     }
 
+    public void agregarPuerto(VistaPuerto puerto) {
+        tablero.getChildren().add(puerto);
+    }
 }
