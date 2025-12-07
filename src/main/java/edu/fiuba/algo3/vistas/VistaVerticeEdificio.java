@@ -27,6 +27,7 @@ public class VistaVerticeEdificio extends Button {
         setMaxSize(diameter, diameter);
 
         setShape(circulo);
+        setVisible(false);
 
     }
 

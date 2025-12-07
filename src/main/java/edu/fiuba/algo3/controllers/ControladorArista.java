@@ -2,14 +2,9 @@ package edu.fiuba.algo3.controllers;
 
 import edu.fiuba.algo3.modelo.Jugador;
 import edu.fiuba.algo3.modelo.Pieza.Camino;
-import edu.fiuba.algo3.modelo.Pieza.Pieza;
-import edu.fiuba.algo3.modelo.Pieza.Poblado;
 import edu.fiuba.algo3.modelo.Tablero.Arista;
-import edu.fiuba.algo3.modelo.Tablero.VerticeEdificio;
 import edu.fiuba.algo3.vistas.VistaArista;
-import edu.fiuba.algo3.vistas.VistaVerticeEdificio;
 
-import java.util.ArrayList;
 
 public class ControladorArista {
     private VistaArista vista;

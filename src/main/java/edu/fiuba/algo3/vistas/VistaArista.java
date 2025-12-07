@@ -29,6 +29,7 @@ public class VistaArista extends Button {
         setMaxSize(diameter, diameter);
 
         setShape(circulo);
+        setVisible(false);
     }
 
 

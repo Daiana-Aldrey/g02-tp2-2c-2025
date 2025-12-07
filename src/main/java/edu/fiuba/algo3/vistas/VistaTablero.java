@@ -181,6 +181,7 @@ public class VistaTablero {
 
         Group desiertoSinFicha = new Group(hexagono, view);
         hexagonosConFicha.add(desiertoSinFicha);
+        tablero.getChildren().add(desiertoSinFicha);
         indice++;
     }
 
@@ -492,6 +493,7 @@ public class VistaTablero {
 
         Group terrenoConFicha = new Group(hexagono, rectangulo, img);
         hexagonosConFicha.add(terrenoConFicha);
+        tablero.getChildren().add(terrenoConFicha);
 
         indice++;
     }
@@ -532,6 +534,7 @@ public class VistaTablero {
 
 
         vertices.add(vistaVertice);
+        tablero.getChildren().add(vistaVertice);
     }
 
     public void crearArista(VistaArista vistaArista, Ubicacion ubicacion, Ubicacion ubicacion2) {
@@ -557,6 +560,7 @@ public class VistaTablero {
         vistaArista.setTranslateY(coordenadaAristaY);
 
         aristas.add(vistaArista);
+        tablero.getChildren().add(vistaArista);
     }
 
     private int[] obtenerFilaColumnaVertice(int vertice) {
@@ -587,38 +591,32 @@ public class VistaTablero {
         return posicionMatriz;
     }
 
- 
-
 	public void dibujarPuerto(VistaPuerto vistaPuerto, int indiceVertice1, int indiceVertice2) {
-	     VistaVerticeEdificio v1 = vertices.get(indiceVertice1); 
+	     VistaVerticeEdificio v1 = vertices.get(indiceVertice1);
 	     VistaVerticeEdificio v2 = vertices.get(indiceVertice2);
 
 	     double xMedio = (v1.getTranslateX() + v2.getTranslateX()) / 2;
 	     double yMedio = (v1.getTranslateY() + v2.getTranslateY()) / 2;
-	
+
 	     vistaPuerto.setTranslateX(xMedio);
 	     vistaPuerto.setTranslateY(yMedio);
 
 	     tablero.getChildren().add(vistaPuerto);
-	 } 
-	
-    
-    
-	
+	 }
+
+     public List<VistaVerticeEdificio> getVertices() {
+        return vertices;
+     }
+
+    public List<VistaArista> getArista() {
+        return aristas;
+    }
+
     public void crearVista() {
         controlador.colocarTerrenos();
         controlador.colocarVertices();
         controlador.colocarAristas();
-        for (Group group : hexagonosConFicha) {
-            tablero.getChildren().add(group);
-        }
-        for (VistaVerticeEdificio vertice: vertices) {
-            tablero.getChildren().add(vertice);
-        }
-        for (VistaArista arista: aristas) {
-            tablero.getChildren().add(arista);
-        }
-        
         controlador.colocarPuertos();
     }
+
 }

@@ -18,6 +18,7 @@ public class App extends Application {
     @Override
     public void start(Stage stage) {
         StackPane root = new StackPane();
+        root.setStyle("-fx-background-color: #87cfe8;");
 
         List<Jugador> jugadores = List.of(
                 new Jugador("Jugador 1"),
@@ -35,12 +36,14 @@ public class App extends Application {
         ControladorTablero controladorTablero = new ControladorTablero(tablero, vistaTablero);
         vistaTablero.setControlador(controladorTablero);
         vistaTablero.crearVista();
+        vistaJuego.setTablero(vistaTablero);
+
 
         Group groupTablero = vistaTablero.getVistaTablero();
         groupTablero.setTranslateY(-55);
 
         root.getChildren().add(vistaJuego);
-        root.getChildren().add(groupTablero);
+        root.getChildren().addAll(groupTablero);
 
         Scene escena = new Scene(root, 1300, 800);
         stage.setTitle("Catán - Algo3");

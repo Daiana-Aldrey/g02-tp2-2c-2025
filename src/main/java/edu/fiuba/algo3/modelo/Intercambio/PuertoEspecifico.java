@@ -37,4 +37,8 @@ public class PuertoEspecifico extends Puerto {
         int costo = tasa * cantPedida;
         Banco.getInstance().intercambiar(jugador, oferta, pedido, cantPedida, costo);
     }
+
+    public Object getOferta() {
+        return oferta;
+    }
 }

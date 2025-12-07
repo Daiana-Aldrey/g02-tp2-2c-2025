@@ -1,8 +1,12 @@
 package edu.fiuba.algo3.vistas;
 import edu.fiuba.algo3.modelo.JuegoObservable;
 import edu.fiuba.algo3.controllers.*;
+import edu.fiuba.algo3.modelo.Tablero.Tablero;
 import edu.fiuba.algo3.observador.Observador;
 import edu.fiuba.algo3.observador.Observable;
+import javafx.scene.Cursor;
+import javafx.scene.Group;
+import javafx.scene.control.ContentDisplay;
 import javafx.scene.layout.StackPane;
 
 import javafx.geometry.Insets;
@@ -19,6 +23,9 @@ import javafx.scene.paint.Color;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class VistaJuego extends BorderPane implements Observador {
 
     private final JuegoObservable modelo;
@@ -27,12 +34,16 @@ public class VistaJuego extends BorderPane implements Observador {
     private final Label jugadorInferiorLabel;
     private VistaRecursos vistaRecursos;
     private VistaPropuesta vistaPropuesta;
+    private VistaPieza vistaPieza;
+
+    private VistaTablero vistaTablero;
+    private List<VistaVerticeEdificio> vertices;
 
     public VistaJuego(JuegoObservable modelo) {
         this.modelo = modelo;
+        vertices = new ArrayList<>();
         this.modelo.agregarObservador(this);
         this.vistaPropuesta = new VistaPropuesta(modelo);
-        this.setStyle("-fx-background-color: #87cfe8;");
         
         StackPane panelCentral = new StackPane();
         panelCentral.setAlignment(Pos.CENTER);
@@ -54,12 +65,31 @@ public class VistaJuego extends BorderPane implements Observador {
         // botones
         Button verCartasBtn = new BotonAccion("Ver Cartas", new HandlerVerCartas(modelo));
         Button intercambiarBtn = new BotonAccion("Intercambiar", new HandlerIntercambio(modelo));
-        Button tirarDadoBtn = new BotonAccion("Tirar dados", new HandlerTirarDados(modelo));
-        Button pasarTurnoBtn = new Button(); 
+        Button pasarTurnoBtn = new Button();
         pasarTurnoBtn.setOnAction(new HandlerPasarTurno(modelo));
-        
-        
-        
+
+        //boton dado
+        Button tirarDadoBtn = new BotonAccion("Tirar",new HandlerTirarDados(modelo));
+        tirarDadoBtn.setContentDisplay(ContentDisplay.BOTTOM);
+
+        Image iconoDado = new Image("cubo-de-dados.png");
+        ImageView vistaDado = new ImageView(iconoDado);
+
+        vistaDado.setFitWidth(35);
+        vistaDado.setFitHeight(35);
+        vistaDado.setPreserveRatio(true);
+        tirarDadoBtn.setStyle(
+                "-fx-background-color: white;" +
+                        "-fx-padding: 7 15 7 15; -fx-border-color: gray;" +
+                        "-fx-border-width: 2;" +
+                        "-fx-background-radius: 15;" +
+                        "-fx-border-radius: 15;"
+        );
+        tirarDadoBtn.setGraphic(vistaDado);
+        tirarDadoBtn.setCursor(Cursor.HAND);
+
+
+
         //pasar turno
         ImageView viewTurno = new ImageView(new Image("pasar_turno.png"));
         viewTurno.setFitHeight(50); 
@@ -88,7 +118,7 @@ public class VistaJuego extends BorderPane implements Observador {
         VBox panelJugador = new VBox(2, avatarJugador, jugadorInferiorLabel);
         panelJugador.setAlignment(Pos.CENTER);
 
-        // organizar botones en barra
+        // organizar Turno y vista de Jugador
         HBox grupoFinDeTurno = new HBox(5, pasarTurnoBtn, panelJugador);
         grupoFinDeTurno.setAlignment(Pos.CENTER);
 
@@ -97,13 +127,19 @@ public class VistaJuego extends BorderPane implements Observador {
         HBox contenedorRecursos = new HBox(vistaRecursos);
         contenedorRecursos.setAlignment(Pos.CENTER_LEFT);
 
-        HBox controlesDerecha = new HBox(15, bankBtn, intercambiarBtn, verCartasBtn, tirarDadoBtn, grupoFinDeTurno);
+        // Botones de Pieza
+        this.vistaPieza = new VistaPieza();
+
+        // organizador barra derecha
+        HBox controlesDerecha = new HBox(15, bankBtn, intercambiarBtn, verCartasBtn,vistaPieza, tirarDadoBtn, grupoFinDeTurno);
         controlesDerecha.setAlignment(Pos.CENTER_RIGHT);
 
         //barra
-        HBox barra = new HBox(20, contenedorRecursos, controlesDerecha);
+        HBox barra = new HBox(contenedorRecursos, controlesDerecha);
+        HBox.setHgrow(contenedorRecursos, Priority.ALWAYS);
+        HBox.setHgrow(controlesDerecha, Priority.ALWAYS);
+
         barra.setPadding(new Insets(10, 20, 10, 20));
-        barra.setAlignment(Pos.CENTER);
         barra.setStyle("-fx-background-color: #3b2145;");
 
         setBottom(barra);
@@ -151,5 +187,13 @@ public class VistaJuego extends BorderPane implements Observador {
         int suma = modelo.getSuma();
         vistaDados.actualizar(d1, d2);
         mostrarEstado("Tirada: " + d1 + " + " + d2 + " = " + suma);
+    }
+
+    public void setTablero(VistaTablero vistaTablero) {
+        this.vistaTablero = vistaTablero;
+        vertices = vistaTablero.getVertices();
+        List<VistaArista> arista = vistaTablero.getArista();
+        vistaPieza.setVerticesArista(vertices, arista);
+        vistaPieza.darComportamiento();
     }
 }
