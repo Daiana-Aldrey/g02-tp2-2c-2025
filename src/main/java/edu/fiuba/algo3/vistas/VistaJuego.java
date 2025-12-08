@@ -3,6 +3,7 @@ import edu.fiuba.algo3.modelo.JuegoObservable;
 import edu.fiuba.algo3.controllers.*;
 import edu.fiuba.algo3.observador.Observador;
 import edu.fiuba.algo3.observador.Observable;
+import edu.fiuba.algo3.utilidades.ReproductorMusica;
 import javafx.scene.Cursor;
 import javafx.scene.control.ContentDisplay;
 import javafx.scene.layout.*;
@@ -51,8 +52,26 @@ public class VistaJuego extends BorderPane implements Observador {
         estadoLabel.setStyle("-fx-font-size: 16px; -fx-font-weight: bold;");
         BorderPane.setMargin(estadoLabel, new Insets(10));
 
-        setTop(new VistaBarraSuperior(estadoLabel));
+        //Reproductor
+        ReproductorMusica reproductor = new ReproductorMusica(
+                List.of(
+                        getClass().getResource("/audio/audio1.wav").toExternalForm(),
+                        getClass().getResource("/audio/audio2.wav").toExternalForm(),
+                        getClass().getResource("/audio/audio3.wav").toExternalForm()
+                )
+        );
 
+        //Barra superior
+        VistaBarraSuperior barraSuperior = new VistaBarraSuperior(estadoLabel, reproductor);
+
+
+        VBox zonaSuperior = new VBox();
+        zonaSuperior.setSpacing(10);
+        zonaSuperior.setPadding(new Insets(10));
+        zonaSuperior.getChildren().add(barraSuperior);
+        zonaSuperior.getChildren().add(estadoLabel);
+
+        setTop(zonaSuperior);
 
         // botones
         Button verCartasBtn = new BotonAccion("Ver Cartas", new HandlerVerCartas(modelo));
@@ -84,7 +103,7 @@ public class VistaJuego extends BorderPane implements Observador {
 
         //pasar turno
         ImageView viewTurno = new ImageView(new Image("pasar_turno.png"));
-        viewTurno.setFitHeight(50); 
+        viewTurno.setFitHeight(50);
         viewTurno.setPreserveRatio(true);
         pasarTurnoBtn.setGraphic(viewTurno);
         pasarTurnoBtn.setStyle("-fx-background-color: transparent; -fx-cursor: hand;");
