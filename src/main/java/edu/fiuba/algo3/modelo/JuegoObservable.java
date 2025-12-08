@@ -70,6 +70,12 @@ public class JuegoObservable extends Observable {
         notificarObservadores("RECURSOS");
     }
     
+    public int consultarCostoIntercambio(String nombreRecurso) {
+        Jugador jugadorActual = juego.jugadorActual();
+        Recurso recurso = crearRecursoPorNombre(nombreRecurso);
+        return Banco.getInstance().calcularTasaOptima(jugadorActual, recurso);
+    }
+    
     public boolean jugadorTieneRecurso(String nombreRecurso, int cantidadRequerida) {
         Jugador jugador = juego.jugadorActual();
         Recurso buscado = crearRecursoPorNombre(nombreRecurso);
@@ -187,5 +193,7 @@ public class JuegoObservable extends Observable {
         notificarObservadores("RECURSOS");
         notificarObservadores("CARTAS");
     }
+    
+    
 
 }

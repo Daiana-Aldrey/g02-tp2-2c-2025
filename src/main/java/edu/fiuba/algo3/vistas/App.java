@@ -14,6 +14,10 @@ import javafx.stage.Stage;
 
 import java.util.List;
 
+
+import edu.fiuba.algo3.modelo.Recurso.*;
+import edu.fiuba.algo3.modelo.Intercambio.*;
+import edu.fiuba.algo3.modelo.Ubicacion.*;
 public class App extends Application {
 
     @Override
@@ -28,6 +32,19 @@ public class App extends Application {
         root.setStyle("-fx-background-color: #87cfe8;");
 
         Juego juego = new Juego(jugadores);
+        
+     // ==================Para probar intercambio teniendo puerto especifico de mader y madera ======================================================
+        Jugador jugadorTest = juego.jugadorActual();
+        jugadorTest.recibirRecurso(new Madera(0), 20);
+
+        // Puerto de Madera (2:1) 
+        Puerto puertoMadera = new PuertoEspecifico(new Madera(0), new UbicacionVertice(1), new UbicacionVertice(2));
+
+        jugadorTest.getPuertos().add(puertoMadera);
+
+        System.out.println(">>> HACK ACTIVADO: " + jugadorTest.nombre() + " tiene 20 Maderas y un Puerto de Madera (2:1)");
+        
+        // =========================================================================
 
         JuegoObservable modeloObservable = new JuegoObservable(juego);
         VistaJuego vistaJuego = new VistaJuego(modeloObservable);

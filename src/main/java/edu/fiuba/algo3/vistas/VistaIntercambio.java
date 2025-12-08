@@ -28,6 +28,7 @@ public class VistaIntercambio {
     private List<Button> botonesPedido = new ArrayList<>();
 
     private Label lblMensaje;
+    private Label lblOferta; 
 
     public VistaIntercambio(Stage ventana, JuegoObservable modelo) {
         this.ventana = ventana;
@@ -38,10 +39,9 @@ public class VistaIntercambio {
         layout.setAlignment(Pos.CENTER);
         layout.setStyle("-fx-background-color: #f0f0f0;");
 
-        Label titulo = new Label("Intercambio con el Banco (Costo 4:1)");
+        Label titulo = new Label("Intercambio con el Banco");
         titulo.setStyle("-fx-font-weight: bold; -fx-font-size: 16px;");
-
-        Label lblOferta = new Label("Selecciona el recurso a ENTREGAR (4):");
+        lblOferta = new Label("Selecciona el recurso a ENTREGAR:");
         HBox panelOferta = crearPanelDeFichas(true);
 
         Label lblPedido = new Label("Selecciona el recurso a RECIBIR (1):");
@@ -49,12 +49,14 @@ public class VistaIntercambio {
 
         Button btnConfirmar = new Button("Realizar Intercambio");
         btnConfirmar.setStyle("-fx-background-color: #4b1f4f; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px;");
+        
         lblMensaje = new Label("");
+        
         btnConfirmar.setOnAction(e -> manejarIntercambio());
+        
         layout.getChildren().addAll(titulo, lblOferta, panelOferta, lblPedido, panelPedido, btnConfirmar, lblMensaje);
         this.escena = new Scene(layout, 500, 500); 
     }
-
 
     private HBox crearPanelDeFichas(boolean esOferta) {
         HBox fila = new HBox(10);
@@ -79,28 +81,26 @@ public class VistaIntercambio {
         Button btn = new Button();
         btn.setUserData(nombre); 
         try {
-            //las imagens tienen que llamrse "madera.png", "piedra.png"
             String ruta = "/recursos/" + nombre.toLowerCase() + ".png";
             ImageView imgView = new ImageView(new Image(getClass().getResourceAsStream(ruta)));
             imgView.setFitWidth(70);
             imgView.setFitHeight(70);
             imgView.setPreserveRatio(true);
             btn.setPrefSize(80, 100);
-            btn.setMinSize(80, 100);
-            btn.setMaxSize(80, 100);
-
             btn.setGraphic(imgView);
         } catch (Exception e) {
-            //texto por si falla
             btn.setText(nombre);
-            btn.setPrefSize(60, 80);
+            btn.setPrefSize(80, 100);
         }
 
         btn.setStyle("-fx-background-color: transparent; -fx-border-color: #cccccc; -fx-border-width: 2;");
+        
         btn.setOnAction(e -> {
             if (esOferta) {
                 recursoOfertaSeleccionado = nombre;
                 actualizarEstiloSeleccion(botonesOferta, btn, "#e74c3c");
+                actualizarCostoVisual(nombre);
+                
             } else {
                 recursoPedidoSeleccionado = nombre;
                 actualizarEstiloSeleccion(botonesPedido, btn, "#2ecc71"); 
@@ -108,6 +108,21 @@ public class VistaIntercambio {
         });
 
         return btn;
+    }
+
+    private void actualizarCostoVisual(String recurso) {
+        try {
+            int costo = modelo.consultarCostoIntercambio(recurso);
+            lblOferta.setText("Selecciona el recurso a ENTREGAR (" + costo + "):");
+           
+            if (costo < 4) {
+                lblOferta.setStyle("-fx-text-fill: green; -fx-font-weight: bold;");
+            } else {
+                lblOferta.setStyle("-fx-text-fill: black;");
+            }
+        } catch (Exception e) {
+            lblOferta.setText("Selecciona el recurso a ENTREGAR:");
+        }
     }
 
     private void actualizarEstiloSeleccion(List<Button> grupo, Button seleccionado, String colorBorde) {
@@ -126,8 +141,10 @@ public class VistaIntercambio {
 
         try {
             modelo.realizarIntercambio(recursoOfertaSeleccionado, recursoPedidoSeleccionado);
-            lblMensaje.setText("¡Intercambio realizado!");
+            int costoFinal = modelo.consultarCostoIntercambio(recursoOfertaSeleccionado);
+            lblMensaje.setText("¡Intercambio realizado! (Tasa " + costoFinal + ":1)");
             lblMensaje.setStyle("-fx-text-fill: green;");
+            
         } catch (Exception ex) {
             lblMensaje.setText("Error: No tienes suficientes recursos.");
             lblMensaje.setStyle("-fx-text-fill: red;");

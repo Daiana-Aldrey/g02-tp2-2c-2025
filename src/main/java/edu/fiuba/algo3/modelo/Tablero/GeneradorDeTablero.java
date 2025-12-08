@@ -194,7 +194,7 @@ public class GeneradorDeTablero {
         puertos.add(new PuertoGenerico(new UbicacionVertice(4), new UbicacionVertice(5)));
         puertos.add(new PuertoGenerico(new UbicacionVertice(8), new UbicacionVertice(18)));
         puertos.add(new PuertoGenerico(new UbicacionVertice(48), new UbicacionVertice(49)));
-        puertos.add(new PuertoGenerico(new UbicacionVertice(28), new UbicacionVertice(27)));
+        puertos.add(new PuertoGenerico(new UbicacionVertice(38), new UbicacionVertice(27)));
 
         puertos.add(new PuertoEspecifico(new Madera(), new UbicacionVertice(1), new UbicacionVertice(2)));
         puertos.add(new PuertoEspecifico(new Grano(), new UbicacionVertice(29), new UbicacionVertice(39)));

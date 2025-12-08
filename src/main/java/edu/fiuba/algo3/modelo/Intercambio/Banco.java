@@ -60,7 +60,7 @@ public class Banco implements Comercializar{
     }
     
 
-    private int calcularTasaOptima(Jugador jugador, Recurso recursoOferta) {
+    public int calcularTasaOptima(Jugador jugador, Recurso recursoOferta) {
         int mejorTasa = this.tasaBancaria; 
 
         for (Puerto puerto : jugador.getPuertos()) {
