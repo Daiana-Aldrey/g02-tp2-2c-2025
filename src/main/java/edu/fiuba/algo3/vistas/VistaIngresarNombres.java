@@ -1,31 +1,75 @@
 package edu.fiuba.algo3.vistas;
 
 import edu.fiuba.algo3.controllers.ControladorIngresoNombres;
+import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.geometry.Side;
 import javafx.scene.Cursor;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-
+import javafx.scene.input.MouseEvent;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class VistaIngresarNombres {
 
     private final Stage stage;
     private final int cantidadJugadores;
     private final List<TextField> camposNombres = new ArrayList<>();
+    private final List<ColorPicker> coloresJugadores = new ArrayList<>();
+    private final Set<Color> coloresUsados = new HashSet<>();
+    private final List<Color> coloresIndividuales = new ArrayList<>();
     private final ControladorIngresoNombres controlador;
+    private String toHexString(Color color) {
+        return String.format("#%02X%02X%02X",
+                (int)(color.getRed()*255),
+                (int)(color.getGreen()*255),
+                (int)(color.getBlue()*255)
+        );
+    }
+
+    private String colorToName(Color c) {
+        if (c.equals(Color.RED)) return "Rojo";
+        if (c.equals(Color.BLUE)) return "Azul";
+        if (c.equals(Color.GREEN)) return "Verde";
+        if (c.equals(Color.YELLOW)) return "Amarillo";
+        if (c.equals(Color.ORANGE)) return "Naranja";
+        if (c.equals(Color.PURPLE)) return "Violeta";
+        return "Color";
+    }
+
+    private Color nameToColor(String name) {
+        switch (name) {
+            case "Rojo":
+                return Color.RED;
+            case "Azul":
+                return Color.BLUE;
+            case "Verde":
+                return Color.GREEN;
+            case "Amarillo":
+                return Color.YELLOW;
+            case "Naranja":
+                return Color.ORANGE;
+            case "Violeta":
+                return Color.PURPLE;
+            default:
+                return Color.BLACK;
+        }
+    }
 
     public VistaIngresarNombres(Stage stage, int cantidadJugadores, ControladorIngresoNombres controlador) {
         this.stage = stage;
@@ -81,8 +125,6 @@ public class VistaIngresarNombres {
                         "-fx-border-width: 1;"
         ));
 
-
-
         HBox topBar = new HBox(volver);
         topBar.setPadding(new Insets(15));
         topBar.setAlignment(Pos.TOP_LEFT);
@@ -93,6 +135,16 @@ public class VistaIngresarNombres {
         VBox layoutPrincipal = new VBox(30);
         layoutPrincipal.setAlignment(Pos.TOP_CENTER);
         layoutPrincipal.setPadding(new Insets(30));
+
+        // Paleta de colores permitidos
+        List<Color> coloresPermitidos = List.of(
+                Color.RED,
+                Color.BLUE,
+                Color.GREEN,
+                Color.YELLOW,
+                Color.ORANGE,
+                Color.PURPLE
+        );
 
         // Título
         Text titulo = new Text("Ingresá los nombres de los jugadores");
@@ -135,7 +187,59 @@ public class VistaIngresarNombres {
             tf.setMaxWidth(200);
             camposNombres.add(tf);
 
-            tarjeta.getChildren().addAll(imgJugador, tituloJugador, tf);
+
+            // ------------------ Texto "Ingrese color" -------------------
+            Text textoColor = new Text("Ingrese color:");
+            textoColor.setFont(Font.font("System", 14));
+
+
+            // ===================== COLOR PICKER PERSONALIZADO =====================
+            ColorPicker colorPicker = new ColorPicker();
+            colorPicker.setPrefWidth(150);
+
+            // BLOQUEAR el menú nativo del ColorPicker
+            colorPicker.addEventFilter(MouseEvent.MOUSE_RELEASED, Event::consume);
+            //colorPicker.addEventFilter(MouseEvent.MOUSE_CLICKED, Event::consume);
+            //colorPicker.addEventFilter(ActionEvent.ACTION, Event::consume);
+
+            // Menú personalizado
+            ContextMenu menuColores = new ContextMenu();
+
+            for (Color c : coloresPermitidos) {
+                MenuItem item = new MenuItem(colorToName(c));
+                item.setStyle("-fx-background-color: " + toHexString(c) + ";");
+
+                item.setOnAction(e -> {
+                    // Liberar color anterior
+                    Color oldColor = colorPicker.getValue();
+                    coloresUsados.remove(oldColor);
+
+                    // Asignar color nuevo
+                    colorPicker.setValue(c);
+                    coloresUsados.add(c);
+                    coloresIndividuales.add(c);
+                });
+
+                menuColores.getItems().add(item);
+            }
+
+            // Mostrar menú cuando clickean el ColorPicker
+            colorPicker.setOnMouseClicked(e -> {
+                for (MenuItem item : menuColores.getItems()) {
+                    Color c = nameToColor(item.getText());
+                    item.setDisable(coloresUsados.contains(c));
+                }
+                menuColores.show(colorPicker, Side.BOTTOM, 0, 0);
+            });
+
+            coloresJugadores.add(colorPicker);
+            tarjeta.getChildren().addAll(
+                    imgJugador,
+                    tituloJugador,
+                    tf,          // ⬅️ primero el campo de nombre
+                    textoColor,  // ⬅️ luego el texto "Ingrese color"
+                    colorPicker  // ⬅️ y finalmente el selector de color
+            );
             filaTarjetas.getChildren().add(tarjeta);
         }
 
@@ -195,7 +299,7 @@ public class VistaIngresarNombres {
 
         Scene escena = new Scene(contenedorPrincipal, 800, 600);
         stage.setScene(escena);
-        stage.setTitle("Ingresar nombres - Catán");
+        stage.setTitle("Ingresar nombres y color - Catán");
         stage.setMaximized(true);
         stage.show();
     }
