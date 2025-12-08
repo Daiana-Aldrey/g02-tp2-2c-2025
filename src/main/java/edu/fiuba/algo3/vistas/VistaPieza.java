@@ -1,6 +1,7 @@
 package edu.fiuba.algo3.vistas;
 
 import edu.fiuba.algo3.controllers.ControladorPieza;
+import edu.fiuba.algo3.modelo.Jugador;
 import javafx.scene.Cursor;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
@@ -12,6 +13,7 @@ import java.util.List;
 public class VistaPieza extends HBox {
     private ControladorPieza controlador;
     private Button btnCancelar;
+
     public VistaPieza() {
         setSpacing(20);
 
@@ -56,13 +58,11 @@ public class VistaPieza extends HBox {
         controlador.setArista(aristas);
     }
 
-    public void darComportamiento() {
-        controlador.darComportamiento();
+    public void darComportamiento(Jugador jugador) {
+        controlador.darComportamiento(jugador);
     }
 
     public void disenioDesactivado(Button botonDesactivado) {
-
-        botonDesactivado.setPrefSize(40, 40);
         botonDesactivado.setDisable(true);
     }
 
