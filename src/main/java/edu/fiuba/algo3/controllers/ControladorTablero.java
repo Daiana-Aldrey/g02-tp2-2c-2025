@@ -101,8 +101,6 @@ public class ControladorTablero {
         }
     }
     
-    
-    
     public void colocarPuertos() {
         List<Puerto> puertos = modelo.getPuertos();
         List<VistaVerticeEdificio> vistasVertices = vistaTablero.getVertices();
