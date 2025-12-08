@@ -54,7 +54,18 @@ public class JuegoObservable extends Observable {
     }
     
     public void siguienteTurno() {
-        juego.pasarAlSiguienteJugador();
+        juego.pasarAlSiguienteJugador(); // Cambia el puntero de jugadorActual
+        
+        // VERIFICACIÓN CLAVE:
+        // Si hay una propuesta activa y el turno volvió al que propuso,
+        // significa que dio toda la vuelta y nadie aceptó. Cerramos la propuesta.
+        if (hayPropuestaPendiente && getNombreJugadorActual().equals(getNombreJugadorProponente())) {
+            cerrarPropuesta();
+        }
+        
+        // Si el turno pasó a otro jugador (B o C), la propuesta SIGUE ABIERTA (pendinete)
+        // para que ellos la vean.
+
         notificarObservadores("TURNO");
     }
     public String getNombreJugadorActual() {
@@ -98,16 +109,25 @@ public class JuegoObservable extends Observable {
 
     public void aceptarPropuesta() {
         if (!hayPropuestaPendiente) return;
-        Jugador aceptante = buscarJugadorAceptante();
+        Jugador aceptante = juego.jugadorActual(); 
         
+        if (aceptante.nombre().equals(getNombreJugadorProponente())) return;
+
         if (aceptante != null) {
             aceptante.intercambiar(demandaActual, ofertaActual, jugadorProponente);
             notificarObservadores("RECURSOS");
-        
             cerrarPropuesta();
         }
     }
-    
+
+    private Jugador buscarJugadorPorNombre(String nombre) {
+        for (Jugador j : juego.jugadores()) {
+            if (j.nombre().equals(nombre)) {
+                return j;
+            }
+        }
+        return null;
+    }
     public void rechazarPropuesta() {
         cerrarPropuesta();
     }
@@ -118,13 +138,6 @@ public class JuegoObservable extends Observable {
         this.demandaActual = null;
         this.jugadorProponente = null;
         notificarObservadores("PROPUESTA_CERRADA");
-    }
-
-    private Jugador buscarJugadorAceptante() {
-        for (Jugador j : juego.jugadores()) {
-            if (!j.equals(jugadorProponente)) return j;
-        }
-        return null;
     }
 
     public boolean hayPropuesta() { 
