@@ -16,8 +16,8 @@ public class VistaPuerto extends ImageView {
             this.setImage(new Image("file:src/main/resources/puertos/puerto_general.png"));
         }
         
-        this.setFitHeight(35);
-        this.setFitWidth(35);
+        this.setFitHeight(50);
+        this.setFitWidth(50);
         this.setPreserveRatio(true);
     }
 }

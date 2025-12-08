@@ -159,7 +159,6 @@ public class ControladorTablero {
         vistaPuerto.setTranslateY(finalY);
         
         double angulo = Math.toDegrees(Math.atan2(normalY, normalX));
-        vistaPuerto.setRotate(angulo + 90);
         
         vistaTablero.agregarPuerto(vistaPuerto);
     }

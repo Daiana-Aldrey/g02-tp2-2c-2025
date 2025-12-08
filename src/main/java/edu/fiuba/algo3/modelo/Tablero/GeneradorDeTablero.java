@@ -187,6 +187,7 @@ public class GeneradorDeTablero {
         }
     }
     
+ 
     
     public List<Puerto> generarPuertos() {
         List<Puerto> puertos = new ArrayList<>();
