@@ -38,6 +38,14 @@ public class PuertoEspecifico extends Puerto {
         Banco.getInstance().intercambiar(jugador, oferta, pedido, cantPedida, costo);
     }
 
+    @Override
+    public int tasaDeCambioPara(Recurso recurso) {
+        if (this.oferta.recurso().equals(recurso.recurso())) {
+            return 2;
+        }
+        throw new RecursoIncorrecto();
+    }
+
     public Object getOferta() {
         return oferta;
     }

@@ -4,6 +4,8 @@ import edu.fiuba.algo3.modelo.CartaDeDesarrollo.*;
 import edu.fiuba.algo3.modelo.Jugador;
 import edu.fiuba.algo3.modelo.Recurso.*;
 import edu.fiuba.algo3.Excepciones.NoTieneCarta;
+import edu.fiuba.algo3.modelo.Jugador.*;
+import edu.fiuba.algo3.Excepciones.*;
 
 import java.util.*;
 
@@ -43,15 +45,33 @@ public class Banco implements Comercializar{
         return carta;
     }
 
-	public void comercializar(Jugador jugador,Recurso recursoOferta, Recurso recursoPedido,int cantPedida) {
-		int costo = tasaBancaria * cantPedida;
-		intercambiar(jugador, recursoOferta, recursoPedido, cantPedida, costo);
-	}
+    @Override
+    public void comercializar(Jugador jugador, Recurso recursoOferta, Recurso recursoPedido, int cantPedida) {
+        int tasa = calcularTasaOptima(jugador, recursoOferta);
+        int costo = tasa * cantPedida;
+        intercambiar(jugador, recursoOferta, recursoPedido, cantPedida, costo);
+    }
 
     public void intercambiar(Jugador jugador,Recurso recursoOferta, Recurso recursoPedido, int cantPedida, int costo) {
     	Recurso recursoADescontar = recursoOferta.crearCon(costo);
         Recurso recursoAEntregar = recursoPedido.crearCon(cantPedida);
         jugador.descontarRecurso(recursoADescontar, costo);
         jugador.recibirRecurso(recursoAEntregar, cantPedida);
+    }
+    
+
+    private int calcularTasaOptima(Jugador jugador, Recurso recursoOferta) {
+        int mejorTasa = this.tasaBancaria; 
+
+        for (Puerto puerto : jugador.getPuertos()) {
+            try {
+                int tasaDelPuerto = puerto.tasaDeCambioPara(recursoOferta);
+                if (tasaDelPuerto < mejorTasa) 
+                    mejorTasa = tasaDelPuerto;
+                  
+            } catch (RecursoIncorrecto e) {
+            }
+        }
+        return mejorTasa;
     }
 }

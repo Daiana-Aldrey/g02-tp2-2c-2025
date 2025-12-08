@@ -19,4 +19,9 @@ public class PuertoGenerico extends Puerto {
         int costo = tasa * cantPedida;
         Banco.getInstance().intercambiar(jugador, oferta, pedido,cantPedida,costo);
     }
+    
+    @Override
+    public int tasaDeCambioPara(Recurso recurso) {
+        return 3; 
+    }
 }

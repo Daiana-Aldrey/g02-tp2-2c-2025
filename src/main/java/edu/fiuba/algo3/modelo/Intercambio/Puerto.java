@@ -37,7 +37,7 @@ public abstract class Puerto implements Comercializar {
     }
 
     protected abstract void realizarComercio(Jugador jugador, Recurso oferta, Recurso pedido, int cantPedida);
-    
+    public abstract int tasaDeCambioPara(Recurso recurso);
     
     public Muelle getMuelle1() { return muelle1; }
     public Muelle getMuelle2() { return muelle2; }

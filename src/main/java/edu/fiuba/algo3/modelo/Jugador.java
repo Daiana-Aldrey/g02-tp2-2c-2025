@@ -359,5 +359,8 @@ public class Jugador {
         return null;
     }
 
+    public List<Puerto> getPuertos(){
+    	return puertos;
+    }
 }
   
