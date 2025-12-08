@@ -48,6 +48,10 @@ public class Jugador {
         inicializarRecursos();
     }
 
+    public void asignarColor(Color color) {
+        this.color = color;
+    }
+
 	public void incorporarCamino(Camino camino) {
         caminos.add(camino);
         ruta.calcularRutaMayor();

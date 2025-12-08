@@ -289,11 +289,19 @@ public class VistaIngresarNombres {
                 nombres.add(nombre);
                 contador++;
             }
-            /*
-            for (ComboBox<Color> combo : combosColores) {
-                coloresIndividuales.add(combo.getValue());
-            }*/
-            controlador.crearJugadoresYIniciarJuego(nombres);
+            for (ColorPicker cp : coloresJugadores) {
+                coloresIndividuales.add(cp.getValue());
+            }
+
+            // Validación → todos los colores deben estar elegidos
+            if (coloresIndividuales.contains(Color.WHITE)) {
+                Alert alerta = new Alert(Alert.AlertType.ERROR);
+                alerta.setHeaderText("Falta seleccionar colores");
+                alerta.setContentText("Cada jugador debe elegir un color antes de continuar.");
+                alerta.showAndWait();
+                return;
+            }
+            controlador.crearJugadoresYIniciarJuego(nombres, coloresIndividuales);
         });
 
         layoutPrincipal.getChildren().add(continuar);
