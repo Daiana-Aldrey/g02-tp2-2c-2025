@@ -54,17 +54,10 @@ public class JuegoObservable extends Observable {
     }
     
     public void siguienteTurno() {
-        juego.pasarAlSiguienteJugador(); // Cambia el puntero de jugadorActual
-        
-        // VERIFICACIÓN CLAVE:
-        // Si hay una propuesta activa y el turno volvió al que propuso,
-        // significa que dio toda la vuelta y nadie aceptó. Cerramos la propuesta.
+        juego.pasarAlSiguienteJugador(); 
         if (hayPropuestaPendiente && getNombreJugadorActual().equals(getNombreJugadorProponente())) {
             cerrarPropuesta();
         }
-        
-        // Si el turno pasó a otro jugador (B o C), la propuesta SIGUE ABIERTA (pendinete)
-        // para que ellos la vean.
 
         notificarObservadores("TURNO");
     }
