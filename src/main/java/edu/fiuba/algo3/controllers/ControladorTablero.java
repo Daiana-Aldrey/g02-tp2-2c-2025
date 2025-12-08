@@ -101,27 +101,69 @@ public class ControladorTablero {
         }
     }
     
+    
+    
     public void colocarPuertos() {
-        List<Puerto> puertos = modelo.getPuertos(); 
+        List<Puerto> puertos = modelo.getPuertos();
+        List<VistaVerticeEdificio> vistasVertices = vistaTablero.getVertices();
+        double distanciaDesdeCosta = 35.0;
+
+        double centroX = 0;
+        double centroY = 0;
+        for (VistaVerticeEdificio v : vistasVertices) {
+            centroX += v.getTranslateX();
+            centroY += v.getTranslateY();
+        }
+        centroX /= vistasVertices.size();
+        centroY /= vistasVertices.size();
+        
         for (Puerto puerto : puertos) {
-            String nombreRecurso = "general";
-
-            if (puerto instanceof PuertoEspecifico) {
-                nombreRecurso = ((PuertoEspecifico) puerto).getOferta().getClass().getSimpleName();
-            } 
-            
-            //System.out.println("Procesando puerto de: " + nombreRecurso);
-
-            VistaPuerto vistaP = new VistaPuerto(nombreRecurso);
-
-            int u1 = puerto.getMuelle1().getUbicacion().getUbicacionInt() - 1; 
-            int u2 = puerto.getMuelle2().getUbicacion().getUbicacionInt() - 1;
-            
-            //System.out.println("Ubicación muelles: " + u1 + " y " + u2);
-
-            vistaTablero.dibujarPuerto(vistaP, u1, u2);
+            configurarYColocarPuerto(puerto, vistasVertices, centroX, centroY, distanciaDesdeCosta);
         }
     }
 
+    private void configurarYColocarPuerto(Puerto puerto, List<VistaVerticeEdificio> vistasVertices, double centroX, double centroY, double distanciaDesdeCosta) {
+        String nombreRecurso = "general";
+        if (puerto instanceof PuertoEspecifico) {
+            nombreRecurso = ((PuertoEspecifico) puerto).getOferta().getClass().getSimpleName();
+        }
+
+        VistaPuerto vistaPuerto = new VistaPuerto(nombreRecurso);
+        
+        int idx1 = puerto.getMuelle1().getUbicacion().getUbicacionInt() - 1;
+        int idx2 = puerto.getMuelle2().getUbicacion().getUbicacionInt() - 1;
+        VistaVerticeEdificio v1 = vistasVertices.get(idx1);
+        VistaVerticeEdificio v2 = vistasVertices.get(idx2);
+
+        double medioX = (v1.getTranslateX() + v2.getTranslateX()) / 2;
+        double medioY = (v1.getTranslateY() + v2.getTranslateY()) / 2;
+        double dx = v2.getTranslateX() - v1.getTranslateX();
+        double dy = v2.getTranslateY() - v1.getTranslateY();
+        double normalX = -dy;
+        double normalY = dx;
+        double vectorDesdeCentroX = medioX - centroX;
+        double vectorDesdeCentroY = medioY - centroY;
+        double productoPunto = (normalX * vectorDesdeCentroX) + (normalY * vectorDesdeCentroY);
+
+        if (productoPunto < 0) {
+            normalX = -normalX;
+            normalY = -normalY;
+        }
+
+        double longitud = Math.sqrt(normalX * normalX + normalY * normalY);
+        normalX /= longitud;
+        normalY /= longitud;
+
+        double finalX = medioX + (normalX * distanciaDesdeCosta);
+        double finalY = medioY + (normalY * distanciaDesdeCosta);
+
+        vistaPuerto.setTranslateX(finalX);
+        vistaPuerto.setTranslateY(finalY);
+        
+        double angulo = Math.toDegrees(Math.atan2(normalY, normalX));
+        vistaPuerto.setRotate(angulo + 90);
+        
+        vistaTablero.agregarPuerto(vistaPuerto);
+    }
 
 }

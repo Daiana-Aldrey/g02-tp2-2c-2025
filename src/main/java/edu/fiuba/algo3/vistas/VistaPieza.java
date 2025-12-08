@@ -10,7 +10,8 @@ import javafx.scene.layout.HBox;
 import java.util.List;
 
 public class VistaPieza extends HBox {
-    ControladorPieza controlador;
+    private ControladorPieza controlador;
+    private Button btnCancelar;
     public VistaPieza() {
         setSpacing(20);
 
@@ -23,55 +24,46 @@ public class VistaPieza extends HBox {
 
         Button btnCiudad = new Button();
         btnCiudad.setGraphic(vistaCiudad);
+
+        btnCiudad.setGraphic(vistaCiudad);
         btnCiudad.setStyle(
-                 "-fx-background-color: white;" +
-                 "-fx-padding: 15; -fx-border-color: gray;" +
-                 "-fx-border-width: 2;" +
-                 "-fx-background-radius: 15;" +
-                 "-fx-border-radius: 15;"
+                "-fx-background-color: #787878;" +
+                        "-fx-padding: 15;" +
+                        "-fx-border-color: gray;" +
+                        "-fx-border-width: 2;" +
+                        "-fx-background-radius: 15;" +
+                        "-fx-border-radius: 15;"
         );
         btnCiudad.setPrefSize(40, 40);
-        btnCiudad.setCursor(Cursor.HAND);
 
         Image iconoPoblado = new Image("casa.png");
         ImageView vistaPoblado = new ImageView(iconoPoblado);
 
-        vistaPoblado.setFitWidth(40);
-        vistaPoblado.setFitHeight(40);
-        vistaPoblado.setPreserveRatio(true);
-
         Button btnPoblado = new Button();
-        btnPoblado.setGraphic(vistaPoblado);
-        btnPoblado.setStyle(
-                "-fx-background-color: white;" +
-                        "-fx-padding: 15; -fx-border-color: gray;" +
-                        "-fx-border-width: 2;" +
-                        "-fx-background-radius: 15;" +
-                        "-fx-border-radius: 15;"
-        );
-        btnPoblado.setPrefSize(40, 40);
-        btnPoblado.setCursor(Cursor.HAND);
+
+        disenioBoton(btnPoblado, vistaPoblado);
 
         Image iconoCamino = new Image("camino-recto.png");
         ImageView vistaCamino = new ImageView(iconoCamino);
 
-        vistaCamino.setFitWidth(40);
-        vistaCamino.setFitHeight(40);
-        vistaCamino.setPreserveRatio(true);
-
         Button btnCamino = new Button();
-        btnCamino.setGraphic(vistaCamino);
-        btnCamino.setStyle(
-                "-fx-background-color: white;" +
-                        "-fx-padding: 15; -fx-border-color: gray;" +
-                        "-fx-border-width: 2;" +
-                        "-fx-background-radius: 15;" +
-                        "-fx-border-radius: 15;"
-        );
-        btnCamino.setPrefSize(40, 40);
-        btnCamino.setCursor(Cursor.HAND);
 
-        controlador = new ControladorPieza(this, btnCiudad, btnCamino, btnPoblado);
+        disenioBoton(btnCamino, vistaCamino);
+
+        btnCancelar = new Button("Cancelar");
+        btnCancelar.setStyle(
+                "-fx-text-fill: white;" +
+                "-fx-background-color: red;" +
+                "-fx-font-size: 15px;" +
+                "-fx-padding: 9 16 9 16;" +
+                "-fx-background-radius: 10;"
+        );
+        btnCancelar.setCursor(Cursor.HAND);
+        btnCancelar.setVisible(false);
+
+
+        controlador = new ControladorPieza(this, btnCiudad, btnCamino, btnPoblado, btnCancelar);
+
 
         getChildren().addAll(btnCiudad,btnPoblado,btnCamino);
     }
@@ -83,5 +75,29 @@ public class VistaPieza extends HBox {
 
     public void darComportamiento() {
         controlador.darComportamiento();
+    }
+
+
+    public void disenioBoton(Button boton, ImageView imagen) {
+        imagen.setFitWidth(40);
+        imagen.setFitHeight(40);
+        imagen.setPreserveRatio(true);
+
+        boton.setGraphic(imagen);
+        boton.setStyle(
+                "-fx-background-color: white;" +
+                        "-fx-padding: 15;" +
+                        "-fx-border-color: gray;" +
+                        "-fx-border-width: 2;" +
+                        "-fx-background-radius: 15;" +
+                        "-fx-border-radius: 15;"
+        );
+        boton.setPrefSize(40, 40);
+        boton.setCursor(Cursor.HAND);
+
+    }
+
+    public Button obtenerBotonCancelar() {
+        return btnCancelar;
     }
 }

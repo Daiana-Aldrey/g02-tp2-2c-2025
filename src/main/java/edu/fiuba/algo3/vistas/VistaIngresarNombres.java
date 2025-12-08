@@ -32,7 +32,6 @@ public class VistaIngresarNombres {
     private final List<TextField> camposNombres = new ArrayList<>();
     private final List<ColorPicker> coloresJugadores = new ArrayList<>();
     private final Set<Color> coloresUsados = new HashSet<>();
-    private final List<Color> coloresIndividuales = new ArrayList<>();
     private final ControladorIngresoNombres controlador;
     private String toHexString(Color color) {
         return String.format("#%02X%02X%02X",
@@ -217,7 +216,6 @@ public class VistaIngresarNombres {
                     // Asignar color nuevo
                     colorPicker.setValue(c);
                     coloresUsados.add(c);
-                    coloresIndividuales.add(c);
                 });
 
                 menuColores.getItems().add(item);
@@ -281,6 +279,7 @@ public class VistaIngresarNombres {
 
         continuar.setOnAction(e -> {
             List<String> nombres = new ArrayList<>();
+            List<Color> coloresIndividuales = new ArrayList<>();
             int contador = 1;
             for (TextField tf : camposNombres) {
                 String nombre = tf.getText().trim();
@@ -290,6 +289,10 @@ public class VistaIngresarNombres {
                 nombres.add(nombre);
                 contador++;
             }
+            /*
+            for (ComboBox<Color> combo : combosColores) {
+                coloresIndividuales.add(combo.getValue());
+            }*/
             controlador.crearJugadoresYIniciarJuego(nombres);
         });
 

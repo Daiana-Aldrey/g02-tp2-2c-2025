@@ -23,6 +23,8 @@ public class ControladorVertice {
         ubicacion = modelo.obtenerUbicacion();
 
         adyacentes = new ArrayList<>();
+
+        colocarPieza(new Jugador("puta"), "poblado");
     }
 
     public void colocarPieza(Jugador jugador, String tipoPieza) {
@@ -30,7 +32,7 @@ public class ControladorVertice {
         ubicacion.add(this.ubicacion);
 
         vista.setOnAction(e -> {
-            jugador.construirPieza(tipoPieza, ubicacion);
+            modelo.colocarPieza(new Poblado(jugador));
             for (VistaVerticeEdificio adyacente : adyacentes) {
                 adyacente.actualizar();
             }
