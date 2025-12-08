@@ -16,6 +16,7 @@ public class ControladorPieza {
 
     private boolean visibleCamino;
     private boolean visiblePoblado;
+    private boolean visibleCiudad;
 
     private List<VistaVerticeEdificio> vertices;
     private List<VistaArista> aristas;
@@ -29,23 +30,35 @@ public class ControladorPieza {
 
         visibleCamino = false;
         visiblePoblado = false;
+        visibleCiudad = false;
 
     }
 
     public void darComportamiento() {
         btnPoblado.setOnAction(e -> {
+            btnCancelar.setVisible(true);
+            visiblePoblado = true;
+            vista.disenioDesactivado(btnCamino);
+            vista.disenioDesactivado(btnCiudad);
+
             for (VistaVerticeEdificio vista : vertices) {
                 vista.actualizar();
             }
-            btnCancelar.setVisible(true);
-            visiblePoblado = true;
         });
         btnCamino.setOnAction(e -> {
+            btnCancelar.setVisible(true);
+            visibleCamino = true;
+            vista.disenioDesactivado(btnPoblado);
+            vista.disenioDesactivado(btnCiudad);
             for (VistaArista vista : aristas) {
                 vista.actualizar();
             }
+        });
+        btnCiudad.setOnAction(e -> {
             btnCancelar.setVisible(true);
-            visibleCamino = true;
+            visibleCiudad = true;
+            vista.disenioDesactivado(btnPoblado);
+            vista.disenioDesactivado(btnCamino);
         });
 
         invisibilicarBotones();
@@ -58,12 +71,20 @@ public class ControladorPieza {
                     arista.setVisible(false);
                 }
                 visibleCamino = false;
+                vista.disenioBotonActivado(btnPoblado);
+                vista.disenioBotonActivado(btnCiudad);
             }
             if (visiblePoblado) {
                 for (VistaVerticeEdificio vista : vertices) {
                     vista.setVisible(false);
                 }
                 visiblePoblado = false;
+                vista.disenioBotonActivado(btnCamino);
+                vista.disenioBotonActivado(btnCiudad);
+            }
+            if (visibleCiudad) {
+                vista.disenioBotonActivado(btnPoblado);
+                vista.disenioBotonActivado(btnCamino);
             }
             btnCancelar.setVisible(false);
         });
