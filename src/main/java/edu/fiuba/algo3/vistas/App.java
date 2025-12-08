@@ -33,18 +33,32 @@ public class App extends Application {
 
         Juego juego = new Juego(jugadores);
         
-     // ==================Para probar intercambio teniendo puerto especifico de mader y madera ======================================================
+
+      // ==================== HARCODEO PARA PROBAR ==========================
+     //JUgador 1 con madera y puerto especifico de madera
         Jugador jugadorTest = juego.jugadorActual();
         jugadorTest.recibirRecurso(new Madera(0), 20);
-
-        // Puerto de Madera (2:1) 
         Puerto puertoMadera = new PuertoEspecifico(new Madera(0), new UbicacionVertice(1), new UbicacionVertice(2));
 
         jugadorTest.getPuertos().add(puertoMadera);
 
         System.out.println(">>> HACK ACTIVADO: " + jugadorTest.nombre() + " tiene 20 Maderas y un Puerto de Madera (2:1)");
+       
         
-        // =========================================================================
+        
+     //jugador dos con ladrillos 
+        Jugador jugador1 = juego.jugadorActual();
+        jugador1.recibirRecurso(new Madera(0), 20);
+        jugador1.getPuertos().add(new PuertoEspecifico(new Madera(0), new UbicacionVertice(1), new UbicacionVertice(2)));
+
+        if (jugadores.size() > 1) {
+            Jugador jugador2 = jugadores.get(1);
+            jugador2.recibirRecurso(new Ladrillo(0), 20); 
+            
+            System.out.println(">>> HACK: Jugador 2 (" + jugador2.nombre() + ") cargado con 20 Ladrillos.");
+        }
+
+        // ============================================================
 
         JuegoObservable modeloObservable = new JuegoObservable(juego);
         VistaJuego vistaJuego = new VistaJuego(modeloObservable);
@@ -60,8 +74,9 @@ public class App extends Application {
         Group groupTablero = vistaTablero.getVistaTablero();
         groupTablero.setTranslateY(-55);
 
-        root.getChildren().add(vistaJuego);
+       
         root.getChildren().add(groupTablero);
+        root.getChildren().add(vistaJuego);
 
         Scene escena = new Scene(root, 1300, 800);
         stage.setTitle("Catán - Algo3");

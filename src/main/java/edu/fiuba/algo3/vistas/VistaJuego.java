@@ -37,6 +37,7 @@ public class VistaJuego extends BorderPane implements Observador {
         
         StackPane panelCentral = new StackPane();
         panelCentral.setAlignment(Pos.CENTER);
+        panelCentral.setPickOnBounds(false);
 
         // dados
         vistaDados = new VistaDados();
@@ -122,9 +123,6 @@ public class VistaJuego extends BorderPane implements Observador {
         this.vistaPieza = new VistaPieza();
 
         Button botonCancelar = vistaPieza.obtenerBotonCancelar();
-        // Region spacer = new Region();
-        // HBox.setHgrow(spacer, Priority.ALWAYS);
-        // contenedorDados.getChildren().addAll(spacer,botonCancelar);
 
         // organizador barra derecha
         HBox controlesDerecha = new HBox(15, bankBtn, intercambiarBtn, verCartasBtn,vistaPieza,tirarDadoBtn, grupoFinDeTurno);
@@ -165,9 +163,13 @@ public class VistaJuego extends BorderPane implements Observador {
             if (msg.equals("TURNO")) {
             	actualizarNombreJugador();
                 vistaRecursos.actualizarRecursos(modelo.juego().recursosJugadorActual());
+                vistaPropuesta.actualizarPropuesta();
+                vistaPropuesta.toFront();
             }
             if (msg.equals("NUEVA_PROPUESTA") || msg.equals("PROPUESTA_CERRADA")) {
-                vistaPropuesta.actualizarPropuesta();
+            	vistaPropuesta.actualizarPropuesta();
+                vistaPropuesta.toFront();
+                
             }
             if(msg.equals("RECURSOS")){
                 vistaRecursos.actualizarRecursos(modelo.juego().recursosJugadorActual());

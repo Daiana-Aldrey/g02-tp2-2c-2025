@@ -16,6 +16,7 @@ public class VistaPropuesta extends VBox {
     private VBox panelIconosOferta;
     private VBox panelIconosDemanda;
     private Label lblJugador;
+    private Label lblError;
 
     public VistaPropuesta(JuegoObservable modelo) {
         this.modelo = modelo;
@@ -39,19 +40,34 @@ public class VistaPropuesta extends VBox {
             crearCajita("Oferta:", panelIconosOferta)
         );
 
+        lblError = new Label("");
+        lblError.setStyle("-fx-text-fill: #c0392b; -fx-font-weight: bold; -fx-font-size: 11px;");
+
         Button btnAceptar = new Button("Aceptar");
         btnAceptar.setStyle("-fx-background-color: #27ae60; -fx-text-fill: white; -fx-font-weight: bold; -fx-cursor: hand;");
-        btnAceptar.setOnAction(e -> modelo.aceptarPropuesta());
+        
+
+        btnAceptar.setOnAction(e -> {
+            try {
+                modelo.aceptarPropuesta();
+                lblError.setText("");
+            } catch (Exception ex) { 
+                lblError.setText("¡No tenes recursos suficientes!");
+            }
+        });
 
         Button btnRechazar = new Button("Rechazar");
         btnRechazar.setStyle("-fx-background-color: #c0392b; -fx-text-fill: white; -fx-font-weight: bold; -fx-cursor: hand;");
-        btnRechazar.setOnAction(e -> modelo.rechazarPropuesta());
+        btnRechazar.setOnAction(e -> {
+            modelo.rechazarPropuesta();
+            lblError.setText("");
+        });
 
         HBox botones = new HBox(15, btnAceptar, btnRechazar);
         botones.setAlignment(Pos.CENTER);
 
         this.setSpacing(10);
-        this.getChildren().addAll(lblJugador, zonaRecursos, botones);
+        this.getChildren().addAll(lblJugador, zonaRecursos, lblError, botones);
     }
 
     private VBox crearCajita(String titulo, VBox contenido) {
@@ -72,20 +88,21 @@ public class VistaPropuesta extends VBox {
             this.setVisible(false);
             return;
         }
-
+        
         String quienPropone = modelo.getNombreJugadorProponente();
         String quienJuegaAhora = modelo.getNombreJugadorActual();
-
+         
         if (quienPropone.equals(quienJuegaAhora)) {
-            this.setVisible(false);
-            return; 
-        }
-        
+           this.setVisible(false);
+           return; 
+         } 
         this.setVisible(true);
+      
         lblJugador.setText("Oferta de: " + quienPropone);
     
         llenarIconos(panelIconosOferta, modelo.getOferta());
         llenarIconos(panelIconosDemanda, modelo.getDemanda());
+
     }
 
     private void llenarIconos(VBox panel, List<Recurso> recursos) {
@@ -98,7 +115,7 @@ public class VistaPropuesta extends VBox {
                 
                 String nombreClase = r.getClass().getSimpleName();
 
-                // Parche chiquito por si usas "Grano" en la clase y "trigo.png" en archivo
+  
                 if (nombreClase.equals("Grano")) nombreClase = "Trigo";
                 if (nombreClase.equals("Mineral")) nombreClase = "Piedra";
                 

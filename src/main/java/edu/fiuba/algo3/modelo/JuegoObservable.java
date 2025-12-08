@@ -95,21 +95,19 @@ public class JuegoObservable extends Observable {
         notificarObservadores("NUEVA_PROPUESTA");
     }
 
+
     public void aceptarPropuesta() {
         if (!hayPropuestaPendiente) return;
-
         Jugador aceptante = buscarJugadorAceptante();
+        
         if (aceptante != null) {
-            try {
-                aceptante.intercambiar(demandaActual, ofertaActual, jugadorProponente);
-                notificarObservadores("RECURSOS");
-            } catch (Exception e) {
-                System.out.println("Error al aceptar: " + e.getMessage());
-            }
+            aceptante.intercambiar(demandaActual, ofertaActual, jugadorProponente);
+            notificarObservadores("RECURSOS");
+        
+            cerrarPropuesta();
         }
-        cerrarPropuesta();
     }
-
+    
     public void rechazarPropuesta() {
         cerrarPropuesta();
     }
