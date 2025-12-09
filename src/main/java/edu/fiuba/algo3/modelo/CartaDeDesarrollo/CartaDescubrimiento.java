@@ -7,16 +7,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CartaDescubrimiento extends Carta {
+    static final int CANTRECURSOSELEGIDOS = 2;
+    private final List<Recurso> recursosElegidos = new ArrayList<>(CANTRECURSOSELEGIDOS);
+
     public CartaDescubrimiento(){
         nombre = "Descubrimiento";
         descripcion = "Permite al jugador tomar dos recursos a su elección de la banca";
     }
 
-    static final int CANTRECURSOSELEGIDOS = 2;
 
-    private final List<Recurso> recursosElegidos = new ArrayList<>(CANTRECURSOSELEGIDOS);
-
-    public void configurarEleccion(List<Recurso> recursos) {
+    public void configurarRecursos(List<Recurso> recursos) {
         if (recursos.size() != CANTRECURSOSELEGIDOS) {
             throw new AccionNoPermitida("necesitas elegir 2 recursos.");
         }
@@ -27,13 +27,15 @@ public class CartaDescubrimiento extends Carta {
 
     @Override
     public void usar(Jugador jugador) {
-//        if (recursosElegidos.size() != CANTRECURSOSELEGIDOS) {
-//            throw new AccionNoPermitida("error con los recursos elegidos.");
-//        }
+        if (recursosElegidos.size() != CANTRECURSOSELEGIDOS) {
+            throw new AccionNoPermitida("error con los recursos elegidos.");
+        }
 
         for (Recurso recurso : recursosElegidos) {
             jugador.recibirRecurso(recurso, 1);
         }
+
+        //recursosElegidos.clear();
     }
 
     public int puntosDeVictoriaOcultos() {

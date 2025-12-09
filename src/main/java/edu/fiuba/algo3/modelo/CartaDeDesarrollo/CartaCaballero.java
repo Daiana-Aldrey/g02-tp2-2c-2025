@@ -8,25 +8,20 @@ public class CartaCaballero extends Carta {
     static final int NOGANAPUNTOS = 0;
     private UbicacionVertice destino;
     private Jugador victima;
-    private boolean configurada = false;
 
     public CartaCaballero() {
         nombre = "Caballero";
         descripcion = "Permite mover el ladrón y robar un recurso de un jugador adyacente.";
     }
-
-    public void configurar(UbicacionVertice destino, Jugador victima) {
-        // Asumimos que la UI valida que no sean nulos / inválidos.
+    @Override
+    public void configurarLadron(UbicacionVertice destino, Jugador victima) {
         this.destino = destino;
         this.victima = victima;
-        this.configurada = true;
     }
 
     @Override
     public void usar(Jugador jugadorQueJuegaLaCarta) {
-//        if (!configurada) {
-//            throw new ErrorNoUsoDeCartaInvalido("configurar Caballero antes de usarlo.");
-//        }
+
         jugadorQueJuegaLaCarta.moverLadron(destino, victima);
         jugadorQueJuegaLaCarta.registrarCaballeroJugado();
     }

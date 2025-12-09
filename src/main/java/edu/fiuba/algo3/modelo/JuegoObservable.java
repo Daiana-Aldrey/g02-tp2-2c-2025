@@ -5,6 +5,13 @@ import edu.fiuba.algo3.modelo.Ubicacion.Ubicacion;
 import edu.fiuba.algo3.observador.Observable;
 import edu.fiuba.algo3.modelo.Recurso.*;
 import edu.fiuba.algo3.modelo.Intercambio.*;
+import edu.fiuba.algo3.modelo.CartaDeDesarrollo.*;
+import edu.fiuba.algo3.modelo.Jugador;
+import edu.fiuba.algo3.modelo.CartaDeDesarrollo.Carta;
+import edu.fiuba.algo3.modelo.Ubicacion.UbicacionVertice;
+import edu.fiuba.algo3.Excepciones.NoTieneCarta;
+import edu.fiuba.algo3.Excepciones.NoTieneCarta;
+import edu.fiuba.algo3.Excepciones.ErrorNoUsoDeCartaInvalido;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -175,7 +182,6 @@ public class JuegoObservable extends Observable {
             datos.put("descripcion", carta.getDescripcion());
 
             String nombreClase = carta.getClass().getSimpleName();
-
             String imagen = nombreClase + ".png";
             datos.put("imagen", imagen);
 
@@ -184,6 +190,19 @@ public class JuegoObservable extends Observable {
 
         return lista;
     }
+    public Map<String, Integer> obtenerConteoCartasDesarrolloJugadorActual() {
+        Jugador jugador = juego.jugadorActual();
+        Map<String, Integer> conteo = new HashMap<>();
+
+        for (Carta carta : jugador.obtenerCartasDesarrollo()) {
+            String nombre = carta.getNombre();
+            conteo.put(nombre, conteo.getOrDefault(nombre, 0) + 1);
+        }
+
+        return conteo;
+    }
+
+
 
     public void usarCarta(String nombreCarta) {
         Jugador jugador = juego.jugadorActual();
@@ -197,7 +216,91 @@ public class JuegoObservable extends Observable {
         notificarObservadores("RECURSOS");
         notificarObservadores("CARTAS");
     }
-    
-    
+    public void usarCartaDesarrollo(String nombreCarta) {
+        Jugador jugador = juego.jugadorActual();
+        List<Carta> cartas = jugador.obtenerCartasDesarrollo();
+
+        for (Carta carta : cartas) {
+            if (carta.getNombre().equals(nombreCarta)) {
+                jugador.jugarCartaDesarrollo(carta);
+                notificarObservadores("CARTAS");
+
+                if (jugador.gano()) {
+                    notificarObservadores("FIN_JUEGO");
+                }
+                return;
+            }
+        }
+        throw new NoTieneCarta("El jugador no tiene una carta de tipo " + nombreCarta);
+    }
+    public void comprarCartaDesarrollo() {
+        juego.comprarCartaDesarrollo();
+        notificarObservadores("RECURSOS");
+        notificarObservadores("CARTAS");
+    }
+    public void configurarCartaMonopolio(String nombreRecurso) {
+
+        Jugador jugadorActual = juego.jugadorActual();
+        Recurso recurso = crearRecursoPorNombre(nombreRecurso);
+
+        for (Carta carta : jugadorActual.obtenerCartasDesarrollo()) {
+            if (carta.getNombre().equals("Monopolio")) {
+                carta.configurarRecurso(recurso);
+                List<Jugador> victimas = new ArrayList<>();
+                for (Jugador j : juego.jugadores()) {
+                    if (!j.equals(jugadorActual)) {
+                        victimas.add(j);
+                    }
+                }
+                carta.configurarVictimas(victimas);
+
+                return;
+            }
+        }
+        throw new NoTieneCarta("No tenés una carta Monopolio.");
+    }
+
+    public void configurarCartaDescubrimiento(String nombreRecurso1, String nombreRecurso2) {
+
+        Jugador jugadorActual = juego.jugadorActual();
+
+        Recurso recurso1 = crearRecursoPorNombre(nombreRecurso1);
+        Recurso recurso2 = crearRecursoPorNombre(nombreRecurso2);
+
+        List<Recurso> recursos = new ArrayList<>();
+        recursos.add(recurso1);
+        recursos.add(recurso2);
+
+        for (Carta carta : jugadorActual.obtenerCartasDesarrollo()) {
+            if (carta.getNombre().equals("Descubrimiento")) {
+                carta.configurarRecursos(recursos);
+                return;
+            }
+        }
+
+        throw new NoTieneCarta("No tenés una carta Descubrimiento.");
+    }
+    public void configurarCartaCaballero(UbicacionVertice destino, String nombreVictima) {
+        Jugador jugadorActual = juego.jugadorActual();
+        Jugador victima = buscarJugadorPorNombre(nombreVictima);
+        for (Carta carta : jugadorActual.obtenerCartasDesarrollo()) {
+            if (carta.getNombre().equals("Caballero")) {
+                carta.configurarLadron(destino, victima);
+                return;
+            }
+        }
+        throw new NoTieneCarta("No tenés una carta Caballero.");
+    }
+    public void configurarCartaConstruccionCarreteras(List<Ubicacion> camino1, List<Ubicacion> camino2) {
+        Jugador jugadorActual = juego.jugadorActual();
+
+        for (Carta carta : jugadorActual.obtenerCartasDesarrollo()) {
+            if (carta.getNombre().equals("Construccion de Carreteras")) {
+                carta.configurarCaminos(camino1, camino2);
+                return;
+            }
+        }
+        throw new NoTieneCarta("No tenés carta Construccion de Carreteras.");
+    }
 
 }

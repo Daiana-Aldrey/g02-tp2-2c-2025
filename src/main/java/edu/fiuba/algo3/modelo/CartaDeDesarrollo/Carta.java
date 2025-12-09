@@ -1,6 +1,9 @@
 package edu.fiuba.algo3.modelo.CartaDeDesarrollo;
-
 import edu.fiuba.algo3.modelo.Jugador;
+import edu.fiuba.algo3.modelo.Recurso.Recurso;
+import edu.fiuba.algo3.modelo.Ubicacion.Ubicacion;
+import edu.fiuba.algo3.modelo.Ubicacion.UbicacionVertice;
+import java.util.List;
 
 public abstract class Carta {
     protected String nombre;
@@ -17,8 +20,14 @@ public abstract class Carta {
 
 	public abstract void usar(Jugador jugador);
 
-	public int puntosDeVictoriaOcultos() {
-		return 0;
-	}
+    public void configurarRecurso(Recurso recurso) {}
+    public void configurarVictimas(List<Jugador> victimas) {}
+    public void configurarRecursos(List<Recurso>recursos) {}
+    public void configurarLadron(UbicacionVertice destino, Jugador victima) {}
+    public void configurarCaminos(List<Ubicacion> camino1, List<Ubicacion> camino2) {}
+
+    public int puntosDeVictoriaOcultos() {
+        return 0;
+    }
 
 }
