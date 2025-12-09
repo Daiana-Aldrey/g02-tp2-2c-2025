@@ -26,7 +26,7 @@ public class ReproductorMusica {
             String ruta = listaRutas.get(indiceActual);
             Media media = new Media(ruta);
             player = new MediaPlayer(media);
-            player.setVolume(0.2);
+            player.setVolume(0.1);
             player.setOnEndOfMedia(this::siguiente);
             player.play();
         } catch (Exception e) {

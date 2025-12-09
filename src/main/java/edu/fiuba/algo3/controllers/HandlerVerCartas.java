@@ -20,11 +20,10 @@ public class HandlerVerCartas implements EventHandler<ActionEvent> {
         Stage ventanaCartas = new Stage();
         ventanaCartas.setTitle("Cartas de Desarrollo");
 
-        // Tamaño inicial grande
         ventanaCartas.setWidth(900);
         ventanaCartas.setHeight(700);
 
-        // Tamaño mínimo opcional
+
         ventanaCartas.setMinWidth(800);
         ventanaCartas.setMinHeight(600);
 

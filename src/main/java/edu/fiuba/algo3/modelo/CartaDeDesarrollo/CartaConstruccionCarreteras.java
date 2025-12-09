@@ -12,7 +12,7 @@ public class CartaConstruccionCarreteras extends Carta {
     List<Ubicacion> ubicaciones2;
 
     public CartaConstruccionCarreteras() {
-        nombre = "Construccion de Carreteras";
+        nombre = "Construcción de carreteras";
         descripcion = "Permite construir 2 Carreteras gratuitamente";
         ubicaciones1 = new ArrayList<>();
         ubicaciones2 = new ArrayList<>();
