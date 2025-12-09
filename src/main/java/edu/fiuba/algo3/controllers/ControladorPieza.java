@@ -1,5 +1,6 @@
 package edu.fiuba.algo3.controllers;
 
+import edu.fiuba.algo3.modelo.Jugador;
 import edu.fiuba.algo3.vistas.VistaArista;
 import edu.fiuba.algo3.vistas.VistaPieza;
 import edu.fiuba.algo3.vistas.VistaVerticeEdificio;
@@ -16,6 +17,7 @@ public class ControladorPieza {
 
     private boolean visibleCamino;
     private boolean visiblePoblado;
+    private boolean visibleCiudad;
 
     private List<VistaVerticeEdificio> vertices;
     private List<VistaArista> aristas;
@@ -29,23 +31,22 @@ public class ControladorPieza {
 
         visibleCamino = false;
         visiblePoblado = false;
+        visibleCiudad = false;
 
     }
 
-    public void darComportamiento() {
+    public void darComportamiento(Jugador jugador) {
         btnPoblado.setOnAction(e -> {
-            for (VistaVerticeEdificio vista : vertices) {
-                vista.actualizar();
-            }
-            btnCancelar.setVisible(true);
-            visiblePoblado = true;
+            comportamientoBotonPoblado(jugador);
         });
         btnCamino.setOnAction(e -> {
-            for (VistaArista vista : aristas) {
-                vista.actualizar();
-            }
+            comportamientoBotonCamino(jugador);
+        });
+        btnCiudad.setOnAction(e -> {
             btnCancelar.setVisible(true);
-            visibleCamino = true;
+            visibleCiudad = true;
+            vista.disenioDesactivado(btnPoblado);
+            vista.disenioDesactivado(btnCamino);
         });
 
         invisibilicarBotones();
@@ -55,18 +56,52 @@ public class ControladorPieza {
         btnCancelar.setOnAction(e -> {
             if (visibleCamino) {
                 for (VistaArista arista : aristas) {
-                    arista.setVisible(false);
+                    arista.invisibilizarVerticeDisponible();
                 }
                 visibleCamino = false;
+                vista.disenioBotonActivado(btnPoblado);
+                vista.disenioBotonActivado(btnCiudad);
             }
             if (visiblePoblado) {
                 for (VistaVerticeEdificio vista : vertices) {
-                    vista.setVisible(false);
+                    vista.invisibilizarVerticeDisponible();
                 }
                 visiblePoblado = false;
+                vista.disenioBotonActivado(btnCamino);
+                vista.disenioBotonActivado(btnCiudad);
+            }
+            if (visibleCiudad) {
+                vista.disenioBotonActivado(btnPoblado);
+                vista.disenioBotonActivado(btnCamino);
             }
             btnCancelar.setVisible(false);
         });
+    }
+
+    public void comportamientoBotonPoblado(Jugador jugador) {
+        btnCancelar.setVisible(true);
+        visiblePoblado = true;
+        vista.disenioDesactivado(btnCamino);
+        vista.disenioDesactivado(btnCiudad);
+
+        for (VistaVerticeEdificio vistaVertice : vertices) {
+            vistaVertice.setJugador(jugador);
+            vistaVertice.colocarPiezar("poblado");
+            vistaVertice.mostrarVerticeDisponible();
+        }
+    }
+
+    public void comportamientoBotonCamino(Jugador jugador) {
+        btnCancelar.setVisible(true);
+        visibleCamino = true;
+        vista.disenioDesactivado(btnPoblado);
+        vista.disenioDesactivado(btnCiudad);
+        for (VistaArista vistaArista : aristas) {
+            vistaArista.setJugador(jugador);
+            vistaArista.colocarPiezar("camino");
+            vistaArista.mostrarAristaDisponible();
+        }
+
     }
 
 

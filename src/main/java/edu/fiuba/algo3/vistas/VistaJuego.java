@@ -1,8 +1,10 @@
 package edu.fiuba.algo3.vistas;
 import edu.fiuba.algo3.modelo.JuegoObservable;
 import edu.fiuba.algo3.controllers.*;
+import edu.fiuba.algo3.modelo.Jugador;
 import edu.fiuba.algo3.observador.Observador;
 import edu.fiuba.algo3.observador.Observable;
+import edu.fiuba.algo3.utilidades.ReproductorMusica;
 import javafx.scene.Cursor;
 import javafx.scene.control.ContentDisplay;
 import javafx.scene.layout.*;
@@ -21,7 +23,10 @@ public class VistaJuego extends BorderPane implements Observador {
     private final JuegoObservable modelo;
     private final VistaDados vistaDados;
     private final Label estadoLabel;
-    private final Label jugadorInferiorLabel;
+    private final Label nombreInferiorLabel;
+    private final VBox iconoJugador;
+    private final Button tirarDadoBtn;
+
     private VistaRecursos vistaRecursos;
     private VistaPropuesta vistaPropuesta;
     private VistaPieza vistaPieza;
@@ -51,8 +56,26 @@ public class VistaJuego extends BorderPane implements Observador {
         estadoLabel.setStyle("-fx-font-size: 16px; -fx-font-weight: bold;");
         BorderPane.setMargin(estadoLabel, new Insets(10));
 
-        setTop(new VistaBarraSuperior(estadoLabel));
+        //Reproductor
+        ReproductorMusica reproductor = new ReproductorMusica(
+                List.of(
+                        getClass().getResource("/audio/audio1.wav").toExternalForm(),
+                        getClass().getResource("/audio/audio2.wav").toExternalForm(),
+                        getClass().getResource("/audio/audio3.wav").toExternalForm()
+                )
+        );
 
+        //Barra superior
+        VistaBarraSuperior barraSuperior = new VistaBarraSuperior(estadoLabel, reproductor);
+
+
+        VBox zonaSuperior = new VBox();
+        zonaSuperior.setSpacing(10);
+        zonaSuperior.setPadding(new Insets(10));
+        zonaSuperior.getChildren().add(barraSuperior);
+        zonaSuperior.getChildren().add(estadoLabel);
+
+        setTop(zonaSuperior);
 
         // botones
         Button verCartasBtn = new BotonAccion("Ver Cartas", new HandlerVerCartas(modelo));
@@ -61,7 +84,7 @@ public class VistaJuego extends BorderPane implements Observador {
         pasarTurnoBtn.setOnAction(new HandlerPasarTurno(modelo));
 
         //boton dado
-        Button tirarDadoBtn = new BotonAccion("Tirar", new HandlerTirarDados(modelo));
+        tirarDadoBtn = new BotonAccion("Tirar", new HandlerTirarDados(modelo));
         tirarDadoBtn.setContentDisplay(ContentDisplay.BOTTOM);
 
         Image iconoDado = new Image("cubo-de-dados.png");
@@ -80,11 +103,9 @@ public class VistaJuego extends BorderPane implements Observador {
         tirarDadoBtn.setGraphic(vistaDado);
         tirarDadoBtn.setCursor(Cursor.HAND);
 
-
-
         //pasar turno
         ImageView viewTurno = new ImageView(new Image("pasar_turno.png"));
-        viewTurno.setFitHeight(50); 
+        viewTurno.setFitHeight(50);
         viewTurno.setPreserveRatio(true);
         pasarTurnoBtn.setGraphic(viewTurno);
         pasarTurnoBtn.setStyle("-fx-background-color: transparent; -fx-cursor: hand;");
@@ -98,17 +119,24 @@ public class VistaJuego extends BorderPane implements Observador {
         bankBtn.setGraphic(viewBanco);
         bankBtn.setStyle("-fx-background-color: transparent; -fx-cursor: hand;");
         bankBtn.setOnAction(new HandlerBanco(modelo));
-        
 
         //jugador
         Image img = new Image("jugador.png");
         ImageView avatarJugador = new ImageView(img);
+
         avatarJugador.setFitHeight(40);
         avatarJugador.setFitWidth(40);
-        jugadorInferiorLabel = new Label(modelo.juego().jugadorActual().nombre()); 
-        jugadorInferiorLabel.setStyle("-fx-text-fill: white; -fx-font-weight: bold;");
-        VBox panelJugador = new VBox(2, avatarJugador, jugadorInferiorLabel);
+
+        iconoJugador = new VBox(avatarJugador);
+        iconoJugador.setAlignment(Pos.CENTER);
+        iconoJugador.setMaxSize(50, 50);
+        iconoJugador.setMinSize(50, 50);
+
+        nombreInferiorLabel = new Label(modelo.juego().jugadorActual().nombre());
+        nombreInferiorLabel.setStyle("-fx-text-fill: white; -fx-font-weight: bold;");
+        VBox panelJugador = new VBox(2, iconoJugador, nombreInferiorLabel);
         panelJugador.setAlignment(Pos.CENTER);
+
 
         // organizar Turno y vista de Jugador
         HBox grupoFinDeTurno = new HBox(5, pasarTurnoBtn, panelJugador);
@@ -121,7 +149,6 @@ public class VistaJuego extends BorderPane implements Observador {
 
         // Botones de Pieza
         this.vistaPieza = new VistaPieza();
-
         Button botonCancelar = vistaPieza.obtenerBotonCancelar();
 
         // organizador barra derecha
@@ -147,7 +174,7 @@ public class VistaJuego extends BorderPane implements Observador {
         panelCentral.getChildren().addAll(contenedorDados, vistaPropuesta);
         setCenter(panelCentral);
 
-        actualizarVistaDados();
+        primeraRonda();
     }
     private void mostrarEstado(String mensaje) {
         estadoLabel.setText(mensaje);
@@ -159,12 +186,15 @@ public class VistaJuego extends BorderPane implements Observador {
             String msg = (String) evento;
             if (msg.equals("DADOS")) {
             	actualizarVistaDados();
+                invisibilizarBotonDados();
             }
             if (msg.equals("TURNO")) {
-            	actualizarNombreJugador();
+            	actualizarJugador();
                 vistaRecursos.actualizarRecursos(modelo.juego().recursosJugadorActual());
                 vistaPropuesta.actualizarPropuesta();
                 vistaPropuesta.toFront();
+                visibilizarBotonDados();
+                actualizarVistaPieza(modelo.juego().jugadorActual());
             }
             if (msg.equals("NUEVA_PROPUESTA") || msg.equals("PROPUESTA_CERRADA")) {
             	vistaPropuesta.actualizarPropuesta();
@@ -177,10 +207,11 @@ public class VistaJuego extends BorderPane implements Observador {
         }
     }
 
-    private void actualizarNombreJugador() {
+    private void actualizarJugador() {
         String nombre = modelo.getNombreJugadorActual();
-        jugadorInferiorLabel.setText(nombre);
+        nombreInferiorLabel.setText(nombre);
         mostrarEstado("Turno de: " + nombre);
+        iconoJugador.setBackground(new Background(new BackgroundFill(modelo.juego().jugadorActual().obtenerColor(), new CornerRadii(100), Insets.EMPTY)));
     }
     
     private void actualizarVistaDados() {
@@ -191,11 +222,28 @@ public class VistaJuego extends BorderPane implements Observador {
         mostrarEstado("Tirada: " + d1 + " + " + d2 + " = " + suma);
     }
 
+    private void visibilizarBotonDados() {
+        tirarDadoBtn.setDisable(false);
+    }
+
+    private void invisibilizarBotonDados() {
+        tirarDadoBtn.setDisable(true);
+    }
+
     public void setTablero(VistaTablero vistaTablero) {
         this.vistaTablero = vistaTablero;
         vertices = vistaTablero.getVertices();
         List<VistaArista> arista = vistaTablero.getArista();
         vistaPieza.setVerticesArista(vertices, arista);
-        vistaPieza.darComportamiento();
+    }
+
+    private void actualizarVistaPieza(Jugador jugador) {
+        vistaPieza.darComportamiento(jugador);
+    }
+
+    private void primeraRonda() {
+        actualizarVistaDados();
+        actualizarVistaPieza(modelo.juego().jugadorActual());
+        iconoJugador.setBackground(new Background(new BackgroundFill(modelo.juego().jugadorActual().obtenerColor(), new CornerRadii(100), Insets.EMPTY)));
     }
 }

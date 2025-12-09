@@ -75,8 +75,8 @@ public class App extends Application {
         groupTablero.setTranslateY(-55);
 
        
-        root.getChildren().add(groupTablero);
         root.getChildren().add(vistaJuego);
+        root.getChildren().add(groupTablero);
 
         Scene escena = new Scene(root, 1300, 800);
         stage.setTitle("Catán - Algo3");
