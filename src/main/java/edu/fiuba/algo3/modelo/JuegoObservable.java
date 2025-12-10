@@ -24,12 +24,18 @@ public class JuegoObservable extends Observable {
     private int[] ultimaTirada; 
     private List<Recurso> ofertaActual;
     private List<Recurso> demandaActual;
-    
+    private boolean dadosTirados;
     private Jugador jugadorProponente;
-    private boolean hayPropuestaPendiente = false;
+    private boolean hayPropuestaPendiente;
+    private boolean pobladoInicialColocado;
+    private boolean caminoInicialColocado;
 
     public JuegoObservable(Juego juego) {
         this.juego = juego;
+        this.dadosTirados = false;
+        this.hayPropuestaPendiente = false;
+        this.pobladoInicialColocado = false;
+        this.caminoInicialColocado = false;
     }
 
     public Juego juego() { 
@@ -38,7 +44,12 @@ public class JuegoObservable extends Observable {
 
 
     public void realizarTirada() {
+    	if (esFaseInicial()) {
+            throw new RuntimeException("No se pueden tirar dados en la fase inicial.");
+        }
+
         this.ultimaTirada = juego.tirarDados();
+        this.dadosTirados = true; 
         notificarObservadores("DADOS");
 
         int suma = getSuma();
@@ -61,13 +72,55 @@ public class JuegoObservable extends Observable {
     }
     
     public void siguienteTurno() {
-        juego.pasarAlSiguienteJugador(); 
-        if (hayPropuestaPendiente && getNombreJugadorActual().equals(getNombreJugadorProponente())) {
+    	if (!esFaseInicial() && !dadosTirados) {
+            throw new RuntimeException("Debes tirar los dados antes de pasar el turno."); 
+       }
+    	if (esFaseInicial() && (!pobladoInicialColocado || !caminoInicialColocado)) {
+            throw new RuntimeException("Debes colocar 1 poblado y 1 camino.");
+       }
+    
+       juego.pasarAlSiguienteJugador();
+       this.dadosTirados = false;
+       this.pobladoInicialColocado = false;
+       this.caminoInicialColocado = false;
+       
+       this.dadosTirados = false;
+       if (hayPropuestaPendiente && getNombreJugadorActual().equals(getNombreJugadorProponente())) {
             cerrarPropuesta();
         }
 
         notificarObservadores("TURNO");
     }
+    
+    public void colocarPiezaInicialObservable(String tipo, List<Ubicacion> ubicacion) {
+        if (!esFaseInicial()) return;
+
+        if (tipo.equalsIgnoreCase("poblado")) {
+            if (pobladoInicialColocado) throw new RuntimeException("Ya colocaste tu poblado esta ronda.");
+            juego.jugadorActual().colocarPiezaInicial(tipo, ubicacion);
+            this.pobladoInicialColocado = true;
+        } 
+        else if (tipo.equalsIgnoreCase("camino")) {
+            if (caminoInicialColocado) throw new RuntimeException("Ya colocaste tu camino esta ronda.");
+            juego.jugadorActual().colocarPiezaInicial(tipo, ubicacion);
+            this.caminoInicialColocado = true;
+        }
+        
+        notificarObservadores("CONSTRUCCION_INICIAL");
+        notificarObservadores("PV");
+    }
+    
+    public boolean yaPusoPobladoInicial() { return pobladoInicialColocado; }
+    public boolean yaPusoCaminoInicial() { return caminoInicialColocado; }
+    
+    public boolean esFaseInicial() {
+        return juego.getRondaActual() < 2; 
+    }
+   
+    public boolean seTiraronDados() {
+        return dadosTirados;
+    }
+    
     public String getNombreJugadorActual() {
         return juego.jugadorActual().nombre();
     }
@@ -202,27 +255,19 @@ public class JuegoObservable extends Observable {
         return conteo;
     }
 
-
-
-    public void usarCarta(String nombreCarta) {
-        Jugador jugador = juego.jugadorActual();
-        Carta carta = jugador.obtenerCartaPorNombre(nombreCarta);
-
-        if (carta == null) {
-            throw new RuntimeException("El jugador no tiene la carta: " + nombreCarta);
-        }
-
-        jugador.jugarCartaDesarrollo(carta);
-        notificarObservadores("RECURSOS");
-        notificarObservadores("CARTAS");
-    }
     public void usarCartaDesarrollo(String nombreCarta) {
         Jugador jugador = juego.jugadorActual();
         List<Carta> cartas = jugador.obtenerCartasDesarrollo();
+        Jugador actual = juego.obtenerCartaGranCaballeria().obtenerBonificado();
 
         for (Carta carta : cartas) {
             if (carta.getNombre().equals(nombreCarta)) {
                 jugador.jugarCartaDesarrollo(carta);
+
+                Jugador nuevo = juego.obtenerCartaGranCaballeria().obtenerBonificado();
+                if (actual != nuevo){
+                    notificarObservadores("PV");
+                }
                 notificarObservadores("CARTAS");
 
                 if (jugador.gano()) {
@@ -233,6 +278,7 @@ public class JuegoObservable extends Observable {
         }
         throw new NoTieneCarta("El jugador no tiene una carta de tipo " + nombreCarta);
     }
+
     public void comprarCartaDesarrollo() {
         juego.comprarCartaDesarrollo();
         notificarObservadores("RECURSOS");

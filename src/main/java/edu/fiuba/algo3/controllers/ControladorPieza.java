@@ -1,6 +1,6 @@
 package edu.fiuba.algo3.controllers;
 
-import edu.fiuba.algo3.modelo.Jugador;
+import edu.fiuba.algo3.modelo.*;
 import edu.fiuba.algo3.vistas.VistaArista;
 import edu.fiuba.algo3.vistas.VistaPieza;
 import edu.fiuba.algo3.vistas.VistaVerticeEdificio;
@@ -43,16 +43,13 @@ public class ControladorPieza {
             comportamientoBotonCamino(jugador);
         });
         btnCiudad.setOnAction(e -> {
-            btnCancelar.setVisible(true);
-            visibleCiudad = true;
-            vista.disenioDesactivado(btnPoblado);
-            vista.disenioDesactivado(btnCamino);
+            comportamientoBotonCiudad(jugador);
         });
 
-        invisibilicarBotones();
+        invisibilizarBotones();
     }
 
-    private void invisibilicarBotones() {
+    private void invisibilizarBotones() {
         btnCancelar.setOnAction(e -> {
             if (visibleCamino) {
                 for (VistaArista arista : aristas) {
@@ -71,8 +68,12 @@ public class ControladorPieza {
                 vista.disenioBotonActivado(btnCiudad);
             }
             if (visibleCiudad) {
+                visibleCiudad = false;
                 vista.disenioBotonActivado(btnPoblado);
                 vista.disenioBotonActivado(btnCamino);
+                for (VistaVerticeEdificio vistaVertice : vertices) {
+                    vistaVertice.pobladoNoClickeable();
+                }
             }
             btnCancelar.setVisible(false);
         });
@@ -86,7 +87,7 @@ public class ControladorPieza {
 
         for (VistaVerticeEdificio vistaVertice : vertices) {
             vistaVertice.setJugador(jugador);
-            vistaVertice.colocarPiezar("poblado");
+            vistaVertice.colocarPieza("poblado");
             vistaVertice.mostrarVerticeDisponible();
         }
     }
@@ -98,12 +99,24 @@ public class ControladorPieza {
         vista.disenioDesactivado(btnCiudad);
         for (VistaArista vistaArista : aristas) {
             vistaArista.setJugador(jugador);
-            vistaArista.colocarPiezar("camino");
+            vistaArista.colocarPieza("camino");
             vistaArista.mostrarAristaDisponible();
         }
 
     }
 
+    public void comportamientoBotonCiudad(Jugador jugador) {
+        btnCancelar.setVisible(true);
+        visibleCiudad = true;
+        vista.disenioDesactivado(btnPoblado);
+        vista.disenioDesactivado(btnCamino);
+        for (VistaVerticeEdificio vistaVerticeEdificio : vertices) {
+            vistaVerticeEdificio.setJugador(jugador);
+            vistaVerticeEdificio.colocarPieza("ciudad");
+            vistaVerticeEdificio.resaltarPoblado(jugador);
+        }
+
+    }
 
     public void setVertices(List<VistaVerticeEdificio> vertices) {
         this.vertices = vertices;
@@ -111,5 +124,44 @@ public class ControladorPieza {
 
     public void setArista(List<VistaArista> aristas) {
         this.aristas = aristas;
+    }
+    
+    public void darComportamientoInicial(JuegoObservable modelo) {
+        btnPoblado.setOnAction(e -> {
+            comportamientoBotonPobladoInicial(modelo);
+        });
+
+        btnCamino.setOnAction(e -> {
+            comportamientoBotonCaminoInicial(modelo);
+        });
+
+        
+        vista.disenioDesactivado(btnCiudad);
+        invisibilizarBotones();
+    }
+
+    public void comportamientoBotonPobladoInicial(JuegoObservable modelo) {
+        btnCancelar.setVisible(true);
+        visiblePoblado = true;
+        vista.disenioDesactivado(btnCamino);
+        vista.disenioDesactivado(btnCiudad);
+
+        for (VistaVerticeEdificio vistaVertice : vertices) {
+            vistaVertice.setComportamientoInicial(modelo); 
+            vistaVertice.mostrarVerticeDisponible();
+        }
+    }
+    
+
+    public void comportamientoBotonCaminoInicial(JuegoObservable modelo) {
+        btnCancelar.setVisible(true);
+        visibleCamino = true;
+        vista.disenioDesactivado(btnPoblado);
+        vista.disenioDesactivado(btnCiudad);
+
+        for (VistaArista vistaArista : aristas) {
+            vistaArista.setComportamientoInicial(modelo);
+            vistaArista.mostrarAristaDisponible();
+        }
     }
 }

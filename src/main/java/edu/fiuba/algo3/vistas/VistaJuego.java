@@ -14,6 +14,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.stage.Stage;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,19 +27,28 @@ public class VistaJuego extends BorderPane implements Observador {
     private final Label nombreInferiorLabel;
     private final VBox iconoJugador;
     private final Button tirarDadoBtn;
+    private final Button pasarTurnoBtn;
 
     private VistaRecursos vistaRecursos;
     private VistaPropuesta vistaPropuesta;
     private VistaPieza vistaPieza;
+    private VistaPuntaje vistaPuntaje;
 
     private VistaTablero vistaTablero;
     private List<VistaVerticeEdificio> vertices;
+
+    private final List<Stage> ventanasAbiertas = new ArrayList<>();
 
     public VistaJuego(JuegoObservable modelo) {
         this.modelo = modelo;
         vertices = new ArrayList<>();
         this.modelo.agregarObservador(this);
         this.vistaPropuesta = new VistaPropuesta(modelo);
+        this.vistaPuntaje = new VistaPuntaje(modelo.juego().jugadores());
+        this.setRight(vistaPuntaje);
+
+        
+        pasarTurnoBtn = new Button();
         
         StackPane panelCentral = new StackPane();
         panelCentral.setAlignment(Pos.CENTER);
@@ -78,10 +88,13 @@ public class VistaJuego extends BorderPane implements Observador {
         setTop(zonaSuperior);
 
         // botones
-        Button verCartasBtn = new BotonAccion("Ver Cartas", new HandlerVerCartas(modelo));
-        Button intercambiarBtn = new BotonAccion("Intercambiar", new HandlerIntercambio(modelo));
+        Button verCartasBtn = new BotonAccion("Ver Cartas", new HandlerVerCartas(modelo,this));
+        Button intercambiarBtn = new BotonAccion("Intercambiar", new HandlerIntercambio(modelo,this));
         Button pasarTurnoBtn = new Button();
-        pasarTurnoBtn.setOnAction(new HandlerPasarTurno(modelo));
+        pasarTurnoBtn.setOnAction(event -> {
+            cerrarVentanasAbiertas();
+            new HandlerPasarTurno(modelo).handle(event);
+        });
 
         //boton dado
         tirarDadoBtn = new BotonAccion("Tirar", new HandlerTirarDados(modelo));
@@ -118,7 +131,7 @@ public class VistaJuego extends BorderPane implements Observador {
         viewBanco.setPreserveRatio(true);
         bankBtn.setGraphic(viewBanco);
         bankBtn.setStyle("-fx-background-color: transparent; -fx-cursor: hand;");
-        bankBtn.setOnAction(new HandlerBanco(modelo));
+        bankBtn.setOnAction(new HandlerBanco(modelo,this));
 
         //jugador
         Image img = new Image("jugador.png");
@@ -195,6 +208,15 @@ public class VistaJuego extends BorderPane implements Observador {
                 vistaPropuesta.toFront();
                 visibilizarBotonDados();
                 actualizarVistaPieza(modelo.juego().jugadorActual());
+            
+                if (modelo.esFaseInicial()) {
+                	configurarInterfazFaseInicial();
+                    invisibilizarBotonDados();  
+                    habilitarBotonPasarTurno(); 
+                } else {
+                    visibilizarBotonDados();   
+                    deshabilitarBotonPasarTurno(); 
+                }
             }
             if (msg.equals("NUEVA_PROPUESTA") || msg.equals("PROPUESTA_CERRADA")) {
             	vistaPropuesta.actualizarPropuesta();
@@ -204,9 +226,23 @@ public class VistaJuego extends BorderPane implements Observador {
             if(msg.equals("RECURSOS")){
                 vistaRecursos.actualizarRecursos(modelo.juego().recursosJugadorActual());
             }
+            if(msg.equals("PV")){
+                vistaPuntaje.actualizarPV(modelo.juego().jugadores(), modelo.juego().obtenerCartaGranCaballeria().obtenerBonificado(),2);
+            }
+            if (msg.equals("CONSTRUCCION_INICIAL")) {
+                configurarInterfazFaseInicial();
+                vistaRecursos.actualizarRecursos(modelo.juego().recursosJugadorActual());
+            }
         }
     }
+    
+    private void habilitarBotonPasarTurno() {
+        pasarTurnoBtn.setDisable(false);
+    }
 
+    private void deshabilitarBotonPasarTurno() {
+        pasarTurnoBtn.setDisable(true);
+    }
     private void actualizarJugador() {
         String nombre = modelo.getNombreJugadorActual();
         nombreInferiorLabel.setText(nombre);
@@ -245,5 +281,48 @@ public class VistaJuego extends BorderPane implements Observador {
         actualizarVistaDados();
         actualizarVistaPieza(modelo.juego().jugadorActual());
         iconoJugador.setBackground(new Background(new BackgroundFill(modelo.juego().jugadorActual().obtenerColor(), new CornerRadii(100), Insets.EMPTY)));
+        
+        if (modelo.esFaseInicial()) {
+        	configurarInterfazFaseInicial();
+            invisibilizarBotonDados();
+            habilitarBotonPasarTurno();
+        }
+    }
+
+    public void registrarVentana(Stage stage){
+        ventanasAbiertas.add(stage);
+    }
+
+    private void cerrarVentanasAbiertas(){
+        for(Stage ventana : ventanasAbiertas){
+            ventana.close();
+        }
+        ventanasAbiertas.clear();
+    }
+    
+    private void configurarInterfazFaseInicial() {
+        invisibilizarBotonDados();
+        boolean pusoPoblado = modelo.yaPusoPobladoInicial();
+        boolean pusoCamino = modelo.yaPusoCaminoInicial();
+
+        if (pusoPoblado && pusoCamino) {
+            habilitarBotonPasarTurno();
+        } else {
+            deshabilitarBotonPasarTurno();
+        }
+
+        vistaPieza.darComportamientoInicial(modelo); 
+
+        if (pusoPoblado) {
+            vistaPieza.deshabilitarPoblado();
+        } else {
+            vistaPieza.habilitarPoblado();
+        }
+
+        if (pusoCamino) {
+            vistaPieza.deshabilitarCamino();
+        } else {
+            vistaPieza.habilitarCamino();
+        }
     }
 }

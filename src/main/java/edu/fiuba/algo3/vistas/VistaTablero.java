@@ -544,6 +544,9 @@ public class VistaTablero {
         VistaVerticeEdificio vistaVertice1 = vertices.get(vertice1 - 1);
         VistaVerticeEdificio vistaVertice2 = vertices.get(vertice2 - 1);
 
+        vistaArista.agregarVistaVerticeAdyacente(vistaVertice1);
+        vistaArista.agregarVistaVerticeAdyacente(vistaVertice2);
+
         vistaVertice1.agregarAdyacente(vistaVertice2);
         vistaVertice2.agregarAdyacente(vistaVertice1);
 

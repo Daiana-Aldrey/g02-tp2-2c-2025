@@ -8,7 +8,6 @@ import edu.fiuba.algo3.modelo.Tablero.Tablero;
 import edu.fiuba.algo3.modelo.Ubicacion.Ubicacion;
 import edu.fiuba.algo3.Excepciones.*;
 import edu.fiuba.algo3.modelo.Ubicacion.UbicacionVertice;
-import edu.fiuba.algo3.modelo.CartaDeBonificacion.CartaGranCaballeria;
 import java.util.*;
 
 public class Juego {
@@ -126,6 +125,9 @@ public class Juego {
 
     public void pasarAlSiguienteJugador() {
         int indiceActual = jugadores.indexOf(jugadorTurno);
+        if (indiceActual == cantJugadores - 1) {
+            rondas++;
+        }
         int siguiente = (indiceActual + 1) % cantJugadores;
         jugadorTurno = jugadores.get(siguiente);
     }
@@ -145,5 +147,13 @@ public class Juego {
     public List<Recurso> recursosJugadorActual(){
         return jugadorActual().recursos();
     }
+    
+    public int getRondaActual() {
+        return this.rondas;
+    }
+
+	public CartaGranCaballeria obtenerCartaGranCaballeria(){
+		return cartaGranCaballeria;
+	}
 }
 
