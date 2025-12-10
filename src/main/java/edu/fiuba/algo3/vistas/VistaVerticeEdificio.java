@@ -129,5 +129,8 @@ public class VistaVerticeEdificio extends Button {
     public void setComportamientoInicial(JuegoObservable modelo) {
         controlador.setComportamientoInicial(modelo);
     }
+    public void habilitarConstruccion(String pieza) {
+        controlador.construirPieza(pieza);
+    }
 
 }

@@ -5,6 +5,7 @@ import edu.fiuba.algo3.modelo.NoJugador;
 import edu.fiuba.algo3.modelo.Tablero.VerticeEdificio;
 import edu.fiuba.algo3.modelo.Ubicacion.Ubicacion;
 import edu.fiuba.algo3.vistas.VistaVerticeEdificio;
+import edu.fiuba.algo3.Excepciones.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,13 +40,30 @@ public class ControladorVertice {
         });
     }
 
-    public void construirPieza(String tipoPieza) {
+    /*public void construirPieza(String tipoPieza) {
         vista.setOnAction(e -> {
             jugador.construirPieza(tipoPieza, ubicaciones);
             vista.cambiarFormaYColorPoblado(jugador.obtenerColor());
 
             for (VistaVerticeEdificio adyacente : adyacentes) {
                 adyacente.mostrarVerticeDisponible();
+            }
+        });
+    }*/
+    public void construirPieza(String tipoPieza) {
+        vista.setOnAction(e -> {
+            try {
+                jugador.construirPieza(tipoPieza, ubicaciones);
+                vista.cambiarFormaYColorPoblado(jugador.obtenerColor());
+
+                for (VistaVerticeEdificio adyacente : adyacentes) {
+                    adyacente.mostrarVerticeDisponible();
+                }
+
+            } catch (RecursoIncorrecto | SinRecursos error) {
+                System.out.println("No se pudo construir: " + error.getMessage());
+            } catch (Exception error) {
+                 System.out.println("Error de regla: " + error.getMessage());
             }
         });
     }

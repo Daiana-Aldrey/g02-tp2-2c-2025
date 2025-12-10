@@ -202,18 +202,25 @@ public class VistaJuego extends BorderPane implements Observador {
                 invisibilizarBotonDados();
             }
             if (msg.equals("TURNO")) {
-            	actualizarJugador();
+                actualizarJugador();
                 vistaRecursos.actualizarRecursos(modelo.juego().recursosJugadorActual());
                 vistaPropuesta.actualizarPropuesta();
                 vistaPropuesta.toFront();
-                visibilizarBotonDados();
-                actualizarVistaPieza(modelo.juego().jugadorActual());
-            
+                
                 if (modelo.esFaseInicial()) {
-                	configurarInterfazFaseInicial();
+                    configurarInterfazFaseInicial();
                     invisibilizarBotonDados();  
-                    habilitarBotonPasarTurno(); 
+                    
+                    boolean pusoPoblado = modelo.yaPusoPobladoInicial();
+                    boolean pusoCamino = modelo.yaPusoCaminoInicial();
+                    if (pusoPoblado && pusoCamino) {
+                        habilitarBotonPasarTurno();
+                    } else {
+                        deshabilitarBotonPasarTurno();
+                    }
+
                 } else {
+                    actualizarVistaPieza(modelo.juego().jugadorActual());
                     visibilizarBotonDados();   
                     deshabilitarBotonPasarTurno(); 
                 }

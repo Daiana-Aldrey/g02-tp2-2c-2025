@@ -84,10 +84,9 @@ public class ControladorPieza {
         visiblePoblado = true;
         vista.disenioDesactivado(btnCamino);
         vista.disenioDesactivado(btnCiudad);
-
         for (VistaVerticeEdificio vistaVertice : vertices) {
             vistaVertice.setJugador(jugador);
-            vistaVertice.colocarPieza("poblado");
+            vistaVertice.habilitarConstruccion("poblado");
             vistaVertice.mostrarVerticeDisponible();
         }
     }
@@ -99,10 +98,9 @@ public class ControladorPieza {
         vista.disenioDesactivado(btnCiudad);
         for (VistaArista vistaArista : aristas) {
             vistaArista.setJugador(jugador);
-            vistaArista.colocarPieza("camino");
+            vistaArista.habilitarConstruccion("camino");
             vistaArista.mostrarAristaDisponible();
         }
-
     }
 
     public void comportamientoBotonCiudad(Jugador jugador) {
@@ -112,10 +110,9 @@ public class ControladorPieza {
         vista.disenioDesactivado(btnCamino);
         for (VistaVerticeEdificio vistaVerticeEdificio : vertices) {
             vistaVerticeEdificio.setJugador(jugador);
-            vistaVerticeEdificio.colocarPieza("ciudad");
+            vistaVerticeEdificio.habilitarConstruccion("ciudad");
             vistaVerticeEdificio.resaltarPoblado(jugador);
         }
-
     }
 
     public void setVertices(List<VistaVerticeEdificio> vertices) {
@@ -127,16 +124,24 @@ public class ControladorPieza {
     }
     
     public void darComportamientoInicial(JuegoObservable modelo) {
+    	btnPoblado.setOnAction(null);
+        btnCamino.setOnAction(null);
+        btnCiudad.setOnAction(null);
+        
         btnPoblado.setOnAction(e -> {
-            comportamientoBotonPobladoInicial(modelo);
+            if (!modelo.yaPusoPobladoInicial()) {
+                comportamientoBotonPobladoInicial(modelo);
+            }
         });
 
         btnCamino.setOnAction(e -> {
-            comportamientoBotonCaminoInicial(modelo);
+            if (!modelo.yaPusoCaminoInicial()) {
+                comportamientoBotonCaminoInicial(modelo);
+            }
         });
 
-        
         vista.disenioDesactivado(btnCiudad);
+        btnCiudad.setDisable(true);         
         invisibilizarBotones();
     }
 

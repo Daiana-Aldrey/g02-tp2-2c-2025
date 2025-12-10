@@ -114,7 +114,7 @@ public class JuegoObservable extends Observable {
     public boolean yaPusoCaminoInicial() { return caminoInicialColocado; }
     
     public boolean esFaseInicial() {
-        return juego.getRondaActual() < 2; 
+        return juego.esFaseInicial(); 
     }
    
     public boolean seTiraronDados() {
