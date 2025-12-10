@@ -244,7 +244,9 @@ public class Jugador {
         return totalRecursos();
     }
 
-    public int puntosDeVictoria(){return puntosDeVictoria;}
+    public int puntosDeVictoria(){
+        return puntosDeVictoria;
+    }
 
     public boolean tenesPobladoEnUbicacion(Ubicacion ubicacion) {
         int i = 0;

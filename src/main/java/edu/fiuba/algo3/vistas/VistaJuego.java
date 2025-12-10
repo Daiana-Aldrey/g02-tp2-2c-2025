@@ -32,6 +32,7 @@ public class VistaJuego extends BorderPane implements Observador {
     private VistaRecursos vistaRecursos;
     private VistaPropuesta vistaPropuesta;
     private VistaPieza vistaPieza;
+    private VistaPuntaje vistaPuntaje;
 
     private VistaTablero vistaTablero;
     private List<VistaVerticeEdificio> vertices;
@@ -43,6 +44,9 @@ public class VistaJuego extends BorderPane implements Observador {
         vertices = new ArrayList<>();
         this.modelo.agregarObservador(this);
         this.vistaPropuesta = new VistaPropuesta(modelo);
+        this.vistaPuntaje = new VistaPuntaje(modelo.juego().jugadores());
+        this.setRight(vistaPuntaje);
+
         
         pasarTurnoBtn = new Button();
         
@@ -222,7 +226,9 @@ public class VistaJuego extends BorderPane implements Observador {
             if(msg.equals("RECURSOS")){
                 vistaRecursos.actualizarRecursos(modelo.juego().recursosJugadorActual());
             }
-            
+            if(msg.equals("PV")){
+                vistaPuntaje.actualizarPV(modelo.juego().jugadores());
+            }
             if (msg.equals("CONSTRUCCION_INICIAL")) {
                 configurarInterfazFaseInicial();
                 vistaRecursos.actualizarRecursos(modelo.juego().recursosJugadorActual());

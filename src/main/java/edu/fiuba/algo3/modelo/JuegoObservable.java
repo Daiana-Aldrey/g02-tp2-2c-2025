@@ -107,6 +107,7 @@ public class JuegoObservable extends Observable {
         }
         
         notificarObservadores("CONSTRUCCION_INICIAL");
+        notificarObservadores("PV");
     }
     
     public boolean yaPusoPobladoInicial() { return pobladoInicialColocado; }
@@ -254,20 +255,6 @@ public class JuegoObservable extends Observable {
         return conteo;
     }
 
-
-
-    public void usarCarta(String nombreCarta) {
-        Jugador jugador = juego.jugadorActual();
-        Carta carta = jugador.obtenerCartaPorNombre(nombreCarta);
-
-        if (carta == null) {
-            throw new RuntimeException("El jugador no tiene la carta: " + nombreCarta);
-        }
-
-        jugador.jugarCartaDesarrollo(carta);
-        notificarObservadores("RECURSOS");
-        notificarObservadores("CARTAS");
-    }
     public void usarCartaDesarrollo(String nombreCarta) {
         Jugador jugador = juego.jugadorActual();
         List<Carta> cartas = jugador.obtenerCartasDesarrollo();
