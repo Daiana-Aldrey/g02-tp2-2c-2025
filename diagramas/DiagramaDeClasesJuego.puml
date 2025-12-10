@@ -6,4 +6,26 @@ class Juego {
     +validarCantJugadores(cantidad: int)
 }
 
+class Tablero {
+  +crearGrafo()
+  +setearGrafo(grafo: Grafo)
+  +colocarEdificio(ubicacion: UbicacionVertice, pieza: Pieza)
+  +colocarCamino(ubicacion1: UbicacionVertice, ubicacion2: UbicacionVertice, camino: Camino)
+  +notificarPuertosConstruccion(ubicacion: UbicacionVertice, pieza: Pieza)
+  +cosechar(numeroDado: int)
+  +hayEdificio(ubicacion: Ubicacion): Boolean
+  +hayCamino(ubicacion1: Ubicacion, ubicacion2: Ubicacion): Boolean
+}
+
+class Banco {
+   -tasaBancaria: int
+}
+
+class Carta {
+   #nombre: String
+   #descripcion: String
+   +{abstract}usar(jugador: Jugador)
+}
+
+
 @enduml
