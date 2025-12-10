@@ -1,6 +1,7 @@
 package edu.fiuba.algo3.controllers;
 
-import edu.fiuba.algo3.modelo.*;
+import edu.fiuba.algo3.modelo.JuegoObservable;
+import edu.fiuba.algo3.modelo.Jugador;
 import edu.fiuba.algo3.modelo.NoJugador;
 import edu.fiuba.algo3.modelo.Tablero.Arista;
 import edu.fiuba.algo3.modelo.Ubicacion.Ubicacion;

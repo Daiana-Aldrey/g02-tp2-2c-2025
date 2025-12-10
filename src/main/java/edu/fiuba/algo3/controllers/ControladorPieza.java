@@ -43,16 +43,13 @@ public class ControladorPieza {
             comportamientoBotonCamino(jugador);
         });
         btnCiudad.setOnAction(e -> {
-            btnCancelar.setVisible(true);
-            visibleCiudad = true;
-            vista.disenioDesactivado(btnPoblado);
-            vista.disenioDesactivado(btnCamino);
+            comportamientoBotonCiudad(jugador);
         });
 
-        invisibilicarBotones();
+        invisibilizarBotones();
     }
 
-    private void invisibilicarBotones() {
+    private void invisibilizarBotones() {
         btnCancelar.setOnAction(e -> {
             if (visibleCamino) {
                 for (VistaArista arista : aristas) {
@@ -71,8 +68,12 @@ public class ControladorPieza {
                 vista.disenioBotonActivado(btnCiudad);
             }
             if (visibleCiudad) {
+                visibleCiudad = false;
                 vista.disenioBotonActivado(btnPoblado);
                 vista.disenioBotonActivado(btnCamino);
+                for (VistaVerticeEdificio vistaVertice : vertices) {
+                    vistaVertice.pobladoNoClickeable();
+                }
             }
             btnCancelar.setVisible(false);
         });
@@ -104,6 +105,18 @@ public class ControladorPieza {
 
     }
 
+    public void comportamientoBotonCiudad(Jugador jugador) {
+        btnCancelar.setVisible(true);
+        visibleCiudad = true;
+        vista.disenioDesactivado(btnPoblado);
+        vista.disenioDesactivado(btnCamino);
+        for (VistaVerticeEdificio vistaVerticeEdificio : vertices) {
+            vistaVerticeEdificio.setJugador(jugador);
+            vistaVerticeEdificio.colocarPieza("ciudad");
+            vistaVerticeEdificio.resaltarPoblado(jugador);
+        }
+
+    }
 
     public void setVertices(List<VistaVerticeEdificio> vertices) {
         this.vertices = vertices;
@@ -124,7 +137,7 @@ public class ControladorPieza {
 
         
         vista.disenioDesactivado(btnCiudad);
-        invisibilicarBotones();
+        invisibilizarBotones();
     }
 
     public void comportamientoBotonPobladoInicial(JuegoObservable modelo) {
@@ -139,8 +152,7 @@ public class ControladorPieza {
         }
     }
     
-    
-    
+
     public void comportamientoBotonCaminoInicial(JuegoObservable modelo) {
         btnCancelar.setVisible(true);
         visibleCamino = true;

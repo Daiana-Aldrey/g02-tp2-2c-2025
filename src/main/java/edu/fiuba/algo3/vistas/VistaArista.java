@@ -1,18 +1,13 @@
 package edu.fiuba.algo3.vistas;
 import edu.fiuba.algo3.controllers.ControladorArista;
-import edu.fiuba.algo3.modelo.*;
+import edu.fiuba.algo3.modelo.Jugador;
+import edu.fiuba.algo3.modelo.JuegoObservable;
 import edu.fiuba.algo3.modelo.Tablero.Arista;
-import javafx.geometry.Insets;
 import javafx.scene.Group;
 import javafx.scene.control.Button;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.CornerRadii;
-import javafx.scene.layout.VBox;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.shape.Circle;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Line;
-import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
 
 import java.util.ArrayList;
@@ -28,6 +23,7 @@ public class VistaArista extends Group {
 
     private Button boton;
     private Circle circulo;
+    private DropShadow sombra;
 
     public VistaArista(Arista arista) {
         this.arista = arista;
@@ -37,12 +33,16 @@ public class VistaArista extends Group {
         double radius = 20;
         double diameter = radius * 2;
 
+
         circulo = new Circle(radius);
+
+        sombra = new DropShadow();
 
         boton = new Button();
         boton.setPrefSize(diameter, diameter);
         boton.setMinSize(diameter, diameter);
         boton.setMaxSize(diameter, diameter);
+        boton.setOpacity(0.5);
 
         boton.setShape(circulo);
         boton.setVisible(false);

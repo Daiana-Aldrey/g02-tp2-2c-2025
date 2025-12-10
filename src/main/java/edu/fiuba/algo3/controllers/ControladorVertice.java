@@ -31,7 +31,7 @@ public class ControladorVertice {
     public void colocarPiezaPrimerTurno(String tipoPieza) {
         vista.setOnAction(e -> {
             jugador.colocarPiezaInicial(tipoPieza, ubicaciones);
-            vista.cambiarColor(jugador.obtenerColor());
+            vista.cambiarFormaYColorPoblado(jugador.obtenerColor());
 
             for (VistaVerticeEdificio adyacente : adyacentes) {
                 adyacente.mostrarVerticeDisponible();
@@ -42,7 +42,7 @@ public class ControladorVertice {
     public void construirPieza(String tipoPieza) {
         vista.setOnAction(e -> {
             jugador.construirPieza(tipoPieza, ubicaciones);
-            vista.cambiarColor(jugador.obtenerColor());
+            vista.cambiarFormaYColorPoblado(jugador.obtenerColor());
 
             for (VistaVerticeEdificio adyacente : adyacentes) {
                 adyacente.mostrarVerticeDisponible();
@@ -61,7 +61,7 @@ public class ControladorVertice {
     public void setComportamientoInicial(JuegoObservable modelo) {
         vista.setOnAction(e -> {
         modelo.colocarPiezaInicialObservable("poblado", ubicaciones);
-        vista.cambiarColor(modelo.juego().jugadorActual().obtenerColor());         
+        vista.cambiarFormaYColorPoblado(modelo.juego().jugadorActual().obtenerColor());
         });
     }
 }
