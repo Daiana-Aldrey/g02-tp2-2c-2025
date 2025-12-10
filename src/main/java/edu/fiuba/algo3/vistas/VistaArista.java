@@ -126,8 +126,8 @@ public class VistaArista extends Group {
 
     }
     
+    
     public void setComportamientoInicial(JuegoObservable modelo) {
-        // Esto llama al método que creamos hace un momento en ControladorArista
         controlador.setComportamientoInicial(modelo);
     }
 }
