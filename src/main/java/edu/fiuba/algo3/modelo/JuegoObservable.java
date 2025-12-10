@@ -27,11 +27,15 @@ public class JuegoObservable extends Observable {
     private boolean dadosTirados;
     private Jugador jugadorProponente;
     private boolean hayPropuestaPendiente;
+    private boolean pobladoInicialColocado;
+    private boolean caminoInicialColocado;
 
     public JuegoObservable(Juego juego) {
         this.juego = juego;
         this.dadosTirados = false;
         this.hayPropuestaPendiente = false;
+        this.pobladoInicialColocado = false;
+        this.caminoInicialColocado = false;
     }
 
     public Juego juego() { 
@@ -71,8 +75,15 @@ public class JuegoObservable extends Observable {
     	if (!esFaseInicial() && !dadosTirados) {
             throw new RuntimeException("Debes tirar los dados antes de pasar el turno."); 
        }
-
+    	if (esFaseInicial() && (!pobladoInicialColocado || !caminoInicialColocado)) {
+            throw new RuntimeException("Debes colocar 1 poblado y 1 camino.");
+       }
+    
        juego.pasarAlSiguienteJugador();
+       this.dadosTirados = false;
+       this.pobladoInicialColocado = false;
+       this.caminoInicialColocado = false;
+       
        this.dadosTirados = false;
        if (hayPropuestaPendiente && getNombreJugadorActual().equals(getNombreJugadorProponente())) {
             cerrarPropuesta();
@@ -81,6 +92,25 @@ public class JuegoObservable extends Observable {
         notificarObservadores("TURNO");
     }
     
+    public void colocarPiezaInicialObservable(String tipo, List<Ubicacion> ubicacion) {
+        if (!esFaseInicial()) return;
+
+        if (tipo.equalsIgnoreCase("poblado")) {
+            if (pobladoInicialColocado) throw new RuntimeException("Ya colocaste tu poblado esta ronda.");
+            juego.jugadorActual().colocarPiezaInicial(tipo, ubicacion);
+            this.pobladoInicialColocado = true;
+        } 
+        else if (tipo.equalsIgnoreCase("camino")) {
+            if (caminoInicialColocado) throw new RuntimeException("Ya colocaste tu camino esta ronda.");
+            juego.jugadorActual().colocarPiezaInicial(tipo, ubicacion);
+            this.caminoInicialColocado = true;
+        }
+        
+        notificarObservadores("CONSTRUCCION_INICIAL");
+    }
+    
+    public boolean yaPusoPobladoInicial() { return pobladoInicialColocado; }
+    public boolean yaPusoCaminoInicial() { return caminoInicialColocado; }
     
     public boolean esFaseInicial() {
         return juego.getRondaActual() < 2; 

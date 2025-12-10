@@ -1,7 +1,7 @@
 package edu.fiuba.algo3.vistas;
 
 import edu.fiuba.algo3.controllers.ControladorVertice;
-import edu.fiuba.algo3.modelo.Jugador;
+import edu.fiuba.algo3.modelo.*;
 import edu.fiuba.algo3.modelo.Tablero.VerticeEdificio;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
@@ -73,5 +73,8 @@ public class VistaVerticeEdificio extends Button {
 
     public void colocarPrimeraPieza(String poblado) {
         controlador.colocarPiezaPrimerTurno(poblado);
+    }
+    public void setComportamientoInicial(JuegoObservable modelo) {
+        controlador.setComportamientoInicial(modelo);
     }
 }

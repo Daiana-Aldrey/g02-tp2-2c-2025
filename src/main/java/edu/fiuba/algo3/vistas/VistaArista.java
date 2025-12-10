@@ -1,6 +1,6 @@
 package edu.fiuba.algo3.vistas;
 import edu.fiuba.algo3.controllers.ControladorArista;
-import edu.fiuba.algo3.modelo.Jugador;
+import edu.fiuba.algo3.modelo.*;
 import edu.fiuba.algo3.modelo.Tablero.Arista;
 import javafx.geometry.Insets;
 import javafx.scene.Group;
@@ -124,5 +124,10 @@ public class VistaArista extends Group {
         vertice2.toFront();
         getChildren().add(camino);
 
+    }
+    
+    public void setComportamientoInicial(JuegoObservable modelo) {
+        // Esto llama al método que creamos hace un momento en ControladorArista
+        controlador.setComportamientoInicial(modelo);
     }
 }

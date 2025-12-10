@@ -1,6 +1,6 @@
 package edu.fiuba.algo3.controllers;
 
-import edu.fiuba.algo3.modelo.Jugador;
+import edu.fiuba.algo3.modelo.*;
 import edu.fiuba.algo3.vistas.VistaArista;
 import edu.fiuba.algo3.vistas.VistaPieza;
 import edu.fiuba.algo3.vistas.VistaVerticeEdificio;
@@ -111,5 +111,49 @@ public class ControladorPieza {
 
     public void setArista(List<VistaArista> aristas) {
         this.aristas = aristas;
+    }
+    
+    public void darComportamientoInicial(JuegoObservable modelo) {
+        btnPoblado.setOnAction(e -> {
+            comportamientoBotonPobladoInicial(modelo);
+        });
+
+        btnCamino.setOnAction(e -> {
+            comportamientoBotonCaminoInicial(modelo);
+        });
+
+        
+        vista.disenioDesactivado(btnCiudad);
+        invisibilicarBotones();
+    }
+
+    public void comportamientoBotonPobladoInicial(JuegoObservable modelo) {
+        // Lógica visual: mostrar cancelar y bloquear otros botones
+        btnCancelar.setVisible(true);
+        visiblePoblado = true;
+        vista.disenioDesactivado(btnCamino);
+        vista.disenioDesactivado(btnCiudad);
+
+        // Iterar sobre los vértices para habilitarlos con el comportamiento del Observable
+        for (VistaVerticeEdificio vistaVertice : vertices) {
+            // Nota: Debes crear este método 'setComportamientoInicial' en VistaVerticeEdificio
+            vistaVertice.setComportamientoInicial(modelo); 
+            vistaVertice.mostrarVerticeDisponible();
+        }
+    }
+
+    public void comportamientoBotonCaminoInicial(JuegoObservable modelo) {
+        // Lógica visual: mostrar cancelar y bloquear otros botones
+        btnCancelar.setVisible(true);
+        visibleCamino = true;
+        vista.disenioDesactivado(btnPoblado);
+        vista.disenioDesactivado(btnCiudad);
+
+        // Iterar sobre las aristas para habilitarlas con el comportamiento del Observable
+        for (VistaArista vistaArista : aristas) {
+            // Nota: Debes crear este método 'setComportamientoInicial' en VistaArista
+            vistaArista.setComportamientoInicial(modelo);
+            vistaArista.mostrarAristaDisponible();
+        }
     }
 }

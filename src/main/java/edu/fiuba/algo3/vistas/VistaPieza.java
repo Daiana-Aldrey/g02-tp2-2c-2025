@@ -1,7 +1,7 @@
 package edu.fiuba.algo3.vistas;
 
 import edu.fiuba.algo3.controllers.ControladorPieza;
-import edu.fiuba.algo3.modelo.Jugador;
+import edu.fiuba.algo3.modelo.*;
 import javafx.scene.Cursor;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
@@ -13,8 +13,14 @@ import java.util.List;
 public class VistaPieza extends HBox {
     private ControladorPieza controlador;
     private Button btnCancelar;
-
+    private Button btnCiudad;
+    private Button btnPoblado;
+    private Button btnCamino;
+    
     public VistaPieza() {
+    	this.btnCiudad = new Button();
+        this.btnPoblado = new Button();
+        this.btnCamino = new Button();
         setSpacing(20);
 
         Image iconoCiudad = new Image("edificio.png");
@@ -57,7 +63,7 @@ public class VistaPieza extends HBox {
         controlador.setVertices(vertices);
         controlador.setArista(aristas);
     }
-
+    
     public void darComportamiento(Jugador jugador) {
         controlador.darComportamiento(jugador);
     }
@@ -91,5 +97,25 @@ public class VistaPieza extends HBox {
                         "-fx-border-radius: 15;"
         );
         boton.setPrefSize(40, 40);
+    }
+     
+    public void darComportamientoInicial(JuegoObservable modelo) {
+        controlador.darComportamientoInicial(modelo);
+    }
+    
+    public void deshabilitarPoblado() {
+        disenioDesactivado(btnPoblado);
+    }
+    
+    public void habilitarPoblado() {
+        disenioBotonActivado(btnPoblado);
+    }
+
+    public void deshabilitarCamino() {
+        disenioDesactivado(btnCamino);
+    }
+    
+    public void habilitarCamino() {
+        disenioBotonActivado(btnCamino);
     }
 }

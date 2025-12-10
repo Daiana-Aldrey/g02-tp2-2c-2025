@@ -206,6 +206,7 @@ public class VistaJuego extends BorderPane implements Observador {
                 actualizarVistaPieza(modelo.juego().jugadorActual());
             
                 if (modelo.esFaseInicial()) {
+                	configurarInterfazFaseInicial();
                     invisibilizarBotonDados();  
                     habilitarBotonPasarTurno(); 
                 } else {
@@ -219,6 +220,11 @@ public class VistaJuego extends BorderPane implements Observador {
                 
             }
             if(msg.equals("RECURSOS")){
+                vistaRecursos.actualizarRecursos(modelo.juego().recursosJugadorActual());
+            }
+            
+            if (msg.equals("CONSTRUCCION_INICIAL")) {
+                configurarInterfazFaseInicial();
                 vistaRecursos.actualizarRecursos(modelo.juego().recursosJugadorActual());
             }
         }
@@ -271,6 +277,7 @@ public class VistaJuego extends BorderPane implements Observador {
         iconoJugador.setBackground(new Background(new BackgroundFill(modelo.juego().jugadorActual().obtenerColor(), new CornerRadii(100), Insets.EMPTY)));
         
         if (modelo.esFaseInicial()) {
+        	configurarInterfazFaseInicial();
             invisibilizarBotonDados();
             habilitarBotonPasarTurno();
         }
@@ -285,5 +292,31 @@ public class VistaJuego extends BorderPane implements Observador {
             ventana.close();
         }
         ventanasAbiertas.clear();
+    }
+    
+    private void configurarInterfazFaseInicial() {
+        invisibilizarBotonDados();
+        boolean pusoPoblado = modelo.yaPusoPobladoInicial();
+        boolean pusoCamino = modelo.yaPusoCaminoInicial();
+
+        if (pusoPoblado && pusoCamino) {
+            habilitarBotonPasarTurno();
+        } else {
+            deshabilitarBotonPasarTurno();
+        }
+
+        vistaPieza.darComportamientoInicial(modelo); 
+
+        if (pusoPoblado) {
+            vistaPieza.deshabilitarPoblado();
+        } else {
+            vistaPieza.habilitarPoblado();
+        }
+
+        if (pusoCamino) {
+            vistaPieza.deshabilitarCamino();
+        } else {
+            vistaPieza.habilitarCamino();
+        }
     }
 }

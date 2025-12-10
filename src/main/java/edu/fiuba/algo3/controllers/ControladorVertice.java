@@ -1,6 +1,6 @@
 package edu.fiuba.algo3.controllers;
 
-import edu.fiuba.algo3.modelo.Jugador;
+import edu.fiuba.algo3.modelo.*;
 import edu.fiuba.algo3.modelo.NoJugador;
 import edu.fiuba.algo3.modelo.Tablero.VerticeEdificio;
 import edu.fiuba.algo3.modelo.Ubicacion.Ubicacion;
@@ -56,5 +56,12 @@ public class ControladorVertice {
 
     public void agregarAdyacente(VistaVerticeEdificio vista) {
         adyacentes.add(vista);
+    }
+    
+    public void setComportamientoInicial(JuegoObservable modelo) {
+        vista.setOnAction(e -> {
+        modelo.colocarPiezaInicialObservable("poblado", ubicaciones);
+        vista.cambiarColor(modelo.juego().jugadorActual().obtenerColor());         
+        });
     }
 }

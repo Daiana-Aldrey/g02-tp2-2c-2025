@@ -1,6 +1,6 @@
 package edu.fiuba.algo3.controllers;
 
-import edu.fiuba.algo3.modelo.Jugador;
+import edu.fiuba.algo3.modelo.*;
 import edu.fiuba.algo3.modelo.NoJugador;
 import edu.fiuba.algo3.modelo.Tablero.Arista;
 import edu.fiuba.algo3.modelo.Ubicacion.Ubicacion;
@@ -52,5 +52,12 @@ public class ControladorArista {
 
     public void setJugador(Jugador jugador) {
         this.jugador = jugador;
+    }
+    
+    public void setComportamientoInicial(JuegoObservable modelo) {
+        boton.setOnAction(e -> {
+	    modelo.colocarPiezaInicialObservable("camino", ubicaciones);
+	    vista.cambiarFormaYColor(modelo.juego().jugadorActual().obtenerColor());
+        });
     }
 }
