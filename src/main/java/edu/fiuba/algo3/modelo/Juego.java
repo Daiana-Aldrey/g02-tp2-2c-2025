@@ -126,6 +126,9 @@ public class Juego {
 
     public void pasarAlSiguienteJugador() {
         int indiceActual = jugadores.indexOf(jugadorTurno);
+        if (indiceActual == cantJugadores - 1) {
+            rondas++;
+        }
         int siguiente = (indiceActual + 1) % cantJugadores;
         jugadorTurno = jugadores.get(siguiente);
     }
@@ -144,6 +147,10 @@ public class Juego {
 
     public List<Recurso> recursosJugadorActual(){
         return jugadorActual().recursos();
+    }
+    
+    public int getRondaActual() {
+        return this.rondas;
     }
 }
 

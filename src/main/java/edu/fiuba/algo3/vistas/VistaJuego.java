@@ -26,6 +26,7 @@ public class VistaJuego extends BorderPane implements Observador {
     private final Label nombreInferiorLabel;
     private final VBox iconoJugador;
     private final Button tirarDadoBtn;
+    private final Button pasarTurnoBtn;
 
     private VistaRecursos vistaRecursos;
     private VistaPropuesta vistaPropuesta;
@@ -39,6 +40,8 @@ public class VistaJuego extends BorderPane implements Observador {
         vertices = new ArrayList<>();
         this.modelo.agregarObservador(this);
         this.vistaPropuesta = new VistaPropuesta(modelo);
+        
+        pasarTurnoBtn = new Button();
         
         StackPane panelCentral = new StackPane();
         panelCentral.setAlignment(Pos.CENTER);
@@ -195,6 +198,14 @@ public class VistaJuego extends BorderPane implements Observador {
                 vistaPropuesta.toFront();
                 visibilizarBotonDados();
                 actualizarVistaPieza(modelo.juego().jugadorActual());
+            
+                if (modelo.esFaseInicial()) {
+                    invisibilizarBotonDados();  
+                    habilitarBotonPasarTurno(); 
+                } else {
+                    visibilizarBotonDados();   
+                    deshabilitarBotonPasarTurno(); 
+                }
             }
             if (msg.equals("NUEVA_PROPUESTA") || msg.equals("PROPUESTA_CERRADA")) {
             	vistaPropuesta.actualizarPropuesta();
@@ -206,7 +217,14 @@ public class VistaJuego extends BorderPane implements Observador {
             }
         }
     }
+    
+    private void habilitarBotonPasarTurno() {
+        pasarTurnoBtn.setDisable(false);
+    }
 
+    private void deshabilitarBotonPasarTurno() {
+        pasarTurnoBtn.setDisable(true);
+    }
     private void actualizarJugador() {
         String nombre = modelo.getNombreJugadorActual();
         nombreInferiorLabel.setText(nombre);
@@ -245,5 +263,10 @@ public class VistaJuego extends BorderPane implements Observador {
         actualizarVistaDados();
         actualizarVistaPieza(modelo.juego().jugadorActual());
         iconoJugador.setBackground(new Background(new BackgroundFill(modelo.juego().jugadorActual().obtenerColor(), new CornerRadii(100), Insets.EMPTY)));
+        
+        if (modelo.esFaseInicial()) {
+            invisibilizarBotonDados();
+            habilitarBotonPasarTurno();
+        }
     }
 }

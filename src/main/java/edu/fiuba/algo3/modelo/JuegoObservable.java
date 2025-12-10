@@ -24,12 +24,14 @@ public class JuegoObservable extends Observable {
     private int[] ultimaTirada; 
     private List<Recurso> ofertaActual;
     private List<Recurso> demandaActual;
-    
+    private boolean dadosTirados;
     private Jugador jugadorProponente;
-    private boolean hayPropuestaPendiente = false;
+    private boolean hayPropuestaPendiente;
 
     public JuegoObservable(Juego juego) {
         this.juego = juego;
+        this.dadosTirados = false;
+        this.hayPropuestaPendiente = false;
     }
 
     public Juego juego() { 
@@ -38,7 +40,12 @@ public class JuegoObservable extends Observable {
 
 
     public void realizarTirada() {
+    	if (esFaseInicial()) {
+            throw new RuntimeException("No se pueden tirar dados en la fase inicial.");
+        }
+
         this.ultimaTirada = juego.tirarDados();
+        this.dadosTirados = true; 
         notificarObservadores("DADOS");
 
         int suma = getSuma();
@@ -61,13 +68,28 @@ public class JuegoObservable extends Observable {
     }
     
     public void siguienteTurno() {
-        juego.pasarAlSiguienteJugador(); 
-        if (hayPropuestaPendiente && getNombreJugadorActual().equals(getNombreJugadorProponente())) {
+    	if (!esFaseInicial() && !dadosTirados) {
+            throw new RuntimeException("Debes tirar los dados antes de pasar el turno."); 
+       }
+
+       juego.pasarAlSiguienteJugador();
+       this.dadosTirados = false;
+       if (hayPropuestaPendiente && getNombreJugadorActual().equals(getNombreJugadorProponente())) {
             cerrarPropuesta();
         }
 
         notificarObservadores("TURNO");
     }
+    
+    
+    public boolean esFaseInicial() {
+        return juego.getRondaActual() < 2; 
+    }
+   
+    public boolean seTiraronDados() {
+        return dadosTirados;
+    }
+    
     public String getNombreJugadorActual() {
         return juego.jugadorActual().nombre();
     }
