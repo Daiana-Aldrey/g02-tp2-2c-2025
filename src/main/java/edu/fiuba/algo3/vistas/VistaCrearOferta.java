@@ -27,9 +27,9 @@ public class VistaCrearOferta {
     
     private Label lblMensaje;
 
-    public VistaCrearOferta(JuegoObservable modelo) {
+    public VistaCrearOferta(Stage stage, JuegoObservable modelo) {
         this.modelo = modelo;
-        this.stage = new Stage();
+        this.stage = stage;
         this.stage.setTitle("Crear Propuesta");
         this.stage.setResizable(false); 
         
@@ -216,5 +216,4 @@ public class VistaCrearOferta {
         }
         return filtrada;
     }
-
 }

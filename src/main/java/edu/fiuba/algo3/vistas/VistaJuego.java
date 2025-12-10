@@ -14,6 +14,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.stage.Stage;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,6 +35,8 @@ public class VistaJuego extends BorderPane implements Observador {
 
     private VistaTablero vistaTablero;
     private List<VistaVerticeEdificio> vertices;
+
+    private final List<Stage> ventanasAbiertas = new ArrayList<>();
 
     public VistaJuego(JuegoObservable modelo) {
         this.modelo = modelo;
@@ -81,10 +84,13 @@ public class VistaJuego extends BorderPane implements Observador {
         setTop(zonaSuperior);
 
         // botones
-        Button verCartasBtn = new BotonAccion("Ver Cartas", new HandlerVerCartas(modelo));
-        Button intercambiarBtn = new BotonAccion("Intercambiar", new HandlerIntercambio(modelo));
+        Button verCartasBtn = new BotonAccion("Ver Cartas", new HandlerVerCartas(modelo,this));
+        Button intercambiarBtn = new BotonAccion("Intercambiar", new HandlerIntercambio(modelo,this));
         Button pasarTurnoBtn = new Button();
-        pasarTurnoBtn.setOnAction(new HandlerPasarTurno(modelo));
+        pasarTurnoBtn.setOnAction(event -> {
+            cerrarVentanasAbiertas();
+            new HandlerPasarTurno(modelo).handle(event);
+        });
 
         //boton dado
         tirarDadoBtn = new BotonAccion("Tirar", new HandlerTirarDados(modelo));
@@ -121,7 +127,7 @@ public class VistaJuego extends BorderPane implements Observador {
         viewBanco.setPreserveRatio(true);
         bankBtn.setGraphic(viewBanco);
         bankBtn.setStyle("-fx-background-color: transparent; -fx-cursor: hand;");
-        bankBtn.setOnAction(new HandlerBanco(modelo));
+        bankBtn.setOnAction(new HandlerBanco(modelo,this));
 
         //jugador
         Image img = new Image("jugador.png");
@@ -268,5 +274,16 @@ public class VistaJuego extends BorderPane implements Observador {
             invisibilizarBotonDados();
             habilitarBotonPasarTurno();
         }
+    }
+
+    public void registrarVentana(Stage stage){
+        ventanasAbiertas.add(stage);
+    }
+
+    private void cerrarVentanasAbiertas(){
+        for(Stage ventana : ventanasAbiertas){
+            ventana.close();
+        }
+        ventanasAbiertas.clear();
     }
 }
