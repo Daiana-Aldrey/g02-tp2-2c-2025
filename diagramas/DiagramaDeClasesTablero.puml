@@ -1,0 +1,230 @@
+@startuml
+class Tablero {
+  +crearGrafo()
+  +setearGrafo(grafo: Grafo)
+  +colocarEdificio(ubicacion: UbicacionVertice, pieza: Pieza)
+  +colocarCamino(ubicacion1: UbicacionVertice, ubicacion2: UbicacionVertice, camino: Camino)
+  +notificarPuertosConstruccion(ubicacion: UbicacionVertice, pieza: Pieza)
+  +cosechar(numeroDado: int)
+  +hayEdificio(ubicacion: Ubicacion): Boolean
+  +hayCamino(ubicacion1: Ubicacion, ubicacion2: Ubicacion): Boolean
+}
+
+class Grafo {
+   +agregarVertice(vertice: Vertice)
+   +agregarArista(arista: Arista)
+   +contieneVertice(vertice: Vertice): Boolean
+   +hayArista(vertice1: Vertice, vertice2: Vertice): Boolean
+   +buscarVertice(ubicacion: Ubicacion): Vertice
+   +buscarArista(ubicacion1: Ubicacion, ubicacion2: Ubicacion): Arista
+   +colocarPieza(ubicacion: Ubicacion, pieza: Pieza)
+   +colocarCamino(ubicacion1: Ubicacion, ubicacion2: Ubicacion)
+   +terrenosCompatibles(resultadoDado: int)
+   +buscarTerrenoCompatible(resultadoDado: int): List<VerticeTerreno>
+   +removerPieza(ubicacion: Ubicacion)
+   +colocarLadron(ubicacion: Ubicacion, ladron: Ladron, jugador: Jugador)
+   +verticeTenesPieza(ubicacion: Ubicacion)
+   +aristaTenesCamino(ubicacion1: Ubicacion, ubicacion2: Ubicacion)
+}
+
+
+abstract class Vertice {
+   #{abstract}agregarVerticeAdyacente(vertice: Vertice)
+   #{abstract}contieneTerreno(): Boolean
+   +tieneUbicacion(ubicacion: Ubicacion): Boolean
+   +hayVerticeAdyacente(vertice: Vertice): Boolean
+
+}
+
+class VerticeEdificio {
+    -disponible: Boolean
+    -noDisponible()
+    #contieneTerreno(): Boolean
+    +VerticeEdificio(ubicacion: UbicacionVertice)
+    +estaDisponible(): Boolean
+    +colocarPieza(edificio: Pieza)
+    +hayTerrenoAdyacente(vertice: VerticeTerreno)
+    +agregarEdificioATerrenos(pieza: Pieza)
+    +removerPieza()
+    +agregarVerticeAdyacente(vertice: Vertice)
+    +hayPieza(): Boolean
+}
+
+class VerticeTerreno {
+    -fichaDeNumero: int
+    #agregarVerticeAdyacente(vertice: Vertice)
+    #contieneTerreno(): Boolean
+    +VerticeTerreno(ubicacion: Ubicacion, terreno: Terreno, fichaDeNumero: int)
+    +colocarLadron(ladron: Ladron)
+    +sacarLadron()
+    +poseePiezaAdyacente(propietario: Jugador): Boolean
+    +tieneFichaDeNumero(fichaDeNumero: int): Boolean
+    +cosecharTerreno()
+    +agregarEdificio(edificio: Pieza)
+    +hayPiezasAdyacentes(): Boolean
+    +removerPieza(piezaActual: Pieza)
+    +tieneTerreno(terreno: String): Boolean
+}
+
+class NoVerticeTerreno {
+    +sacarLadron()
+    +poseePiezaAdyacente(victima: Jugador): Boolean
+}
+
+class Arista {
+  -disponible: Boolean
+  -noDisponible()
+  +Arista(ubicacion1: Ubicacion, ubicacion2: Ubicacion)
+  +tieneUbicacion(ubicacion1: Ubicacion, ubicacion2: Ubicacion): Boolean
+  +colocarCamino(camino: Camino)
+  +estaDisponible(): Boolean
+  +hayCamino(): Boolean
+}
+
+
+abstract class Terreno {
+   +sosEsteTerreno(terreno: String): Boolean
+   +{abstract}repartirRecurso(edificios: List<Pieza>)
+}
+
+class NoTerreno {
+   +repartirRecurso(edificios: List<Pieza>))
+}
+
+class Bosque {
+   +repartirRecurso(edificios: List<Pieza>))
+}
+
+class Campo {
+   +repartirRecurso(edificios: List<Pieza>))
+}
+
+class Colina {
+   +repartirRecurso(edificios: List<Pieza>))
+}
+
+class Desierto {
+   +repartirRecurso(edificios: List<Pieza>))
+}
+
+class Montania {
+   +repartirRecurso(edificios: List<Pieza>))
+}
+
+class Pastizal {
+   +repartirRecurso(edificios: List<Pieza>))
+}
+
+abstract class Ubicacion {
+   #{abstract}tieneUbicacion(ubicacion: char): Boolean
+   +{abstract}getUbicacionInt(): int
+}
+
+class UbicacionVertice {
+   -ubicacion: char
+   #tieneUbicacion(ubicacion: char): Boolean
+   +UbicacionVertice(ubicacion: char)
+   +UbicacionVertice(ubicacion: int)
+   +getUbicacionInt(): int
+}
+
+class NoUbicacion {
+   #tieneUbicacion(ubicacion: char): Boolean
+   +getUbicacionInt(): int
+}
+
+abstract class Pieza {
+   #propietario: Jugador
+   +Pieza(tipo: String, propietario: Jugador)
+   +{abstract}costoDeContruccion(): List<Recurso>
+   +{abstract}colocarPrimera(ubicaciones: List<Ubicacion>)
+   +{abstract}colocar(ubicaciones: List<Ubicacion>)
+   +{abstract}tenesUbicacion(ubicacion: Ubicacion): Boolean
+   +{abstract}usable(): Boolean
+   +{abstract}setearUbicacion(ubicacion: Ubicacion)
+   +agregarRecursos(recurso: Recurso, cantidad: int)
+   +esDe(jugador: Jugador): Boolean
+   +afectarPorLadron(jugadorQueMueve: Jugador)
+   +produccion(): int
+}
+
+class Poblado {
+   +Poblado(propietario: Jugador)
+   +costoDeContruccion(): List<Recurso>
+   +colocarPrimera(ubicaciones: List<Ubicacion>)
+   +colocar(ubicaciones: List<Ubicacion>)
+   +tenesUbicacion(ubicacion: Ubicacion): Boolean
+   +usable(): Boolean
+   +produccion(): int
+   +setearUbicacion(ubicacion: Ubicacion)
+}
+
+class Ciudad {
+   +Ciudad(propietario: Jugador)
+   +costoDeContruccion(): List<Recurso>
+   +colocarPrimera(ubicaciones: List<Ubicacion>)
+   +colocar(ubicaciones: List<Ubicacion>)
+   +tenesUbicacion(ubicacion: Ubicacion): Boolean
+   +usable(): Boolean
+   +produccion(): int
+   +setearUbicacion(ubicacion: Ubicacion)
+}
+
+class Camino {
+   +Camino(propietario: Jugador)
+   +costoDeContruccion(): List<Recurso>
+   +colocarPrimera(ubicaciones: List<Ubicacion>)
+   +colocar(ubicaciones: List<Ubicacion>)
+   +tenesUbicacion(ubicacion: Ubicacion): Boolean
+   +usable(): Boolean
+   +produccion(): int
+   +setearUbicacion(ubicacion: Ubicacion)
+   +SetearSegundaUbicacion(ubicacion: Ubicacion)
+   +guardarUbicacion(ubicaciones: List<Ubicacion>)
+   +guardarAdyacentes(adyacentes: Map<Ubicacion, List<Ubicacion>>)
+}
+
+class NoPieza {
+   +NoPieza(propietario: Jugador)
+   +costoDeContruccion(): List<Recurso>
+   +colocarPrimera(ubicaciones: List<Ubicacion>)
+   +colocar(ubicaciones: List<Ubicacion>)
+   +tenesUbicacion(ubicacion: Ubicacion): Boolean
+   +usable(): Boolean
+   +setearUbicacion(ubicacion: Ubicacion)
+}
+
+Tablero -right-> Grafo
+Tablero  "1"o-down-"0.." Terreno
+Grafo  "1"o-right-"0." Arista
+Grafo  "1"o-down-"0.." Vertice
+Grafo  "1"o-down-"0.." VerticeTerreno
+
+
+
+Ubicacion <|-- NoUbicacion
+Ubicacion <|-- UbicacionVertice
+
+Vertice <|-- VerticeEdificio
+Vertice <|-- VerticeTerreno
+Vertice -right-> Ubicacion
+Vertice  "1"o-down-"0.." VerticeEdificio
+
+VerticeTerreno <|-- NoVerticeTerreno
+VerticeTerreno --> Terreno
+VerticeEdificio "1"o-left-"0.." Terreno
+
+Terreno <|-- Bosque
+Terreno <|-- Campo
+Terreno <|-- Colina
+Terreno <|-- Desierto
+Terreno <|-- Montania
+Terreno <|-- Pastizal
+Terreno <|-- NoTerreno
+
+Pieza <|-- Poblado
+Pieza <|-- Camino
+Pieza <|-- Ciudad
+Pieza <|-- NoPieza
+
+@enduml
