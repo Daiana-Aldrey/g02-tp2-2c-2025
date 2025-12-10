@@ -1,0 +1,9 @@
+@startuml
+class Juego {
+    -cantidadJugadores: int
+    -rondas: int
+    +Juego(jugadores: List<Jugador>)
+    +validarCantJugadores(cantidad: int)
+}
+
+@enduml

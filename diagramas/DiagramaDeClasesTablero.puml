@@ -194,12 +194,20 @@ class NoPieza {
    +setearUbicacion(ubicacion: Ubicacion)
 }
 
+class Ladron {
+   +moverA(nuevaUbicacion: VerticeTerreno)
+   +robar(beneficiario: Jugador, victima: Jugador)
+}
+
+
 Tablero -right-> Grafo
 Tablero  "1"o-down-"0.." Terreno
+Tablero  "1"o-left-"0.." Pieza
+Tablero --> Ladron
 Grafo  "1"o-right-"0." Arista
 Grafo  "1"o-down-"0.." Vertice
 Grafo  "1"o-down-"0.." VerticeTerreno
-
+Arista --> Ubicacion
 
 
 Ubicacion <|-- NoUbicacion
