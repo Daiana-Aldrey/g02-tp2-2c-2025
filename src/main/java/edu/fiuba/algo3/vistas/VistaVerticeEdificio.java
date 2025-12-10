@@ -67,7 +67,11 @@ public class VistaVerticeEdificio extends Button {
         this.setBackground(new Background(new BackgroundFill(color, CornerRadii.EMPTY, Insets.EMPTY)));
     }
 
-    public void colocarPiezar(String poblado) {
+    public void colocarPieza(String poblado) {
+        controlador.colocarPiezaPrimerTurno(poblado);
+    }
+
+    public void colocarPrimeraPieza(String poblado) {
         controlador.colocarPiezaPrimerTurno(poblado);
     }
 }

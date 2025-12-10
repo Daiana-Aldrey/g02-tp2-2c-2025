@@ -86,7 +86,7 @@ public class ControladorPieza {
 
         for (VistaVerticeEdificio vistaVertice : vertices) {
             vistaVertice.setJugador(jugador);
-            vistaVertice.colocarPiezar("poblado");
+            vistaVertice.colocarPieza("poblado");
             vistaVertice.mostrarVerticeDisponible();
         }
     }
@@ -98,7 +98,7 @@ public class ControladorPieza {
         vista.disenioDesactivado(btnCiudad);
         for (VistaArista vistaArista : aristas) {
             vistaArista.setJugador(jugador);
-            vistaArista.colocarPiezar("camino");
+            vistaArista.colocarPieza("camino");
             vistaArista.mostrarAristaDisponible();
         }
 
