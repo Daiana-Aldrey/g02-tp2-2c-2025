@@ -14,6 +14,7 @@ import java.util.Map;
 public class VistaPuntaje extends VBox {
 
     private final Map<Jugador, Label> labelsPV = new HashMap<>();
+    private final Map<Jugador, Label> labelsBonus = new HashMap<>();
 
     public VistaPuntaje(List<Jugador> jugadores) {
         setSpacing(20);
@@ -37,10 +38,15 @@ public class VistaPuntaje extends VBox {
         Label pv = new Label(jugador.puntosDeVictoria() + " PV");
         pv.setStyle("-fx-font-size: 14px; -fx-font-weight: bold;");
         pv.setTextFill(jugador.obtenerColor());
-
         labelsPV.put(jugador, pv);
 
-        contenido.getChildren().addAll(nombre, pv);
+        Label bonus = new Label("");
+        bonus.setStyle("-fx-font-size: 12px;");
+        bonus.setTextFill(jugador.obtenerColor());
+
+        labelsBonus.put(jugador,bonus);
+
+        contenido.getChildren().addAll(nombre, pv, bonus);
 
         HBox tarjeta = new HBox(contenido);
         tarjeta.setAlignment(Pos.CENTER);
@@ -55,13 +61,19 @@ public class VistaPuntaje extends VBox {
         return tarjeta;
     }
 
-    public void actualizarPV(List<Jugador> jugadores) {
+    public void actualizarPV(List<Jugador> jugadores, Jugador bonificado, int bonus) {
         for (Jugador jugador : jugadores) {
-            Label lbl = labelsPV.get(jugador);
-            if (lbl != null) {
-                lbl.setText(jugador.puntosDeVictoria() + " PV");
+            int pvModelo = jugador.puntosDeVictoria();
+            Label labelPV = labelsPV.get(jugador);
+            Label labelBonus = labelsBonus.get(jugador);
+
+            if (jugador == bonificado) {
+                labelPV.setText("PV: " + (pvModelo - bonus));
+                labelBonus.setText("Gran Caballería (+" + bonus + ")");
+            } else {
+                labelPV.setText("PV: " + pvModelo);
+                labelBonus.setText("");
             }
         }
     }
-
 }

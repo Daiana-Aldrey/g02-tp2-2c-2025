@@ -8,7 +8,6 @@ import edu.fiuba.algo3.modelo.Tablero.Tablero;
 import edu.fiuba.algo3.modelo.Ubicacion.Ubicacion;
 import edu.fiuba.algo3.Excepciones.*;
 import edu.fiuba.algo3.modelo.Ubicacion.UbicacionVertice;
-import edu.fiuba.algo3.modelo.CartaDeBonificacion.CartaGranCaballeria;
 import java.util.*;
 
 public class Juego {
@@ -152,5 +151,9 @@ public class Juego {
     public int getRondaActual() {
         return this.rondas;
     }
+
+	public CartaGranCaballeria obtenerCartaGranCaballeria(){
+		return cartaGranCaballeria;
+	}
 }
 

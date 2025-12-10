@@ -1,4 +1,5 @@
 package edu.fiuba.algo3.modelo;
+import edu.fiuba.algo3.modelo.CartaDeBonificacion.CartaGranCaballeria;
 import javafx.scene.paint.Color;
 import edu.fiuba.algo3.Excepciones.NoTieneCarta;
 import edu.fiuba.algo3.modelo.Bonificacion.RutaMayor;
@@ -336,8 +337,10 @@ public class Jugador {
             miRecurso.transferirA(ladron, cantidad);
         }
     }
+
     public void registrarCaballeroJugado() {
         caballerosJugados += 1;
+        CartaGranCaballeria.getInstance().verificarBonificacion(this);
     }
 
     public int caballerosJugados() {
