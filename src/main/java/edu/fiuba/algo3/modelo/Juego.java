@@ -88,7 +88,7 @@ public class Juego {
         jugadorActual().prepararCartasDesarrolloParaNuevoTurno();
     }
 
-    private boolean verificarVictoria(){
+    public boolean verificarVictoria(){
         for(Jugador jugador : jugadores){
             if(jugador.gano()){
                 return true;

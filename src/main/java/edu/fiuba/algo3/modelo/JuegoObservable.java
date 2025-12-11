@@ -101,25 +101,31 @@ public class JuegoObservable extends Observable {
         return juego.sumarTirada(); 
     }
     
+
     public void siguienteTurno() {
-    	if (!esFaseInicial() && !dadosTirados) {
+        if (!esFaseInicial() && !dadosTirados) {
             throw new RuntimeException("Debes tirar los dados antes de pasar el turno."); 
-       }
-    	if (esFaseInicial() && (!pobladoInicialColocado || !caminoInicialColocado)) {
+        }
+        if (esFaseInicial() && (!pobladoInicialColocado || !caminoInicialColocado)) {
             throw new RuntimeException("Debes colocar 1 poblado y 1 camino.");
-       }
-    
-       juego.pasarAlSiguienteJugador();
+        }
         juego.finalizarTurnoActual();
-       this.dadosTirados = false;
-       this.pobladoInicialColocado = false;
-       this.caminoInicialColocado = false;
-       
-       this.dadosTirados = false;
-       if (hayPropuestaPendiente && getNombreJugadorActual().equals(getNombreJugadorProponente())) {
-            cerrarPropuesta();
+        
+        if (juego.verificarVictoria()) {
+            notificarObservadores("FIN_JUEGO");
+            return; 
         }
 
+        juego.pasarAlSiguienteJugador();
+
+        this.dadosTirados = false;
+        this.pobladoInicialColocado = false;
+        this.caminoInicialColocado = false;
+        
+        if (hayPropuestaPendiente && getNombreJugadorActual().equals(getNombreJugadorProponente())) {
+            cerrarPropuesta();
+        }
+        
         notificarObservadores("TURNO");
     }
     
