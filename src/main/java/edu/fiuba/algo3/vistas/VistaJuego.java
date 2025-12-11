@@ -20,7 +20,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class VistaJuego extends BorderPane implements Observador {
-
     private final JuegoObservable modelo;
     private final VistaDados vistaDados;
     private final Label estadoLabel;
@@ -47,7 +46,6 @@ public class VistaJuego extends BorderPane implements Observador {
         this.vistaPuntaje = new VistaPuntaje(modelo.juego().jugadores());
         this.setRight(vistaPuntaje);
 
-        
         pasarTurnoBtn = new Button();
         
         StackPane panelCentral = new StackPane();
@@ -77,7 +75,6 @@ public class VistaJuego extends BorderPane implements Observador {
 
         //Barra superior
         VistaBarraSuperior barraSuperior = new VistaBarraSuperior(estadoLabel, reproductor);
-
 
         VBox zonaSuperior = new VBox();
         zonaSuperior.setSpacing(10);
@@ -254,6 +251,9 @@ public class VistaJuego extends BorderPane implements Observador {
                 actualizarJugador();
                 vistaRecursos.actualizarRecursos(modelo.juego().recursosJugadorActual());
             }
+            if(msg.equals("PRIMER_TURNO")){
+                VistaInfo.mostrar("Atención", "En las primeras dos rondas cada jugdor deberá colocar un poblado y un camino, en ese orden.");
+            }
         }
     }
     
@@ -316,6 +316,9 @@ public class VistaJuego extends BorderPane implements Observador {
         	configurarInterfazFaseInicial();
             invisibilizarBotonDados();
             habilitarBotonPasarTurno();
+            if(modelo.esFaseInicial()){
+                VistaInfo.mostrar("Atención", "En las primeras dos rondas cada jugdor deberá colocar un poblado y un camino, en ese orden.");
+            }
         }
     }
 
@@ -355,5 +358,4 @@ public class VistaJuego extends BorderPane implements Observador {
             vistaPieza.habilitarCamino();
         }
     }
-    
 }
