@@ -614,15 +614,19 @@ public class VistaTablero {
         double Y = 0;
         VistaLadron botonLadron;
         
-        char letraActual = 'A'; 
+        char letraActual = 'A';
+        int indiceSalteaDesierto = 0;
 
         for (Rectangle rectangulo: rectangulos) {
             X = rectangulo.getX();
             Y = rectangulo.getY();
             botonLadron = new VistaLadron();
-           
+            if (indiceSalteaDesierto == indiceLadron) {
+                letraActual++;
+            }
             botonLadron.setUbicacion(new UbicacionVertice(letraActual));
             letraActual++;
+            indiceSalteaDesierto++;
 
             botonLadron.setTranslateX(X + 45);
             botonLadron.setTranslateY(Y - 15);

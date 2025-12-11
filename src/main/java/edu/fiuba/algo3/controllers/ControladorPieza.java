@@ -69,6 +69,7 @@ public class ControladorPieza {
                 }
                 permitirVerBotonPoblado(jugador);
                 permitirVerBotonCiudad(jugador);
+                permitirVerBotonCamino(jugador);
                 visibleCamino = false;
             }
             if (visiblePoblado) {
@@ -77,6 +78,7 @@ public class ControladorPieza {
                 }
                 permitirVerBotonCiudad(jugador);
                 permitirVerBotonCamino(jugador);
+                permitirVerBotonPoblado(jugador);
                 visiblePoblado = false;
             }
             if (visibleCiudad) {
@@ -85,6 +87,7 @@ public class ControladorPieza {
                 }
                 permitirVerBotonPoblado(jugador);
                 permitirVerBotonCamino(jugador);
+                permitirVerBotonCiudad(jugador);
                 visibleCiudad = false;
             }
             btnCancelar.setVisible(false);
