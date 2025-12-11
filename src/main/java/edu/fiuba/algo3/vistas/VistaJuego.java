@@ -257,9 +257,6 @@ public class VistaJuego extends BorderPane implements Observador {
                 actualizarJugador();
                 vistaRecursos.actualizarRecursos(modelo.juego().recursosJugadorActual());
             }
-            if(msg.equals("PRIMER_TURNO")){
-                VistaInfo.mostrar("Atención", "En las primeras dos rondas cada jugdor deberá colocar un poblado y un camino, en ese orden.");
-            }
         }
     }
     
@@ -325,7 +322,6 @@ public class VistaJuego extends BorderPane implements Observador {
 
             if(modelo.esFaseInicial()){
                 VistaInfo.mostrar("Atención", "En las primeras dos rondas cada jugdor deberá colocar un poblado y un camino, en ese orden.");
-                modelo.agregarYaMostrado(modelo.juego().jugadorActual());
             }
         }
     }
