@@ -17,6 +17,11 @@ import java.util.ArrayList;
 import java.util.*;
 
 public class Jugador {
+    public final int MADERA = 0;
+    public final int MINERAL = 1;
+    public final int LADRILLO = 2;
+    public final int LANA = 3;
+    public final int GRANO = 4;
 	private String nombre;
     private Color color;
     private int puntosDeVictoria = 0;
@@ -29,6 +34,7 @@ public class Jugador {
     private List<Camino>  caminos  = new ArrayList<>();
     private List<Carta> cartasDesarrollo = new ArrayList<>();
     private List<Carta> cartasDesarrolloRecienCompradas = new ArrayList<>();
+    private Recurso[] recursosVector;
 
 
     public Jugador(String nombre) {
@@ -80,11 +86,17 @@ public class Jugador {
     }
 
 	private void inicializarRecursos() {
-		recursos.add(new Madera());
-        recursos.add(new Mineral());
-        recursos.add(new Ladrillo());
-        recursos.add(new Lana());
-        recursos.add(new Grano());
+        Madera  madera = new Madera();
+        Mineral mineral = new Mineral();
+        Ladrillo ladrillo = new Ladrillo();
+        Lana lana = new Lana();
+        Grano grano = new Grano();
+		recursos.add(madera);
+        recursos.add(mineral);
+        recursos.add(ladrillo);
+        recursos.add(lana);
+        recursos.add(grano);
+        recursosVector = new Recurso[]{madera, mineral, ladrillo, lana, grano};
 	}
 	
 	public void recibirRecurso(Recurso recursoARecibir, int cantidad) {
@@ -356,6 +368,10 @@ public class Jugador {
 
     public List<Recurso> recursos(){
         return recursos;
+    }
+
+    public Recurso[]  getRecursosVector() {
+        return recursosVector;
     }
 
     public List<Carta> getCartasDesarrollo(){

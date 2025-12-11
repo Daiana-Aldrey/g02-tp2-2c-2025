@@ -2,6 +2,8 @@ package edu.fiuba.algo3.controllers;
 
 import edu.fiuba.algo3.modelo.*;
 import edu.fiuba.algo3.modelo.CartaDeBonificacion.BonificadorRutaMayor;
+import edu.fiuba.algo3.modelo.Recurso.Grano;
+import edu.fiuba.algo3.modelo.Recurso.Recurso;
 import edu.fiuba.algo3.modelo.Tablero.Arista;
 import edu.fiuba.algo3.vistas.VistaArista;
 import edu.fiuba.algo3.vistas.VistaPieza;
@@ -163,10 +165,15 @@ public class ControladorPieza {
     public boolean sePuedeComprarPoblado(Jugador jugador) {
         boolean permitido = false;
 
-        int cantidadGrano = jugador.buscarRecurso("Grano").cantidad();
-        int cantidadLadrillo = jugador.buscarRecurso("Ladrillo").cantidad();
-        int cantidadMadera = jugador.buscarRecurso("Madera").cantidad();
-        int cantidadLana = jugador.buscarRecurso("Lana").cantidad();
+        Recurso[] recursos = jugador.getRecursosVector();
+        int cantidadGrano = recursos[jugador.GRANO].cantidad();
+        int cantidadLadrillo = recursos[jugador.LADRILLO].cantidad();
+        int cantidadMadera = recursos[jugador.MADERA].cantidad();
+        int cantidadLana =  recursos[jugador.LANA].cantidad();
+
+        if (recursos[jugador.GRANO].esNulo() || recursos[jugador.LADRILLO].esNulo()) {
+            System.out.println("soy nulo");
+        }
 
         if (cantidadGrano > 0 && cantidadLadrillo > 0 && cantidadMadera > 0 && cantidadLana > 0) {
             permitido = true;
@@ -177,8 +184,9 @@ public class ControladorPieza {
     public boolean sePuedeComprarCiudad(Jugador jugador) {
         boolean permitido = false;
 
-        int cantidadGrano = jugador.buscarRecurso("Grano").cantidad();
-        int cantidadMineral = jugador.buscarRecurso("Mineral").cantidad();
+        Recurso[] recursos = jugador.getRecursosVector();
+        int cantidadGrano = recursos[jugador.GRANO].cantidad();
+        int cantidadMineral = recursos[jugador.MINERAL].cantidad();
 
         if ( cantidadGrano > 1 && cantidadMineral > 2 ) {
             permitido = true;
@@ -189,8 +197,9 @@ public class ControladorPieza {
     public boolean sePuedeComprarCamino(Jugador jugador) {
         boolean permitido = false;
 
-        int cantidadLadrillo = jugador.buscarRecurso("Ladrillo").cantidad();
-        int cantidadMadera = jugador.buscarRecurso("Madera").cantidad();
+        Recurso[] recursos = jugador.getRecursosVector();
+        int cantidadLadrillo = recursos[jugador.LADRILLO].cantidad();
+        int cantidadMadera = recursos[jugador.MADERA].cantidad();
 
         if (cantidadLadrillo > 0 && cantidadMadera > 0) {
             permitido = true;
