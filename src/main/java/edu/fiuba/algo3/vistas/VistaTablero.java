@@ -1,7 +1,7 @@
 package edu.fiuba.algo3.vistas;
 
 import edu.fiuba.algo3.controllers.ControladorTablero;
-import edu.fiuba.algo3.modelo.Ubicacion.Ubicacion;
+import edu.fiuba.algo3.modelo.Ubicacion.*;
 import javafx.scene.Group;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -173,7 +173,6 @@ public class VistaTablero {
     public void ponerDesierto(){
         Polygon hexagono = hexagonos.get(indice);
         hexagono.setFill(ConstanteColores.coloresTablero[ConstanteColores.PARAMO]);
-
         Image img = new Image("cactus.png");
         ImageView view = new ImageView(img);
 
@@ -190,9 +189,16 @@ public class VistaTablero {
         viewLadron.setX(x * TAMANIOCOLUMNA + 55);
         viewLadron.setY(y * TAMANIOFILA + 75);
 
+
+        Rectangle rectanguloFantasma = crearRectangulo(x, y);
+        rectanguloFantasma.setVisible(false); 
+        rectangulos.add(rectanguloFantasma);
+     
         Group desiertoSinFicha = new Group(hexagono, view);
         hexagonosConFicha.add(desiertoSinFicha);
+        
         tablero.getChildren().addAll(desiertoSinFicha, viewLadron);
+        
         indice++;
     }
 
@@ -610,16 +616,22 @@ public class VistaTablero {
         double X = 0;
         double Y = 0;
         VistaLadron botonLadron;
+        
+        char letraActual = 'A'; 
+
         for (Rectangle rectangulo: rectangulos) {
             X = rectangulo.getX();
             Y = rectangulo.getY();
             botonLadron = new VistaLadron();
+           
+            botonLadron.setUbicacion(new UbicacionVertice(letraActual));
+            letraActual++;
+
             botonLadron.setTranslateX(X + 45);
             botonLadron.setTranslateY(Y - 15);
             botonesLadron.add(botonLadron);
             tablero.getChildren().add(botonLadron);
         }
-
     }
 
 	public void dibujarPuerto(VistaPuerto vistaPuerto, int indiceVertice1, int indiceVertice2) {

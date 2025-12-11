@@ -27,13 +27,14 @@ public class JuegoObservable extends Observable {
     private boolean pobladoInicialColocado;
     private boolean caminoInicialColocado;
     private BonificadorRutaMayor bonificadorRutaMayor;
-
+    private boolean esperandoMovimientoLadron;
     public JuegoObservable(Juego juego) {
         this.juego = juego;
         this.dadosTirados = false;
         this.hayPropuestaPendiente = false;
         this.pobladoInicialColocado = false;
         this.caminoInicialColocado = false;
+        this.esperandoMovimientoLadron = false;
 
         this.bonificadorRutaMayor = new BonificadorRutaMayor();
         agregarRutasBonificador();
@@ -55,11 +56,34 @@ public class JuegoObservable extends Observable {
 
         int suma = getSuma();
         juego.manejarTirada(suma);
-        notificarObservadores("RECURSOS");
 
         if (suma == 7){
+        	this.esperandoMovimientoLadron = true;
             notificarObservadores("LADRON");
+        }else {
+	        notificarObservadores("RECURSOS");
+	    }
+    }
+    
+    public boolean esTurnoLadron() {
+        return esperandoMovimientoLadron;
+    }
+    
+    public void moverLadronObservable(UbicacionVertice destino, String nombreVictima) {
+        Jugador jugadorActual = juego.jugadorActual();
+        Jugador victima = null;
+        if (nombreVictima != null && !nombreVictima.isEmpty()) {
+            victima = buscarJugadorPorNombre(nombreVictima);
         }
+        
+        jugadorActual.moverLadron(destino, victima);
+        this.esperandoMovimientoLadron = false;
+        notificarObservadores("RECURSOS"); 
+        notificarObservadores("LADRON_MOVIDO");
+    }
+    
+    public List<Jugador> getJugadores() {
+        return juego.jugadores();
     }
 
     public int getDado1() { 

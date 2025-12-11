@@ -57,14 +57,16 @@ public class Juego {
     }
 
     public void manejarTirada(int n) {
-        if (n == 7) {
-            aplicarEventoSiete();
+    	if (n == 7) {
+            for (Jugador j : jugadores) {
+                j.descartarMitad();
+            }
         } else {
             tablero.cosechar(n);
         }
     }
-
-    private void aplicarEventoSiete() {
+    
+    /*private void aplicarEventoSiete() {
         for (Jugador j : jugadores) {
             j.descartarMitad();
         }
@@ -72,7 +74,7 @@ public class Juego {
         Jugador victima = jugadores.get(1); 
         
         jugadorActual().moverLadron(destino, victima);
-    }
+    }*/
 
     public List<Jugador> jugadores() {
         return jugadores;

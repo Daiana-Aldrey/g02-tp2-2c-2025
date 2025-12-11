@@ -246,6 +246,15 @@ public class VistaJuego extends BorderPane implements Observador {
                 configurarInterfazFaseInicial();
                 vistaRecursos.actualizarRecursos(modelo.juego().recursosJugadorActual());
             }
+            
+            if (msg.equals("LADRON")) {
+                mostrarEstado("¡Salió un 7! Mueve al Ladrón (Hace clic en un terreno)");
+            }
+            
+            if (msg.equals("LADRON_MOVIDO")) {
+                actualizarJugador();
+                vistaRecursos.actualizarRecursos(modelo.juego().recursosJugadorActual());
+            }
         }
     }
     
@@ -286,6 +295,9 @@ public class VistaJuego extends BorderPane implements Observador {
         vertices = vistaTablero.getVertices();
         List<VistaArista> arista = vistaTablero.getArista();
         vistaPieza.setVerticesArista(vertices, arista);
+        for (VistaLadron boton : vistaTablero.getBotonesLadron()) {
+            boton.inicializarControlador(modelo);
+        }
     }
 
     private void actualizarVistaPieza(Jugador jugador) {
@@ -341,4 +353,5 @@ public class VistaJuego extends BorderPane implements Observador {
             vistaPieza.habilitarCamino();
         }
     }
+    
 }

@@ -1,0 +1,68 @@
+package edu.fiuba.algo3.controllers;
+
+import edu.fiuba.algo3.modelo.JuegoObservable;
+import edu.fiuba.algo3.modelo.Jugador;
+import edu.fiuba.algo3.modelo.Ubicacion.UbicacionVertice;
+import edu.fiuba.algo3.Excepciones.VictimaInvalida;
+import edu.fiuba.algo3.Excepciones.ColocacionInvalida;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ChoiceDialog;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
+public class ControladorMoverLadron {
+    private JuegoObservable modelo;
+    private UbicacionVertice ubicacionDelTerreno; 
+
+    public ControladorMoverLadron(JuegoObservable modelo, UbicacionVertice ubicacion) {
+        this.modelo = modelo;
+        this.ubicacionDelTerreno = ubicacion;
+    }
+
+    public void manejarClick() {
+    	if (!modelo.esTurnoLadron()) {
+            return;
+        }
+
+        try {
+            Jugador victimaElegida = null;
+            List<String> opciones = new ArrayList<>();
+            opciones.add("Nadie");
+            String nombreActual = modelo.getNombreJugadorActual();
+            for (Jugador j : modelo.getJugadores()) {
+                if (!j.nombre().equals(nombreActual)) {
+                    opciones.add(j.nombre());
+                }
+            }
+
+            ChoiceDialog<String> dialog = new ChoiceDialog<>("Nadie", opciones);
+            dialog.setTitle("Mover Ladrón");
+            dialog.setHeaderText("Has movido al ladrón a esta ubicación.");
+            dialog.setContentText("Elige a quién robarle (si hay alguien adyacente):");
+
+            Optional<String> resultado = dialog.showAndWait();
+
+            if (resultado.isPresent()) {
+                String nombreSeleccionado = resultado.get();
+                String nombreParaBackend = nombreSeleccionado.equals("Nadie") ? null : nombreSeleccionado;
+                modelo.moverLadronObservable(ubicacionDelTerreno, nombreParaBackend);
+            }
+
+        } catch (VictimaInvalida e) {
+            mostrarAlerta("Error de Robo", "Ese jugador no tiene construcciones adyacentes a este terreno.");
+        } catch (ColocacionInvalida e) {
+            mostrarAlerta("Movimiento Inválido", "El ladrón ya está en ese lugar o es inválido.");
+        } catch (Exception e) {
+            mostrarAlerta("Error", e.getMessage());
+        }
+    }
+
+    private void mostrarAlerta(String titulo, String mensaje) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle(titulo);
+        alert.setHeaderText(null);
+        alert.setContentText(mensaje);
+        alert.showAndWait();
+    }
+}
