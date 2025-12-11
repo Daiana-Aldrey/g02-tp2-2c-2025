@@ -1,7 +1,7 @@
 package edu.fiuba.algo3.entrega3.TestIntegradores;
 
-import edu.fiuba.algo3.modelo.Bonificacion.BonificadorRutaMayor;
-import edu.fiuba.algo3.modelo.Bonificacion.RutaMayor;
+import edu.fiuba.algo3.modelo.CartaDeBonificacion.BonificadorRutaMayor;
+import edu.fiuba.algo3.modelo.CartaDeBonificacion.RutaMayor;
 import edu.fiuba.algo3.modelo.CartaDeBonificacion.CartaGranCaballeria;
 import edu.fiuba.algo3.modelo.CartaDeDesarrollo.Carta;
 import edu.fiuba.algo3.modelo.CartaDeDesarrollo.CartaConstruccionCarreteras;

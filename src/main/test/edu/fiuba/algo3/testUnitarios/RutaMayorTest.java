@@ -1,6 +1,6 @@
 package edu.fiuba.algo3.testUnitarios;
 
-import edu.fiuba.algo3.modelo.Bonificacion.RutaMayor;
+import edu.fiuba.algo3.modelo.CartaDeBonificacion.RutaMayor;
 import edu.fiuba.algo3.modelo.Jugador;
 import edu.fiuba.algo3.modelo.Pieza.Camino;
 import edu.fiuba.algo3.modelo.Ubicacion.Ubicacion;

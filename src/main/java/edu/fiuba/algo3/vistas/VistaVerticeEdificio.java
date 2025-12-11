@@ -104,10 +104,31 @@ public class VistaVerticeEdificio extends Button {
         poblado = true;
     }
 
+    public void cambiarFormaACiudad(Color color) {
+        setStyle("-fx-background-color: transparent;");
+        SVGPath edificioSVG = new SVGPath();
+        edificioSVG.setContent(
+                "M1658 4686 c-626 -238 -1149 -441 -1163 -450 -14 -10 -35 -31 -45 -49 -20 -31 -20 -66 -20 -1893 l0 -1862 -138 -4 c-128 -3 -140 -5 -184 -31 -84 -49 -124 -150 -98 -245 15 -56 80 -123 136 -140 60 -18 4768 -18 4828 0 57 17 119 82 135 141 35 123 -44 247 -171 272 l-28 5 0 1336 c0 1466 3 1386 -60 1419 -111 57 -1527 655 -1552 655 -21 0 -40 -10 -64 -34 l-34 -34 0 -1671 0 -1671 -105 0 -105 0 -2 2288 -3 2287 -21 35 c-25 43 -87 80 -134 80 -22 0 -463 -164 -1172 -434z m-359 -866 c22 -11 50 -36 62 -57 23 -37 24 -45 24 -243 0 -198 -1 -206 -24 -243 -31 -51 -91 -81 -149 -74 -50 5 -87 29 -119 77 -22 32 -23 42 -23 237 0 217 3 235 52 280 49 46 116 55 177 23z m960 0 c22 -11 50 -36 62 -57 23 -37 24 -45 24 -243 0 -198 -1 -206 -24 -243 -31 -51 -91 -81 -149 -74 -50 5 -87 29 -119 77 -22 32 -23 42 -23 237 0 217 3 235 52 280 49 46 116 55 177 23z m-960 -1280 c22 -11 50 -36 62 -57 23 -37 24 -45 24 -243 0 -198 -1 -206 -24 -243 -31 -51 -91 -81 -149 -74 -50 5 -87 29 -119 77 -22 32 -23 42 -23 237 0 217 3 235 52 280 49 46 116 55 177 23z m960 0 c22 -11 50 -36 62 -57 23 -37 24 -45 24 -243 0 -198 -1 -206 -24 -243 -31 -51 -91 -81 -149 -74 -50 5 -87 29 -119 77 -22 32 -23 42 -23 237 0 217 3 235 52 280 49 46 116 55 177 23z m1509 -7 c14 -10 35 -32 46 -47 20 -26 21 -41 21 -246 0 -241 -1 -243 -69 -294 -39 -29 -133 -29 -172 0 -67 49 -69 57 -72 267 -2 106 -1 206 3 224 7 40 49 91 90 109 40 19 120 12 153 -13z m731 7 c22 -11 50 -36 62 -57 23 -37 24 -45 24 -243 0 -198 -1 -206 -24 -243 -31 -51 -91 -81 -149 -74 -50 5 -87 29 -119 77 -22 32 -23 42 -23 237 0 217 3 235 52 280 49 46 116 55 177 23z m-3200 -1280 c22 -11 50 -36 62 -57 23 -37 24 -45 24 -243 0 -198 -1 -206 -24 -243 -31 -51 -91 -81 -149 -74 -50 5 -87 29 -119 77 -22 32 -23 42 -23 237 0 217 3 235 52 280 49 46 116 55 177 23z m960 0 c22 -11 50 -36 62 -57 23 -37 24 -45 24 -243 0 -198 -1 -206 -24 -243 -31 -51 -91 -81 -149 -74 -50 5 -87 29 -119 77 -22 32 -23 42 -23 237 0 217 3 235 52 280 49 46 116 55 177 23z m1509 -7 c14 -10 35 -32 46 -47 20 -26 21 -41 21 -246 0 -241 -1 -243 -69 -294 -39 -29 -133 -29 -172 0 -67 49 -69 57 -72 267 -2 106 -1 206 3 224 7 40 49 91 90 109 40 19 120 12 153 -13z m731 7 c22 -11 50 -36 62 -57 23 -37 24 -45 24 -243 0 -198 -1 -206 -24 -243 -31 -51 -91 -81 -149 -74 -50 5 -87 29 -119 77 -22 32 -23 42 -23 237 0 217 3 235 52 280 49 46 116 55 177 23z"
+        );
+
+        edificioSVG.setFill(color);
+
+        Group edificio = new Group(edificioSVG);
+        edificio.setRotate(180);
+        edificio.setScaleY(0.011);
+        edificio.setScaleX(0.011);
+
+        setEffect(sombra);
+        setCursor(Cursor.DEFAULT);
+        this.setGraphic(edificio);
+        poblado = false;
+
+    }
+
     public void resaltarPoblado(Jugador jugador) {
-        if (jugador.tenesPiezaEnUbicacion(vertice.obtenerUbicacion())) {
-            setCursor(Cursor.HAND);
-            setStyle("-fx-effect: dropshadow(gaussian, white, 25, 0.7, 0, 0); ");
+        if (jugador.tenesPobladoEnUbicacion(vertice.obtenerUbicacion())) {
+                setCursor(Cursor.HAND);
+                setStyle("-fx-effect: dropshadow(gaussian, white, 25, 0.7, 0, 0); ");
         }
     }
 
@@ -119,18 +140,11 @@ public class VistaVerticeEdificio extends Button {
         }
     }
 
-    public void colocarPieza(String poblado) {
-        controlador.colocarPiezaPrimerTurno(poblado);
-    }
-
-    public void colocarPrimeraPieza(String poblado) {
-        controlador.colocarPiezaPrimerTurno(poblado);
-    }
     public void setComportamientoInicial(JuegoObservable modelo) {
         controlador.setComportamientoInicial(modelo);
     }
     public void habilitarConstruccion(String pieza) {
-        controlador.construirPieza(pieza);
+        controlador.colocarPieza(pieza);
     }
 
 }

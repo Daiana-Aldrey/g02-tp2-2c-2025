@@ -119,17 +119,9 @@ public class VistaPieza extends HBox {
         disenioBotonActivado(btnCamino);
     }
 
-    public void deshabilitarCiudad() {
-        disenioDesactivado(btnCiudad);
-    }
-
-    public void habilitarCiudad() {
-        disenioBotonActivado(btnCiudad);
-    }
-
     public void deshabilitarTodosLosBotones() {
-        deshabilitarCamino();
-        deshabilitarPoblado();
-        deshabilitarCiudad();
+        disenioDesactivado(btnCamino);
+        disenioDesactivado(btnPoblado);
+        disenioDesactivado(btnCiudad);
     }
 }

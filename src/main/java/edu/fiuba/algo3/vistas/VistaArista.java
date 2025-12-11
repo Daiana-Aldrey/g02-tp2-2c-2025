@@ -71,9 +71,6 @@ public class VistaArista extends Group {
         verticesAdyacentes.add(adyacente);
     }
 
-    public void colocarPieza(String camino) {
-        controlador.colocarPiezaPrimerTurno(camino);
-    }
 
     public void cambiarFormaYColor(Color color) {
         boton.setVisible(false);

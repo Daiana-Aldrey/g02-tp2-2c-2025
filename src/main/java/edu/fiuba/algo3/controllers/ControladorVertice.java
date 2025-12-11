@@ -29,44 +29,26 @@ public class ControladorVertice {
         ubicaciones.add(this.ubicacion);
     }
 
-    public void colocarPiezaPrimerTurno(String tipoPieza) {
+    public void colocarPieza(String tipoPieza) {
         vista.setOnAction(e -> {
-            jugador.colocarPiezaInicial(tipoPieza, ubicaciones);
-            vista.cambiarFormaYColorPoblado(jugador.obtenerColor());
-
-            for (VistaVerticeEdificio adyacente : adyacentes) {
-                adyacente.mostrarVerticeDisponible();
-            }
-        });
-    }
-
-    /*public void construirPieza(String tipoPieza) {
-        vista.setOnAction(e -> {
-            jugador.construirPieza(tipoPieza, ubicaciones);
-            vista.cambiarFormaYColorPoblado(jugador.obtenerColor());
-
-            for (VistaVerticeEdificio adyacente : adyacentes) {
-                adyacente.mostrarVerticeDisponible();
-            }
-        });
-    }*/
-    public void construirPieza(String tipoPieza) {
-        vista.setOnAction(e -> {
-            try {
+            if (tipoPieza.equals("poblado")) {
                 jugador.construirPieza(tipoPieza, ubicaciones);
                 vista.cambiarFormaYColorPoblado(jugador.obtenerColor());
 
                 for (VistaVerticeEdificio adyacente : adyacentes) {
                     adyacente.mostrarVerticeDisponible();
                 }
-
-            } catch (RecursoIncorrecto | SinRecursos error) {
-                System.out.println("No se pudo construir: " + error.getMessage());
-            } catch (Exception error) {
-                 System.out.println("Error de regla: " + error.getMessage());
+            }
+            if (tipoPieza.equals("ciudad")) {
+                jugador.construirPieza(tipoPieza, ubicaciones);
+                vista.cambiarFormaACiudad(jugador.obtenerColor());
+                for (VistaVerticeEdificio adyacente : adyacentes) {
+                    adyacente.mostrarVerticeDisponible();
+                }
             }
         });
     }
+
 
     public void setJugadorActual(Jugador jugador) {
         this.jugador = jugador;
@@ -75,11 +57,12 @@ public class ControladorVertice {
     public void agregarAdyacente(VistaVerticeEdificio vista) {
         adyacentes.add(vista);
     }
-    
+
     public void setComportamientoInicial(JuegoObservable modelo) {
         vista.setOnAction(e -> {
-        modelo.colocarPiezaInicialObservable("poblado", ubicaciones);
-        vista.cambiarFormaYColorPoblado(modelo.juego().jugadorActual().obtenerColor());
+            modelo.colocarPiezaInicialObservable("poblado", ubicaciones);
+            vista.cambiarFormaYColorPoblado(modelo.juego().jugadorActual().obtenerColor());
         });
     }
 }
+

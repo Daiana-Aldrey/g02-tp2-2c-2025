@@ -38,12 +38,6 @@ public class ControladorArista {
         this.boton = boton;
     }
 
-    public void colocarPiezaPrimerTurno(String tipoPieza) {
-        boton.setOnAction(e -> {
-            jugador.colocarPiezaInicial(tipoPieza, ubicaciones);
-            vista.cambiarFormaYColor(jugador.obtenerColor());
-        });
-    }
 
     public void construirPieza(String tipoPieza) {
         boton.setOnAction(e -> {

@@ -1,8 +1,9 @@
 package edu.fiuba.algo3.modelo;
+import edu.fiuba.algo3.modelo.CartaDeBonificacion.BonificadorRutaMayor;
 import edu.fiuba.algo3.modelo.CartaDeBonificacion.CartaGranCaballeria;
 import javafx.scene.paint.Color;
 import edu.fiuba.algo3.Excepciones.NoTieneCarta;
-import edu.fiuba.algo3.modelo.Bonificacion.RutaMayor;
+import edu.fiuba.algo3.modelo.CartaDeBonificacion.RutaMayor;
 import edu.fiuba.algo3.modelo.CartaDeDesarrollo.Carta;
 import edu.fiuba.algo3.modelo.Intercambio.Puerto;
 import edu.fiuba.algo3.modelo.Pieza.*;
@@ -277,11 +278,6 @@ public class Jugador {
         return encontrado;
     }
 
-
-    public void agregarPuerto(Puerto puerto){
-        puertos.add(puerto);
-    }
-
     public Recurso buscarRecurso(Recurso recursoBuscado) {
         for (Recurso r : recursos) {
             if (r.getClass() == recursoBuscado.getClass()) {
@@ -299,6 +295,7 @@ public class Jugador {
     public Color obtenerColor() {
         return this.color;
     }
+
     public void aumentarCantidadDeUsosCartaCaballero(int cantidad) {
         this.cantidadDeUsosCartaCaballero = this.cantidadDeUsosCartaCaballero + cantidad;
     }
@@ -336,15 +333,15 @@ public class Jugador {
         if (cantidad > 0) {
             miRecurso.transferirA(ladron, cantidad);
         }
+
+    }
+    public void incluirRuta(BonificadorRutaMayor bonificadorRutaMayor) {
+        bonificadorRutaMayor.agregarRuta(ruta);
     }
 
     public void registrarCaballeroJugado() {
         caballerosJugados += 1;
         CartaGranCaballeria.getInstance().verificarBonificacion(this);
-    }
-
-    public int caballerosJugados() {
-        return caballerosJugados;
     }
 
     public List<Recurso> recursos(){
@@ -371,5 +368,6 @@ public class Jugador {
     public RutaMayor obtenerRuta(){
         return ruta;
     }
+
 }
   

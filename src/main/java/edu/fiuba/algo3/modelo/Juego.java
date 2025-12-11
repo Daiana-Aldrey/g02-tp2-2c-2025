@@ -1,11 +1,14 @@
 package edu.fiuba.algo3.modelo;
 
+import edu.fiuba.algo3.modelo.CartaDeBonificacion.BonificadorRutaMayor;
 import edu.fiuba.algo3.modelo.CartaDeBonificacion.CartaGranCaballeria;
+import edu.fiuba.algo3.modelo.CartaDeBonificacion.RutaMayor;
 import edu.fiuba.algo3.modelo.Dados.*;
 import edu.fiuba.algo3.modelo.Intercambio.Banco;
 import edu.fiuba.algo3.modelo.Recurso.Recurso;
 import edu.fiuba.algo3.modelo.Ronda.*; 
 import edu.fiuba.algo3.modelo.Tablero.Tablero;
+import edu.fiuba.algo3.modelo.Ubicacion.Ubicacion;
 import edu.fiuba.algo3.modelo.Ubicacion.UbicacionVertice;
 import edu.fiuba.algo3.Excepciones.*;
 import java.util.*;
@@ -18,18 +21,21 @@ public class Juego {
     private final int cantJugadores;
     private OrganizadorDeTurnos organizador;
     private final Dados dados;
+    private final BonificadorRutaMayor bonificadorRutaMayor;
 
     public Juego(List<Jugador> jugadores) {
         this.cantJugadores = jugadores.size();
         this.jugadores = jugadores;
         this.tablero = Tablero.getInstance();
         this.cartaGranCaballeria = CartaGranCaballeria.getInstance();
+        this.bonificadorRutaMayor = new BonificadorRutaMayor();
         this.banco = new Banco();
         this.dados = new Dados(2);
         
         this.organizador = new OrganizadorDeTurnos(jugadores);
 
         validarCantJugadores(cantJugadores);
+        setearRutasParaBonificador();
     }
     
     private void validarCantJugadores(int cantidad) {
@@ -97,6 +103,11 @@ public class Juego {
         finalizarTurnoActual();
     }
 
+    public void setearRutasParaBonificador() {
+        for (Jugador jugador : jugadores){
+            jugador.incluirRuta(bonificadorRutaMayor);
+        }
+    }
 
     public void pasarAlSiguienteJugador() {
         organizador.siguienteTurno();
@@ -124,5 +135,10 @@ public class Juego {
 	public CartaGranCaballeria obtenerCartaGranCaballeria(){
 		return cartaGranCaballeria;
 	}
+
+    public BonificadorRutaMayor obtenerBonificadorRutaMayor(){
+        return bonificadorRutaMayor;
+    }
+
 }
 

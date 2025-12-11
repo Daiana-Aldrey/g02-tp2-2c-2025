@@ -1,11 +1,9 @@
 package edu.fiuba.algo3.testUnitarios;
 
-import edu.fiuba.algo3.modelo.Bonificacion.BonificadorRutaMayor;
-import edu.fiuba.algo3.modelo.Bonificacion.RutaMayor;
+import edu.fiuba.algo3.modelo.CartaDeBonificacion.BonificadorRutaMayor;
+import edu.fiuba.algo3.modelo.CartaDeBonificacion.RutaMayor;
 import edu.fiuba.algo3.modelo.Jugador;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 
 import java.util.ArrayList;
 

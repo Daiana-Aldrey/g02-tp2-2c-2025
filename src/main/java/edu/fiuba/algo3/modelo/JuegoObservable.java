@@ -1,19 +1,15 @@
 package edu.fiuba.algo3.modelo;
 
-import edu.fiuba.algo3.modelo.Bonificacion.BonificadorRutaMayor;
+import edu.fiuba.algo3.modelo.CartaDeBonificacion.BonificadorRutaMayor;
 import edu.fiuba.algo3.modelo.CartaDeDesarrollo.Carta;
 import edu.fiuba.algo3.modelo.Ubicacion.Ubicacion;
 import edu.fiuba.algo3.observador.Observable;
 import edu.fiuba.algo3.modelo.Recurso.*;
 import edu.fiuba.algo3.modelo.Intercambio.*;
 import edu.fiuba.algo3.modelo.CartaDeDesarrollo.*;
-import edu.fiuba.algo3.modelo.Jugador;
-import edu.fiuba.algo3.modelo.CartaDeDesarrollo.Carta;
+
 import edu.fiuba.algo3.modelo.Ubicacion.UbicacionVertice;
 import edu.fiuba.algo3.Excepciones.NoTieneCarta;
-import edu.fiuba.algo3.Excepciones.NoTieneCarta;
-import edu.fiuba.algo3.Excepciones.ErrorNoUsoDeCartaInvalido;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

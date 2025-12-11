@@ -256,6 +256,7 @@ public class VistaJuego extends BorderPane implements Observador {
     private void deshabilitarBotonPasarTurno() {
         pasarTurnoBtn.setDisable(true);
     }
+
     private void actualizarJugador() {
         String nombre = modelo.getNombreJugadorActual();
         nombreInferiorLabel.setText(nombre);
@@ -273,6 +274,7 @@ public class VistaJuego extends BorderPane implements Observador {
 
     private void visibilizarBotonDados() {
         tirarDadoBtn.setDisable(false);
+        vistaPieza.deshabilitarTodosLosBotones();
     }
 
     private void invisibilizarBotonDados() {
@@ -292,6 +294,7 @@ public class VistaJuego extends BorderPane implements Observador {
 
     private void primeraRonda() {
         actualizarVistaDados();
+        invisibilizarBotonDados();
         actualizarVistaPieza(modelo.juego().jugadorActual());
         iconoJugador.setBackground(new Background(new BackgroundFill(modelo.juego().jugadorActual().obtenerColor(), new CornerRadii(100), Insets.EMPTY)));
         
