@@ -22,7 +22,7 @@ public class CartaCaballero extends Carta {
     @Override
     public void usar(Jugador jugadorQueJuegaLaCarta) {
 
-        jugadorQueJuegaLaCarta.moverLadron(destino, victima);
+        //jugadorQueJuegaLaCarta.moverLadron(destino, victima);
         jugadorQueJuegaLaCarta.registrarCaballeroJugado();
     }
 

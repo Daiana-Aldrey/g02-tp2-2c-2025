@@ -294,6 +294,9 @@ public class JuegoObservable extends Observable {
         for (Carta carta : cartas) {
             if (carta.getNombre().equals(nombreCarta)) {
                 jugador.jugarCartaDesarrollo(carta);
+                if(carta.modificaRecursos()){
+                    notificarObservadores("RECURSOS");
+                }
                 notificarObservadores("CARTAS");
 
                 if (jugador.gano()) {
@@ -324,7 +327,6 @@ public class JuegoObservable extends Observable {
                     }
                 }
                 carta.configurarVictimas(victimas);
-
                 return;
             }
         }
@@ -349,7 +351,7 @@ public class JuegoObservable extends Observable {
 
         throw new NoTieneCarta("No tenés una carta Descubrimiento.");
     }
-    public void configurarCartaCaballero(UbicacionVertice destino, String nombreVictima) {
+    /*public void configurarCartaCaballero(UbicacionVertice destino, String nombreVictima) {
         Jugador jugadorActual = juego.jugadorActual();
         Jugador victima = buscarJugadorPorNombre(nombreVictima);
         for (Carta carta : jugadorActual.obtenerCartasDesarrollo()) {
@@ -359,7 +361,7 @@ public class JuegoObservable extends Observable {
             }
         }
         throw new NoTieneCarta("No tenés una carta Caballero.");
-    }
+    }*/
     public void configurarCartaConstruccionCarreteras(List<Ubicacion> camino1, List<Ubicacion> camino2) {
         Jugador jugadorActual = juego.jugadorActual();
 
@@ -428,4 +430,10 @@ public class JuegoObservable extends Observable {
         }
         return victimas;
     }
+    public void activarTurnoLadronPorCaballero() {
+        if (esperandoMovimientoLadron) return;
+        this.esperandoMovimientoLadron = true;
+        notificarObservadores("LADRON");
+    }
+
 }

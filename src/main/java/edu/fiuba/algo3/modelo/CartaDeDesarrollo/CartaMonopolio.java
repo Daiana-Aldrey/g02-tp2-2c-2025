@@ -48,6 +48,10 @@ public class CartaMonopolio extends Carta {
         this.recursoElegido = new RecursoNulo();
         this.victimas.clear();
     }
+    @Override
+    public boolean modificaRecursos() {
+        return true;
+    }
 
     @Override
     public int puntosDeVictoriaOcultos() {return 0;}

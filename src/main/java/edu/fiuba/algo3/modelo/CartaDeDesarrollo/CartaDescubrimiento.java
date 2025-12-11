@@ -37,6 +37,11 @@ public class CartaDescubrimiento extends Carta {
 
         //recursosElegidos.clear();
     }
+    @Override
+    public boolean modificaRecursos() {
+        return true;
+    }
+
 
     public int puntosDeVictoriaOcultos() {
         return 0;

@@ -223,7 +223,7 @@ public class VistaCartasDesarrollo {
         return List.of();
     }
 
-    public ConfiguracionCaballero mostrarDialogoCaballero() {
+    /*public ConfiguracionCaballero mostrarDialogoCaballero() {
         TextInputDialog dialogoVictima = new TextInputDialog();
         dialogoVictima.setTitle("Carta Caballero");
         dialogoVictima.setHeaderText("Elegí al jugador víctima");
@@ -244,7 +244,7 @@ public class VistaCartasDesarrollo {
         char idVertice = textoDestino.charAt(0);
         UbicacionVertice destino = new UbicacionVertice(idVertice);
         return new ConfiguracionCaballero(destino, nombreVictima);
-    }
+    }*/
 
     public ConfiguracionCarreteras mostrarDialogoConstruccionCarreteras() {
         TextInputDialog dialogoCamino1 = new TextInputDialog();

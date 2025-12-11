@@ -46,11 +46,12 @@ public class ControladorCartasDesarrollo {
 
             }
             else if ("Caballero".equals(nombreCarta)) {
-                VistaCartasDesarrollo.ConfiguracionCaballero config = vista.mostrarDialogoCaballero();
-                modelo.configurarCartaCaballero(config.destino, config.nombreVictima);
+                //VistaCartasDesarrollo.ConfiguracionCaballero config = vista.mostrarDialogoCaballero();
+                //modelo.configurarCartaCaballero(config.destino, config.nombreVictima);
                 //si cuando entra el ladron tengo MODO LADRON puedo borrar el dialogo del caballero y configcarta
                 modelo.usarCartaDesarrollo(nombreCarta);
-                vista.mostrarMensaje("Carta usada", "Moviste el ladrón y robaste a " + config.nombreVictima + ".");
+                modelo.activarTurnoLadronPorCaballero();
+                vista.mostrarMensaje("Carta Caballero usada", "Ahora hacé clic en el terreno donde querés mover al ladrón y elegí a la víctima.");
             }
 
             else if ("Construccion de carreteras".equals(nombreCarta)) {

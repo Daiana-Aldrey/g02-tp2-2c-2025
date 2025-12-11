@@ -25,7 +25,7 @@ public abstract class Carta {
     public void configurarRecursos(List<Recurso>recursos) {}
     public void configurarLadron(UbicacionVertice destino, Jugador victima) {}
     public void configurarCaminos(List<Ubicacion> camino1, List<Ubicacion> camino2) {}
-
+    public boolean modificaRecursos() {return false;}
     public int puntosDeVictoriaOcultos() {
         return 0;
     }
