@@ -181,9 +181,8 @@ public class VistaJuego extends BorderPane implements Observador {
 
         barraSup.setAlignment(Pos.CENTER_RIGHT);
         setBottom(barraPadre);
-
-        StackPane.setAlignment(vistaPropuesta, Pos.TOP_RIGHT);
-        StackPane.setMargin(vistaPropuesta, new Insets(60, 20, 0, 0));
+        StackPane.setAlignment(vistaPropuesta, Pos.BOTTOM_LEFT);
+        StackPane.setMargin(vistaPropuesta, new Insets(0, 0, 20, 20));
         panelCentral.getChildren().addAll(contenedorDados, vistaPropuesta);
         setCenter(panelCentral);
 
