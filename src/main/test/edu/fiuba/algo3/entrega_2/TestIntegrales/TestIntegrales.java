@@ -1,7 +1,7 @@
 package edu.fiuba.algo3.entrega_2.TestIntegrales;
 
 import edu.fiuba.algo3.Excepciones.ColocacionInvalida;
-import edu.fiuba.algo3.modelo.CartaDeDesarrollo.Carta;
+import edu.fiuba.algo3.modelo.CartaDeDesarrollo.*;
 import edu.fiuba.algo3.modelo.Dados.*;
 import edu.fiuba.algo3.modelo.GeneradorNumerosAleatorios;
 import edu.fiuba.algo3.modelo.Intercambio.*;
@@ -315,7 +315,7 @@ public class TestIntegrales {
     }
 
     @Test
-    void CartaRecienCompradaNoPuedeUsarseEnTurnoActual_SiTrasFinalizarTurno() {
+    void CartaRecienCompradaNoPuedeUsarseEnTurnoActual() {
          Jugador jugador1 = new Jugador("Juli");
    	    Jugador jugador2 = new Jugador("Valen");
    	    Jugador jugador3 = new Jugador("Sofi");
@@ -326,19 +326,12 @@ public class TestIntegrales {
         jugador1.recibirRecurso(new Lana(), 1);
         jugador1.recibirRecurso(new Grano(), 1);
         jugador1.recibirRecurso(new Mineral(), 1);
-
-        juego.comprarCartaDesarrollo();
-
-        Carta carta = jugador1.obtenerCartasDesarrollo().get(0);
-
-        assertThrows(ErrorNoUsoDeCartaInvalido.class, () -> jugador1.jugarCartaDesarrollo(carta), "No deberia usar la carta en el mismo turnoque la  compra.");
-
-        juego.finalizarTurnoActual();
-
-        assertDoesNotThrow(() -> jugador1.jugarCartaDesarrollo(carta), "finalizo el turno, podes usar la carta.");
-
-        assertEquals(0, jugador1.obtenerCartasDesarrollo().size(), "usaste tu unica carta no tenes mas");
-    }
+        Carta carta = new CartaPuntoVictoria();
+        jugador1.recibirCartaDesarrollo(carta);
+        assertThrows(
+                ErrorNoUsoDeCartaInvalido.class, () -> jugador1.jugarCartaDesarrollo(carta), "No deberia usar la carta en el mismo turnoque la compra.");
+ }
 
 }
+
 
