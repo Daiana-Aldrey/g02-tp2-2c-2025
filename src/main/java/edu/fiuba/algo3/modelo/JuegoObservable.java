@@ -294,7 +294,6 @@ public class JuegoObservable extends Observable {
     public void usarCartaDesarrollo(String nombreCarta) {
         Jugador jugador = juego.jugadorActual();
         List<Carta> cartas = jugador.obtenerCartasDesarrollo();
-       // Jugador actual = juego.obtenerCartaGranCaballeria().obtenerBonificado();
 
         for (Carta carta : cartas) {
             if (carta.getNombre().equals(nombreCarta)) {
@@ -356,17 +355,7 @@ public class JuegoObservable extends Observable {
 
         throw new NoTieneCarta("No tenés una carta Descubrimiento.");
     }
-    /*public void configurarCartaCaballero(UbicacionVertice destino, String nombreVictima) {
-        Jugador jugadorActual = juego.jugadorActual();
-        Jugador victima = buscarJugadorPorNombre(nombreVictima);
-        for (Carta carta : jugadorActual.obtenerCartasDesarrollo()) {
-            if (carta.getNombre().equals("Caballero")) {
-                carta.configurarLadron(destino, victima);
-                return;
-            }
-        }
-        throw new NoTieneCarta("No tenés una carta Caballero.");
-    }*/
+    
     public void configurarCartaConstruccionCarreteras(List<Ubicacion> camino1, List<Ubicacion> camino2) {
         Jugador jugadorActual = juego.jugadorActual();
 

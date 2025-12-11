@@ -3,6 +3,7 @@ package edu.fiuba.algo3.modelo.Intercambio;
 import edu.fiuba.algo3.modelo.CartaDeDesarrollo.*;
 import edu.fiuba.algo3.modelo.Jugador;
 import edu.fiuba.algo3.modelo.Recurso.*;
+import edu.fiuba.algo3.modelo.Tablero.Tablero;
 import edu.fiuba.algo3.Excepciones.NoTieneCarta;
 import edu.fiuba.algo3.modelo.Jugador.*;
 import edu.fiuba.algo3.Excepciones.*;
@@ -63,7 +64,7 @@ public class Banco implements Comercializar{
     public int calcularTasaOptima(Jugador jugador, Recurso recursoOferta) {
         int mejorTasa = this.tasaBancaria; 
 
-        for (Puerto puerto : jugador.getPuertos()) {
+        for (Puerto puerto : Tablero.getInstance().getPuertos()) {
             try {
                 int tasaDelPuerto = puerto.tasaDeCambioPara(recursoOferta);
                 if (tasaDelPuerto < mejorTasa) 

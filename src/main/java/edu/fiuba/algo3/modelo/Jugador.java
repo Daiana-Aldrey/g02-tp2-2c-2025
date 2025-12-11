@@ -27,7 +27,6 @@ public class Jugador {
     private List<Poblado> poblados = new ArrayList<>();
     private List<Ciudad>  ciudades = new ArrayList<>();
     private List<Camino>  caminos  = new ArrayList<>();
-    private List<Puerto> puertos = new ArrayList<>();
     private List<Carta> cartasDesarrollo = new ArrayList<>();
     private List<Carta> cartasDesarrolloRecienCompradas = new ArrayList<>();
 
@@ -372,9 +371,6 @@ public class Jugador {
         return null;
     }
 
-    public List<Puerto> getPuertos(){
-    	return puertos;
-    }
 
     public RutaMayor obtenerRuta(){
         return ruta;
