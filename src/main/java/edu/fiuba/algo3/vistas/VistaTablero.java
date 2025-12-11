@@ -6,7 +6,6 @@ import javafx.scene.Group;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Line;
 import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
@@ -43,9 +42,11 @@ public class VistaTablero {
     List<Polygon> hexagonos;
     List<Rectangle> rectangulos;
     List<Group> hexagonosConFicha;
+    List<VistaLadron> botonesLadron;
     List<VistaVerticeEdificio> vertices;
     List<VistaArista> aristas;
     Group tablero;
+    ImageView viewLadron;
 
     public VistaTablero() {
         indice = 0;
@@ -54,8 +55,15 @@ public class VistaTablero {
         hexagonosConFicha = new ArrayList<>();
         vertices = new ArrayList<>();
         aristas = new ArrayList<>();
+        botonesLadron = new ArrayList<>();
 
         tablero = new Group();
+
+        Image imgLadron = new Image("ladron.png");
+        viewLadron = new ImageView(imgLadron);
+        viewLadron.setFitHeight(50);
+        viewLadron.setFitWidth(50);
+        viewLadron.setOpacity(0.7);
 
         coordenarHexagonos();
     }
@@ -179,9 +187,12 @@ public class VistaTablero {
         view.setX(x * TAMANIOCOLUMNA + 100);
         view.setY(y * TAMANIOFILA + 75);
 
+        viewLadron.setX(x * TAMANIOCOLUMNA + 55);
+        viewLadron.setY(y * TAMANIOFILA + 75);
+
         Group desiertoSinFicha = new Group(hexagono, view);
         hexagonosConFicha.add(desiertoSinFicha);
-        tablero.getChildren().add(desiertoSinFicha);
+        tablero.getChildren().addAll(desiertoSinFicha, viewLadron);
         indice++;
     }
 
@@ -486,6 +497,7 @@ public class VistaTablero {
         int x = coordenadas[COLUMNA];
         int y = coordenadas[FILA];
         Rectangle rectangulo = crearRectangulo(x, y);
+        rectangulos.add(rectangulo);
 
         img.setFitWidth(37);
         img.setFitHeight(37);
@@ -594,6 +606,22 @@ public class VistaTablero {
         return posicionMatriz;
     }
 
+    public void crearBotonesLadron() {
+        double X = 0;
+        double Y = 0;
+        VistaLadron botonLadron;
+        for (Rectangle rectangulo: rectangulos) {
+            X = rectangulo.getX();
+            Y = rectangulo.getY();
+            botonLadron = new VistaLadron();
+            botonLadron.setTranslateX(X + 45);
+            botonLadron.setTranslateY(Y - 15);
+            botonesLadron.add(botonLadron);
+            tablero.getChildren().add(botonLadron);
+        }
+
+    }
+
 	public void dibujarPuerto(VistaPuerto vistaPuerto, int indiceVertice1, int indiceVertice2) {
 	     VistaVerticeEdificio v1 = vertices.get(indiceVertice1);
 	     VistaVerticeEdificio v2 = vertices.get(indiceVertice2);
@@ -615,11 +643,14 @@ public class VistaTablero {
         return aristas;
     }
 
+    public List<VistaLadron> getBotonesLadron() { return botonesLadron; }
+
     public void crearVista() {
         controlador.colocarTerrenos();
         controlador.colocarVertices();
         controlador.colocarAristas();
         controlador.colocarPuertos();
+        crearBotonesLadron();
     }
 
     public void agregarPuerto(VistaPuerto puerto) {
