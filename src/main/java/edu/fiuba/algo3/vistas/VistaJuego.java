@@ -216,7 +216,7 @@ public class VistaJuego extends BorderPane implements Observador {
                     
                     boolean pusoPoblado = modelo.yaPusoPobladoInicial();
                     boolean pusoCamino = modelo.yaPusoCaminoInicial();
-                    if (pusoPoblado && pusoCamino && !botonCancelar.isVisible()) {
+                    if (pusoPoblado && pusoCamino) {
                         habilitarBotonPasarTurno();
                     } else {
                         deshabilitarBotonPasarTurno();
@@ -225,9 +225,6 @@ public class VistaJuego extends BorderPane implements Observador {
                 } else {
                     visibilizarBotonDadosTurnoGeneral();
                     actualizarVistaPieza(modelo.juego().jugadorActual());
-                    if (botonCancelar.isVisible()) {
-                        deshabilitarBotonPasarTurno();
-                    }
                 }
             }
             if (msg.equals("NUEVA_PROPUESTA") || msg.equals("PROPUESTA_CERRADA")) {
@@ -291,9 +288,6 @@ public class VistaJuego extends BorderPane implements Observador {
 
     private void visibilizarBotonDadosTurnoGeneral() {
         tirarDadoBtn.setDisable(false);
-        botonCiudad.setDisable(false);
-        botonCamino.setDisable(false);
-        botonPoblado.setDisable(false);
     }
 
     private void invisibilizarBotonDados() {
@@ -350,7 +344,7 @@ public class VistaJuego extends BorderPane implements Observador {
         boolean pusoPoblado = modelo.yaPusoPobladoInicial();
         boolean pusoCamino = modelo.yaPusoCaminoInicial();
 
-        if (pusoPoblado && pusoCamino && !botonCancelar.isVisible()) {
+        if (pusoPoblado && pusoCamino) {
             habilitarBotonPasarTurno();
         } else {
             deshabilitarBotonPasarTurno();

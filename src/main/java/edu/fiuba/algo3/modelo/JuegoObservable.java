@@ -12,10 +12,7 @@ import edu.fiuba.algo3.modelo.Tablero.VerticeTerreno;
 import edu.fiuba.algo3.modelo.Tablero.Vertice;
 import edu.fiuba.algo3.modelo.Ubicacion.UbicacionVertice;
 import edu.fiuba.algo3.Excepciones.NoTieneCarta;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class JuegoObservable extends Observable {
 
