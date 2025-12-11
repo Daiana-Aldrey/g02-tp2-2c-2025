@@ -93,5 +93,7 @@ public class RutaMayor {
         return rutaMayor < this.rutaMayor;
     }
 
-
+    public Jugador obtenerPropietario(){
+        return propietario;
+    }
 }

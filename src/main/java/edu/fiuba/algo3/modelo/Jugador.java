@@ -367,5 +367,9 @@ public class Jugador {
     public List<Puerto> getPuertos(){
     	return puertos;
     }
+
+    public RutaMayor obtenerRuta(){
+        return ruta;
+    }
 }
   

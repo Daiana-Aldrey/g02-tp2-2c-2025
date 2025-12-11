@@ -234,7 +234,13 @@ public class VistaJuego extends BorderPane implements Observador {
                 vistaRecursos.actualizarRecursos(modelo.juego().recursosJugadorActual());
             }
             if(msg.equals("PV")){
-                vistaPuntaje.actualizarPV(modelo.juego().jugadores(), modelo.juego().obtenerCartaGranCaballeria().obtenerBonificado(),2);
+                vistaPuntaje.actualizarPV(
+                        modelo.juego().jugadores(),
+                        modelo.obtenerJugadorConGranCaballeria(),
+                        2,
+                        modelo.obtenerJugadorConRutaMayor(),
+                        2
+                );
             }
             if (msg.equals("CONSTRUCCION_INICIAL")) {
                 configurarInterfazFaseInicial();

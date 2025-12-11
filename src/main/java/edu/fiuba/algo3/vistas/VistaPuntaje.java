@@ -14,7 +14,8 @@ import java.util.Map;
 public class VistaPuntaje extends VBox {
 
     private final Map<Jugador, Label> labelsPV = new HashMap<>();
-    private final Map<Jugador, Label> labelsBonus = new HashMap<>();
+    private final Map<Jugador, Label> labelsBonusCaballeria = new HashMap<>();
+    private final Map<Jugador, Label> labelsBonusRuta = new HashMap<>();
 
     public VistaPuntaje(List<Jugador> jugadores) {
         setSpacing(20);
@@ -40,13 +41,17 @@ public class VistaPuntaje extends VBox {
         pv.setTextFill(jugador.obtenerColor());
         labelsPV.put(jugador, pv);
 
-        Label bonus = new Label("");
-        bonus.setStyle("-fx-font-size: 12px;");
-        bonus.setTextFill(jugador.obtenerColor());
+        Label bonusCaballeria = new Label("");
+        bonusCaballeria.setStyle("-fx-font-size: 12px;");
+        bonusCaballeria.setTextFill(jugador.obtenerColor());
+        labelsBonusCaballeria.put(jugador, bonusCaballeria);
 
-        labelsBonus.put(jugador,bonus);
+        Label bonusRuta = new Label("");
+        bonusRuta.setStyle("-fx-font-size: 12px;");
+        bonusRuta.setTextFill(jugador.obtenerColor());
+        labelsBonusRuta.put(jugador, bonusRuta);
 
-        contenido.getChildren().addAll(nombre, pv, bonus);
+        contenido.getChildren().addAll(nombre, pv, bonusCaballeria, bonusRuta);
 
         HBox tarjeta = new HBox(contenido);
         tarjeta.setAlignment(Pos.CENTER);
@@ -61,19 +66,29 @@ public class VistaPuntaje extends VBox {
         return tarjeta;
     }
 
-    public void actualizarPV(List<Jugador> jugadores, Jugador bonificado, int bonus) {
+    public void actualizarPV(List<Jugador> jugadores, Jugador caballeria, int bonusCaballeria, Jugador ruta, int bonusRuta) {
         for (Jugador jugador : jugadores) {
             int pvModelo = jugador.puntosDeVictoria();
             Label labelPV = labelsPV.get(jugador);
-            Label labelBonus = labelsBonus.get(jugador);
+            Label labelCaballeria = labelsBonusCaballeria.get(jugador);
+            Label labelRuta = labelsBonusRuta.get(jugador);
 
-            if (jugador == bonificado) {
-                labelPV.setText("PV: " + (pvModelo - bonus));
-                labelBonus.setText("Gran Caballería (+" + bonus + ")");
-            } else {
-                labelPV.setText("PV: " + pvModelo);
-                labelBonus.setText("");
+            labelCaballeria.setText("");
+            labelRuta.setText("");
+
+            int pvMostrado = pvModelo;
+
+            if (jugador == caballeria) {
+                pvMostrado -= bonusCaballeria;
+                labelCaballeria.setText("Gran Caballería (+" + bonusCaballeria + ")");
             }
+
+            if(jugador == ruta){
+                pvMostrado -= bonusRuta;
+                labelRuta.setText("Gran Ruta Comercial (+" + bonusRuta + ")");
+            }
+
+            labelPV.setText("PV: " + pvMostrado);
         }
     }
 }
