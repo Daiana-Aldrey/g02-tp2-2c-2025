@@ -123,9 +123,11 @@ public class VistaArista extends Group {
         vertice1.toFront();
         vertice2.toFront();
         getChildren().add(camino);
-
     }
     
+    public void habilitarConstruccion(String pieza) {
+        controlador.construirPieza(pieza);
+    }
     
     public void setComportamientoInicial(JuegoObservable modelo) {
         controlador.setComportamientoInicial(modelo);

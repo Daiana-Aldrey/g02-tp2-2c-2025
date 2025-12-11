@@ -1,5 +1,6 @@
 package edu.fiuba.algo3.modelo;
 
+import edu.fiuba.algo3.modelo.Bonificacion.BonificadorRutaMayor;
 import edu.fiuba.algo3.modelo.CartaDeDesarrollo.Carta;
 import edu.fiuba.algo3.modelo.Ubicacion.Ubicacion;
 import edu.fiuba.algo3.observador.Observable;
@@ -29,6 +30,7 @@ public class JuegoObservable extends Observable {
     private boolean hayPropuestaPendiente;
     private boolean pobladoInicialColocado;
     private boolean caminoInicialColocado;
+    private BonificadorRutaMayor bonificadorRutaMayor;
 
     public JuegoObservable(Juego juego) {
         this.juego = juego;
@@ -36,6 +38,9 @@ public class JuegoObservable extends Observable {
         this.hayPropuestaPendiente = false;
         this.pobladoInicialColocado = false;
         this.caminoInicialColocado = false;
+
+        this.bonificadorRutaMayor = new BonificadorRutaMayor();
+        agregarRutasBonificador();
     }
 
     public Juego juego() { 
@@ -114,7 +119,7 @@ public class JuegoObservable extends Observable {
     public boolean yaPusoCaminoInicial() { return caminoInicialColocado; }
     
     public boolean esFaseInicial() {
-        return juego.getRondaActual() < 2; 
+        return juego.esFaseInicial(); 
     }
    
     public boolean seTiraronDados() {
@@ -349,4 +354,17 @@ public class JuegoObservable extends Observable {
         throw new NoTieneCarta("No tenés carta Construccion de Carreteras.");
     }
 
+    private void agregarRutasBonificador(){
+        for(Jugador jugador : juego.jugadores()){
+            bonificadorRutaMayor.agregarRuta(jugador.obtenerRuta());
+        }
+    }
+
+    public Jugador obtenerJugadorConRutaMayor(){
+        return bonificadorRutaMayor.getRutaMayor().obtenerPropietario();
+    }
+
+    public Jugador obtenerJugadorConGranCaballeria(){
+        return juego.obtenerCartaGranCaballeria().obtenerBonificado();
+    }
 }

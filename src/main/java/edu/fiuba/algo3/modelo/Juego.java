@@ -1,107 +1,83 @@
 package edu.fiuba.algo3.modelo;
+
 import edu.fiuba.algo3.modelo.CartaDeBonificacion.CartaGranCaballeria;
 import edu.fiuba.algo3.modelo.Dados.*;
 import edu.fiuba.algo3.modelo.Intercambio.Banco;
 import edu.fiuba.algo3.modelo.Recurso.Recurso;
-import edu.fiuba.algo3.modelo.RondaInicial.*;
+import edu.fiuba.algo3.modelo.Ronda.*; 
 import edu.fiuba.algo3.modelo.Tablero.Tablero;
-import edu.fiuba.algo3.modelo.Ubicacion.Ubicacion;
-import edu.fiuba.algo3.Excepciones.*;
 import edu.fiuba.algo3.modelo.Ubicacion.UbicacionVertice;
+import edu.fiuba.algo3.Excepciones.*;
 import java.util.*;
 
 public class Juego {
-	  private final Tablero tablero;
-	  private final Banco banco;
-	  private List<Jugador> jugadores;
-      private final CartaGranCaballeria cartaGranCaballeria;
-	  private Jugador jugadorTurno;
-	  private final int cantJugadores;
-	  private int rondas;
-	  private final Dados dados;
+    private final Tablero tablero;
+    private final Banco banco;
+    private List<Jugador> jugadores;
+    private final CartaGranCaballeria cartaGranCaballeria;
+    private final int cantJugadores;
+    private OrganizadorDeTurnos organizador;
+    private final Dados dados;
 
-
-	public Juego(List<Jugador> jugadores) {
-
-		this.cantJugadores = jugadores.size();
-		this.jugadores = jugadores;
-		this.tablero = Tablero.getInstance();
+    public Juego(List<Jugador> jugadores) {
+        this.cantJugadores = jugadores.size();
+        this.jugadores = jugadores;
+        this.tablero = Tablero.getInstance();
         this.cartaGranCaballeria = CartaGranCaballeria.getInstance();
-		this.banco = new Banco();
-		this.rondas = 0;
-		this.dados = new Dados(2);
+        this.banco = new Banco();
+        this.dados = new Dados(2);
+        
+        this.organizador = new OrganizadorDeTurnos(jugadores);
 
-		validarCantJugadores(cantJugadores);
-		this.jugadorTurno = jugadores.get(0);
-	}
-	
-	private void validarCantJugadores(int cantidad) {
-		if (cantidad < 3 || cantidad > 4) {
-			throw new CantJugadoresInvalida("La cantidad de jugadores debe estar entre 3 y 4");
-	    }
-	}
+        validarCantJugadores(cantJugadores);
+    }
+    
+    private void validarCantJugadores(int cantidad) {
+        if (cantidad < 3 || cantidad > 4) {
+            throw new CantJugadoresInvalida("La cantidad de jugadores debe estar entre 3 y 4");
+        }
+    }
 
-	public int[] tirarDados() {
+    public int[] tirarDados() {
         return dados.tirar();
     }
-	
-	public int sumarTirada() {
-		return dados.sumarTirada();
-	}
+    
+    public int sumarTirada() {
+        return dados.sumarTirada();
+    }
 
-	public void inicializarPiezas(List<List<Ubicacion>> verticesPoblados, List<List<Ubicacion>> verticesCaminos) {
-		for (int i = 0; i < cantJugadores; i++) {
-			Jugador jugador = jugadores.get(i);
-			jugador.colocarPiezaInicial("poblado", verticesPoblados.get(i));
-			
-			jugador.colocarPiezaInicial("camino", verticesCaminos.get(i));
-		}
-	}
+    public int cantidadJugadores(){
+        return cantJugadores;
+    }
 
-	public int cantidadJugadores(){
-		return cantJugadores;
-	}
+    public void manejarTirada(int n) {
+        if (n == 7) {
+            aplicarEventoSiete();
+        } else {
+            tablero.cosechar(n);
+        }
+    }
 
-	public void manejarTirada(int n) {
-		if (n == 7) {
-			aplicarEventoSiete();
-		} else {
-			tablero.cosechar(n);
-		}
-	}
+    private void aplicarEventoSiete() {
+        for (Jugador j : jugadores) {
+            j.descartarMitad();
+        }
+        UbicacionVertice destino = new UbicacionVertice('B');
+        Jugador victima = jugadores.get(1); 
+        
+        jugadorActual().moverLadron(destino, victima);
+    }
 
-	private void aplicarEventoSiete() {
-		for (Jugador j : jugadores) {
-			j.descartarMitad();
-		}
-		UbicacionVertice destino = new UbicacionVertice('B');
-		Jugador victima = jugadores.get(1);
-		jugadorTurno.moverLadron(destino,victima);
-	}
+    public List<Jugador> jugadores() {
+        return jugadores;
+    }
 
-	public List<Jugador> jugadores() {
-		return jugadores;
-	}
+    public void comprarCartaDesarrollo() {
+        banco.venderCartaDesarrollo(jugadorActual());
+    }
 
-	public void comprarCartaDesarrollo() {
-		banco.venderCartaDesarrollo(jugadorTurno);
-	}
-
-	public void finalizarTurnoActual() {
-		jugadorTurno.prepararCartasDesarrolloParaNuevoTurno();
-	}
-
-    public void colocacionInicial(
-            List<List<Ubicacion>> pobladosR1,
-            List<List<Ubicacion>> caminosR1,
-            List<List<Ubicacion>> pobladosR2,
-            List<List<Ubicacion>> caminosR2) {
-
-        RondaColocacion ronda1 = new RondaOrdenada();
-        RondaColocacion ronda2 = new RondaInversa();
-
-        ronda1.ejecutarRonda(jugadores, pobladosR1, caminosR1);
-        ronda2.ejecutarRonda(jugadores, pobladosR2, caminosR2);
+    public void finalizarTurnoActual() {
+        jugadorActual().prepararCartasDesarrolloParaNuevoTurno();
     }
 
     private boolean verificarVictoria(){
@@ -113,43 +89,36 @@ public class Juego {
         return false;
     }
 
-    public void jugarTurno(Jugador jugadorActual){
-        this.jugadorTurno = jugadorActual;
-
+    public void jugarTurno(){
         int resultadoDados = dados.sumarTirada();
         manejarTirada(resultadoDados);
 
-        jugadorTurno.turno();
+        jugadorActual().turno();
         finalizarTurnoActual();
     }
 
+
     public void pasarAlSiguienteJugador() {
-        int indiceActual = jugadores.indexOf(jugadorTurno);
-        if (indiceActual == cantJugadores - 1) {
-            rondas++;
-        }
-        int siguiente = (indiceActual + 1) % cantJugadores;
-        jugadorTurno = jugadores.get(siguiente);
+        organizador.siguienteTurno();
     }
 
     public void jugar() {
         while (!verificarVictoria()) {
-            jugarTurno(jugadorTurno);
+            jugarTurno(); 
             pasarAlSiguienteJugador();
         }
     }
     
-    
     public Jugador jugadorActual() {
-        return jugadorTurno;
+        return organizador.jugadorActual();
     }
 
     public List<Recurso> recursosJugadorActual(){
         return jugadorActual().recursos();
     }
     
-    public int getRondaActual() {
-        return this.rondas;
+    public boolean esFaseInicial() {
+        return organizador.esFaseInicial();
     }
 
 	public CartaGranCaballeria obtenerCartaGranCaballeria(){

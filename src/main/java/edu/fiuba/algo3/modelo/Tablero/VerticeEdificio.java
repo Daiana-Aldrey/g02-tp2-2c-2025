@@ -101,5 +101,6 @@ public class VerticeEdificio extends Vertice {
     public Ubicacion obtenerUbicacion() {
         return ubicacion;
     }
+
 }
 

@@ -202,18 +202,25 @@ public class VistaJuego extends BorderPane implements Observador {
                 invisibilizarBotonDados();
             }
             if (msg.equals("TURNO")) {
-            	actualizarJugador();
+                actualizarJugador();
                 vistaRecursos.actualizarRecursos(modelo.juego().recursosJugadorActual());
                 vistaPropuesta.actualizarPropuesta();
                 vistaPropuesta.toFront();
-                visibilizarBotonDados();
-                actualizarVistaPieza(modelo.juego().jugadorActual());
-            
+                
                 if (modelo.esFaseInicial()) {
-                	configurarInterfazFaseInicial();
+                    configurarInterfazFaseInicial();
                     invisibilizarBotonDados();  
-                    habilitarBotonPasarTurno(); 
+                    
+                    boolean pusoPoblado = modelo.yaPusoPobladoInicial();
+                    boolean pusoCamino = modelo.yaPusoCaminoInicial();
+                    if (pusoPoblado && pusoCamino) {
+                        habilitarBotonPasarTurno();
+                    } else {
+                        deshabilitarBotonPasarTurno();
+                    }
+
                 } else {
+                    actualizarVistaPieza(modelo.juego().jugadorActual());
                     visibilizarBotonDados();   
                     deshabilitarBotonPasarTurno(); 
                 }
@@ -227,7 +234,13 @@ public class VistaJuego extends BorderPane implements Observador {
                 vistaRecursos.actualizarRecursos(modelo.juego().recursosJugadorActual());
             }
             if(msg.equals("PV")){
-                vistaPuntaje.actualizarPV(modelo.juego().jugadores(), modelo.juego().obtenerCartaGranCaballeria().obtenerBonificado(),2);
+                vistaPuntaje.actualizarPV(
+                        modelo.juego().jugadores(),
+                        modelo.obtenerJugadorConGranCaballeria(),
+                        2,
+                        modelo.obtenerJugadorConRutaMayor(),
+                        2
+                );
             }
             if (msg.equals("CONSTRUCCION_INICIAL")) {
                 configurarInterfazFaseInicial();

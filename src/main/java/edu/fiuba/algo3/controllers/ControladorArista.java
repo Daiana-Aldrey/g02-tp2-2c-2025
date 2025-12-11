@@ -7,6 +7,7 @@ import edu.fiuba.algo3.modelo.Tablero.Arista;
 import edu.fiuba.algo3.modelo.Ubicacion.Ubicacion;
 import edu.fiuba.algo3.vistas.VistaArista;
 import javafx.scene.control.Button;
+import edu.fiuba.algo3.Excepciones.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,8 +47,14 @@ public class ControladorArista {
 
     public void construirPieza(String tipoPieza) {
         boton.setOnAction(e -> {
-            jugador.construirPieza(tipoPieza, ubicaciones);
-            vista.cambiarFormaYColor(jugador.obtenerColor());
+            try {
+                jugador.construirPieza(tipoPieza, ubicaciones);
+                vista.cambiarFormaYColor(jugador.obtenerColor());
+            } catch (RecursoIncorrecto | SinRecursos error) {
+                System.out.println("Faltan recursos para el camino");
+            } catch (Exception error) {
+                 System.out.println("Error: " + error.getMessage());
+            }
         });
     }
 
