@@ -30,6 +30,9 @@ public class JuegoObservable extends Observable {
     private boolean caminoInicialColocado;
     private BonificadorRutaMayor bonificadorRutaMayor;
     private boolean esperandoMovimientoLadron;
+    private boolean modoConstruccionCarreteras = false;
+    private final List<List<Ubicacion>> caminosCarta = new ArrayList<>();
+
     public JuegoObservable(Juego juego) {
         this.juego = juego;
         this.dadosTirados = false;
@@ -107,6 +110,7 @@ public class JuegoObservable extends Observable {
        }
     
        juego.pasarAlSiguienteJugador();
+        juego.finalizarTurnoActual();
        this.dadosTirados = false;
        this.pobladoInicialColocado = false;
        this.caminoInicialColocado = false;
@@ -285,6 +289,7 @@ public class JuegoObservable extends Observable {
     public void usarCartaDesarrollo(String nombreCarta) {
         Jugador jugador = juego.jugadorActual();
         List<Carta> cartas = jugador.obtenerCartasDesarrollo();
+       // Jugador actual = juego.obtenerCartaGranCaballeria().obtenerBonificado();
 
         for (Carta carta : cartas) {
             if (carta.getNombre().equals(nombreCarta)) {
@@ -327,9 +332,7 @@ public class JuegoObservable extends Observable {
     }
 
     public void configurarCartaDescubrimiento(String nombreRecurso1, String nombreRecurso2) {
-
         Jugador jugadorActual = juego.jugadorActual();
-
         Recurso recurso1 = crearRecursoPorNombre(nombreRecurso1);
         Recurso recurso2 = crearRecursoPorNombre(nombreRecurso2);
 
@@ -361,17 +364,43 @@ public class JuegoObservable extends Observable {
         Jugador jugadorActual = juego.jugadorActual();
 
         for (Carta carta : jugadorActual.obtenerCartasDesarrollo()) {
-            if (carta.getNombre().equals("Construccion de Carreteras")) {
+            if (carta.getNombre().equals("Construccion de carreteras")) {
                 carta.configurarCaminos(camino1, camino2);
                 return;
             }
         }
-        throw new NoTieneCarta("No tenés carta Construccion de Carreteras.");
+        throw new NoTieneCarta("No tenés carta Construccion de carreteras.");
     }
 
     private void agregarRutasBonificador(){
         for(Jugador jugador : juego.jugadores()){
             bonificadorRutaMayor.agregarRuta(jugador.obtenerRuta());
+        }
+    }
+    public void activarModoConstruccionCarreteras() {
+        modoConstruccionCarreteras = true;
+        caminosCarta.clear();
+    }
+
+    public boolean estaEnModoConstruccionCarreteras() {
+        return modoConstruccionCarreteras;
+    }
+
+    public void registrarCaminoParaCarta(List<Ubicacion> camino) {
+        if (!modoConstruccionCarreteras) return;
+        caminosCarta.add(camino);
+        if (caminosCarta.size() == 2) {
+            Jugador jugador = juego.jugadorActual();
+            for (Carta c : jugador.obtenerCartasDesarrollo()) {
+                if (c.getNombre().equals("Construccion de carreteras")) {
+                    c.configurarCaminos(caminosCarta.get(0), caminosCarta.get(1));
+                    jugador.jugarCartaDesarrollo(c);
+                    break;
+                }
+            }
+            modoConstruccionCarreteras = false;
+            caminosCarta.clear();
+            notificarObservadores("CONSTRUCCION");
         }
     }
 

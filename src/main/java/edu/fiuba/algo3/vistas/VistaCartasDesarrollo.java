@@ -167,7 +167,7 @@ public class VistaCartasDesarrollo {
 
         ChoiceDialog<String> dialogo = new ChoiceDialog<>(opciones.get(0), opciones);
         dialogo.setTitle("Carta Monopolio");
-        dialogo.setHeaderText("Elegí el recurso que querés monopolizar");
+        dialogo.setHeaderText("Elegí el recurso que a monopolizar");
         dialogo.setContentText("Recurso:");
 
         Optional<String> resultado = dialogo.showAndWait();
@@ -189,7 +189,7 @@ public class VistaCartasDesarrollo {
 
         Dialog<ButtonType> dialogo = new Dialog<>();
         dialogo.setTitle("Carta Descubrimiento");
-        dialogo.setHeaderText("Elegí dos recursos para obtener del banco");
+        dialogo.setHeaderText("Elegí dos recursos para obtener de la banca");
 
         ButtonType botonAceptar = ButtonType.OK;
         ButtonType botonCancelar = ButtonType.CANCEL;
@@ -234,8 +234,9 @@ public class VistaCartasDesarrollo {
 
         TextInputDialog dialogoDestino = new TextInputDialog();
         dialogoDestino.setTitle("Carta Caballero");
-        dialogoDestino.setHeaderText("Elegí la casilla donde mover al ladrón");
-        dialogoDestino.setContentText("Identificador de vértice (ej: A, B, C...):");
+        //si no tengo un MODO LADRON lo hago
+        //dialogoDestino.setHeaderText("Elegí la casilla donde mover al ladrón");
+        //dialogoDestino.setContentText("en que vertice");
 
         Optional<String> resultadoDestino = dialogoDestino.showAndWait();
 
@@ -249,25 +250,25 @@ public class VistaCartasDesarrollo {
         TextInputDialog dialogoCamino1 = new TextInputDialog();
         dialogoCamino1.setTitle("Carta Construcción de carreteras");
         dialogoCamino1.setHeaderText("Primer camino");
-        dialogoCamino1.setContentText("Ingresá dos vértices separados por guión (ej: A-B):");
+        dialogoCamino1.setContentText("Ingresá dos vértices :");
         Optional<String> res1 = dialogoCamino1.showAndWait();
         List<Ubicacion> camino1;
         try {
             camino1 = parsearCamino(res1.get());
         } catch (Exception e) {
-            mostrarError("Formato inválido para el primer camino (usá algo como A-B)");
+            mostrarError("Formato inválido");
             return null;
         }
         TextInputDialog dialogoCamino2 = new TextInputDialog();
         dialogoCamino2.setTitle("Carta Construcción de carreteras");
         dialogoCamino2.setHeaderText("Segundo camino");
-        dialogoCamino2.setContentText("Ingresá dos vértices separados por guión (ej: C-D):");
-        Optional<String> res2 = dialogoCamino1.showAndWait();
+        dialogoCamino2.setContentText("Ingresá dos vértices ");
+        Optional<String> res2 = dialogoCamino2.showAndWait();
         List<Ubicacion> camino2;
         try {
             camino2 = parsearCamino(res2.get());
         } catch (Exception e) {
-            mostrarError("Formato inválido para el segundo camino (usá C-D)");
+            mostrarError("Formato inválido");
             return null;
         }
 

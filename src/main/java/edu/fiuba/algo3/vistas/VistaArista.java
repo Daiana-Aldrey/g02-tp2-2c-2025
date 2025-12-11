@@ -129,4 +129,7 @@ public class VistaArista extends Group {
     public void setComportamientoInicial(JuegoObservable modelo) {
         controlador.setComportamientoInicial(modelo);
     }
+
+    public void setModeloObservable(JuegoObservable modeloObservable) {controlador.setModeloObservable(modeloObservable);}
+
 }

@@ -21,7 +21,7 @@ public class ControladorArista {
     private Ubicacion ubicacion2;
     List<Ubicacion> ubicaciones;
     private Button boton;
-
+    private JuegoObservable modeloObservable;
     public ControladorArista(VistaArista vista, Arista modelo) {
         this.vista = vista;
         this.modelo = modelo;
@@ -38,10 +38,19 @@ public class ControladorArista {
         this.boton = boton;
     }
 
+    public void setModeloObservable(JuegoObservable modeloObservable) {
+        this.modeloObservable = modeloObservable;
+    }
+
 
     public void construirPieza(String tipoPieza) {
         boton.setOnAction(e -> {
-            try {
+            try {//PARA CARTA CONTRUCCION CARRETERA
+                if (modeloObservable.estaEnModoConstruccionCarreteras()) {
+                    modeloObservable.registrarCaminoParaCarta(ubicaciones);
+                    vista.cambiarFormaYColor(modeloObservable.juego().jugadorActual().obtenerColor());
+                    return;
+                }
                 jugador.construirPieza(tipoPieza, ubicaciones);
                 vista.cambiarFormaYColor(jugador.obtenerColor());
             } catch (RecursoIncorrecto | SinRecursos error) {

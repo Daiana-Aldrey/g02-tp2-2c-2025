@@ -48,16 +48,18 @@ public class ControladorCartasDesarrollo {
             else if ("Caballero".equals(nombreCarta)) {
                 VistaCartasDesarrollo.ConfiguracionCaballero config = vista.mostrarDialogoCaballero();
                 modelo.configurarCartaCaballero(config.destino, config.nombreVictima);
+                //si cuando entra el ladron tengo MODO LADRON puedo borrar el dialogo del caballero y configcarta
                 modelo.usarCartaDesarrollo(nombreCarta);
                 vista.mostrarMensaje("Carta usada", "Moviste el ladrón y robaste a " + config.nombreVictima + ".");
             }
 
-            else if ("Construccion de Carreteras".equals(nombreCarta)) {
-                VistaCartasDesarrollo.ConfiguracionCarreteras config = vista.mostrarDialogoConstruccionCarreteras();
-                modelo.configurarCartaConstruccionCarreteras(
-                        config.camino1, config.camino2);
-                modelo.usarCartaDesarrollo(nombreCarta);
-                vista.mostrarMensaje("Carta usada", "Construiste dos carreteras gratis.");
+            else if ("Construccion de carreteras".equals(nombreCarta)) {
+//                VistaCartasDesarrollo.ConfiguracionCarreteras config = vista.mostrarDialogoConstruccionCarreteras();
+//                modelo.activarModoConstruccionCarreteras();
+//                vista.mostrarMensaje("Carta usada", "Elegí dos caminos en el tablero. Se construiran gratis.");
+                modelo.activarModoConstruccionCarreteras();
+                vista.mostrarMensaje("Construcción de Carreteras", "Elegí dos caminos en el tablero. Se van a construir gratis."
+                );
             }
             else {
                 modelo.usarCartaDesarrollo(nombreCarta);
