@@ -65,6 +65,9 @@ public class Banco implements Comercializar{
         int mejorTasa = this.tasaBancaria; 
 
         for (Puerto puerto : Tablero.getInstance().getPuertos()) {
+        	 if (!puerto.jugadorTieneAcceso(jugador)) {
+                 continue;
+             }
             try {
                 int tasaDelPuerto = puerto.tasaDeCambioPara(recursoOferta);
                 if (tasaDelPuerto < mejorTasa) 
