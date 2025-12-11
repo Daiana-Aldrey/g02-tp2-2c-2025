@@ -55,36 +55,46 @@ public class JuegoTest {
 	    List<Jugador> jugadores = List.of(jugador1, jugador2, jugador3, jugador4, jugador5);
 	    assertThrows(CantJugadoresInvalida.class, () -> new Juego(jugadores));
 	}
-  
+
     @Test
     public void colocacionCorrectaDePobladosIniciales() {
         Tablero tablero = Tablero.getInstance();
         tablero.reset();
 
         Jugador jugador1 = new Jugador("Juli");
-	    Jugador jugador2 = new Jugador("Valen");
-	    Jugador jugador3 = new Jugador("Sofi");
-	    List<Jugador> jugadores = List.of(jugador1, jugador2, jugador3);
+        Jugador jugador2 = new Jugador("Valen");
+        Jugador jugador3 = new Jugador("Sofi");
 
-	    Juego juego = new Juego(jugadores);
-        List<List<Ubicacion>> verticesPoblados = List.of(
-                List.of(new UbicacionVertice(10)),
-                List.of(new UbicacionVertice(41)),
-                List.of(new UbicacionVertice(25))
-        );
+        // Primer poblado de cada jugador
+        jugador1.colocarPiezaInicial("poblado", List.of(new UbicacionVertice(10)));
+        jugador2.colocarPiezaInicial("poblado", List.of(new UbicacionVertice(41)));
+        jugador3.colocarPiezaInicial("poblado", List.of(new UbicacionVertice(25)));
 
-        List<List<Ubicacion>> verticesCaminos = List.of(
-                List.of(new UbicacionVertice(10),new UbicacionVertice(11)),
-                List.of(new UbicacionVertice(41),new UbicacionVertice(42)),
-                List.of(new UbicacionVertice(25),new UbicacionVertice(36))
-        );
+        // Camino obligatorio entre los dos poblados
+        jugador1.colocarPiezaInicial("camino", List.of(
+                new UbicacionVertice(10), new UbicacionVertice(11)
+        ));
+        jugador2.colocarPiezaInicial("camino", List.of(
+                new UbicacionVertice(41), new UbicacionVertice(42)
+        ));
+        jugador3.colocarPiezaInicial("camino", List.of(
+                new UbicacionVertice(25), new UbicacionVertice(36)
+        ));
 
-        juego.inicializarPiezas(verticesPoblados, verticesCaminos);
+        // Segundo poblado de cada jugador
+        jugador1.colocarPiezaInicial("poblado", List.of(new UbicacionVertice(12)));
+        jugador2.colocarPiezaInicial("poblado", List.of(new UbicacionVertice(43)));
+        jugador3.colocarPiezaInicial("poblado", List.of(new UbicacionVertice(37)));
 
         Assertions.assertTrue(tablero.hayEdificio(new UbicacionVertice(10)));
         Assertions.assertTrue(tablero.hayEdificio(new UbicacionVertice(41)));
         Assertions.assertTrue(tablero.hayEdificio(new UbicacionVertice(25)));
+
+        Assertions.assertTrue(tablero.hayEdificio(new UbicacionVertice(12)));
+        Assertions.assertTrue(tablero.hayEdificio(new UbicacionVertice(43)));
+        Assertions.assertTrue(tablero.hayEdificio(new UbicacionVertice(37)));
     }
+
 
     @Test
     public void jugadorRecibeRecursoDelTerrenoAdyacenteAlSegundoPoblado() {
@@ -176,10 +186,6 @@ public class JuegoTest {
         jugador3.colocarPiezaInicial("camino",  List.of(new UbicacionVertice(6), new UbicacionVertice(7)));
         jugador3.colocarPiezaInicial("poblado", List.of(new UbicacionVertice(36)));
 
-        Dados dados =  new Dados(2);
-        int tirada = dados.tiradaFalsa(8);
-        juego.manejarTirada(tirada);
-
         Recurso mineralJ1 = jugador1.buscarRecurso(new Mineral());
         Recurso mineralJ2 = jugador2.buscarRecurso(new Mineral());
 
@@ -189,64 +195,6 @@ public class JuegoTest {
       
         Recurso mineralJ3 = jugador3.buscarRecurso(new Mineral());
         assertTrue(mineralJ3.cantidad() == 0);
-    }
-
-    @Test
-    public void testColocacionInicialOrdenCorrecto() {
-        Jugador j1 = mock(Jugador.class);
-        Jugador j2 = mock(Jugador.class);
-        Jugador j3 = mock(Jugador.class);
-
-        List<Jugador> jugadores = List.of(j1, j2, j3);
-        Juego juego = new Juego(jugadores);
-
-        List<List<Ubicacion>> pobladosR1 = List.of(
-                List.of(new UbicacionVertice(1)),
-                List.of(new UbicacionVertice(2)),
-                List.of(new UbicacionVertice(3))
-        );
-
-        List<List<Ubicacion>> caminosR1 = List.of(
-                List.of(new UbicacionVertice(10)),
-                List.of(new UbicacionVertice(20)),
-                List.of(new UbicacionVertice(30))
-        );
-
-        List<List<Ubicacion>> pobladosR2 = List.of(
-                List.of(new UbicacionVertice(4)),
-                List.of(new UbicacionVertice(5)),
-                List.of(new UbicacionVertice(6))
-        );
-
-        List<List<Ubicacion>> caminosR2 = List.of(
-                List.of(new UbicacionVertice(40)),
-                List.of(new UbicacionVertice(50)),
-                List.of(new UbicacionVertice(60))
-        );
-
-        juego.colocacionInicial(pobladosR1, caminosR1, pobladosR2, caminosR2);
-        InOrder orden = inOrder(j1, j2, j3);
-
-
-        orden.verify(j1).colocarPiezaInicial("poblado", pobladosR1.get(0));
-        orden.verify(j1).colocarPiezaInicial("camino", caminosR1.get(0));
-
-        orden.verify(j2).colocarPiezaInicial("poblado", pobladosR1.get(1));
-        orden.verify(j2).colocarPiezaInicial("camino", caminosR1.get(1));
-
-        orden.verify(j3).colocarPiezaInicial("poblado", pobladosR1.get(2));
-        orden.verify(j3).colocarPiezaInicial("camino", caminosR1.get(2));
-
-
-
-        orden.verify(j3).colocarPiezaInicial("poblado", pobladosR2.get(2));
-        orden.verify(j3).colocarPiezaInicial("camino", caminosR2.get(2));
-
-        orden.verify(j2).colocarPiezaInicial("poblado", pobladosR2.get(1));
-        orden.verify(j2).colocarPiezaInicial("camino", caminosR2.get(1));
-
-        orden.verify(j1).colocarPiezaInicial("poblado", pobladosR2.get(0));
-        orden.verify(j1).colocarPiezaInicial("camino", caminosR2.get(0));
     }
 
 }

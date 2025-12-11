@@ -18,4 +18,6 @@ module edu.fiuba.algo3 {
     exports edu.fiuba.algo3.modelo.Dados;
     exports edu.fiuba.algo3.modelo.Ubicacion;
     exports edu.fiuba.algo3.modelo.Ronda;
+    exports edu.fiuba.algo3.modelo.CartaDeBonificacion;
+
 }
