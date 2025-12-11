@@ -14,10 +14,11 @@ import java.util.Map;
 public class VistaPuntaje extends VBox {
 
     private final Map<Jugador, Label> labelsPV = new HashMap<>();
-    private final Map<Jugador, Label> labelsBonusCaballeria = new HashMap<>();
-    private final Map<Jugador, Label> labelsBonusRuta = new HashMap<>();
+    private final List<Jugador> jugadores;
 
     public VistaPuntaje(List<Jugador> jugadores) {
+        this.jugadores = jugadores;
+
         setSpacing(20);
         setPadding(new Insets(20));
         setAlignment(Pos.TOP_RIGHT);
@@ -39,19 +40,10 @@ public class VistaPuntaje extends VBox {
         Label pv = new Label(jugador.puntosDeVictoria() + " PV");
         pv.setStyle("-fx-font-size: 14px; -fx-font-weight: bold;");
         pv.setTextFill(jugador.obtenerColor());
+
         labelsPV.put(jugador, pv);
 
-        Label bonusCaballeria = new Label("");
-        bonusCaballeria.setStyle("-fx-font-size: 12px;");
-        bonusCaballeria.setTextFill(jugador.obtenerColor());
-        labelsBonusCaballeria.put(jugador, bonusCaballeria);
-
-        Label bonusRuta = new Label("");
-        bonusRuta.setStyle("-fx-font-size: 12px;");
-        bonusRuta.setTextFill(jugador.obtenerColor());
-        labelsBonusRuta.put(jugador, bonusRuta);
-
-        contenido.getChildren().addAll(nombre, pv, bonusCaballeria, bonusRuta);
+        contenido.getChildren().addAll(nombre, pv);
 
         HBox tarjeta = new HBox(contenido);
         tarjeta.setAlignment(Pos.CENTER);
@@ -66,29 +58,12 @@ public class VistaPuntaje extends VBox {
         return tarjeta;
     }
 
-    public void actualizarPV(List<Jugador> jugadores, Jugador caballeria, int bonusCaballeria, Jugador ruta, int bonusRuta) {
+    public void actualizarPV() {
         for (Jugador jugador : jugadores) {
-            int pvModelo = jugador.puntosDeVictoria();
+            int pvJugador = jugador.puntosDeVictoria();
             Label labelPV = labelsPV.get(jugador);
-            Label labelCaballeria = labelsBonusCaballeria.get(jugador);
-            Label labelRuta = labelsBonusRuta.get(jugador);
 
-            labelCaballeria.setText("");
-            labelRuta.setText("");
-
-            int pvMostrado = pvModelo;
-
-            if (jugador == caballeria) {
-                pvMostrado -= bonusCaballeria;
-                labelCaballeria.setText("Gran Caballería (+" + bonusCaballeria + ")");
-            }
-
-            if(jugador == ruta){
-                pvMostrado -= bonusRuta;
-                labelRuta.setText("Gran Ruta Comercial (+" + bonusRuta + ")");
-            }
-
-            labelPV.setText("PV: " + pvMostrado);
+            labelPV.setText("PV: " + pvJugador);
         }
     }
 }
