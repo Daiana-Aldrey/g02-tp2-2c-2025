@@ -114,4 +114,7 @@ public class Camino extends Pieza {
             valor2.add(this.ubicacion1);
         }
     }
+    
+    public void cobrarRecursosIniciales() {
+    }
 }

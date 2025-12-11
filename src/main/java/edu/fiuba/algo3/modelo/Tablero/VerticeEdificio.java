@@ -94,6 +94,12 @@ public class VerticeEdificio extends Vertice {
         return hayPieza;
     }
 
+    public void generarRecursosIniciales(Pieza poblado) {
+    	for (VerticeTerreno terreno: terrenos){
+    		terreno.cosecharRecursoInicial(poblado);
+    	}
+    }
+
     public Pieza obtenerPieza() {
         return this.pieza;
     }

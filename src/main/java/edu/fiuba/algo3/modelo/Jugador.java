@@ -72,6 +72,7 @@ public class Jugador {
 	public void colocarPiezaInicial(String tipo, List<Ubicacion> ubicacion) {
 	    Pieza pieza = Pieza.crear(tipo, this);
 	    pieza.colocarPrimera(ubicacion);
+	    pieza.cobrarRecursosIniciales();
 	}
 
     public void colocarCaminoPorCarta(List<Ubicacion> ubicaciones) {
@@ -344,6 +345,15 @@ public class Jugador {
         CartaGranCaballeria.getInstance().verificarBonificacion(this);
     }
 
+    public boolean pobladosInicialesColocados() {
+    	return (poblados.size() == 2);
+    }
+    
+    public int caballerosJugados() {
+        return caballerosJugados;
+    }
+
+    
     public List<Recurso> recursos(){
         return recursos;
     }

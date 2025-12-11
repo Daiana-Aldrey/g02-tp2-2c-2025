@@ -93,4 +93,9 @@ public class VerticeTerreno extends Vertice {
         boolean contiene = true;
         return contiene;
     }
+
+   public void cosecharRecursoInicial(Pieza poblado2) {
+	   List<Pieza> poblado =List.of(poblado2);
+	   terreno.repartirRecurso(poblado);   
+	}
 }

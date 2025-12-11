@@ -7,7 +7,7 @@ import edu.fiuba.algo3.modelo.Juego;
 import edu.fiuba.algo3.modelo.Jugador;
 import edu.fiuba.algo3.modelo.Pieza.Camino;
 import edu.fiuba.algo3.modelo.Pieza.Ladron;
-import edu.fiuba.algo3.modelo.Pieza.Pieza;
+import edu.fiuba.algo3.modelo.Pieza.*;
 import edu.fiuba.algo3.modelo.Ubicacion.Ubicacion;
 import edu.fiuba.algo3.modelo.Ubicacion.UbicacionVertice;
 import edu.fiuba.algo3.modelo.Intercambio.Puerto;
@@ -160,6 +160,12 @@ public class Grafo {
     public boolean aristaTenesCamino(Ubicacion ubicacion1, Ubicacion ubicacion2) {
         Arista aristaEncontrada = buscarArista(ubicacion1, ubicacion2);
         return aristaEncontrada.hayCamino();
+    }
+    
+    public void repartirRecursosIniciales(Ubicacion ubicacionPoblado, Poblado poblado2) {
+    	Vertice verticeEncontrado = buscarVertice(ubicacionPoblado);
+    	VerticeEdificio verticeEdificioEncontrado = (VerticeEdificio) verticeEncontrado;
+    	verticeEdificioEncontrado.generarRecursosIniciales(poblado2);
     }
 
     public List<Vertice> obtenerVertices() {

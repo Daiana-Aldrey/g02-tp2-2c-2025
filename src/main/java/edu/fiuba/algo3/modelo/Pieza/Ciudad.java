@@ -75,4 +75,7 @@ public class Ciudad extends Pieza {
     public void setearUbicacion(Ubicacion ubicacion) {
         this.ubicacion = ubicacion;
     }
+    
+    public void cobrarRecursosIniciales() {
+    }
 }

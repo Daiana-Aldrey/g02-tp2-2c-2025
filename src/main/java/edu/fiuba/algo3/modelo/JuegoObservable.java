@@ -259,16 +259,10 @@ public class JuegoObservable extends Observable {
     public void usarCartaDesarrollo(String nombreCarta) {
         Jugador jugador = juego.jugadorActual();
         List<Carta> cartas = jugador.obtenerCartasDesarrollo();
-        Jugador actual = juego.obtenerCartaGranCaballeria().obtenerBonificado();
 
         for (Carta carta : cartas) {
             if (carta.getNombre().equals(nombreCarta)) {
                 jugador.jugarCartaDesarrollo(carta);
-
-                Jugador nuevo = juego.obtenerCartaGranCaballeria().obtenerBonificado();
-                if (actual != nuevo){
-                    notificarObservadores("PV");
-                }
                 notificarObservadores("CARTAS");
 
                 if (jugador.gano()) {
@@ -279,7 +273,6 @@ public class JuegoObservable extends Observable {
         }
         throw new NoTieneCarta("El jugador no tiene una carta de tipo " + nombreCarta);
     }
-
     public void comprarCartaDesarrollo() {
         juego.comprarCartaDesarrollo();
         notificarObservadores("RECURSOS");

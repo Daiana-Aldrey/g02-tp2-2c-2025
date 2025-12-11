@@ -36,8 +36,8 @@ public class Poblado extends Pieza {
     	if (ubicacion.size() != 1) {
             throw new CantidadUbicacionesInvalida("Un poblado necesita exactamente 1 ubicación");
         }
-    	  
-          UbicacionVertice ubicacionIntento = (UbicacionVertice) ubicacion.get(0);
+    	UbicacionVertice ubicacionIntento = (UbicacionVertice) ubicacion.get(0);
+        this.ubicacion = ubicacionIntento;
           Tablero tablero = Tablero.getInstance();
           tablero.colocarEdificio(ubicacionIntento, this);
           propietario.incorporarPoblado(this);
@@ -75,5 +75,12 @@ public class Poblado extends Pieza {
     @Override
     public void setearUbicacion(Ubicacion ubicacion) {
         this.ubicacion = ubicacion;
+    }
+    
+    @Override
+    public void cobrarRecursosIniciales() {
+        if (this.propietario.pobladosInicialesColocados()) {
+        	Tablero.getInstance().entregarRecursosIniciales(ubicacion, this);
+        }
     }
 }

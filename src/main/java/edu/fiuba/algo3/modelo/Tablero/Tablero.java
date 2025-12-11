@@ -3,7 +3,7 @@ package edu.fiuba.algo3.modelo.Tablero;
 import edu.fiuba.algo3.modelo.*;
 import edu.fiuba.algo3.modelo.Pieza.Camino;
 import edu.fiuba.algo3.modelo.Pieza.Ladron;
-import edu.fiuba.algo3.modelo.Pieza.Pieza;
+import edu.fiuba.algo3.modelo.Pieza.*;
 import edu.fiuba.algo3.modelo.Terreno.Terreno;
 import edu.fiuba.algo3.modelo.Ubicacion.Ubicacion;
 import edu.fiuba.algo3.modelo.Ubicacion.UbicacionVertice;
@@ -81,6 +81,10 @@ public final class Tablero {
 
     public void removerPoblado(UbicacionVertice ubicacion) {
         grafo.removerPieza(ubicacion);
+    }
+    
+    public void entregarRecursosIniciales(Ubicacion ubicacion, Poblado poblado) {
+    	grafo.repartirRecursosIniciales(ubicacion, poblado);
     }
 
     public boolean hayEdificio(Ubicacion ubicacion) {

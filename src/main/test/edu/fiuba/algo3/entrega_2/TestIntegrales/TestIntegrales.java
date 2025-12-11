@@ -216,8 +216,8 @@ public class TestIntegrales {
         Tablero tablero = Tablero.getInstance();
         tablero.reset();
 
-        UbicacionVertice v28 = new UbicacionVertice(28);
-        UbicacionVertice v39 = new UbicacionVertice(39);
+        UbicacionVertice v28 = new UbicacionVertice(1);
+        UbicacionVertice v39 = new UbicacionVertice(2);
 
         Puerto puertoMadera = null;
         for (Puerto p : tablero.getPuertos()) {

@@ -58,5 +58,8 @@ public abstract class Pieza {
     public abstract boolean usable();
 
     public abstract void setearUbicacion(Ubicacion ubicacion);
+    public void cobrarRecursosIniciales() {
+      
+    }
 }
     
