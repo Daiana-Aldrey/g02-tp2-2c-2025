@@ -1,0 +1,141 @@
+@startuml
+abstract class Recurso {
+   +Recurso(cantidad: int)
+   +{abstract}Recurso(cant: int)
+   +usar()
+   +cobrarDe(jugador: Jugador)
+   +incrementar(cantidad: int)
+   +decrementar(cantidadPedida: int)
+   +transferirA(destino: Jugador, cantidad: int)
+   +cobrarDe(pagador: Jugador, receptor: Jugador)
+   +{abstract}podesIncrementar(recursoDelJugador: Recurso, cantidad: int)
+   #{abstract}incrementar(recursoRecibido: Madera, cantidad: int)
+   #{abstract}incrementar(recursoRecibido: Mineral, cantidad: int)
+   #{abstract}incrementar(recursoRecibido: Ladrillo, cantidad: int)
+   #{abstract}incrementar(recursoRecibido: Lana, cantidad: int)
+   #{abstract}incrementar(recursoRecibido: Grano, cantidad: int)
+   +{abstract}podesIncrementar(recursoDelJugador: Recurso, cantidad: int)
+   #{abstract}incrementar(recursoRecibido: Madera, cantidad: int)
+   #{abstract}incrementar(recursoRecibido: Mineral, cantidad: int)
+   #{abstract}incrementar(recursoRecibido: Ladrillo, cantidad: int)
+   #{abstract}incrementar(recursoRecibido: Lana, cantidad: int)
+   #{abstract}incrementar(recursoRecibido: Grano, cantidad: int)
+   +esNulo(): Boolean
+}
+
+class Grano {
+    +Grano(cantidad: int)
+    +Recurso(cant: int)
+    +podesIncrementar(recursoDelJugador: Recurso, cantidad: int)
+    #incrementar(recursoRecibido: Madera, cantidad: int)
+    #incrementar(recursoRecibido: Mineral, cantidad: int)
+    #incrementar(recursoRecibido: Ladrillo, cantidad: int)
+    #incrementar(recursoRecibido: Lana, cantidad: int)
+    #incrementar(recursoRecibido: Grano, cantidad: int)
+    +podesIncrementar(recursoDelJugador: Recurso, cantidad: int)
+    #incrementar(recursoRecibido: Madera, cantidad: int)
+    #incrementar(recursoRecibido: Mineral, cantidad: int)
+    #incrementar(recursoRecibido: Ladrillo, cantidad: int)
+    #incrementar(recursoRecibido: Lana, cantidad: int)
+    #incrementar(recursoRecibido: Grano, cantidad: int)
+}
+
+class Ladrillo {
+   +Ladrillo(cantidad: int)
+   +Recurso(cant: int)
+   +podesIncrementar(recursoDelJugador: Recurso, cantidad: int)
+   #incrementar(recursoRecibido: Madera, cantidad: int)
+   #incrementar(recursoRecibido: Mineral, cantidad: int)
+   #incrementar(recursoRecibido: Ladrillo, cantidad: int)
+   #incrementar(recursoRecibido: Lana, cantidad: int)
+   #incrementar(recursoRecibido: Grano, cantidad: int)
+   +podesIncrementar(recursoDelJugador: Recurso, cantidad: int)
+   #incrementar(recursoRecibido: Madera, cantidad: int)
+   #incrementar(recursoRecibido: Mineral, cantidad: int)
+   #incrementar(recursoRecibido: Ladrillo, cantidad: int)
+   #incrementar(recursoRecibido: Lana, cantidad: int)
+   #incrementar(recursoRecibido: Grano, cantidad: int)
+}
+
+class Lana {
+   +Lana(cantidad: int)
+   +Recurso(cant: int)
+   +podesIncrementar(recursoDelJugador: Recurso, cantidad: int)
+   #incrementar(recursoRecibido: Madera, cantidad: int)
+   #incrementar(recursoRecibido: Mineral, cantidad: int)
+   #incrementar(recursoRecibido: Ladrillo, cantidad: int)
+   #incrementar(recursoRecibido: Lana, cantidad: int)
+   #incrementar(recursoRecibido: Grano, cantidad: int)
+   +podesIncrementar(recursoDelJugador: Recurso, cantidad: int)
+   #incrementar(recursoRecibido: Madera, cantidad: int)
+   #incrementar(recursoRecibido: Mineral, cantidad: int)
+   #incrementar(recursoRecibido: Ladrillo, cantidad: int)
+   #incrementar(recursoRecibido: Lana, cantidad: int)
+   #incrementar(recursoRecibido: Grano, cantidad: int)
+}
+
+class Madera {
+   +Madera(cantidad: int)
+   +Recurso(cant: int)
+   +podesIncrementar(recursoDelJugador: Recurso, cantidad: int)
+   #incrementar(recursoRecibido: Madera, cantidad: int)
+   #incrementar(recursoRecibido: Mineral, cantidad: int)
+   #incrementar(recursoRecibido: Ladrillo, cantidad: int)
+   #incrementar(recursoRecibido: Lana, cantidad: int)
+   #incrementar(recursoRecibido: Grano, cantidad: int)
+   +podesIncrementar(recursoDelJugador: Recurso, cantidad: int)
+   #incrementar(recursoRecibido: Madera, cantidad: int)
+   #incrementar(recursoRecibido: Mineral, cantidad: int)
+   #incrementar(recursoRecibido: Ladrillo, cantidad: int)
+   #incrementar(recursoRecibido: Lana, cantidad: int)
+   #incrementar(recursoRecibido: Grano, cantidad: int)
+}
+
+class Mineral {
+   +Mineral(cantidad: int)
+   +Recurso(cant: int)
+   +podesIncrementar(recursoDelJugador: Recurso, cantidad: int)
+   #incrementar(recursoRecibido: Madera, cantidad: int)
+   #incrementar(recursoRecibido: Mineral, cantidad: int)
+   #incrementar(recursoRecibido: Ladrillo, cantidad: int)
+   #incrementar(recursoRecibido: Lana, cantidad: int)
+   #incrementar(recursoRecibido: Grano, cantidad: int)
+   +podesIncrementar(recursoDelJugador: Recurso, cantidad: int)
+   #incrementar(recursoRecibido: Madera, cantidad: int)
+   #incrementar(recursoRecibido: Mineral, cantidad: int)
+   #incrementar(recursoRecibido: Ladrillo, cantidad: int)
+   #incrementar(recursoRecibido: Lana, cantidad: int)
+   #incrementar(recursoRecibido: Grano, cantidad: int)
+}
+
+class RecursoNulo {
+   +Recurso(cantidad: int)
+   +{abstract}Recurso(cant: int)
+   +cobrarDe(jugador: Jugador)
+   +incrementar(cantidad: int)
+   +decrementar(cantidadPedida: int)
+   +transferirA(destino: Jugador, cantidad: int)
+   +cobrarDe(pagador: Jugador, receptor: Jugador)
+   +podesIncrementar(recursoDelJugador: Recurso, cantidad: int)
+   #incrementar(recursoRecibido: Madera, cantidad: int)
+   #incrementar(recursoRecibido: Mineral, cantidad: int)
+   #incrementar(recursoRecibido: Ladrillo, cantidad: int)
+   #incrementar(recursoRecibido: Lana, cantidad: int)
+   #incrementar(recursoRecibido: Grano, cantidad: int)
+   +podesIncrementar(recursoDelJugador: Recurso, cantidad: int)
+   #incrementar(recursoRecibido: Madera, cantidad: int)
+   #incrementar(recursoRecibido: Mineral, cantidad: int)
+   #incrementar(recursoRecibido: Ladrillo, cantidad: int)
+   #incrementar(recursoRecibido: Lana, cantidad: int)
+   #incrementar(recursoRecibido: Grano, cantidad: int)
+   +esNulo(): Boolean
+}
+
+Recurso <|-left- Grano
+Recurso <|-- Ladrillo
+Recurso <|-- Madera
+Recurso <|-- Mineral
+Recurso <|-right- Lana
+Recurso <|-- RecursoNulo
+
+@enduml

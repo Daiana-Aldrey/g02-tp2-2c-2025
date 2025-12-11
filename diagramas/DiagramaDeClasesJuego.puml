@@ -6,7 +6,7 @@ class Juego {
     +validarCantJugadores(cantidad: int)
 }
 
-class Tablero {
+class Tablero <<Singleton>> {
   +crearGrafo()
   +setearGrafo(grafo: Grafo)
   +colocarEdificio(ubicacion: UbicacionVertice, pieza: Pieza)
@@ -17,15 +17,84 @@ class Tablero {
   +hayCamino(ubicacion1: Ubicacion, ubicacion2: Ubicacion): Boolean
 }
 
-class Banco {
+class Banco <<Singleton>> {
    -tasaBancaria: int
+   +Banco(fabrica: FabricaMazoCartasDesarrollo)
+   +venderCartaDesarrollo(jugador: Jugador): Carta
+   +comercializar(jugador: Jugador, recursoOferta: Recurso, recursoPedido: Recurso, cantPedida: int)
+   +intercambiar(jugador: Jugador, recursoOferta: Recurso, recursoPedido: Recurso, cantPedida: int, costo: int)
+   +calcularTasaOptima(jugador: Jugador, recuroOferta: Recurso): int
 }
 
 class Carta {
    #nombre: String
    #descripcion: String
    +{abstract}usar(jugador: Jugador)
+   +configurarVictimas(victimas: List<Jugador>)
+   +configurarRecursos(recursos: List<Recurso>)
+   +configurarLadron(destino: UbicacionVertice, victima: List<Jugador>)
+   +configurarCaminos(camino1: List<Ubicacion>, camino2: List<Ubicacion>)
+   +puntosDeVictoriaOcultos(): int
 }
 
+class Jugador {
+   -nombre: String
+   -color: Color
+   -puntosDeVictoria: int
+   -caballerosJugador: int
+   -cantidadDeUsosCartaCaballero: int
+
+}
+
+class RutaMayor {
+   -puntosVictoria: int
+   -rutaMayor: int
+   -dfs(ubicacion: Ubicacion, visitados: List<Ubicacion>, orden: Map<Ubicacion, Integer>>)
+   +RutaMayor(propietario: Jugador, caminos: List<Camino>)
+   +setearAdyacenteYUbicaciones(ubicaciones: List<Ubicacion>, adyacentes: Map<Ubicacion, List<Ubicacion>>)
+   +setearRutaMayor(rutaMayor: int)
+   +calcularRutaMayor(): int
+   +restablecerUbicaciones()
+   +pasaCapacidadMaxima(): Boolean
+   +otorgaPuntos(): Boolean
+   +sacarPuntos()
+   +sosMayor(rutaParcial: RutaMayor)
+   +sosMayorInt(rutaMayor: int): Boolean
+}
+
+abstract class Recurso {
+   +Recurso(cantidad: int)
+   +{abstract}Recurso(cant: int)
+   +usar()
+   +cobrarDe(jugador: Jugador)
+   +incrementar(cantidad: int)
+   +decrementar(cantidadPedida: int)
+   +transferirA(destino: Jugador, cantidad: int)
+   +cobrarDe(pagador: Jugador, receptor: Jugador)
+   +{abstract}podesIncrementar(recursoDelJugador: Recurso, cantidad: int)
+   #{abstract}incrementar(recursoRecibido: Madera, cantidad: int)
+   #{abstract}incrementar(recursoRecibido: Mineral, cantidad: int)
+   #{abstract}incrementar(recursoRecibido: Ladrillo, cantidad: int)
+   #{abstract}incrementar(recursoRecibido: Lana, cantidad: int)
+   #{abstract}incrementar(recursoRecibido: Grano, cantidad: int)
+   +{abstract}podesIncrementar(recursoDelJugador: Recurso, cantidad: int)
+   #{abstract}incrementar(recursoRecibido: Madera, cantidad: int)
+   #{abstract}incrementar(recursoRecibido: Mineral, cantidad: int)
+   #{abstract}incrementar(recursoRecibido: Ladrillo, cantidad: int)
+   #{abstract}incrementar(recursoRecibido: Lana, cantidad: int)
+   #{abstract}incrementar(recursoRecibido: Grano, cantidad: int)
+   +esNulo(): Boolean
+}
+
+class Dados {
+   -random: Random
+   -cantDados: int
+   -valoresTirada: List<Integer>
+   +Dados(cantidad: int)
+   +tirar(): int[]
+   +sumarTirada(): int
+   +tiradaFalsa()
+
+}
 
 @enduml

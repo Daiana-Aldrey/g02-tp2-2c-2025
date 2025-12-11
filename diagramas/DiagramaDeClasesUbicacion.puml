@@ -1,0 +1,24 @@
+@startuml
+abstract class Ubicacion {
+   #{abstract}tieneUbicacion(ubicacion: char): Boolean
+   +{abstract}getUbicacionInt(): int
+}
+
+class UbicacionVertice {
+   -ubicacion: char
+   #tieneUbicacion(ubicacion: char): Boolean
+   +UbicacionVertice(ubicacion: char)
+   +UbicacionVertice(ubicacion: int)
+   +getUbicacionInt(): int
+}
+
+class NoUbicacion {
+   #tieneUbicacion(ubicacion: char): Boolean
+   +getUbicacionInt(): int
+}
+
+Ubicacion <|-- NoUbicacion
+Ubicacion <|-- UbicacionVertice
+
+
+@enduml
