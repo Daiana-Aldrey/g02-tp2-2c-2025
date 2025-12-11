@@ -27,7 +27,6 @@ public class ControladorMoverLadron {
         if (!modelo.esTurnoLadron()) {
             return;
         }
-
         try {
             List<String> opciones = modelo.obtenerVictimasPosibles(ubicacionDelTerreno);
             

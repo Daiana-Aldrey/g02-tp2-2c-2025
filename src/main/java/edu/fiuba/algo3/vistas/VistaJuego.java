@@ -39,6 +39,8 @@ public class VistaJuego extends BorderPane implements Observador {
 
     private VistaTablero vistaTablero;
     private List<VistaVerticeEdificio> vertices;
+    private List<VistaLadron> ladrones;
+    private boolean primerLadron;
 
     private final List<Stage> ventanasAbiertas = new ArrayList<>();
 
@@ -49,6 +51,7 @@ public class VistaJuego extends BorderPane implements Observador {
         this.vistaPropuesta = new VistaPropuesta(modelo);
         this.vistaPuntaje = new VistaPuntaje(modelo.juego().jugadores());
         this.setRight(vistaPuntaje);
+        primerLadron = false;
 
         pasarTurnoBtn = new Button();
         
@@ -251,11 +254,23 @@ public class VistaJuego extends BorderPane implements Observador {
             
             if (msg.equals("LADRON")) {
                 mostrarEstado("¡Salió un 7! Mueve al Ladrón (Hace clic en un terreno)");
+                for (VistaLadron ladron: ladrones) {
+                    ladron.verDisponible();
+                }
+                if (!primerLadron) {
+                    vistaTablero.sacarLadron();
+                    primerLadron = true;
+                }
+
             }
             
             if (msg.equals("LADRON_MOVIDO")) {
                 actualizarJugador();
                 vistaRecursos.actualizarRecursos(modelo.juego().recursosJugadorActual());
+                for (VistaLadron ladron: ladrones){
+                    ladron.sacarLadron();
+                    ladron.sacarDisponibles();
+                }
             }
         }
     }
@@ -297,7 +312,8 @@ public class VistaJuego extends BorderPane implements Observador {
         List<VistaArista> aristas = vistaTablero.getArista();
         vistaPieza.setVerticesArista(vertices, aristas);
         vistaPieza.setBonificador(modelo.getBonificadorRutaMayor());
-        for (VistaLadron boton : vistaTablero.getBotonesLadron()) {
+        ladrones = vistaTablero.getBotonesLadron();
+        for (VistaLadron boton : ladrones) {
             boton.inicializarControlador(modelo);
         }
         for (VistaArista arista: aristas) {

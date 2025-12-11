@@ -47,6 +47,7 @@ public class VistaTablero {
     List<VistaArista> aristas;
     Group tablero;
     ImageView viewLadron;
+    int indiceLadron;
 
     public VistaTablero() {
         indice = 0;
@@ -56,6 +57,7 @@ public class VistaTablero {
         vertices = new ArrayList<>();
         aristas = new ArrayList<>();
         botonesLadron = new ArrayList<>();
+        indiceLadron = 0;
 
         tablero = new Group();
 
@@ -175,6 +177,7 @@ public class VistaTablero {
         hexagono.setFill(ConstanteColores.coloresTablero[ConstanteColores.PARAMO]);
         Image img = new Image("cactus.png");
         ImageView view = new ImageView(img);
+        this.indiceLadron = indice;
 
         view.setFitHeight(50);
         view.setFitWidth(50);
@@ -189,14 +192,8 @@ public class VistaTablero {
         viewLadron.setX(x * TAMANIOCOLUMNA + 55);
         viewLadron.setY(y * TAMANIOFILA + 75);
 
-
-        Rectangle rectanguloFantasma = crearRectangulo(x, y);
-        rectanguloFantasma.setVisible(false); 
-        rectangulos.add(rectanguloFantasma);
-     
         Group desiertoSinFicha = new Group(hexagono, view);
         hexagonosConFicha.add(desiertoSinFicha);
-        
         tablero.getChildren().addAll(desiertoSinFicha, viewLadron);
         
         indice++;
@@ -663,6 +660,10 @@ public class VistaTablero {
         controlador.colocarAristas();
         controlador.colocarPuertos();
         crearBotonesLadron();
+    }
+
+    public void sacarLadron() {
+        tablero.getChildren().remove(viewLadron);
     }
 
     public void agregarPuerto(VistaPuerto puerto) {
