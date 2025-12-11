@@ -1,0 +1,43 @@
+@startuml
+abstract class Terreno {
+   +sosEsteTerreno(terreno: String): Boolean
+   +{abstract}repartirRecurso(edificios: List<Pieza>)
+}
+
+class NoTerreno {
+   +repartirRecurso(edificios: List<Pieza>)
+}
+
+class Bosque {
+   +repartirRecurso(edificios: List<Pieza>)
+}
+
+class Campo {
+   +repartirRecurso(edificios: List<Pieza>)
+}
+
+class Colina {
+   +repartirRecurso(edificios: List<Pieza>)
+}
+
+class Desierto {
+   +repartirRecurso(edificios: List<Pieza>)
+}
+
+class Montania {
+   +repartirRecurso(edificios: List<Pieza>)
+}
+
+class Pastizal {
+   +repartirRecurso(edificios: List<Pieza>)
+}
+
+Terreno <|-left- Bosque
+Terreno <|-- Campo
+Terreno <|-- Colina
+Terreno <|-- Desierto
+Terreno <|-- Montania
+Terreno <|-right- Pastizal
+Terreno <|-up- NoTerreno
+
+@enduml

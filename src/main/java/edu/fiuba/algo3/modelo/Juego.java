@@ -1,97 +1,146 @@
 package edu.fiuba.algo3.modelo;
+
+import edu.fiuba.algo3.modelo.CartaDeBonificacion.BonificadorRutaMayor;
+import edu.fiuba.algo3.modelo.CartaDeBonificacion.CartaGranCaballeria;
+import edu.fiuba.algo3.modelo.CartaDeBonificacion.RutaMayor;
+import edu.fiuba.algo3.modelo.Dados.*;
+import edu.fiuba.algo3.modelo.Intercambio.Banco;
+import edu.fiuba.algo3.modelo.Recurso.Recurso;
+import edu.fiuba.algo3.modelo.Ronda.*; 
+import edu.fiuba.algo3.modelo.Tablero.Tablero;
+import edu.fiuba.algo3.modelo.Ubicacion.Ubicacion;
+import edu.fiuba.algo3.modelo.Ubicacion.UbicacionVertice;
+import edu.fiuba.algo3.Excepciones.*;
 import java.util.*;
 
 public class Juego {
-	  private final Tablero tablero;
-	  private final Banco banco;
-	  private final List<Jugador> jugadores;
-	  private Jugador jugadorTurno;
-	  private final int maxTurno;
-	  private int rondas;
-	  private final GeneradorDeDados generador;
+    private final Tablero tablero;
+    private final Banco banco;
+    private List<Jugador> jugadores;
+    private final CartaGranCaballeria cartaGranCaballeria;
+    private final int cantJugadores;
+    private OrganizadorDeTurnos organizador;
+    private final Dados dados;
+    private final BonificadorRutaMayor bonificadorRutaMayor;
 
-	  
+    public Juego(List<Jugador> jugadores) {
+        this.cantJugadores = jugadores.size();
+        this.jugadores = jugadores;
+        this.tablero = Tablero.getInstance();
+        this.cartaGranCaballeria = CartaGranCaballeria.getInstance();
+        this.bonificadorRutaMayor = new BonificadorRutaMayor();
+        this.banco = new Banco();
+        this.dados = new Dados(2);
+        
+        this.organizador = new OrganizadorDeTurnos(jugadores);
 
-	public Juego(int cantJugadores, List<String> nombres, GeneradorDeDados generador) {
-		this.jugadores = new ArrayList<Jugador>();
-		this.maxTurno = cantJugadores;
-		this.tablero = Tablero.getInstance();
-		this.banco = new Banco();
-		this.rondas = 0;
-		this.generador = generador;
-		
-		validarCantJugadores(cantJugadores);
-		for(int i = 0; i < cantJugadores; i++)	{
-			Jugador jugador = new Jugador(nombres.get(i));
-			jugadores.add(jugador);
-		}
-		
-		this.jugadorTurno = jugadores.get(0);
-	}
-	
-	private void validarCantJugadores(int cantidad) {
-		if (cantidad < 3 || cantidad > 4) {
-			throw new IllegalArgumentException("La cantidad de jugadores debe estar entre 3 y 4");
-	    }
+        validarCantJugadores(cantJugadores);
+        setearRutasParaBonificador();
+    }
+    
+    private void validarCantJugadores(int cantidad) {
+        if (cantidad < 3 || cantidad > 4) {
+            throw new CantJugadoresInvalida("La cantidad de jugadores debe estar entre 3 y 4");
+        }
+    }
+
+    public int[] tirarDados() {
+        return dados.tirar();
+    }
+    
+    public int sumarTirada() {
+        return dados.sumarTirada();
+    }
+
+    public int cantidadJugadores(){
+        return cantJugadores;
+    }
+
+    public void manejarTirada(int n) {
+    	if (n == 7) {
+            for (Jugador j : jugadores) {
+                j.descartarMitad();
+            }
+        } else {
+            tablero.cosechar(n);
+        }
+    }
+    
+    /*private void aplicarEventoSiete() {
+        for (Jugador j : jugadores) {
+            j.descartarMitad();
+        }
+        UbicacionVertice destino = new UbicacionVertice('B');
+        Jugador victima = jugadores.get(1); 
+        
+        jugadorActual().moverLadron(destino, victima);
+    }*/
+
+    public List<Jugador> jugadores() {
+        return jugadores;
+    }
+
+    public void comprarCartaDesarrollo() {
+        banco.venderCartaDesarrollo(jugadorActual());
+    }
+
+    public void finalizarTurnoActual() {
+        jugadorActual().prepararCartasDesarrolloParaNuevoTurno();
+    }
+
+    public boolean verificarVictoria(){
+        for(Jugador jugador : jugadores){
+            if(jugador.gano()){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void jugarTurno(){
+        int resultadoDados = dados.sumarTirada();
+        manejarTirada(resultadoDados);
+
+        jugadorActual().turno();
+        finalizarTurnoActual();
+    }
+
+    public void setearRutasParaBonificador() {
+        for (Jugador jugador : jugadores){
+            jugador.incluirRuta(bonificadorRutaMayor);
+        }
+    }
+
+    public void pasarAlSiguienteJugador() {
+        organizador.siguienteTurno();
+    }
+
+    public void jugar() {
+        while (!verificarVictoria()) {
+            jugarTurno(); 
+            pasarAlSiguienteJugador();
+        }
+    }
+    
+    public Jugador jugadorActual() {
+        return organizador.jugadorActual();
+    }
+
+    public List<Recurso> recursosJugadorActual(){
+        return jugadorActual().recursos();
+    }
+    
+    public boolean esFaseInicial() {
+        return organizador.esFaseInicial();
+    }
+
+	public CartaGranCaballeria obtenerCartaGranCaballeria(){
+		return cartaGranCaballeria;
 	}
 
-	public int tirarDado() {
-		int n = generador.tirar();
-		if (n < 2 || n > 12) {
-			throw new IllegalStateException("Tirada fuera de rango: " + n);
-		}
-		return n;
-	}
-	
-	public void inicializarPiezas(List<List<Integer>> verticesPoblados, List<List<Integer>> verticesCaminos) {
-		for (int i = 0; i < maxTurno; i++) {
-			Jugador jugador = jugadores.get(i);
-			jugador.colocarPiezaInicial("poblado", verticesPoblados.get(i));
-			
-			jugador.colocarPiezaInicial("camino", verticesCaminos.get(i));
-		}
-	}
-	
-	public void siguienteRonda() {
-		for(int i = 0; i < maxTurno; i++) {
-			jugadorTurno = jugadores.get(i);
-			int numDados = tirarDado();
-			manejarTirada(numDados); 
-			jugadores.get(i).turno();
-		}
-	}
-	
-	public void Jugar() {
-		while(rondas <2) {
-			siguienteRonda();
-			rondas ++;
-		}
-	}
-	
-	public int cantidadJugadores(){
-		return maxTurno;
-	}
-
-	public void manejarTirada(int n) {
-		if (n == 7) {
-			aplicarEventoSiete();
-		} else {
-			tablero.cosechar(n);
-		}
-	}
-
-
-	private void aplicarEventoSiete() {
-		for (Jugador j : jugadores) {
-			j.descartarMitad();
-		}
-		char destino = 'B'; //esto se preguntara por controlador
-		jugadorTurno.moverLadron(destino);
-	}
-
-	public List<Jugador> jugadores() {
-		return jugadores;
-	}
+    public BonificadorRutaMayor obtenerBonificadorRutaMayor(){
+        return bonificadorRutaMayor;
+    }
 
 }
 

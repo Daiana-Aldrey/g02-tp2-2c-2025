@@ -1,108 +1,137 @@
 package edu.fiuba.algo3.modelo;
+import edu.fiuba.algo3.modelo.CartaDeBonificacion.BonificadorRutaMayor;
+import edu.fiuba.algo3.modelo.CartaDeBonificacion.CartaGranCaballeria;
+import javafx.scene.paint.Color;
+import edu.fiuba.algo3.Excepciones.NoTieneCarta;
+import edu.fiuba.algo3.modelo.CartaDeBonificacion.RutaMayor;
+import edu.fiuba.algo3.modelo.CartaDeDesarrollo.Carta;
+import edu.fiuba.algo3.modelo.Intercambio.Puerto;
+import edu.fiuba.algo3.modelo.Pieza.*;
+import edu.fiuba.algo3.modelo.Recurso.*;
+import edu.fiuba.algo3.modelo.Tablero.Tablero;
+import edu.fiuba.algo3.modelo.Ubicacion.Ubicacion;
+import edu.fiuba.algo3.modelo.Ubicacion.UbicacionVertice;
+import edu.fiuba.algo3.Excepciones.*;
 import java.util.List;
 import java.util.ArrayList;
-import java.util.Scanner;
 import java.util.*;
 
 public class Jugador {
 	private String nombre;
+    private Color color;
+    private int puntosDeVictoria = 0;
+    private int caballerosJugados = 0;
+    private RutaMayor ruta;
+    private int cantidadDeUsosCartaCaballero = 0;
 	private List<Recurso> recursos;
     private List<Poblado> poblados = new ArrayList<>();
     private List<Ciudad>  ciudades = new ArrayList<>();
     private List<Camino>  caminos  = new ArrayList<>();
-    //private List<Recurso> recursos = new ArrayList<>();
+    private List<Carta> cartasDesarrollo = new ArrayList<>();
+    private List<Carta> cartasDesarrolloRecienCompradas = new ArrayList<>();
 
 
     public Jugador(String nombre) {
 		this.nombre = nombre;
-		this.recursos = new ArrayList<Recurso>();
-		
-		inicializarRecursos(List.of(RecursoTipo.MADERA, RecursoTipo.LADRILLO, RecursoTipo.LANA, RecursoTipo.GRANO, RecursoTipo.MINERAL));
+        this.color = Color.BLUE;
+		this.recursos = new ArrayList<>();
+        this.ruta = new RutaMayor(this, caminos);
+
+		inicializarRecursos();
 	}
 
+    public Jugador(String nombre, Color color) {
+        this.nombre = nombre;
+        this.color = color;
+        this.recursos = new ArrayList<>();
+        this.ruta = new RutaMayor(this, caminos);
+
+        inicializarRecursos();
+    }
+
+    public void asignarColor(Color color) {
+        this.color = color;
+    }
 
 	public void incorporarCamino(Camino camino) {
-		caminos.add(camino);
+        caminos.add(camino);
+        ruta.calcularRutaMayor();
 	}
     
 	public void incorporarPoblado(Poblado poblado) {
 		poblados.add(poblado);
+        puntosDeVictoria += 1;
 	}
 	
 	public void incorporarCiudad(Ciudad ciudad) {
-		ciudades.add(ciudad);
+        ciudades.add(ciudad);
+        puntosDeVictoria += 2;
 	}
 	
-	
-	
-	public void colocarPiezaInicial(String tipo, List<Integer> vertices) {
+	public void colocarPiezaInicial(String tipo, List<Ubicacion> ubicacion) {
 	    Pieza pieza = Pieza.crear(tipo, this);
-	    pieza.colocar(vertices);   
-	}    
-	
-	 
-	private void inicializarRecursos(List<RecursoTipo> tiposRecursos) {
-		for(int i = 0; i < tiposRecursos.size(); i ++) {
-			Recurso recurso = new Recurso(tiposRecursos.get(i));
-			recursos.add(recurso);
-		}
-	}
-	
-	public void recibirRecurso(RecursoTipo tipo, int cantidad) {
-	    for (Recurso recurso : recursos) {
-	        if (recurso.sosTipo(tipo)) {
-	            recurso.incrementar(cantidad);
-	            return;
-	        }
-	    }
-	    Recurso nuevo = new Recurso(tipo, cantidad);
-	    recursos.add(nuevo);
+	    pieza.colocarPrimera(ubicacion);
+	    pieza.cobrarRecursosIniciales();
 	}
 
-    public Recurso buscarRecurso(RecursoTipo tipo) {
-        for (Recurso r : recursos) {
-            if (r.sosTipo(tipo)) {
-                return r;
-            }
-        }
-        return null;
+    public void colocarCaminoPorCarta(List<Ubicacion> ubicaciones) {
+        Camino camino = new Camino(this);
+        camino.colocar(ubicaciones);
     }
 
-    public void construirPieza(String tipo, List<Integer> vertices) {
+	private void inicializarRecursos() {
+		recursos.add(new Madera());
+        recursos.add(new Mineral());
+        recursos.add(new Ladrillo());
+        recursos.add(new Lana());
+        recursos.add(new Grano());
+	}
+	
+	public void recibirRecurso(Recurso recursoARecibir, int cantidad) {
+	    for (Recurso miRecurso : recursos) {
+            try {
+                recursoARecibir.podesIncrementar(miRecurso, cantidad);
+                return;
+            } catch (RecursoIncorrecto ignored) {
+            }
+        }
+	}
+
+    public void construirPieza(String tipo, List<Ubicacion> ubicacion) {
         Pieza pieza = Pieza.crear(tipo, this);
         List<Recurso> precio = pieza.costoDeConstruccion();
         pagarRecursos(precio);
-        pieza.colocar(vertices);
+        pieza.colocar(ubicacion);
     }
 
-    
     public void pagarRecursos(List<Recurso> precio) {
         for (Recurso rPrecio : precio) {
-            rPrecio.cobrarDe(this);   
+            rPrecio.cobrarDe(this);
         }
     }
 
-    void descontarRecurso(RecursoTipo tipo, int cantidad) {
-        for (Recurso rJugador : recursos) {
-            if (rJugador.sosTipo(tipo)) {
-                rJugador.decrementar(cantidad);
+    public void descontarRecurso(Recurso recursoADecrementar, int cantidad) {
+        for (Recurso miRecurso : recursos) {
+            try {
+                recursoADecrementar.podesDecrementar(miRecurso, cantidad);
                 return;
+            } catch (RecursoIncorrecto e) {
+
             }
+
         }
-        throw new IllegalArgumentException("No posees cantidad suficiente de " + tipo);
+        throw new SinRecursos("No posees cantidad suficiente");
     }
     
-    public void moverLadron(char idTerreno) {
+    public void moverLadron(UbicacionVertice ubicacion, Jugador victima) {
     	Tablero tablero = Tablero.getInstance();
-    	tablero.moverLadronA(idTerreno, this);
+    	tablero.moverLadronA(ubicacion, this,victima);
     }
     
-	public void turno() { 	
+	public void turno() {
 		System.out.print("acciones");
 	}
-   
 
-    //suma de cantidades en la lista de recursos
     public int totalRecursos() {
         int total = 0;
         for (Recurso r : recursos) {
@@ -111,14 +140,11 @@ public class Jugador {
         return total;
     }
 
-    //descarta la mitad empezando por las prime cartas
     public void descartarMitad() {
         int total = totalRecursos();
         if (total <= 7) return;
+        int aDescartar = total / 2;
 
-        int aDescartar = total / 2; // floor
-
-        // Recorremos la lista de recursos descontando cantidades
         int i = 0;
         while (aDescartar > 0 && i < recursos.size()) {
             Recurso r = recursos.get(i);
@@ -155,17 +181,209 @@ public class Jugador {
         elegido.transferirA(this, 1);
     }
     
-    // Para verif en los tests
+    
+    public void intercambiar(List<Recurso> pedidos, List<Recurso> ofertas, Jugador ofertante) {
+        if (pedidos.isEmpty() || ofertas.isEmpty()) {
+            throw new SinRecursos("Debe haber al menos un recurso pedido y uno ofertado");
+        }
+
+        for (Recurso pedido : pedidos) {
+            pedido.cobrarDe(this, ofertante);
+        }
+
+        for (Recurso oferta : ofertas) {
+            oferta.cobrarDe(ofertante, this);
+        }
+    }
+    
+    public void entregar(Recurso recursoAEntregar, int cantidad, Jugador destino) {
+        recursoAEntregar.transferirA(destino, cantidad);
+    }
+
+    public  void removerPoblado(UbicacionVertice ubicacion) {
+        int i = 0;
+        boolean encontrado = false;
+        Pieza poblado;
+        while ( i < poblados.size() && !encontrado) {
+            poblado = poblados.get(i);
+            if (poblado.tenesUbicacion(ubicacion)) {
+                encontrado = true;
+                poblados.remove(i);
+                puntosDeVictoria -= 1;
+            }
+            i++;
+        }
+    }
+
+    public void recibirCartaDesarrollo(Carta carta) {
+        cartasDesarrolloRecienCompradas.add(carta);
+    }
+
+    public void prepararCartasDesarrolloParaNuevoTurno() {
+        cartasDesarrollo.addAll(cartasDesarrolloRecienCompradas);
+        cartasDesarrolloRecienCompradas.clear();
+    }
+
+    public void jugarCartaDesarrollo(Carta carta) {
+        if (cartasDesarrolloRecienCompradas.contains(carta)) {
+            throw new ErrorNoUsoDeCartaInvalido("carta recein comprada no la podes usar en este turno.");
+        }
+        if (!cartasDesarrollo.contains(carta)) {
+            throw new NoTieneCarta("no tenes esta carta");
+        }
+        carta.usar(this);
+        cartasDesarrollo.remove(carta);
+    }
+
+    public List<Carta> obtenerCartasDesarrollo() {
+        List<Carta> todas = new ArrayList<>();
+        todas.addAll(cartasDesarrollo);
+        todas.addAll(cartasDesarrolloRecienCompradas);
+        return Collections.unmodifiableList(todas);
+    }
+    
     public int cantidadDeCartas() {
         return totalRecursos();
     }
 
-    public void removerPoblado(Poblado p) {
-        poblados.remove(p);
+    public int puntosDeVictoria(){
+        return puntosDeVictoria;
     }
 
-    public boolean esJugador(Jugador propietario) {
-        return this.nombre == propietario.nombre;
+    public boolean tenesPobladoEnUbicacion(Ubicacion ubicacion) {
+        int i = 0;
+        boolean encontrado = false;
+        Poblado poblado;
+        while ( i < poblados.size() && !encontrado) {
+            poblado = poblados.get(i);
+            if (poblado.tenesUbicacion(ubicacion)) {
+                encontrado = true;
+            }
+            i++;
+        }
+        return encontrado;
+    }
+
+    public boolean tenesPiezaEnUbicacion(Ubicacion ubicacion) {
+        int i = 0;
+        boolean encontrado = false;
+        Camino camino;
+        while ( i < caminos.size() && !encontrado) {
+            camino = caminos.get(i);
+            if (camino.tenesUbicacion(ubicacion)) {
+                encontrado = true;
+            }
+            i++;
+        }
+        return encontrado;
+    }
+
+    public Recurso buscarRecurso(Recurso recursoBuscado) {
+        for (Recurso r : recursos) {
+            if (r.getClass() == recursoBuscado.getClass()) {
+                return r;
+            }
+        }
+        //return null;
+        return new RecursoNulo(); //para no usar null
+    }
+
+
+    public List<Camino> getCaminos() {
+        return caminos;
+    }
+
+    public Color obtenerColor() {
+        return this.color;
+    }
+
+    public void aumentarCantidadDeUsosCartaCaballero(int cantidad) {
+        this.cantidadDeUsosCartaCaballero = this.cantidadDeUsosCartaCaballero + cantidad;
+    }
+
+    public boolean tengoMasCantidadDeUsosCartaCaballero(Jugador jugador) {
+        return this.cantidadDeUsosCartaCaballero > jugador.cantidadDeUsosCartaCaballero;
+    }
+
+    public boolean tengoMasDe2UsosCartaCaballero() {
+        return this.cantidadDeUsosCartaCaballero > 2;
+    }
+
+    public void otorgarPuntos(int puntosVictoria) {
+        this.puntosDeVictoria = this.puntosDeVictoria + puntosVictoria;
+    }
+
+    public void sacarPuntos(int puntosVictoria) {
+        this.puntosDeVictoria = this.puntosDeVictoria - puntosVictoria;
+    }
+
+    public boolean gano() {
+        return puntosDeVictoria >= 10;
+    }
+
+    public String nombre() {
+        return nombre;
+    }
+
+    public void entregarTodo(Recurso recursoModelo, Jugador ladron) {
+        Recurso miRecurso = this.buscarRecurso(recursoModelo);
+        if (miRecurso.esNulo()) {
+            return;
+        }
+        int cantidad = miRecurso.cantidad();
+        if (cantidad > 0) {
+            miRecurso.transferirA(ladron, cantidad);
+        }
+
+    }
+    public void incluirRuta(BonificadorRutaMayor bonificadorRutaMayor) {
+        bonificadorRutaMayor.agregarRuta(ruta);
+    }
+
+    public void registrarCaballeroJugado() {
+        caballerosJugados += 1;
+        CartaGranCaballeria.getInstance().verificarBonificacion(this);
+    }
+
+    public boolean pobladosInicialesColocados() {
+    	return (poblados.size() == 2);
+    }
+
+    public int caballerosJugados() {
+        return caballerosJugados;
+    }
+
+
+    public List<Recurso> recursos(){
+        return recursos;
+    }
+
+    public List<Carta> getCartasDesarrollo(){
+        return cartasDesarrollo;
+    }
+
+    public Carta obtenerCartaPorNombre(String nombre) {
+        for (Carta c : cartasDesarrollo) {
+            if (c.getNombre().equals(nombre)) {
+                return c;
+            }
+        }
+        return null;
+    }
+
+
+    public RutaMayor obtenerRuta(){
+        return ruta;
+    }
+
+    public Recurso buscarRecurso(String nombre) {
+        Recurso recursoEncontrado = new RecursoNulo();
+        for (Recurso r : recursos) {
+            if (r.sosRecurso(nombre)) {
+                recursoEncontrado = r;
+            }
+        }
+        return recursoEncontrado;
     }
 }
-  
+

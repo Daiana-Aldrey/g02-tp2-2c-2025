@@ -1,0 +1,70 @@
+@startuml
+class Tablero <<Singleton>>{
+  +crearGrafo()
+  +setearGrafo(grafo: Grafo)
+  +colocarEdificio(ubicacion: UbicacionVertice, pieza: Pieza)
+  +colocarCamino(ubicacion1: UbicacionVertice, ubicacion2: UbicacionVertice, camino: Camino)
+  +notificarPuertosConstruccion(ubicacion: UbicacionVertice, pieza: Pieza)
+  +cosechar(numeroDado: int)
+  +hayEdificio(ubicacion: Ubicacion): Boolean
+  +hayCamino(ubicacion1: Ubicacion, ubicacion2: Ubicacion): Boolean
+}
+
+class Grafo {
+   +agregarVertice(vertice: Vertice)
+   +agregarArista(arista: Arista)
+   +contieneVertice(vertice: Vertice): Boolean
+   +hayArista(vertice1: Vertice, vertice2: Vertice): Boolean
+   +buscarVertice(ubicacion: Ubicacion): Vertice
+   +buscarArista(ubicacion1: Ubicacion, ubicacion2: Ubicacion): Arista
+   +colocarPieza(ubicacion: Ubicacion, pieza: Pieza)
+   +colocarCamino(ubicacion1: Ubicacion, ubicacion2: Ubicacion)
+   +terrenosCompatibles(resultadoDado: int)
+   +buscarTerrenoCompatible(resultadoDado: int): List<VerticeTerreno>
+   +removerPieza(ubicacion: Ubicacion)
+   +colocarLadron(ubicacion: Ubicacion, ladron: Ladron, jugador: Jugador)
+   +verticeTenesPieza(ubicacion: Ubicacion)
+   +aristaTenesCamino(ubicacion1: Ubicacion, ubicacion2: Ubicacion)
+}
+
+class Puerto {
+   +Puerto(muelle1: UbicacionVertice, muelle2: UbicacionVertice)
+   +notificarConstruccion(ubicacion: UbicacionVertice, pieza: Pieza)
+   #jugadorTieneAcceso(jugador: Jugador): Boolean
+   +comercializar(jugador: Jugador, oferta: Recurso, pedido: Recurso, cantPedida: int)
+   #{abstract}realizarComercio(jugador: Jugador, oferta: Recurso, pedido: Recurso, cantPedida: int)
+   +{abstract}tasaDeCambioPara(recurso: Recurso): int
+}
+
+class Ladron {
+   +moverA(nuevaUbicacion: VerticeTerreno)
+   +robar(beneficiario: Jugador, victima: Jugador)
+}
+
+abstract class Pieza {
+   #propietario: Jugador
+   +Pieza(tipo: String, propietario: Jugador)
+   +{abstract}costoDeContruccion(): List<Recurso>
+   +{abstract}colocarPrimera(ubicaciones: List<Ubicacion>)
+   +{abstract}colocar(ubicaciones: List<Ubicacion>)
+   +{abstract}tenesUbicacion(ubicacion: Ubicacion): Boolean
+   +{abstract}usable(): Boolean
+   +{abstract}setearUbicacion(ubicacion: Ubicacion)
+   +agregarRecursos(recurso: Recurso, cantidad: int)
+   +esDe(jugador: Jugador): Boolean
+   +afectarPorLadron(jugadorQueMueve: Jugador)
+   +produccion(): int
+}
+
+abstract class Terreno {
+   +sosEsteTerreno(terreno: String): Boolean
+   +{abstract}repartirRecurso(edificios: List<Pieza>)
+}
+
+Tablero -right-> Grafo
+Tablero  "1"o-down-"0.." Terreno
+Tablero  "1"o-left-"0.." Pieza
+Tablero --> Ladron
+Tablero  "1"o--"0.." Puerto
+
+@enduml
