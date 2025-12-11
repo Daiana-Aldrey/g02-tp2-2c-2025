@@ -12,13 +12,9 @@ import edu.fiuba.algo3.modelo.Tablero.VerticeTerreno;
 import edu.fiuba.algo3.modelo.Tablero.Vertice;
 import edu.fiuba.algo3.modelo.Ubicacion.UbicacionVertice;
 import edu.fiuba.algo3.Excepciones.NoTieneCarta;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class JuegoObservable extends Observable {
-
     private final Juego juego;
     private int[] ultimaTirada; 
     private List<Recurso> ofertaActual;
@@ -32,6 +28,7 @@ public class JuegoObservable extends Observable {
     private boolean esperandoMovimientoLadron;
     private boolean modoConstruccionCarreteras = false;
     private final List<List<Ubicacion>> caminosCarta = new ArrayList<>();
+    private final Set<Jugador> yaMostrados = new HashSet<>();
 
     public JuegoObservable(Juego juego) {
         this.juego = juego;
@@ -43,6 +40,10 @@ public class JuegoObservable extends Observable {
 
         this.bonificadorRutaMayor = new BonificadorRutaMayor();
         agregarRutasBonificador();
+
+        if(esFaseInicial()){
+            notificarObservadores("PRIMER_TURNO");
+        }
     }
 
     public Juego juego() { 
@@ -124,6 +125,12 @@ public class JuegoObservable extends Observable {
         
         if (hayPropuestaPendiente && getNombreJugadorActual().equals(getNombreJugadorProponente())) {
             cerrarPropuesta();
+        }
+
+        Jugador actual =juego().jugadorActual();
+        if (esFaseInicial() && !yaMostrados.contains(actual)) {
+            yaMostrados.add(actual);
+            notificarObservadores("PRIMER_TURNO");
         }
         
         notificarObservadores("TURNO");
@@ -441,5 +448,4 @@ public class JuegoObservable extends Observable {
         this.esperandoMovimientoLadron = true;
         notificarObservadores("LADRON");
     }
-
 }

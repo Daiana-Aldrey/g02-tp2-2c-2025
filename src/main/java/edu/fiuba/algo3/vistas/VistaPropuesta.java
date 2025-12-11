@@ -107,11 +107,9 @@ public class VistaPropuesta extends VBox {
                 HBox item = new HBox(8);
                 item.setAlignment(Pos.CENTER_LEFT);
                 String nombreClase = r.getClass().getSimpleName();
-                if (nombreClase.equals("Grano")) nombreClase = "Trigo";
-                if (nombreClase.equals("Mineral")) nombreClase = "Piedra";
                 try {
                     ImageView img = new ImageView(new Image(getClass().getResourceAsStream("/recursos/" + nombreClase.toLowerCase() + ".png")));
-                    img.setFitWidth(20); img.setFitHeight(28); img.setPreserveRatio(true);
+                    img.setFitWidth(35); img.setFitHeight(35); img.setPreserveRatio(true);
                     item.getChildren().add(img);
                 } catch (Exception e) {}
                 Label lbl = new Label("x" + r.cantidad());

@@ -126,7 +126,7 @@ public class VistaCrearOferta {
         try {
             String ruta = "/recursos/" + nombreImagen.toLowerCase() + ".png";
             imgView.setImage(new Image(getClass().getResourceAsStream(ruta)));
-            imgView.setFitWidth(60); imgView.setFitHeight(65); imgView.setPreserveRatio(true);
+            imgView.setFitWidth(70); imgView.setFitHeight(75); imgView.setPreserveRatio(true);
         } catch (Exception e) {
             carta.getChildren().add(new Label(nombreImagen.substring(0, 3)));
         }

@@ -77,11 +77,9 @@ public class VistaIngresarNombres {
     }
 
     public void mostrar() {
-        // Layout principal como BorderPane
         BorderPane contenedorPrincipal = new BorderPane();
         contenedorPrincipal.setStyle("-fx-background-color: #e7d3a8;");
 
-        // Botón Volver con imagen y texto
         Image imgVolver = new Image(getClass().getResourceAsStream("/volver.png"));
         ImageView ivVolver = new ImageView(imgVolver);
         ivVolver.setFitHeight(25);
@@ -107,7 +105,6 @@ public class VistaIngresarNombres {
                         "-fx-border-width: 1;"
         );
 
-        //Hover
         volver.setOnMouseEntered(e -> volver.setStyle(
                         "-fx-background-color: #d9a86c;" +
                         "-fx-border-color: #3399ff;" +
@@ -135,7 +132,6 @@ public class VistaIngresarNombres {
         layoutPrincipal.setAlignment(Pos.TOP_CENTER);
         layoutPrincipal.setPadding(new Insets(30));
 
-        // Paleta de colores permitidos
         List<Color> coloresPermitidos = List.of(
                 Color.RED,
                 Color.BLUE,
@@ -145,13 +141,11 @@ public class VistaIngresarNombres {
                 Color.PURPLE
         );
 
-        // Título
         Text titulo = new Text("Ingresá los nombres de los jugadores");
         titulo.setFont(Font.font("System", FontWeight.BOLD, 30));
         VBox.setMargin(titulo, new Insets(50, 0, 80, 0));
         layoutPrincipal.getChildren().add(titulo);
 
-        // Fila de tarjetas
         HBox filaTarjetas = new HBox(60);
         filaTarjetas.setAlignment(Pos.CENTER);
 
@@ -195,6 +189,9 @@ public class VistaIngresarNombres {
             // ===================== COLOR PICKER PERSONALIZADO =====================
             ColorPicker colorPicker = new ColorPicker();
             colorPicker.setPrefWidth(150);
+
+            colorPicker.setOnMouseEntered(e -> colorPicker.setCursor(Cursor.HAND));
+            colorPicker.setOnMouseExited(e -> colorPicker.setCursor(Cursor.DEFAULT));
 
             // BLOQUEAR el menú nativo del ColorPicker
             colorPicker.addEventFilter(MouseEvent.MOUSE_RELEASED, Event::consume);
