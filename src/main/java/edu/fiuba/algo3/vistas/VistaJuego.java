@@ -328,8 +328,10 @@ public class VistaJuego extends BorderPane implements Observador {
         	configurarInterfazFaseInicial();
             invisibilizarBotonDados();
             habilitarBotonPasarTurno();
+
             if(modelo.esFaseInicial()){
                 VistaInfo.mostrar("Atención", "En las primeras dos rondas cada jugdor deberá colocar un poblado y un camino, en ese orden.");
+                modelo.agregarYaMostrado(modelo.juego().jugadorActual());
             }
         }
     }
