@@ -152,10 +152,10 @@ public class ControladorPieza {
     public boolean sePuedeComprarPoblado(Jugador jugador) {
         boolean permitido = false;
 
-        int cantidadGrano = jugador.buscarRecurso(new Grano()).cantidad();
-        int cantidadLadrillo = jugador.buscarRecurso(new Ladrillo()).cantidad();
-        int cantidadMadera = jugador.buscarRecurso(new Madera()).cantidad();
-        int cantidadLana = jugador.buscarRecurso(new Lana()).cantidad();
+        int cantidadGrano = jugador.buscarRecurso("Grano").cantidad();
+        int cantidadLadrillo = jugador.buscarRecurso("Ladrillo").cantidad();
+        int cantidadMadera = jugador.buscarRecurso("Madera").cantidad();
+        int cantidadLana = jugador.buscarRecurso("Lana").cantidad();
 
         if (cantidadGrano > 0 && cantidadLadrillo > 0 && cantidadMadera > 0 && cantidadLana > 0) {
             permitido = true;
@@ -166,8 +166,8 @@ public class ControladorPieza {
     public boolean sePuedeComprarCiudad(Jugador jugador) {
         boolean permitido = false;
 
-        int cantidadGrano = jugador.buscarRecurso(new Grano()).cantidad();
-        int cantidadMineral = jugador.buscarRecurso(new Mineral()).cantidad();
+        int cantidadGrano = jugador.buscarRecurso("Grano").cantidad();
+        int cantidadMineral = jugador.buscarRecurso("Mineral").cantidad();
 
         if ( cantidadGrano > 1 && cantidadMineral > 2 ) {
             permitido = true;
@@ -178,8 +178,8 @@ public class ControladorPieza {
     public boolean sePuedeComprarCamino(Jugador jugador) {
         boolean permitido = false;
 
-        int cantidadLadrillo = jugador.buscarRecurso(new Ladrillo()).cantidad();
-        int cantidadMadera = jugador.buscarRecurso(new Madera()).cantidad();
+        int cantidadLadrillo = jugador.buscarRecurso("Ladrillo").cantidad();
+        int cantidadMadera = jugador.buscarRecurso("Madera").cantidad();
 
         if (cantidadLadrillo > 0 && cantidadMadera > 0) {
             permitido = true;

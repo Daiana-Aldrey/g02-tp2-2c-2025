@@ -70,4 +70,8 @@ public abstract class Recurso {
 
     public boolean esNulo() {return false;}
 
+    public boolean sosRecurso(String nombre) {
+        return this.getClass().getSimpleName().equals(nombre);
+    }
+
 }

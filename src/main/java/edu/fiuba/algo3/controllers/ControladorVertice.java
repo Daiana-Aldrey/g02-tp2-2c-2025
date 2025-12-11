@@ -31,7 +31,6 @@ public class ControladorVertice {
 
     public void colocarPieza(String tipoPieza) {
         vista.setOnAction(e -> {
-            try {
                 if (tipoPieza.equals("poblado")) {
                     jugador.construirPieza(tipoPieza, ubicaciones);
                     vista.cambiarFormaYColorPoblado(jugador.obtenerColor());
@@ -42,11 +41,7 @@ public class ControladorVertice {
                     vista.cambiarFormaACiudad(jugador.obtenerColor());
                     actualizarAdyacentes();
                 }
-            } catch (SinRecursos | RecursoIncorrecto error) {
-                System.out.println("Faltan recursos: " + error.getMessage());
-            } catch (Exception error) {
-                System.out.println("Movimiento invalido: " + error.getMessage());
-            }
+
         });
     }
 

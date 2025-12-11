@@ -22,6 +22,7 @@ public class ControladorArista {
     List<Ubicacion> ubicaciones;
     private Button boton;
     private JuegoObservable modeloObservable;
+
     public ControladorArista(VistaArista vista, Arista modelo) {
         this.vista = vista;
         this.modelo = modelo;

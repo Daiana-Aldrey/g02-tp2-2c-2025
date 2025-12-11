@@ -292,10 +292,13 @@ public class VistaJuego extends BorderPane implements Observador {
     public void setTablero(VistaTablero vistaTablero) {
         this.vistaTablero = vistaTablero;
         vertices = vistaTablero.getVertices();
-        List<VistaArista> arista = vistaTablero.getArista();
-        vistaPieza.setVerticesArista(vertices, arista);
+        List<VistaArista> aristas = vistaTablero.getArista();
+        vistaPieza.setVerticesArista(vertices, aristas);
         for (VistaLadron boton : vistaTablero.getBotonesLadron()) {
             boton.inicializarControlador(modelo);
+        }
+        for (VistaArista arista: aristas) {
+            arista.setModeloObservable(modelo);
         }
     }
 

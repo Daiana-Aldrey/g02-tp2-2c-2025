@@ -289,6 +289,7 @@ public class Jugador {
         //return new Recurso Nulo(); para no usar null
     }
 
+
     public List<Camino> getCaminos() {
         return caminos;
     }
@@ -320,7 +321,7 @@ public class Jugador {
     public boolean gano() {
         return puntosDeVictoria >= 10;
     }
-    
+
     public String nombre() {
         return nombre;
     }
@@ -348,12 +349,12 @@ public class Jugador {
     public boolean pobladosInicialesColocados() {
     	return (poblados.size() == 2);
     }
-    
+
     public int caballerosJugados() {
         return caballerosJugados;
     }
 
-    
+
     public List<Recurso> recursos(){
         return recursos;
     }
@@ -379,5 +380,14 @@ public class Jugador {
         return ruta;
     }
 
+    public Recurso buscarRecurso(String nombre) {
+        Recurso recursoEncontrado = new RecursoNulo();
+        for (Recurso r : recursos) {
+            if (r.sosRecurso(nombre)) {
+                recursoEncontrado = r;
+            }
+        }
+        return recursoEncontrado;
+    }
 }
-  
+
