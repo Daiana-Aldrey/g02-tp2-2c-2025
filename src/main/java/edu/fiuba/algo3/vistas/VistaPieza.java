@@ -2,6 +2,7 @@ package edu.fiuba.algo3.vistas;
 
 import edu.fiuba.algo3.controllers.ControladorPieza;
 import edu.fiuba.algo3.modelo.*;
+import edu.fiuba.algo3.modelo.CartaDeBonificacion.BonificadorRutaMayor;
 import javafx.scene.Cursor;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
@@ -12,15 +13,18 @@ import java.util.List;
 
 public class VistaPieza extends HBox {
     private ControladorPieza controlador;
+    private VistaRecursos vistaRecursos;
     private Button btnCancelar;
     private Button btnCiudad;
     private Button btnPoblado;
     private Button btnCamino;
     
-    public VistaPieza() {
+    public VistaPieza(VistaRecursos vistaRecursos) {
     	this.btnCiudad = new Button();
         this.btnPoblado = new Button();
         this.btnCamino = new Button();
+
+        this.vistaRecursos = vistaRecursos;
         setSpacing(20);
 
         Image iconoCiudad = new Image("edificio.png");
@@ -53,7 +57,7 @@ public class VistaPieza extends HBox {
         btnCancelar.setVisible(false);
 
 
-        controlador = new ControladorPieza(this, btnCiudad, btnCamino, btnPoblado, btnCancelar);
+        controlador = new ControladorPieza(this, btnCiudad, btnCamino, btnPoblado, btnCancelar, vistaRecursos);
 
 
         getChildren().addAll(btnCiudad,btnPoblado,btnCamino);
@@ -119,9 +123,18 @@ public class VistaPieza extends HBox {
         disenioBotonActivado(btnCamino);
     }
 
-    public void deshabilitarTodosLosBotones() {
-        disenioDesactivado(btnCamino);
-        disenioDesactivado(btnPoblado);
-        disenioDesactivado(btnCiudad);
+    public Button obtenerBotonCiudad() {
+        return btnCiudad;
+    }
+
+    public Button obtenerBotonPoblado() {
+        return btnPoblado;
+    }
+    public Button obtenerBotonCamino() {
+        return btnCamino;
+    }
+
+    public void setBonificador(BonificadorRutaMayor bonificadorRutaMayor) {
+        controlador.setBonificador(bonificadorRutaMayor);
     }
 }

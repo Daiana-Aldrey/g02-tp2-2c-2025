@@ -81,11 +81,11 @@ public class Jugador {
     }
 
 	private void inicializarRecursos() {
-		recursos.add(new Madera());
-        recursos.add(new Mineral());
-        recursos.add(new Ladrillo());
-        recursos.add(new Lana());
-        recursos.add(new Grano());
+		recursos.add(new Madera(10));
+        recursos.add(new Mineral(10));
+        recursos.add(new Ladrillo(10));
+        recursos.add(new Lana(2));
+        recursos.add(new Grano(2));
 	}
 	
 	public void recibirRecurso(Recurso recursoARecibir, int cantidad) {

@@ -12,9 +12,13 @@ import edu.fiuba.algo3.modelo.Tablero.VerticeTerreno;
 import edu.fiuba.algo3.modelo.Tablero.Vertice;
 import edu.fiuba.algo3.modelo.Ubicacion.UbicacionVertice;
 import edu.fiuba.algo3.Excepciones.NoTieneCarta;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class JuegoObservable extends Observable {
+
     private final Juego juego;
     private int[] ultimaTirada; 
     private List<Recurso> ofertaActual;
@@ -132,7 +136,7 @@ public class JuegoObservable extends Observable {
             yaMostrados.add(actual);
             notificarObservadores("PRIMER_TURNO");
         }
-        
+
         notificarObservadores("TURNO");
     }
     
@@ -449,4 +453,9 @@ public class JuegoObservable extends Observable {
         this.esperandoMovimientoLadron = true;
         notificarObservadores("LADRON");
     }
+
+    public BonificadorRutaMayor getBonificadorRutaMayor() {
+        return juego.obtenerBonificadorRutaMayor();
+    }
+
 }

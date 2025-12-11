@@ -1,11 +1,13 @@
 package edu.fiuba.algo3.controllers;
 
+import edu.fiuba.algo3.modelo.CartaDeBonificacion.BonificadorRutaMayor;
 import edu.fiuba.algo3.modelo.JuegoObservable;
 import edu.fiuba.algo3.modelo.Jugador;
 import edu.fiuba.algo3.modelo.NoJugador;
 import edu.fiuba.algo3.modelo.Tablero.Arista;
 import edu.fiuba.algo3.modelo.Ubicacion.Ubicacion;
 import edu.fiuba.algo3.vistas.VistaArista;
+import edu.fiuba.algo3.vistas.VistaRecursos;
 import javafx.scene.control.Button;
 import edu.fiuba.algo3.Excepciones.*;
 
@@ -23,6 +25,8 @@ public class ControladorArista {
     private Button boton;
     private JuegoObservable modeloObservable;
 
+    BonificadorRutaMayor bonificador;
+
     public ControladorArista(VistaArista vista, Arista modelo) {
         this.vista = vista;
         this.modelo = modelo;
@@ -34,6 +38,8 @@ public class ControladorArista {
         ubicaciones.add(this.ubicacion1);
         ubicaciones.add(this.ubicacion2);
 
+        bonificador = null;
+        boton = null;
     }
     public void setBoton(Button boton) {
         this.boton = boton;
@@ -44,7 +50,7 @@ public class ControladorArista {
     }
 
 
-    public void construirPieza(String tipoPieza) {
+    public void construirPieza(String tipoPieza, VistaRecursos vistaRecursos) {
         boton.setOnAction(e -> {
             try {//PARA CARTA CONTRUCCION CARRETERA
                 if (modeloObservable.estaEnModoConstruccionCarreteras()) {
@@ -54,6 +60,8 @@ public class ControladorArista {
                 }
                 jugador.construirPieza(tipoPieza, ubicaciones);
                 vista.cambiarFormaYColor(jugador.obtenerColor());
+                vistaRecursos.actualizarRecursos(jugador.recursos());
+                bonificador.bonificarPorRutaMayor();
             } catch (RecursoIncorrecto | SinRecursos error) {
                 System.out.println("Faltan recursos para el camino");
             } catch (Exception error) {
@@ -71,5 +79,10 @@ public class ControladorArista {
 	    modelo.colocarPiezaInicialObservable("camino", ubicaciones);
 	    vista.cambiarFormaYColor(modelo.juego().jugadorActual().obtenerColor());
         });
+    }
+
+    public void setBonificador(BonificadorRutaMayor bonificador) {
+        this.bonificador = bonificador;
+
     }
 }

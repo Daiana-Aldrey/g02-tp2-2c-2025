@@ -1,5 +1,6 @@
 package edu.fiuba.algo3.vistas;
 import edu.fiuba.algo3.controllers.ControladorArista;
+import edu.fiuba.algo3.modelo.CartaDeBonificacion.BonificadorRutaMayor;
 import edu.fiuba.algo3.modelo.Jugador;
 import edu.fiuba.algo3.modelo.JuegoObservable;
 import edu.fiuba.algo3.modelo.Tablero.Arista;
@@ -66,6 +67,10 @@ public class VistaArista extends Group {
     public void setJugador(Jugador jugador) {
         controlador.setJugador(jugador);
     }
+    
+    public void setBonificador(BonificadorRutaMayor bonificador) {
+        controlador.setBonificador(bonificador);
+    }
 
     public void agregarVistaVerticeAdyacente(VistaVerticeEdificio adyacente) {
         verticesAdyacentes.add(adyacente);
@@ -122,8 +127,8 @@ public class VistaArista extends Group {
         getChildren().add(camino);
     }
     
-    public void habilitarConstruccion(String pieza) {
-        controlador.construirPieza(pieza);
+    public void habilitarConstruccion(String pieza, VistaRecursos vistaRecursos) {
+        controlador.construirPieza(pieza, vistaRecursos);
     }
     
     public void setComportamientoInicial(JuegoObservable modelo) {

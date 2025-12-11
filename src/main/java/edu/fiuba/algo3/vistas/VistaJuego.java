@@ -27,6 +27,10 @@ public class VistaJuego extends BorderPane implements Observador {
     private final VBox iconoJugador;
     private final Button tirarDadoBtn;
     private final Button pasarTurnoBtn;
+    private final Button botonCiudad;
+    private final Button botonCamino;
+    private final Button botonPoblado;
+    private final Button botonCancelar;
 
     private VistaRecursos vistaRecursos;
     private VistaPropuesta vistaPropuesta;
@@ -158,8 +162,11 @@ public class VistaJuego extends BorderPane implements Observador {
         contenedorRecursos.setAlignment(Pos.CENTER_LEFT);
 
         // Botones de Pieza
-        this.vistaPieza = new VistaPieza();
-        Button botonCancelar = vistaPieza.obtenerBotonCancelar();
+        this.vistaPieza = new VistaPieza(vistaRecursos);
+        botonCancelar = vistaPieza.obtenerBotonCancelar();
+        botonCamino = vistaPieza.obtenerBotonCamino();
+        botonPoblado = vistaPieza.obtenerBotonPoblado();
+        botonCiudad = vistaPieza.obtenerBotonCiudad();
 
         // organizador barra derecha
         HBox controlesDerecha = new HBox(15, bankBtn, intercambiarBtn, verCartasBtn,vistaPieza,tirarDadoBtn, grupoFinDeTurno);
@@ -209,16 +216,18 @@ public class VistaJuego extends BorderPane implements Observador {
                     
                     boolean pusoPoblado = modelo.yaPusoPobladoInicial();
                     boolean pusoCamino = modelo.yaPusoCaminoInicial();
-                    if (pusoPoblado && pusoCamino) {
+                    if (pusoPoblado && pusoCamino && !botonCancelar.isVisible()) {
                         habilitarBotonPasarTurno();
                     } else {
                         deshabilitarBotonPasarTurno();
                     }
 
                 } else {
+                    visibilizarBotonDadosTurnoGeneral();
                     actualizarVistaPieza(modelo.juego().jugadorActual());
-                    visibilizarBotonDados();   
-                    deshabilitarBotonPasarTurno(); 
+                    if (botonCancelar.isVisible()) {
+                        deshabilitarBotonPasarTurno();
+                    }
                 }
             }
             if (msg.equals("NUEVA_PROPUESTA") || msg.equals("PROPUESTA_CERRADA")) {
@@ -280,9 +289,11 @@ public class VistaJuego extends BorderPane implements Observador {
         mostrarEstado("Tirada: " + d1 + " + " + d2 + " = " + suma);
     }
 
-    private void visibilizarBotonDados() {
+    private void visibilizarBotonDadosTurnoGeneral() {
         tirarDadoBtn.setDisable(false);
-        vistaPieza.deshabilitarTodosLosBotones();
+        botonCiudad.setDisable(false);
+        botonCamino.setDisable(false);
+        botonPoblado.setDisable(false);
     }
 
     private void invisibilizarBotonDados() {
@@ -294,6 +305,7 @@ public class VistaJuego extends BorderPane implements Observador {
         vertices = vistaTablero.getVertices();
         List<VistaArista> aristas = vistaTablero.getArista();
         vistaPieza.setVerticesArista(vertices, aristas);
+        vistaPieza.setBonificador(modelo.getBonificadorRutaMayor());
         for (VistaLadron boton : vistaTablero.getBotonesLadron()) {
             boton.inicializarControlador(modelo);
         }
@@ -338,7 +350,7 @@ public class VistaJuego extends BorderPane implements Observador {
         boolean pusoPoblado = modelo.yaPusoPobladoInicial();
         boolean pusoCamino = modelo.yaPusoCaminoInicial();
 
-        if (pusoPoblado && pusoCamino) {
+        if (pusoPoblado && pusoCamino && !botonCancelar.isVisible()) {
             habilitarBotonPasarTurno();
         } else {
             deshabilitarBotonPasarTurno();

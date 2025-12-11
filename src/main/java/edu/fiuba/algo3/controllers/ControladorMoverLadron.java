@@ -5,6 +5,7 @@ import edu.fiuba.algo3.modelo.Jugador;
 import edu.fiuba.algo3.modelo.Ubicacion.UbicacionVertice;
 import edu.fiuba.algo3.Excepciones.VictimaInvalida;
 import edu.fiuba.algo3.Excepciones.ColocacionInvalida;
+import edu.fiuba.algo3.vistas.VistaLadron;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ChoiceDialog;
 import java.util.ArrayList;
@@ -13,11 +14,13 @@ import java.util.Optional;
 
 public class ControladorMoverLadron {
     private JuegoObservable modelo;
-    private UbicacionVertice ubicacionDelTerreno; 
+    private UbicacionVertice ubicacionDelTerreno;
+    private VistaLadron vista;
 
-    public ControladorMoverLadron(JuegoObservable modelo, UbicacionVertice ubicacion) {
+    public ControladorMoverLadron(JuegoObservable modelo, UbicacionVertice ubicacion, VistaLadron vista) {
         this.modelo = modelo;
         this.ubicacionDelTerreno = ubicacion;
+        this.vista = vista;
     }
 
     public void manejarClick() {
@@ -44,6 +47,7 @@ public class ControladorMoverLadron {
                 nombreParaBackend = resultado.get();
                 modelo.moverLadronObservable(ubicacionDelTerreno, nombreParaBackend);
             }
+            vista.colocarLadron();
 
         } catch (VictimaInvalida e) {
             mostrarAlerta("Error de Robo", "Ese jugador no tiene construcciones adyacentes.");

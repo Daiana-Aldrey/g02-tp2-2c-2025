@@ -56,7 +56,7 @@ public class VistaLadron extends Button {
 
 
     public void inicializarControlador(JuegoObservable modelo) {
-        this.controlador = new ControladorMoverLadron(modelo, this.ubicacion);
+        this.controlador = new ControladorMoverLadron(modelo, this.ubicacion, this);
         
         this.setOnMouseClicked(e -> {
             controlador.manejarClick();
