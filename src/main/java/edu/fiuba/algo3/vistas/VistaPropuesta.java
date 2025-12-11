@@ -21,7 +21,7 @@ public class VistaPropuesta extends VBox {
     public VistaPropuesta(JuegoObservable modelo) {
         this.modelo = modelo;
         this.setStyle("-fx-background-color: rgba(236, 240, 241, 0.95); -fx-background-radius: 15; -fx-padding: 20; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.5), 10, 0, 0, 0);");
-        this.setMaxSize(340, 240); 
+        this.setMaxSize(250, 180); 
         this.setAlignment(Pos.CENTER);
         this.setVisible(false); 
 
