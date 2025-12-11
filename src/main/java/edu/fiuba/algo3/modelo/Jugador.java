@@ -285,8 +285,8 @@ public class Jugador {
                 return r;
             }
         }
-        return null;
-        //return new Recurso Nulo(); para no usar null
+        //return null;
+        return new RecursoNulo(); //para no usar null
     }
 
 

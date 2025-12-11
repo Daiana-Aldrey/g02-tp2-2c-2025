@@ -409,6 +409,7 @@ public class JuegoObservable extends Observable {
             modoConstruccionCarreteras = false;
             caminosCarta.clear();
             notificarObservadores("CONSTRUCCION");
+            notificarObservadores("CARTAS");
         }
     }
 

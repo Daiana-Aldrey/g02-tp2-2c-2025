@@ -3,6 +3,7 @@ package edu.fiuba.algo3.testUnitarios;
 import edu.fiuba.algo3.Excepciones.ErrorNoUsoDeCartaInvalido;
 import edu.fiuba.algo3.modelo.*;
 import edu.fiuba.algo3.modelo.CartaDeDesarrollo.Carta;
+import edu.fiuba.algo3.modelo.CartaDeDesarrollo.CartaPuntoVictoria;
 import edu.fiuba.algo3.modelo.Intercambio.Banco;
 import edu.fiuba.algo3.modelo.Recurso.*;
 import org.junit.jupiter.api.Test;
@@ -87,8 +88,8 @@ public class CartaDesarrolloCompradaTest {
         jugador.recibirRecurso(new Grano(), 1);
         jugador.recibirRecurso(new Mineral(), 1);
 
-        Carta carta = banco.venderCartaDesarrollo(jugador);
-
+        Carta carta = new CartaPuntoVictoria();
+        jugador.recibirCartaDesarrollo(carta);
         jugador.prepararCartasDesarrolloParaNuevoTurno();
         assertDoesNotThrow(() -> jugador.jugarCartaDesarrollo(carta));
         assertEquals(0, jugador.obtenerCartasDesarrollo().size(), "Después de usarla carta,no debe quedar en el mazo de desarrollo.");

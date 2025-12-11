@@ -223,57 +223,6 @@ public class VistaCartasDesarrollo {
         return List.of();
     }
 
-    /*public ConfiguracionCaballero mostrarDialogoCaballero() {
-        TextInputDialog dialogoVictima = new TextInputDialog();
-        dialogoVictima.setTitle("Carta Caballero");
-        dialogoVictima.setHeaderText("Elegí al jugador víctima");
-        dialogoVictima.setContentText("Nombre del jugador a robar:");
-
-        Optional<String> resultadoVictima = dialogoVictima.showAndWait();
-        String nombreVictima = resultadoVictima.get().trim();
-
-        TextInputDialog dialogoDestino = new TextInputDialog();
-        dialogoDestino.setTitle("Carta Caballero");
-        //si no tengo un MODO LADRON lo hago
-        //dialogoDestino.setHeaderText("Elegí la casilla donde mover al ladrón");
-        //dialogoDestino.setContentText("en que vertice");
-
-        Optional<String> resultadoDestino = dialogoDestino.showAndWait();
-
-        String textoDestino = resultadoDestino.get().trim().toUpperCase();
-        char idVertice = textoDestino.charAt(0);
-        UbicacionVertice destino = new UbicacionVertice(idVertice);
-        return new ConfiguracionCaballero(destino, nombreVictima);
-    }*/
-
-    public ConfiguracionCarreteras mostrarDialogoConstruccionCarreteras() {
-        TextInputDialog dialogoCamino1 = new TextInputDialog();
-        dialogoCamino1.setTitle("Carta Construcción de carreteras");
-        dialogoCamino1.setHeaderText("Primer camino");
-        dialogoCamino1.setContentText("Ingresá dos vértices :");
-        Optional<String> res1 = dialogoCamino1.showAndWait();
-        List<Ubicacion> camino1;
-        try {
-            camino1 = parsearCamino(res1.get());
-        } catch (Exception e) {
-            mostrarError("Formato inválido");
-            return null;
-        }
-        TextInputDialog dialogoCamino2 = new TextInputDialog();
-        dialogoCamino2.setTitle("Carta Construcción de carreteras");
-        dialogoCamino2.setHeaderText("Segundo camino");
-        dialogoCamino2.setContentText("Ingresá dos vértices ");
-        Optional<String> res2 = dialogoCamino2.showAndWait();
-        List<Ubicacion> camino2;
-        try {
-            camino2 = parsearCamino(res2.get());
-        } catch (Exception e) {
-            mostrarError("Formato inválido");
-            return null;
-        }
-
-        return new ConfiguracionCarreteras(camino1, camino2);
-    }
 
     private List<Ubicacion> parsearCamino(String texto) {
         String[] partes = texto.trim().toUpperCase().split("-");

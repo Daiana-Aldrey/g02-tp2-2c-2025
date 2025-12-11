@@ -55,9 +55,6 @@ public class ControladorCartasDesarrollo {
             }
 
             else if ("Construccion de carreteras".equals(nombreCarta)) {
-//                VistaCartasDesarrollo.ConfiguracionCarreteras config = vista.mostrarDialogoConstruccionCarreteras();
-//                modelo.activarModoConstruccionCarreteras();
-//                vista.mostrarMensaje("Carta usada", "Elegí dos caminos en el tablero. Se construiran gratis.");
                 modelo.activarModoConstruccionCarreteras();
                 vista.mostrarMensaje("Construcción de Carreteras", "Elegí dos caminos en el tablero. Se van a construir gratis."
                 );
