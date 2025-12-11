@@ -7,7 +7,9 @@ import edu.fiuba.algo3.observador.Observable;
 import edu.fiuba.algo3.modelo.Recurso.*;
 import edu.fiuba.algo3.modelo.Intercambio.*;
 import edu.fiuba.algo3.modelo.CartaDeDesarrollo.*;
-
+import edu.fiuba.algo3.modelo.Tablero.Tablero;
+import edu.fiuba.algo3.modelo.Tablero.VerticeTerreno;
+import edu.fiuba.algo3.modelo.Tablero.Vertice;
 import edu.fiuba.algo3.modelo.Ubicacion.UbicacionVertice;
 import edu.fiuba.algo3.Excepciones.NoTieneCarta;
 import java.util.ArrayList;
@@ -379,5 +381,22 @@ public class JuegoObservable extends Observable {
 
     public Jugador obtenerJugadorConGranCaballeria(){
         return juego.obtenerCartaGranCaballeria().obtenerBonificado();
+    }
+    
+    public List<String> obtenerVictimasPosibles(UbicacionVertice ubicacionHexagono) {
+        List<String> victimas = new ArrayList<>();
+        Vertice vertice = Tablero.getInstance().getTerreno(ubicacionHexagono);
+        
+        if (vertice instanceof VerticeTerreno) {
+            VerticeTerreno terreno = (VerticeTerreno) vertice;
+            for (Jugador j : juego.jugadores()) {
+                if (!j.equals(juego.jugadorActual())) {
+                    if (terreno.poseePiezaAdyacente(j)) {
+                        victimas.add(j.nombre());
+                    }
+                }
+            }
+        }
+        return victimas;
     }
 }

@@ -21,38 +21,34 @@ public class ControladorMoverLadron {
     }
 
     public void manejarClick() {
-    	if (!modelo.esTurnoLadron()) {
+        if (!modelo.esTurnoLadron()) {
             return;
         }
 
         try {
-            Jugador victimaElegida = null;
-            List<String> opciones = new ArrayList<>();
-            opciones.add("Nadie");
-            String nombreActual = modelo.getNombreJugadorActual();
-            for (Jugador j : modelo.getJugadores()) {
-                if (!j.nombre().equals(nombreActual)) {
-                    opciones.add(j.nombre());
-                }
+            List<String> opciones = modelo.obtenerVictimasPosibles(ubicacionDelTerreno);
+            
+            String nombreParaBackend = null;
+            if (opciones.isEmpty()) {
+                modelo.moverLadronObservable(ubicacionDelTerreno, null);
+                return; 
             }
-
-            ChoiceDialog<String> dialog = new ChoiceDialog<>("Nadie", opciones);
+            ChoiceDialog<String> dialog = new ChoiceDialog<>(opciones.get(0), opciones);
             dialog.setTitle("Mover Ladrón");
             dialog.setHeaderText("Has movido al ladrón a esta ubicación.");
-            dialog.setContentText("Elige a quién robarle (si hay alguien adyacente):");
+            dialog.setContentText("Elige a la víctima:");
 
             Optional<String> resultado = dialog.showAndWait();
 
             if (resultado.isPresent()) {
-                String nombreSeleccionado = resultado.get();
-                String nombreParaBackend = nombreSeleccionado.equals("Nadie") ? null : nombreSeleccionado;
+                nombreParaBackend = resultado.get();
                 modelo.moverLadronObservable(ubicacionDelTerreno, nombreParaBackend);
             }
 
         } catch (VictimaInvalida e) {
-            mostrarAlerta("Error de Robo", "Ese jugador no tiene construcciones adyacentes a este terreno.");
+            mostrarAlerta("Error de Robo", "Ese jugador no tiene construcciones adyacentes.");
         } catch (ColocacionInvalida e) {
-            mostrarAlerta("Movimiento Inválido", "El ladrón ya está en ese lugar o es inválido.");
+            mostrarAlerta("Movimiento Inválido", "El ladrón ya está aquí o posición inválida.");
         } catch (Exception e) {
             mostrarAlerta("Error", e.getMessage());
         }
