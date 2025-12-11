@@ -55,7 +55,7 @@ public class ControladorVertice {
             try {
                 modelo.colocarPiezaInicialObservable("poblado", ubicaciones);
                 vista.cambiarFormaYColorPoblado(modelo.juego().jugadorActual().obtenerColor());
-                
+                actualizarAdyacentes();
             } catch (Exception error) {
                 System.out.println("No se puede colocar inicial: " + error.getMessage());
             }

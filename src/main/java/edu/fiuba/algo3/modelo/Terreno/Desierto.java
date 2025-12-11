@@ -9,7 +9,6 @@ public class Desierto extends Terreno {
 	
 	@Override
 	public void repartirRecurso(List<Pieza> edificios) {
-	    throw new SinRecursos("No se puede repartir el recurso al desierto");
 	}
 
 }
