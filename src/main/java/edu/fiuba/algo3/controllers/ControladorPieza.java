@@ -4,7 +4,6 @@ import edu.fiuba.algo3.modelo.*;
 import edu.fiuba.algo3.modelo.Recurso.Recurso;
 import edu.fiuba.algo3.vistas.*;
 import javafx.scene.control.Button;
-import javafx.scene.text.Text;
 
 import java.util.List;
 
@@ -163,7 +162,7 @@ public class ControladorPieza {
             vistaVerticeEdificio.setJugador(jugador);
             vistaVerticeEdificio.resaltarPoblado(jugador);
             vistaVerticeEdificio.habilitarConstruccion("ciudad", vistaRecursos);
-            //vistaVerticeEdificio.mostrarVerticeDisponible();
+
         }
         vistaJuego.deshabilitarBotonPasarTurno();
     }
@@ -230,7 +229,7 @@ public class ControladorPieza {
     public void setVistaJuego(VistaJuego vistaJuego) {
         this.vistaJuego = vistaJuego;
     }
-    
+
     public void darComportamientoInicial(JuegoObservable modelo) {
         vista.disenioBotonActivado(btnPoblado);
         btnPoblado.setOnAction(e -> {
@@ -277,12 +276,12 @@ public class ControladorPieza {
         vista.disenioDesactivado(btnCiudad);
 
         for (VistaVerticeEdificio vistaVertice : vertices) {
-            vistaVertice.setComportamientoInicial(modelo); 
+            vistaVertice.setComportamientoInicial(modelo);
             vistaVertice.mostrarVerticeDisponible();
         }
         vistaJuego.deshabilitarBotonPasarTurno();
     }
-    
+
 
     public void comportamientoBotonCaminoInicial(JuegoObservable modelo) {
         btnCancelar.setVisible(true);

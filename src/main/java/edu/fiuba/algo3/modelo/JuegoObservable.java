@@ -258,7 +258,6 @@ public class JuegoObservable extends Observable {
 
     public void construirPiezaObervable(String tipo, List<Ubicacion> ubicacion){
         juego.jugadorActual().construirPieza(tipo, ubicacion);
-        notificarObservadores("RECURSOS");
         notificarObservadores("CONSTRUCCION");
         notificarObservadores("PV");
     }

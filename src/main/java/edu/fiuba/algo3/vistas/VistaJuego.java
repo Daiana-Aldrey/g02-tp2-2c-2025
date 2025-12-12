@@ -279,6 +279,7 @@ public class VistaJuego extends BorderPane implements Observador {
                     ladron.sacarLadron();
                     ladron.sacarDisponibles();
                 }
+                actualizarVistaPieza(modelo.juego().jugadorActual());
             }
         }
     }
