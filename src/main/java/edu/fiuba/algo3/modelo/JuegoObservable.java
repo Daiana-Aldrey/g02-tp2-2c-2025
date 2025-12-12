@@ -260,6 +260,7 @@ public class JuegoObservable extends Observable {
         juego.jugadorActual().construirPieza(tipo, ubicacion);
         notificarObservadores("RECURSOS");
         notificarObservadores("CONSTRUCCION");
+        notificarObservadores("PV");
     }
 
     public List<Map<String, String>> obtenerCartasDesarrolloJugadorActual() {

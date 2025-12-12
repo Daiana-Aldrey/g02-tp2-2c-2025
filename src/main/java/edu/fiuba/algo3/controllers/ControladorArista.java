@@ -54,13 +54,13 @@ public class ControladorArista {
 
     public void construirPieza(String tipoPieza, VistaRecursos vistaRecursos) {
         boton.setOnAction(e -> {
-            try {//PARA CARTA CONTRUCCION CARRETERA
+            try {
                 if (modeloObservable.estaEnModoConstruccionCarreteras()) {
                     modeloObservable.registrarCaminoParaCarta(ubicaciones);
                     vista.cambiarFormaYColor(modeloObservable.juego().jugadorActual().obtenerColor());
                     return;
                 }
-                jugador.construirPieza(tipoPieza, ubicaciones);
+                modeloObservable.construirPiezaObervable(tipoPieza, ubicaciones);
                 vista.cambiarFormaYColor(jugador.obtenerColor());
                 bonificador.bonificarPorRutaMayor();
             } catch (RecursoIncorrecto | SinRecursos error) {

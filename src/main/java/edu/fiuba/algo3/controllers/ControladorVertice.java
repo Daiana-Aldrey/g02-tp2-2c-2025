@@ -21,6 +21,7 @@ public class ControladorVertice {
     Ubicacion ubicacion;
     List<Ubicacion> ubicaciones;
     private VistaJuego vistaJuego;
+    private JuegoObservable modeloObservable;
 
     public ControladorVertice(VistaVerticeEdificio vista, VerticeEdificio modelo) {
         this.vista = vista;
@@ -33,17 +34,22 @@ public class ControladorVertice {
         ubicaciones.add(this.ubicacion);
     }
 
+    public void setModeloObservable(JuegoObservable modeloObservable){ 
+    	this.modeloObservable = modeloObservable; 
+    }
+
+    
     public void colocarPieza(String tipoPieza, VistaRecursos vistaRecursos) {
         vista.setOnAction(e -> {
             try {
                 if (tipoPieza.equals("poblado")) {
-                    jugador.construirPieza(tipoPieza, ubicaciones);
+                	modeloObservable.construirPiezaObervable(tipoPieza, ubicaciones);
                     vista.cambiarFormaYColorPoblado(jugador.obtenerColor());
                     actualizarAdyacentes();
                     vistaRecursos.actualizarRecursos(jugador.recursos());
                 }
                 if (tipoPieza.equals("ciudad")) {
-                    jugador.construirPieza(tipoPieza, ubicaciones);
+                	modeloObservable.construirPiezaObervable(tipoPieza, ubicaciones);
                     vista.cambiarFormaACiudad(jugador.obtenerColor());
                     actualizarAdyacentes();
                     vistaRecursos.actualizarRecursos(jugador.recursos());

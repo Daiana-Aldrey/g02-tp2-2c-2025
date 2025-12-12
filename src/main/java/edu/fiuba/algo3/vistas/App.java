@@ -33,6 +33,7 @@ public class App extends Application {
 
         Juego juego = new Juego(jugadores);
 
+ 
         JuegoObservable modeloObservable = new JuegoObservable(juego);
         VistaJuego vistaJuego = new VistaJuego(modeloObservable);
 

@@ -163,6 +163,7 @@ public class ControladorPieza {
             vistaVerticeEdificio.setJugador(jugador);
             vistaVerticeEdificio.resaltarPoblado(jugador);
             vistaVerticeEdificio.habilitarConstruccion("ciudad", vistaRecursos);
+            //vistaVerticeEdificio.mostrarVerticeDisponible();
         }
         vistaJuego.deshabilitarBotonPasarTurno();
     }

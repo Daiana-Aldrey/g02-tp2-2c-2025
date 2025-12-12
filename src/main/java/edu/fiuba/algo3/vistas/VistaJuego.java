@@ -333,6 +333,7 @@ public class VistaJuego extends BorderPane implements Observador {
 
         for (VistaVerticeEdificio vistaVertice: vertices) {
             vistaVertice.setVistaJuego(this);
+            vistaVertice.setModeloObservable(modelo);
         }
     }
 

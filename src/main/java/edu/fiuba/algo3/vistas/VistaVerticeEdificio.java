@@ -150,4 +150,9 @@ public class VistaVerticeEdificio extends Button {
     public void setVistaJuego(VistaJuego vistaJuego) {
         controlador.setVistaJuego(vistaJuego);
     }
+    
+    public void setModeloObservable(JuegoObservable modelo) {
+        controlador.setModeloObservable(modelo);
+    }
+
 }
