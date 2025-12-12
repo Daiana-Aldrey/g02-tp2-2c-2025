@@ -60,13 +60,12 @@ public class JuegoObservable extends Observable {
 
         int suma = getSuma();
         juego.manejarTirada(suma);
+        notificarObservadores("RECURSOS");
 
         if (suma == 7){
         	this.esperandoMovimientoLadron = true;
             notificarObservadores("LADRON");
-        }else {
-	        notificarObservadores("RECURSOS");
-	    }
+        }
     }
     
     public boolean esTurnoLadron() {

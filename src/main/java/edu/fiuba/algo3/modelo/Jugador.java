@@ -5,7 +5,6 @@ import javafx.scene.paint.Color;
 import edu.fiuba.algo3.Excepciones.NoTieneCarta;
 import edu.fiuba.algo3.modelo.CartaDeBonificacion.RutaMayor;
 import edu.fiuba.algo3.modelo.CartaDeDesarrollo.Carta;
-import edu.fiuba.algo3.modelo.Intercambio.Puerto;
 import edu.fiuba.algo3.modelo.Pieza.*;
 import edu.fiuba.algo3.modelo.Recurso.*;
 import edu.fiuba.algo3.modelo.Tablero.Tablero;
@@ -87,16 +86,18 @@ public class Jugador {
 
 	private void inicializarRecursos() {
         Madera  madera = new Madera();
-        Mineral mineral = new Mineral();
         Ladrillo ladrillo = new Ladrillo();
         Lana lana = new Lana();
         Grano grano = new Grano();
+        Mineral mineral = new Mineral();
+
 		recursos.add(madera);
-        recursos.add(mineral);
         recursos.add(ladrillo);
         recursos.add(lana);
         recursos.add(grano);
-        recursosVector = new Recurso[]{madera, mineral, ladrillo, lana, grano};
+        recursos.add(mineral);
+
+        recursosVector = new Recurso[]{madera, ladrillo, lana, grano, mineral};
 	}
 	
 	public void recibirRecurso(Recurso recursoARecibir, int cantidad) {
@@ -155,26 +156,20 @@ public class Jugador {
     public void descartarMitad() {
         int total = totalRecursos();
         if (total <= 7) return;
+
         int aDescartar = total / 2;
-
         int i = 0;
-        while (aDescartar > 0 && i < recursos.size()) {
+
+        while (aDescartar > 0) {
             Recurso r = recursos.get(i);
-            int disponible = r.cantidad();
-            int tomar = Math.min(disponible, aDescartar);
-
-            if (tomar > 0) {
-                r.decrementar(tomar);
-                aDescartar -= tomar;
+            if (r.cantidad() > 0) {
+                r.decrementar(1);
+                aDescartar--;
             }
-
-            if (r.cantidad() == 0) {
-                recursos.remove(i);
-            } else {
-                i++;
-            }
+            i = (i + 1) % recursos.size();
         }
     }
+
 
     public void robarCartaAleatoriaA(Jugador victima) {
         List<Recurso> robables = new ArrayList<>();
