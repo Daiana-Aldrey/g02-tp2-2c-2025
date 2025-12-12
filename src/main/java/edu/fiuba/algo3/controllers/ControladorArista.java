@@ -62,13 +62,15 @@ public class ControladorArista {
                 }
                 jugador.construirPieza(tipoPieza, ubicaciones);
                 vista.cambiarFormaYColor(jugador.obtenerColor());
-                vistaRecursos.actualizarRecursos(jugador.recursos());
                 bonificador.bonificarPorRutaMayor();
             } catch (RecursoIncorrecto | SinRecursos error) {
-                System.out.println("Faltan recursos para el camino");
+                vistaJuego.mostrarAviso("Faltan recursos para el camino");
+            } catch (ColocacionInvalida error) {
+                vistaJuego.mostrarAviso("No puede colocar un camino independiente");
             } catch (Exception error) {
                  System.out.println("Error: " + error.getMessage());
             }
+            vistaRecursos.actualizarRecursos(jugador.recursos());
         });
     }
 

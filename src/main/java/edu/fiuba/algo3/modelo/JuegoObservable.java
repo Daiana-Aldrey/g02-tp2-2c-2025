@@ -12,6 +12,7 @@ import edu.fiuba.algo3.modelo.Tablero.VerticeTerreno;
 import edu.fiuba.algo3.modelo.Tablero.Vertice;
 import edu.fiuba.algo3.modelo.Ubicacion.UbicacionVertice;
 import edu.fiuba.algo3.Excepciones.NoTieneCarta;
+import edu.fiuba.algo3.vistas.VistaJuego;
 
 import java.util.*;
 
@@ -30,6 +31,7 @@ public class JuegoObservable extends Observable {
     private boolean esperandoMovimientoLadron;
     private boolean modoConstruccionCarreteras = false;
     private final List<List<Ubicacion>> caminosCarta = new ArrayList<>();
+    private VistaJuego vistaJuego;
 
     public JuegoObservable(Juego juego) {
         this.juego = juego;
@@ -102,13 +104,14 @@ public class JuegoObservable extends Observable {
 
     public void siguienteTurno() {
         if (!esFaseInicial() && !dadosTirados) {
-            throw new RuntimeException("Debes tirar los dados antes de pasar el turno."); 
+            vistaJuego.mostrarAviso("Debes tirar los dados antes de pasar el turno.");
+            throw new RuntimeException("Debes tirar los dados antes de pasar el turno.");
         }
         if (esFaseInicial() && (!pobladoInicialColocado || !caminoInicialColocado)) {
+            vistaJuego.mostrarAviso("Debes colocar 1 poblado y 1 camino.");
             throw new RuntimeException("Debes colocar 1 poblado y 1 camino.");
         }
         juego.finalizarTurnoActual();
-        
         if (juego.verificarVictoria()) {
             notificarObservadores("FIN_JUEGO");
             return; 
@@ -401,7 +404,7 @@ public class JuegoObservable extends Observable {
     }
 
     public Jugador obtenerJugadorConRutaMayor(){
-        return bonificadorRutaMayor.getRutaMayor().obtenerPropietario();
+        return bonificadorRutaMayor.obtenerBonificado();
     }
 
     public Jugador obtenerJugadorConGranCaballeria(){
@@ -432,5 +435,9 @@ public class JuegoObservable extends Observable {
 
     public BonificadorRutaMayor getBonificadorRutaMayor() {
         return juego.obtenerBonificadorRutaMayor();
+    }
+
+    public void setVistaJuego(VistaJuego vistaJuego) {
+        this.vistaJuego = vistaJuego;
     }
 }

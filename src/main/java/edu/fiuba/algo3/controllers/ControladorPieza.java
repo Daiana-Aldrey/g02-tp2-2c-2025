@@ -98,6 +98,7 @@ public class ControladorPieza {
             permitirVerBotonPoblado(jugador);
             permitirVerBotonCiudad(jugador);
             permitirVerBotonCamino(jugador);
+            vistaJuego.habilitarBotonPasarTurno();
             btnCancelar.setVisible(false);
         });
     }
@@ -114,6 +115,8 @@ public class ControladorPieza {
             vistaVertice.habilitarConstruccion("poblado", vistaRecursos);
             vistaVertice.mostrarVerticeDisponible();
         }
+
+        vistaJuego.deshabilitarBotonPasarTurno();
     }
 
     public void permitirVerBotonPoblado(Jugador jugador) {
@@ -137,6 +140,7 @@ public class ControladorPieza {
             vistaArista.habilitarConstruccion("camino", vistaRecursos);
             vistaArista.mostrarAristaDisponible();
         }
+        vistaJuego.deshabilitarBotonPasarTurno();
     }
 
     public void permitirVerBotonCamino(Jugador jugador) {
@@ -160,6 +164,7 @@ public class ControladorPieza {
             vistaVerticeEdificio.resaltarPoblado(jugador);
             vistaVerticeEdificio.habilitarConstruccion("ciudad", vistaRecursos);
         }
+        vistaJuego.deshabilitarBotonPasarTurno();
     }
 
     public void permitirVerBotonCiudad(Jugador jugador) {
@@ -180,10 +185,6 @@ public class ControladorPieza {
         int cantidadLadrillo = recursos[jugador.LADRILLO].cantidad();
         int cantidadMadera = recursos[jugador.MADERA].cantidad();
         int cantidadLana =  recursos[jugador.LANA].cantidad();
-
-        if (recursos[jugador.GRANO].esNulo() || recursos[jugador.LADRILLO].esNulo()) {
-            System.out.println("soy nulo");
-        }
 
         if (cantidadGrano > 0 && cantidadLadrillo > 0 && cantidadMadera > 0 && cantidadLana > 0) {
             permitido = true;
@@ -224,10 +225,13 @@ public class ControladorPieza {
     public void setArista(List<VistaArista> aristas) {
         this.aristas = aristas;
     }
+
+    public void setVistaJuego(VistaJuego vistaJuego) {
+        this.vistaJuego = vistaJuego;
+    }
     
     public void darComportamientoInicial(JuegoObservable modelo) {
         vista.disenioBotonActivado(btnPoblado);
-
         btnPoblado.setOnAction(e -> {
             if (!modelo.yaPusoPobladoInicial()) {
                 comportamientoBotonPobladoInicial(modelo);
@@ -261,6 +265,7 @@ public class ControladorPieza {
                 visiblePoblado = false;
             }
             btnCancelar.setVisible(false);
+            vistaJuego.habilitarBotonPasarTurno();
         });
     }
 
@@ -274,6 +279,7 @@ public class ControladorPieza {
             vistaVertice.setComportamientoInicial(modelo); 
             vistaVertice.mostrarVerticeDisponible();
         }
+        vistaJuego.deshabilitarBotonPasarTurno();
     }
     
 
@@ -287,6 +293,7 @@ public class ControladorPieza {
             vistaArista.mostrarAristaDisponible();
         }
         vista.disenioDesactivado(btnPoblado);
+        vistaJuego.deshabilitarBotonPasarTurno();
     }
 
 }

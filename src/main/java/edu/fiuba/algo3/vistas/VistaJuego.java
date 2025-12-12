@@ -34,11 +34,9 @@ public class VistaJuego extends BorderPane implements Observador {
     HBox barraSupI;
     private final Button tirarDadoBtn;
     private final Button pasarTurnoBtn;
-    private final Button botonCiudad;
-    private final Button botonCamino;
-    private final Button botonPoblado;
     private final Button botonCancelar;
     private Text textoAviso;
+    private Timeline timeline;
 
     private VistaRecursos vistaRecursos;
     private VistaPropuesta vistaPropuesta;
@@ -61,7 +59,7 @@ public class VistaJuego extends BorderPane implements Observador {
         this.setRight(vistaPuntaje);
         primerLadron = false;
 
-        pasarTurnoBtn = new Button();
+        modelo.setVistaJuego(this);
         
         StackPane panelCentral = new StackPane();
         panelCentral.setAlignment(Pos.CENTER);
@@ -102,7 +100,7 @@ public class VistaJuego extends BorderPane implements Observador {
         // botones
         Button verCartasBtn = new BotonAccion("Ver Cartas", new HandlerVerCartas(modelo,this));
         Button intercambiarBtn = new BotonAccion("Intercambiar", new HandlerIntercambio(modelo,this));
-        Button pasarTurnoBtn = new Button();
+        pasarTurnoBtn = new Button();
         pasarTurnoBtn.setOnAction(event -> {
             cerrarVentanasAbiertas();
             new HandlerPasarTurno(modelo).handle(event);
@@ -135,8 +133,8 @@ public class VistaJuego extends BorderPane implements Observador {
         ImageView viewTurno = new ImageView(new Image("pasar_turno.png"));
         viewTurno.setFitHeight(50);
         viewTurno.setPreserveRatio(true);
-        pasarTurnoBtn.setGraphic(viewTurno);
-        pasarTurnoBtn.setStyle("-fx-background-color: transparent; -fx-cursor: hand;");
+        this.pasarTurnoBtn.setGraphic(viewTurno);
+        this.pasarTurnoBtn.setStyle("-fx-background-color: transparent; -fx-cursor: hand;");
       
         //Banco
         Button bankBtn = new Button();
@@ -177,10 +175,8 @@ public class VistaJuego extends BorderPane implements Observador {
 
         // Botones de Pieza
         this.vistaPieza = new VistaPieza(vistaRecursos);
+        vistaPieza.setVistaPieza(this);
         botonCancelar = vistaPieza.obtenerBotonCancelar();
-        botonCamino = vistaPieza.obtenerBotonCamino();
-        botonPoblado = vistaPieza.obtenerBotonPoblado();
-        botonCiudad = vistaPieza.obtenerBotonCiudad();
 
         // organizador barra derecha
         HBox controlesDerecha = new HBox(15, bankBtn, intercambiarBtn, verCartasBtn,vistaPieza,tirarDadoBtn, grupoFinDeTurno);
@@ -189,6 +185,7 @@ public class VistaJuego extends BorderPane implements Observador {
         //barra
         HBox contenedorBotonCancelar = new HBox(botonCancelar);
         barraSupI = new HBox(contenedorBotonCancelar);
+        barraSupI.getChildren().add(0,textoAviso);
         contenedorBotonCancelar.setAlignment(Pos.CENTER_RIGHT);
         HBox.setHgrow(contenedorBotonCancelar, Priority.ALWAYS);
 
@@ -248,6 +245,7 @@ public class VistaJuego extends BorderPane implements Observador {
             if (msg.equals("NUEVA_PROPUESTA") || msg.equals("PROPUESTA_CERRADA")) {
             	vistaPropuesta.actualizarPropuesta();
                 vistaPropuesta.toFront();
+                actualizarVistaPieza(modelo.juego().jugadorActual());
                 
             }
             if(msg.equals("RECURSOS")){
@@ -285,12 +283,14 @@ public class VistaJuego extends BorderPane implements Observador {
         }
     }
     
-    private void habilitarBotonPasarTurno() {
+    public void habilitarBotonPasarTurno() {
         pasarTurnoBtn.setDisable(false);
+        pasarTurnoBtn.setCursor(Cursor.HAND);
     }
 
-    private void deshabilitarBotonPasarTurno() {
+    public void deshabilitarBotonPasarTurno() {
         pasarTurnoBtn.setDisable(true);
+        pasarTurnoBtn.setCursor(Cursor.DEFAULT);
     }
 
     private void actualizarJugador() {
@@ -348,7 +348,6 @@ public class VistaJuego extends BorderPane implements Observador {
         if (modelo.esFaseInicial()) {
         	configurarInterfazFaseInicial();
             invisibilizarBotonDados();
-            habilitarBotonPasarTurno();
 
             if(modelo.esFaseInicial()){
                 VistaInfo.mostrar("Atención", "En las primeras dos rondas cada jugdor deberá colocar un poblado y un camino, en ese orden.");
@@ -395,9 +394,13 @@ public class VistaJuego extends BorderPane implements Observador {
 
     public void mostrarAviso(String mensaje) {
         textoAviso.setText(mensaje);
-        barraSupI.getChildren().add(0,textoAviso);
+        textoAviso.setVisible(true);
 
-        Timeline timeline = new Timeline(
+        if (timeline != null) {
+            timeline.stop();
+        }
+
+        timeline = new Timeline(
                 new KeyFrame(Duration.seconds(5), e -> textoAviso.setVisible(false))
         );
 

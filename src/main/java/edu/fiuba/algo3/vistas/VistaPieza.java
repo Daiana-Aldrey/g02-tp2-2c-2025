@@ -134,4 +134,7 @@ public class VistaPieza extends HBox {
         return btnCamino;
     }
 
+    public void setVistaPieza(VistaJuego vistaJuego) {
+        controlador.setVistaJuego(vistaJuego);
+    }
 }

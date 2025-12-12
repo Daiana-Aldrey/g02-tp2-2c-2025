@@ -49,7 +49,7 @@ public class ControladorMoverLadron {
         } catch (VictimaInvalida e) {
             mostrarAlerta("Error de Robo", "No hay a quien robar.");
         } catch (ColocacionInvalida e) {
-            mostrarAlerta("Movimiento Inválido", "El ladrón ya está aquí o posición inválida.");
+            mostrarAlerta("Movimiento Inválido", "El ladrón ya está aquí");
         } catch (Exception e) {
             mostrarAlerta("Error", e.getMessage());
         }

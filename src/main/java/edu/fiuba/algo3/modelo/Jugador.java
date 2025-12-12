@@ -113,8 +113,8 @@ public class Jugador {
     public void construirPieza(String tipo, List<Ubicacion> ubicacion) {
         Pieza pieza = Pieza.crear(tipo, this);
         List<Recurso> precio = pieza.costoDeConstruccion();
-        pagarRecursos(precio);
         pieza.colocar(ubicacion);
+        pagarRecursos(precio);
     }
 
     public void pagarRecursos(List<Recurso> precio) {
