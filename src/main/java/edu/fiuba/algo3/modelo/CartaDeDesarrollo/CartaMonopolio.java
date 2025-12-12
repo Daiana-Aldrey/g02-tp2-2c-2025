@@ -10,7 +10,7 @@ import java.util.List;
 
 public class CartaMonopolio extends Carta {
 
-    private Recurso recursoElegido = new RecursoNulo();
+    private String nombreRecursoElegido;
     private final List<Jugador> victimas = new ArrayList<>();
 
 
@@ -19,11 +19,11 @@ public class CartaMonopolio extends Carta {
         descripcion = "Los demás jugadores deben entregarle todas las cartas del recurso que elija el jugador";
     }
 
-    public void configurarRecurso(Recurso recurso) {
-        if ( recurso.esNulo() ) {
+    public void configurarRecurso(String nombreRecurso) {
+        if ( nombreRecurso.isEmpty()  ) {
             throw new AccionNoPermitida("Elegi un recurso valido.");
         }
-        this.recursoElegido = recurso;
+        this.nombreRecursoElegido = nombreRecurso;
     }
     @Override
     public void configurarVictimas(List<Jugador> jugadores) {
@@ -36,16 +36,16 @@ public class CartaMonopolio extends Carta {
 
     @Override
     public void usar(Jugador ladron) {
-        if ( recursoElegido.esNulo() || victimas.isEmpty()) {
+        if ( nombreRecursoElegido == null|| victimas.isEmpty()) {
             throw new AccionNoPermitida("Debes configurar la carta Monopolio antes de usarla.");
         }
 
         for (Jugador victima : victimas) {
             if (!victima.equals(ladron)) {
-                victima.entregarTodo(recursoElegido, ladron);
+                victima.entregarTodo(nombreRecursoElegido, ladron);
             }
         }
-        this.recursoElegido = new RecursoNulo();
+        nombreRecursoElegido = null;
         this.victimas.clear();
     }
     @Override

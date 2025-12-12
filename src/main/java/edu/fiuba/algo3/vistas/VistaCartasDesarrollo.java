@@ -28,6 +28,7 @@ public class VistaCartasDesarrollo {
     private FlowPane panelCartas;
     private VBox layout;
 
+
     public VistaCartasDesarrollo(Stage ventana, JuegoObservable modelo) {
         this.ventana = ventana;
         this.modelo = modelo;
@@ -76,10 +77,20 @@ public class VistaCartasDesarrollo {
         ventana.setScene(escena);
         ventana.show();
     }
+    //MOSTRAR CARTAS COMPRADAS
+    public void mostrarCartasDesarrolloCompradas() {
+        List<Map<String, String>> cartas = modelo.obtenerCartasDesarrolloJugadorActual();
+        panelCartas.getChildren().clear();
+        for (Map<String, String> datos : cartas) {
+            panelCartas.getChildren().add(crearTarjetaCarta(datos));
+        }
+    }
 
 
     //Tarjeta de una carta
     private VBox crearTarjetaCarta(Map<String, String> datos) {
+        boolean usable = Boolean.parseBoolean(datos.get("usable"));
+
         VBox card = new VBox(10);
         card.setPadding(new Insets(10));
         card.setAlignment(Pos.CENTER);
@@ -127,24 +138,42 @@ public class VistaCartasDesarrollo {
         flowDescripcion.setLineSpacing(1);
 
         // Botón Usar
+        //boolean usable = Boolean.parseBoolean(datos.get("usable"));
+
         Button btnUsar = new Button("Usar");
         btnUsar.setStyle("-fx-background-color: #4b1f4f; -fx-text-fill: white; -fx-font-weight: bold;");
-        String nombreCarta = datos.get("nombre");
-        btnUsar.setOnAction(e -> controlador.manejarUsarCarta(nombreCarta));
         btnUsar.setCursor(Cursor.HAND);
 
+        String nombreCarta = datos.get("nombre");
+
+        if (!usable) {
+            btnUsar.setDisable(true);
+            btnUsar.setText("No usable este turno");
+            btnUsar.setStyle(
+                    "-fx-background-color: #999999;" +
+                            "-fx-text-fill: white;" +
+                            "-fx-font-weight: bold;" +
+                            "-fx-opacity: 0.7;"
+            );
+        } else {
+            btnUsar.setOnAction(e -> controlador.manejarUsarCarta(nombreCarta));
+        }
         card.getChildren().addAll(flowNombre, imgView, flowDescripcion, btnUsar);
         return card;
     }
 
     public void actualizarCartas() {
+        if (panelCartas == null) return;
         panelCartas.getChildren().clear();
 
         List<Map<String, String>> cartas = modelo.obtenerCartasDesarrolloJugadorActual();
+        System.out.println("UI -> cartas a dibujar: " + cartas.size());
 
         for (Map<String, String> datos : cartas) {
             panelCartas.getChildren().add(crearTarjetaCarta(datos));
         }
+        panelCartas.applyCss();
+        panelCartas.layout();
     }
 
     public void mostrarError(String mensaje) {
@@ -172,16 +201,6 @@ public class VistaCartasDesarrollo {
 
         Optional<String> resultado = dialogo.showAndWait();
 
-        /*if (resultado.isPresent()) {
-            String recursoElegido = resultado.get();
-            try {
-                modelo.configurarCartaMonopolio(recursoElegido);
-                modelo.usarCartaDesarrollo("Monopolio");
-                actualizarCartas();
-            } catch (Exception e) {
-                mostrarError("No se pudo usar Monopolio: " + e.getMessage());
-            }
-        }*/
         return resultado.orElse(null);
     }
 

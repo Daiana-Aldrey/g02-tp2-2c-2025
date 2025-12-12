@@ -13,6 +13,8 @@ public class CartaPuntoVictoria extends Carta {
     public void usar(Jugador jugador) {
         jugador.otorgarPuntos(PUNTOSGANADOS);
     }
-
-
+    @Override
+    public int puntosDeVictoriaOcultos() {
+        return 1;
+    }
 }

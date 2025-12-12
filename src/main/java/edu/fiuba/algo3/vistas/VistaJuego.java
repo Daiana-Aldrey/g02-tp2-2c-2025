@@ -282,6 +282,14 @@ public class VistaJuego extends BorderPane implements Observador {
                     ladron.sacarDisponibles();
                 }
             }
+            if (msg.equals("CARTA_CONSTRUCCION_CARRETERAS_ACTIVADA")) {
+                activarConstruccionCarreterasPorCarta();
+                mostrarEstado("Seleccioná dos caminos para construirlos gratis.");
+            }
+            if (msg.equals("FIN_CONSTRUCCION_CARRETERAS")) {
+                vistaPieza.cancelarSeleccionCaminoPorCarta();
+                mostrarEstado("Terminaste de usar la carta de carreteras.");
+            }
         }
     }
     
@@ -403,5 +411,8 @@ public class VistaJuego extends BorderPane implements Observador {
 
         timeline.setCycleCount(1);
         timeline.play();
+    }
+    public void activarConstruccionCarreterasPorCarta() {
+        vistaPieza.activarSeleccionCaminoPorCarta(modelo.juego().jugadorActual());
     }
 }

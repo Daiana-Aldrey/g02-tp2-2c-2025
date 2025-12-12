@@ -288,5 +288,29 @@ public class ControladorPieza {
         }
         vista.disenioDesactivado(btnPoblado);
     }
+    public void activarSeleccionCaminoPorCarta(Jugador jugador) {
+        btnCancelar.setVisible(true);
+        visibleCamino = true;
+
+        vista.disenioDesactivado(btnPoblado);
+        vista.disenioDesactivado(btnCiudad);
+        for (VistaArista arista : aristas) {
+            arista.setJugador(jugador);
+            arista.habilitarConstruccion("camino", vistaRecursos);
+            arista.mostrarAristaDisponible();
+        }
+    }
+    public void cancelarSeleccionCaminoPorCarta() {
+        if (visibleCamino) {
+            for (VistaArista arista : aristas) {
+                arista.invisibilizarVerticeDisponible();
+            }
+            permitirVerBotonPoblado(jugador);
+            permitirVerBotonCiudad(jugador);
+            visibleCamino = false;
+        }
+        btnCancelar.setVisible(false);
+    }
+
 
 }

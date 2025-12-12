@@ -332,17 +332,6 @@ public class Jugador {
         return nombre;
     }
 
-    public void entregarTodo(Recurso recursoModelo, Jugador ladron) {
-        Recurso miRecurso = this.buscarRecurso(recursoModelo);
-        if (miRecurso.esNulo()) {
-            return;
-        }
-        int cantidad = miRecurso.cantidad();
-        if (cantidad > 0) {
-            miRecurso.transferirA(ladron, cantidad);
-        }
-
-    }
     public void incluirRuta(BonificadorRutaMayor bonificadorRutaMayor) {
         bonificadorRutaMayor.agregarRuta(ruta);
     }
@@ -396,5 +385,22 @@ public class Jugador {
         }
         return recursoEncontrado;
     }
+    public void entregarTodo(String nombreRecurso, Jugador ladron) {
+        Recurso miRecurso = this.buscarRecurso(nombreRecurso);
+        if (miRecurso.esNulo()) {return;}
+        int cantidad = miRecurso.cantidad();
+        if (cantidad > 0) {
+            miRecurso.transferirA(ladron, cantidad);
+        }
+
+    }
+    public boolean esCartaRecienComprada(Carta carta) {
+        return cartasDesarrolloRecienCompradas.contains(carta);
+    }
+    public int cartasRecienCompradasSizeDebug() {
+        return cartasDesarrolloRecienCompradas.size();
+    }
+
+
 }
 

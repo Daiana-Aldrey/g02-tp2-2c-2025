@@ -56,8 +56,10 @@ public class ControladorCartasDesarrollo {
 
             else if ("Construccion de carreteras".equals(nombreCarta)) {
                 modelo.activarModoConstruccionCarreteras();
-                vista.mostrarMensaje("Construcción de Carreteras", "Elegí dos caminos en el tablero. Se van a construir gratis."
-                );
+                vista.mostrarMensaje("Construcción de carreteras", "Seleccioná dos caminos en el tablero para construirlos gratis.\n" + "Hacé clic en dos aristas disponibles.");
+            }else if ("Punto de victoria".equals(nombreCarta)) {
+                modelo.usarCartaDesarrollo(nombreCarta);
+                vista.mostrarMensaje("Punto de victoria", "Ganaste 1 punto de victoria.");
             }
             else {
                 modelo.usarCartaDesarrollo(nombreCarta);

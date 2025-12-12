@@ -20,7 +20,7 @@ public abstract class Carta {
 
 	public abstract void usar(Jugador jugador);
 
-    public void configurarRecurso(Recurso recurso) {}
+    public void configurarRecurso(String nombreRecurso) {}
     public void configurarVictimas(List<Jugador> victimas) {}
     public void configurarRecursos(List<Recurso>recursos) {}
     public void configurarLadron(UbicacionVertice destino, Jugador victima) {}

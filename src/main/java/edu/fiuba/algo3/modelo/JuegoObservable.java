@@ -30,6 +30,7 @@ public class JuegoObservable extends Observable {
     private boolean esperandoMovimientoLadron;
     private boolean modoConstruccionCarreteras = false;
     private final List<List<Ubicacion>> caminosCarta = new ArrayList<>();
+    private final Set<Jugador> yaMostrados = new HashSet<>();
 
     public JuegoObservable(Juego juego) {
         this.juego = juego;
@@ -123,6 +124,13 @@ public class JuegoObservable extends Observable {
         if (hayPropuestaPendiente && getNombreJugadorActual().equals(getNombreJugadorProponente())) {
             cerrarPropuesta();
         }
+        //CARTA
+        Jugador actual =juego().jugadorActual();
+        if (esFaseInicial() && !yaMostrados.contains(actual)) {
+            yaMostrados.add(actual);
+            notificarObservadores("PRIMER_TURNO");
+        }
+
 
         notificarObservadores("TURNO");
     }
@@ -175,14 +183,19 @@ public class JuegoObservable extends Observable {
         return Banco.getInstance().calcularTasaOptima(jugadorActual, recurso);
     }
     
+//    public boolean jugadorTieneRecurso(String nombreRecurso, int cantidadRequerida) {
+//        Jugador jugador = juego.jugadorActual();
+//        Recurso buscado = crearRecursoPorNombre(nombreRecurso);
+//        Recurso recursoReal = jugador.buscarRecurso(buscado);
+//
+//        if (recursoReal == null)
+//        	return false;
+//        return recursoReal.cantidad() >= cantidadRequerida;
+//    }
     public boolean jugadorTieneRecurso(String nombreRecurso, int cantidadRequerida) {
         Jugador jugador = juego.jugadorActual();
-        Recurso buscado = crearRecursoPorNombre(nombreRecurso);
-        Recurso recursoReal = jugador.buscarRecurso(buscado);
-        
-        if (recursoReal == null)
-        	return false;
-        return recursoReal.cantidad() >= cantidadRequerida;
+        Recurso recursoReal = jugador.buscarRecurso(nombreRecurso);
+        return !recursoReal.esNulo() && recursoReal.cantidad() >= cantidadRequerida;
     }
   
     public void crearPropuesta(List<Recurso> oferta, List<Recurso> demanda) {
@@ -268,7 +281,7 @@ public class JuegoObservable extends Observable {
 
             datos.put("nombre", carta.getNombre());
             datos.put("descripcion", carta.getDescripcion());
-
+            datos.put("usable", String.valueOf(!juego.jugadorActual().esCartaRecienComprada(carta)));
             String nombreClase = carta.getClass().getSimpleName();
             String imagen = nombreClase + ".png";
             datos.put("imagen", imagen);
@@ -301,6 +314,7 @@ public class JuegoObservable extends Observable {
                     notificarObservadores("RECURSOS");
                 }
                 notificarObservadores("CARTAS");
+                notificarObservadores("PV");
 
                 if (jugador.gano()) {
                     notificarObservadores("FIN_JUEGO");
@@ -311,18 +325,25 @@ public class JuegoObservable extends Observable {
         throw new NoTieneCarta("El jugador no tiene una carta de tipo " + nombreCarta);
     }
     public void comprarCartaDesarrollo() {
+        Jugador j = juego.jugadorActual();
+        System.out.println("ANTES comprar -> recien: " + j.cartasRecienCompradasSizeDebug()
+                + " total: " + j.obtenerCartasDesarrollo().size());
+
         juego.comprarCartaDesarrollo();
+
+        System.out.println("DESPUES comprar -> recien: " + j.cartasRecienCompradasSizeDebug()
+                + " total: " + j.obtenerCartasDesarrollo().size());
+
         notificarObservadores("RECURSOS");
         notificarObservadores("CARTAS");
     }
     public void configurarCartaMonopolio(String nombreRecurso) {
 
         Jugador jugadorActual = juego.jugadorActual();
-        Recurso recurso = crearRecursoPorNombre(nombreRecurso);
 
         for (Carta carta : jugadorActual.obtenerCartasDesarrollo()) {
             if (carta.getNombre().equals("Monopolio")) {
-                carta.configurarRecurso(recurso);
+                carta.configurarRecurso(nombreRecurso);
                 List<Jugador> victimas = new ArrayList<>();
                 for (Jugador j : juego.jugadores()) {
                     if (!j.equals(jugadorActual)) {
@@ -354,18 +375,6 @@ public class JuegoObservable extends Observable {
 
         throw new NoTieneCarta("No tenés una carta Descubrimiento.");
     }
-    
-    public void configurarCartaConstruccionCarreteras(List<Ubicacion> camino1, List<Ubicacion> camino2) {
-        Jugador jugadorActual = juego.jugadorActual();
-
-        for (Carta carta : jugadorActual.obtenerCartasDesarrollo()) {
-            if (carta.getNombre().equals("Construccion de carreteras")) {
-                carta.configurarCaminos(camino1, camino2);
-                return;
-            }
-        }
-        throw new NoTieneCarta("No tenés carta Construccion de carreteras.");
-    }
 
     private void agregarRutasBonificador(){
         for(Jugador jugador : juego.jugadores()){
@@ -375,6 +384,8 @@ public class JuegoObservable extends Observable {
     public void activarModoConstruccionCarreteras() {
         modoConstruccionCarreteras = true;
         caminosCarta.clear();
+        notificarObservadores("CARTA_CONSTRUCCION_CARRETERAS_ACTIVADA");
+
     }
 
     public boolean estaEnModoConstruccionCarreteras() {
@@ -433,4 +444,8 @@ public class JuegoObservable extends Observable {
     public BonificadorRutaMayor getBonificadorRutaMayor() {
         return juego.obtenerBonificadorRutaMayor();
     }
+    public void agregarYaMostrado(Jugador jugador) {
+        yaMostrados.add(jugador);
+    }
+
 }

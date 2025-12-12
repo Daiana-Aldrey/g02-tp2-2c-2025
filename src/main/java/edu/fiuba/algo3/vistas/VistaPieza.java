@@ -133,5 +133,12 @@ public class VistaPieza extends HBox {
     public Button obtenerBotonCamino() {
         return btnCamino;
     }
+    public void activarSeleccionCaminoPorCarta(Jugador jugador) {
+        controlador.activarSeleccionCaminoPorCarta(jugador);
+    }
+    public void cancelarSeleccionCaminoPorCarta() {
+        controlador.cancelarSeleccionCaminoPorCarta();
+    }
+
 
 }
