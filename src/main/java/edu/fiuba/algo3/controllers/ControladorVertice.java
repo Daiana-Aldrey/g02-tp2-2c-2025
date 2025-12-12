@@ -1,9 +1,12 @@
 package edu.fiuba.algo3.controllers;
 
+import edu.fiuba.algo3.Excepciones.ColocacionInvalida;
+import edu.fiuba.algo3.Excepciones.SinRecursos;
 import edu.fiuba.algo3.modelo.*;
 import edu.fiuba.algo3.modelo.NoJugador;
 import edu.fiuba.algo3.modelo.Tablero.VerticeEdificio;
 import edu.fiuba.algo3.modelo.Ubicacion.Ubicacion;
+import edu.fiuba.algo3.vistas.VistaJuego;
 import edu.fiuba.algo3.vistas.VistaRecursos;
 import edu.fiuba.algo3.vistas.VistaVerticeEdificio;
 
@@ -17,6 +20,7 @@ public class ControladorVertice {
     private Jugador jugador;
     Ubicacion ubicacion;
     List<Ubicacion> ubicaciones;
+    private VistaJuego vistaJuego;
 
     public ControladorVertice(VistaVerticeEdificio vista, VerticeEdificio modelo) {
         this.vista = vista;
@@ -31,6 +35,7 @@ public class ControladorVertice {
 
     public void colocarPieza(String tipoPieza, VistaRecursos vistaRecursos) {
         vista.setOnAction(e -> {
+            try {
                 if (tipoPieza.equals("poblado")) {
                     jugador.construirPieza(tipoPieza, ubicaciones);
                     vista.cambiarFormaYColorPoblado(jugador.obtenerColor());
@@ -43,7 +48,13 @@ public class ControladorVertice {
                     actualizarAdyacentes();
                     vistaRecursos.actualizarRecursos(jugador.recursos());
                 }
-
+            } catch (ColocacionInvalida e1) {
+                vistaJuego.mostrarAviso("No se permite colocar una pieza en ese lugar");
+            } catch (SinRecursos e2) {
+                vistaJuego.mostrarAviso("No tiene los suficientes recursos");
+            } catch (Exception error) {
+                System.out.println("Faltan recursos para el camino");
+            }
         });
     }
 
@@ -71,5 +82,9 @@ public class ControladorVertice {
         for (VistaVerticeEdificio adyacente : adyacentes) {
             adyacente.mostrarVerticeDisponible();
         }
+    }
+
+    public void setVistaJuego(VistaJuego vistaJuego) {
+        this.vistaJuego = vistaJuego;
     }
 }

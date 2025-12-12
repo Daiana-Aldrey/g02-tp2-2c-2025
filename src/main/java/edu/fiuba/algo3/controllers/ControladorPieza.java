@@ -1,15 +1,10 @@
 package edu.fiuba.algo3.controllers;
 
 import edu.fiuba.algo3.modelo.*;
-import edu.fiuba.algo3.modelo.CartaDeBonificacion.BonificadorRutaMayor;
-import edu.fiuba.algo3.modelo.Recurso.Grano;
 import edu.fiuba.algo3.modelo.Recurso.Recurso;
-import edu.fiuba.algo3.modelo.Tablero.Arista;
-import edu.fiuba.algo3.vistas.VistaArista;
-import edu.fiuba.algo3.vistas.VistaPieza;
-import edu.fiuba.algo3.vistas.VistaRecursos;
-import edu.fiuba.algo3.vistas.VistaVerticeEdificio;
+import edu.fiuba.algo3.vistas.*;
 import javafx.scene.control.Button;
+import javafx.scene.text.Text;
 
 import java.util.List;
 
@@ -26,8 +21,13 @@ public class ControladorPieza {
     private boolean visiblePoblado;
     private boolean visibleCiudad;
 
+    private boolean visibleBotonesCiudad;
+    private boolean visibleBotonesPoblados;
+    private boolean visibleBotonesCaminos;
+
     private List<VistaVerticeEdificio> vertices;
     private List<VistaArista> aristas;
+    private VistaJuego vistaJuego;
 
     public ControladorPieza(VistaPieza vistaPieza, Button btnCiudad, Button btnCamino, Button btnPoblado, Button btnCancelar, VistaRecursos vistaRecursos) {
         this.vista = vistaPieza;
@@ -42,6 +42,9 @@ public class ControladorPieza {
         visibleCamino = false;
         visiblePoblado = false;
         visibleCiudad = false;
+        visibleBotonesCiudad = false;
+        visibleBotonesPoblados = false;
+        visibleBotonesCaminos = false;
 
     }
 
@@ -66,8 +69,11 @@ public class ControladorPieza {
     private void invisibilizarBotones() {
         btnCancelar.setOnAction(e -> {
             if (visibleCamino) {
-                for (VistaArista arista : aristas) {
-                    arista.invisibilizarVerticeDisponible();
+                if (visibleBotonesCaminos) {
+                    for (VistaArista arista : aristas) {
+                        arista.invisibilizarVerticeDisponible();
+                    }
+                    visibleBotonesCaminos = false;
                 }
                 permitirVerBotonPoblado(jugador);
                 permitirVerBotonCiudad(jugador);
@@ -75,8 +81,11 @@ public class ControladorPieza {
                 visibleCamino = false;
             }
             if (visiblePoblado) {
-                for (VistaVerticeEdificio vista : vertices) {
-                    vista.invisibilizarVerticeDisponible();
+                if  (visibleBotonesPoblados) {
+                    for (VistaVerticeEdificio vistaVertice : vertices) {
+                        vistaVertice.invisibilizarVerticeDisponible();
+                    }
+                    visibleBotonesPoblados = false;
                 }
                 permitirVerBotonCiudad(jugador);
                 permitirVerBotonCamino(jugador);
@@ -84,8 +93,11 @@ public class ControladorPieza {
                 visiblePoblado = false;
             }
             if (visibleCiudad) {
-                for (VistaVerticeEdificio vistaVertice : vertices) {
-                    vistaVertice.pobladoNoClickeable();
+                if (visibleBotonesCiudad) {
+                    for (VistaVerticeEdificio vistaVertice : vertices) {
+                        vistaVertice.pobladoNoClickeable();
+                    }
+                    visibleBotonesCiudad = false;
                 }
                 permitirVerBotonPoblado(jugador);
                 permitirVerBotonCamino(jugador);
@@ -98,6 +110,7 @@ public class ControladorPieza {
 
     public void comportamientoBotonPoblado(Jugador jugador) {
         btnCancelar.setVisible(true);
+        visibleBotonesPoblados = true;
         visiblePoblado = true;
         vista.disenioDesactivado(btnCamino);
         vista.disenioDesactivado(btnCiudad);
@@ -121,6 +134,7 @@ public class ControladorPieza {
 
     public void comportamientoBotonCamino(Jugador jugador) {
         btnCancelar.setVisible(true);
+        visibleBotonesCaminos = true;
         visibleCamino = true;
         vista.disenioDesactivado(btnPoblado);
         vista.disenioDesactivado(btnCiudad);
@@ -143,6 +157,8 @@ public class ControladorPieza {
 
     public void comportamientoBotonCiudad(Jugador jugador) {
         btnCancelar.setVisible(true);
+        visibleBotonesCiudad = true;
+        visibleCiudad = true;
         vista.disenioDesactivado(btnPoblado);
         vista.disenioDesactivado(btnCamino);
         for (VistaVerticeEdificio vistaVerticeEdificio : vertices) {
@@ -279,9 +295,4 @@ public class ControladorPieza {
         vista.disenioDesactivado(btnPoblado);
     }
 
-    public void setBonificador(BonificadorRutaMayor bonificadorRutaMayor) {
-        for (VistaArista arista : aristas) {
-            arista.setBonificador(bonificadorRutaMayor);
-        }
-    }
 }

@@ -147,4 +147,7 @@ public class VistaVerticeEdificio extends Button {
         controlador.colocarPieza(pieza, vistaRecursos);
     }
 
+    public void setVistaJuego(VistaJuego vistaJuego) {
+        controlador.setVistaJuego(vistaJuego);
+    }
 }

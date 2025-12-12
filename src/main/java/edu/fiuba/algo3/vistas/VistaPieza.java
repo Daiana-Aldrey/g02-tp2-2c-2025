@@ -134,7 +134,4 @@ public class VistaPieza extends HBox {
         return btnCamino;
     }
 
-    public void setBonificador(BonificadorRutaMayor bonificadorRutaMayor) {
-        controlador.setBonificador(bonificadorRutaMayor);
-    }
 }

@@ -5,6 +5,8 @@ import edu.fiuba.algo3.modelo.Jugador;
 import edu.fiuba.algo3.observador.Observador;
 import edu.fiuba.algo3.observador.Observable;
 import edu.fiuba.algo3.utilidades.ReproductorMusica;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.scene.Cursor;
 import javafx.scene.control.ContentDisplay;
 import javafx.scene.layout.*;
@@ -14,7 +16,11 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,12 +31,14 @@ public class VistaJuego extends BorderPane implements Observador {
     private final Label estadoLabel;
     private final Label nombreInferiorLabel;
     private final VBox iconoJugador;
+    HBox barraSupI;
     private final Button tirarDadoBtn;
     private final Button pasarTurnoBtn;
     private final Button botonCiudad;
     private final Button botonCamino;
     private final Button botonPoblado;
     private final Button botonCancelar;
+    private Text textoAviso;
 
     private VistaRecursos vistaRecursos;
     private VistaPropuesta vistaPropuesta;
@@ -120,6 +128,9 @@ public class VistaJuego extends BorderPane implements Observador {
         tirarDadoBtn.setGraphic(vistaDado);
         tirarDadoBtn.setCursor(Cursor.HAND);
 
+        textoAviso = new Text();
+        textoAviso.setFont(Font.font("Arial", FontWeight.BOLD, 20));
+
         //pasar turno
         ImageView viewTurno = new ImageView(new Image("pasar_turno.png"));
         viewTurno.setFitHeight(50);
@@ -176,17 +187,20 @@ public class VistaJuego extends BorderPane implements Observador {
         controlesDerecha.setAlignment(Pos.CENTER_RIGHT);
 
         //barra
-        HBox barraSup = new HBox(botonCancelar);
-        HBox barraInf = new HBox(contenedorRecursos, controlesDerecha);
-        VBox barraPadre = new VBox(barraSup, barraInf);
+        HBox contenedorBotonCancelar = new HBox(botonCancelar);
+        barraSupI = new HBox(contenedorBotonCancelar);
+        contenedorBotonCancelar.setAlignment(Pos.CENTER_RIGHT);
+        HBox.setHgrow(contenedorBotonCancelar, Priority.ALWAYS);
+
+        HBox barraInfI = new HBox(contenedorRecursos, controlesDerecha);
+        VBox barraPadre = new VBox(barraSupI, barraInfI);
         HBox.setHgrow(contenedorRecursos, Priority.ALWAYS);
         HBox.setHgrow(controlesDerecha, Priority.ALWAYS);
 
-        barraSup.setPadding(new Insets(10, 20, 10, 20));
-        barraInf.setPadding(new Insets(10, 20, 10, 20));
-        barraInf.setStyle("-fx-background-color: #3b2145;");
+        barraSupI.setPadding(new Insets(10, 20, 10, 20));
+        barraInfI.setPadding(new Insets(10, 20, 10, 20));
+        barraInfI.setStyle("-fx-background-color: #3b2145;");
 
-        barraSup.setAlignment(Pos.CENTER_RIGHT);
         setBottom(barraPadre);
         StackPane.setAlignment(vistaPropuesta, Pos.BOTTOM_LEFT);
         StackPane.setMargin(vistaPropuesta, new Insets(0, 0, 20, 20));
@@ -206,6 +220,7 @@ public class VistaJuego extends BorderPane implements Observador {
             if (msg.equals("DADOS")) {
             	actualizarVistaDados();
                 invisibilizarBotonDados();
+                actualizarVistaPieza(modelo.juego().jugadorActual());
             }
             if (msg.equals("TURNO")) {
                 actualizarJugador();
@@ -237,6 +252,7 @@ public class VistaJuego extends BorderPane implements Observador {
             }
             if(msg.equals("RECURSOS")){
                 vistaRecursos.actualizarRecursos(modelo.juego().recursosJugadorActual());
+                actualizarVistaPieza(modelo.juego().jugadorActual());
             }
             if(msg.equals("PV")){
                 vistaPuntaje.actualizarPV();
@@ -305,13 +321,18 @@ public class VistaJuego extends BorderPane implements Observador {
         vertices = vistaTablero.getVertices();
         List<VistaArista> aristas = vistaTablero.getArista();
         vistaPieza.setVerticesArista(vertices, aristas);
-        vistaPieza.setBonificador(modelo.getBonificadorRutaMayor());
         ladrones = vistaTablero.getBotonesLadron();
         for (VistaLadron boton : ladrones) {
             boton.inicializarControlador(modelo);
         }
         for (VistaArista arista: aristas) {
             arista.setModeloObservable(modelo);
+            arista.setBonificador(modelo.getBonificadorRutaMayor());
+            arista.setVistaJuego(this);
+        }
+
+        for (VistaVerticeEdificio vistaVertice: vertices) {
+            vistaVertice.setVistaJuego(this);
         }
     }
 
@@ -322,7 +343,6 @@ public class VistaJuego extends BorderPane implements Observador {
     private void primeraRonda() {
         actualizarVistaDados();
         invisibilizarBotonDados();
-        actualizarVistaPieza(modelo.juego().jugadorActual());
         iconoJugador.setBackground(new Background(new BackgroundFill(modelo.juego().jugadorActual().obtenerColor(), new CornerRadii(100), Insets.EMPTY)));
         
         if (modelo.esFaseInicial()) {
@@ -371,5 +391,17 @@ public class VistaJuego extends BorderPane implements Observador {
         } else {
             vistaPieza.habilitarCamino();
         }
+    }
+
+    public void mostrarAviso(String mensaje) {
+        textoAviso.setText(mensaje);
+        barraSupI.getChildren().add(0,textoAviso);
+
+        Timeline timeline = new Timeline(
+                new KeyFrame(Duration.seconds(5), e -> textoAviso.setVisible(false))
+        );
+
+        timeline.setCycleCount(1);
+        timeline.play();
     }
 }
