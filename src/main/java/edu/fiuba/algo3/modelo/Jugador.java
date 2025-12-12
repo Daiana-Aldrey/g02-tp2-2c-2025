@@ -17,10 +17,10 @@ import java.util.*;
 
 public class Jugador {
     public final int MADERA = 0;
-    public final int MINERAL = 1;
-    public final int LADRILLO = 2;
-    public final int LANA = 3;
-    public final int GRANO = 4;
+    public final int LADRILLO = 1;
+    public final int LANA = 2;
+    public final int GRANO = 3;
+    public final int MINERAL = 4;
 	private String nombre;
     private Color color;
     private int puntosDeVictoria = 0;

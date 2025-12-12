@@ -47,7 +47,7 @@ public class ControladorMoverLadron {
             vista.colocarLadron();
 
         } catch (VictimaInvalida e) {
-            mostrarAlerta("Error de Robo", "Ese jugador no tiene construcciones adyacentes.");
+            mostrarAlerta("Error de Robo", "No hay a quien robar.");
         } catch (ColocacionInvalida e) {
             mostrarAlerta("Movimiento Inválido", "El ladrón ya está aquí o posición inválida.");
         } catch (Exception e) {
