@@ -86,11 +86,11 @@ public class Jugador {
     }
 
 	private void inicializarRecursos() {
-        Madera  madera = new Madera();
-        Mineral mineral = new Mineral();
-        Ladrillo ladrillo = new Ladrillo();
-        Lana lana = new Lana();
-        Grano grano = new Grano();
+        Madera  madera = new Madera(4);
+        Mineral mineral = new Mineral(4);
+        Ladrillo ladrillo = new Ladrillo(4);
+        Lana lana = new Lana(4);
+        Grano grano = new Grano(4);
 		recursos.add(madera);
         recursos.add(mineral);
         recursos.add(ladrillo);
