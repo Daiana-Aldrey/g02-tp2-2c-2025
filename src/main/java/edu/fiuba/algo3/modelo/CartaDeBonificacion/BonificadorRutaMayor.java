@@ -40,4 +40,8 @@ public class BonificadorRutaMayor {
         return mayorRuta;
     }
 
+    public Jugador obtenerBonificado(){
+        return mayorRuta.obtenerPropietario();
+    }
+
 }

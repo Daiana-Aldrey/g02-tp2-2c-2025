@@ -1,9 +1,12 @@
 package edu.fiuba.algo3.controllers;
 
+import edu.fiuba.algo3.Excepciones.ColocacionInvalida;
+import edu.fiuba.algo3.Excepciones.SinRecursos;
 import edu.fiuba.algo3.modelo.*;
 import edu.fiuba.algo3.modelo.NoJugador;
 import edu.fiuba.algo3.modelo.Tablero.VerticeEdificio;
 import edu.fiuba.algo3.modelo.Ubicacion.Ubicacion;
+import edu.fiuba.algo3.vistas.VistaJuego;
 import edu.fiuba.algo3.vistas.VistaRecursos;
 import edu.fiuba.algo3.vistas.VistaVerticeEdificio;
 
@@ -17,6 +20,8 @@ public class ControladorVertice {
     private Jugador jugador;
     Ubicacion ubicacion;
     List<Ubicacion> ubicaciones;
+    private VistaJuego vistaJuego;
+    private JuegoObservable modeloObservable;
 
     public ControladorVertice(VistaVerticeEdificio vista, VerticeEdificio modelo) {
         this.vista = vista;
@@ -29,21 +34,33 @@ public class ControladorVertice {
         ubicaciones.add(this.ubicacion);
     }
 
+    public void setModeloObservable(JuegoObservable modeloObservable){ 
+    	this.modeloObservable = modeloObservable; 
+    }
+
+    
     public void colocarPieza(String tipoPieza, VistaRecursos vistaRecursos) {
         vista.setOnAction(e -> {
+            try {
                 if (tipoPieza.equals("poblado")) {
-                    jugador.construirPieza(tipoPieza, ubicaciones);
+                	modeloObservable.construirPiezaObervable(tipoPieza, ubicaciones);
                     vista.cambiarFormaYColorPoblado(jugador.obtenerColor());
                     actualizarAdyacentes();
                     vistaRecursos.actualizarRecursos(jugador.recursos());
                 }
                 if (tipoPieza.equals("ciudad")) {
-                    jugador.construirPieza(tipoPieza, ubicaciones);
+                	modeloObservable.construirPiezaObervable(tipoPieza, ubicaciones);
                     vista.cambiarFormaACiudad(jugador.obtenerColor());
                     actualizarAdyacentes();
                     vistaRecursos.actualizarRecursos(jugador.recursos());
                 }
-
+            } catch (ColocacionInvalida e1) {
+                vistaJuego.mostrarAviso("No se permite colocar una pieza en ese lugar");
+            } catch (SinRecursos e2) {
+                vistaJuego.mostrarAviso("No tiene los suficientes recursos");
+            } catch (Exception error) {
+                System.out.println("Faltan recursos para el camino");
+            }
         });
     }
 
@@ -71,5 +88,9 @@ public class ControladorVertice {
         for (VistaVerticeEdificio adyacente : adyacentes) {
             adyacente.mostrarVerticeDisponible();
         }
+    }
+
+    public void setVistaJuego(VistaJuego vistaJuego) {
+        this.vistaJuego = vistaJuego;
     }
 }

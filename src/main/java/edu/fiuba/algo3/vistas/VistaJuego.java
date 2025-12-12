@@ -5,6 +5,8 @@ import edu.fiuba.algo3.modelo.Jugador;
 import edu.fiuba.algo3.observador.Observador;
 import edu.fiuba.algo3.observador.Observable;
 import edu.fiuba.algo3.utilidades.ReproductorMusica;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.scene.Cursor;
 import javafx.scene.control.ContentDisplay;
 import javafx.scene.layout.*;
@@ -14,7 +16,11 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,12 +31,12 @@ public class VistaJuego extends BorderPane implements Observador {
     private final Label estadoLabel;
     private final Label nombreInferiorLabel;
     private final VBox iconoJugador;
+    HBox barraSupI;
     private final Button tirarDadoBtn;
     private final Button pasarTurnoBtn;
-    private final Button botonCiudad;
-    private final Button botonCamino;
-    private final Button botonPoblado;
     private final Button botonCancelar;
+    private Text textoAviso;
+    private Timeline timeline;
 
     private VistaRecursos vistaRecursos;
     private VistaPropuesta vistaPropuesta;
@@ -53,7 +59,7 @@ public class VistaJuego extends BorderPane implements Observador {
         this.setRight(vistaPuntaje);
         primerLadron = false;
 
-        pasarTurnoBtn = new Button();
+        modelo.setVistaJuego(this);
         
         StackPane panelCentral = new StackPane();
         panelCentral.setAlignment(Pos.CENTER);
@@ -94,7 +100,7 @@ public class VistaJuego extends BorderPane implements Observador {
         // botones
         Button verCartasBtn = new BotonAccion("Ver Cartas", new HandlerVerCartas(modelo,this));
         Button intercambiarBtn = new BotonAccion("Intercambiar", new HandlerIntercambio(modelo,this));
-        Button pasarTurnoBtn = new Button();
+        pasarTurnoBtn = new Button();
         pasarTurnoBtn.setOnAction(event -> {
             cerrarVentanasAbiertas();
             new HandlerPasarTurno(modelo).handle(event);
@@ -120,12 +126,15 @@ public class VistaJuego extends BorderPane implements Observador {
         tirarDadoBtn.setGraphic(vistaDado);
         tirarDadoBtn.setCursor(Cursor.HAND);
 
+        textoAviso = new Text();
+        textoAviso.setFont(Font.font("Arial", FontWeight.BOLD, 20));
+
         //pasar turno
         ImageView viewTurno = new ImageView(new Image("pasar_turno.png"));
         viewTurno.setFitHeight(50);
         viewTurno.setPreserveRatio(true);
-        pasarTurnoBtn.setGraphic(viewTurno);
-        pasarTurnoBtn.setStyle("-fx-background-color: transparent; -fx-cursor: hand;");
+        this.pasarTurnoBtn.setGraphic(viewTurno);
+        this.pasarTurnoBtn.setStyle("-fx-background-color: transparent; -fx-cursor: hand;");
       
         //Banco
         Button bankBtn = new Button();
@@ -166,27 +175,29 @@ public class VistaJuego extends BorderPane implements Observador {
 
         // Botones de Pieza
         this.vistaPieza = new VistaPieza(vistaRecursos);
+        vistaPieza.setVistaPieza(this);
         botonCancelar = vistaPieza.obtenerBotonCancelar();
-        botonCamino = vistaPieza.obtenerBotonCamino();
-        botonPoblado = vistaPieza.obtenerBotonPoblado();
-        botonCiudad = vistaPieza.obtenerBotonCiudad();
 
         // organizador barra derecha
         HBox controlesDerecha = new HBox(15, bankBtn, intercambiarBtn, verCartasBtn,vistaPieza,tirarDadoBtn, grupoFinDeTurno);
         controlesDerecha.setAlignment(Pos.CENTER_RIGHT);
 
         //barra
-        HBox barraSup = new HBox(botonCancelar);
-        HBox barraInf = new HBox(contenedorRecursos, controlesDerecha);
-        VBox barraPadre = new VBox(barraSup, barraInf);
+        HBox contenedorBotonCancelar = new HBox(botonCancelar);
+        barraSupI = new HBox(contenedorBotonCancelar);
+        barraSupI.getChildren().add(0,textoAviso);
+        contenedorBotonCancelar.setAlignment(Pos.CENTER_RIGHT);
+        HBox.setHgrow(contenedorBotonCancelar, Priority.ALWAYS);
+
+        HBox barraInfI = new HBox(contenedorRecursos, controlesDerecha);
+        VBox barraPadre = new VBox(barraSupI, barraInfI);
         HBox.setHgrow(contenedorRecursos, Priority.ALWAYS);
         HBox.setHgrow(controlesDerecha, Priority.ALWAYS);
 
-        barraSup.setPadding(new Insets(10, 20, 10, 20));
-        barraInf.setPadding(new Insets(10, 20, 10, 20));
-        barraInf.setStyle("-fx-background-color: #3b2145;");
+        barraSupI.setPadding(new Insets(10, 20, 10, 20));
+        barraInfI.setPadding(new Insets(10, 20, 10, 20));
+        barraInfI.setStyle("-fx-background-color: #3b2145;");
 
-        barraSup.setAlignment(Pos.CENTER_RIGHT);
         setBottom(barraPadre);
         StackPane.setAlignment(vistaPropuesta, Pos.BOTTOM_LEFT);
         StackPane.setMargin(vistaPropuesta, new Insets(0, 0, 20, 20));
@@ -206,6 +217,7 @@ public class VistaJuego extends BorderPane implements Observador {
             if (msg.equals("DADOS")) {
             	actualizarVistaDados();
                 invisibilizarBotonDados();
+                actualizarVistaPieza(modelo.juego().jugadorActual());
             }
             if (msg.equals("TURNO")) {
                 actualizarJugador();
@@ -233,10 +245,12 @@ public class VistaJuego extends BorderPane implements Observador {
             if (msg.equals("NUEVA_PROPUESTA") || msg.equals("PROPUESTA_CERRADA")) {
             	vistaPropuesta.actualizarPropuesta();
                 vistaPropuesta.toFront();
+                actualizarVistaPieza(modelo.juego().jugadorActual());
                 
             }
             if(msg.equals("RECURSOS")){
                 vistaRecursos.actualizarRecursos(modelo.juego().recursosJugadorActual());
+                actualizarVistaPieza(modelo.juego().jugadorActual());
             }
             if(msg.equals("PV")){
                 vistaPuntaje.actualizarPV();
@@ -269,12 +283,14 @@ public class VistaJuego extends BorderPane implements Observador {
         }
     }
     
-    private void habilitarBotonPasarTurno() {
+    public void habilitarBotonPasarTurno() {
         pasarTurnoBtn.setDisable(false);
+        pasarTurnoBtn.setCursor(Cursor.HAND);
     }
 
-    private void deshabilitarBotonPasarTurno() {
+    public void deshabilitarBotonPasarTurno() {
         pasarTurnoBtn.setDisable(true);
+        pasarTurnoBtn.setCursor(Cursor.DEFAULT);
     }
 
     private void actualizarJugador() {
@@ -305,13 +321,19 @@ public class VistaJuego extends BorderPane implements Observador {
         vertices = vistaTablero.getVertices();
         List<VistaArista> aristas = vistaTablero.getArista();
         vistaPieza.setVerticesArista(vertices, aristas);
-        vistaPieza.setBonificador(modelo.getBonificadorRutaMayor());
         ladrones = vistaTablero.getBotonesLadron();
         for (VistaLadron boton : ladrones) {
             boton.inicializarControlador(modelo);
         }
         for (VistaArista arista: aristas) {
             arista.setModeloObservable(modelo);
+            arista.setBonificador(modelo.getBonificadorRutaMayor());
+            arista.setVistaJuego(this);
+        }
+
+        for (VistaVerticeEdificio vistaVertice: vertices) {
+            vistaVertice.setVistaJuego(this);
+            vistaVertice.setModeloObservable(modelo);
         }
     }
 
@@ -322,13 +344,11 @@ public class VistaJuego extends BorderPane implements Observador {
     private void primeraRonda() {
         actualizarVistaDados();
         invisibilizarBotonDados();
-        actualizarVistaPieza(modelo.juego().jugadorActual());
         iconoJugador.setBackground(new Background(new BackgroundFill(modelo.juego().jugadorActual().obtenerColor(), new CornerRadii(100), Insets.EMPTY)));
         
         if (modelo.esFaseInicial()) {
         	configurarInterfazFaseInicial();
             invisibilizarBotonDados();
-            habilitarBotonPasarTurno();
 
             if(modelo.esFaseInicial()){
                 VistaInfo.mostrar("Atención", "En las primeras dos rondas cada jugdor deberá colocar un poblado y un camino, en ese orden.");
@@ -371,5 +391,21 @@ public class VistaJuego extends BorderPane implements Observador {
         } else {
             vistaPieza.habilitarCamino();
         }
+    }
+
+    public void mostrarAviso(String mensaje) {
+        textoAviso.setText(mensaje);
+        textoAviso.setVisible(true);
+
+        if (timeline != null) {
+            timeline.stop();
+        }
+
+        timeline = new Timeline(
+                new KeyFrame(Duration.seconds(5), e -> textoAviso.setVisible(false))
+        );
+
+        timeline.setCycleCount(1);
+        timeline.play();
     }
 }

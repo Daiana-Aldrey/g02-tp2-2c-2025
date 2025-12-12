@@ -137,4 +137,7 @@ public class VistaArista extends Group {
 
     public void setModeloObservable(JuegoObservable modeloObservable) {controlador.setModeloObservable(modeloObservable);}
 
+    public void setVistaJuego(VistaJuego vistaJuego) {
+        controlador.setVistaJuego(vistaJuego);
+    }
 }

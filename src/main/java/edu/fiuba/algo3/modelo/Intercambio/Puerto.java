@@ -22,7 +22,7 @@ public abstract class Puerto implements Comercializar {
         muelle2.notificarConstruccion(ubicacion, pieza);
     }
 
-    protected boolean jugadorTieneAcceso(Jugador jugador) {
+    public boolean jugadorTieneAcceso(Jugador jugador) {
         return muelle1.perteneceAJugador(jugador) ||
                muelle2.perteneceAJugador(jugador);
     }

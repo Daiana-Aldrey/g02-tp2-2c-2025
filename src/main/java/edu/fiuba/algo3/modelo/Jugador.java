@@ -5,7 +5,6 @@ import javafx.scene.paint.Color;
 import edu.fiuba.algo3.Excepciones.NoTieneCarta;
 import edu.fiuba.algo3.modelo.CartaDeBonificacion.RutaMayor;
 import edu.fiuba.algo3.modelo.CartaDeDesarrollo.Carta;
-import edu.fiuba.algo3.modelo.Intercambio.Puerto;
 import edu.fiuba.algo3.modelo.Pieza.*;
 import edu.fiuba.algo3.modelo.Recurso.*;
 import edu.fiuba.algo3.modelo.Tablero.Tablero;
@@ -17,6 +16,11 @@ import java.util.ArrayList;
 import java.util.*;
 
 public class Jugador {
+    public final int MADERA = 0;
+    public final int LADRILLO = 1;
+    public final int LANA = 2;
+    public final int GRANO = 3;
+    public final int MINERAL = 4;
 	private String nombre;
     private Color color;
     private int puntosDeVictoria = 0;
@@ -29,6 +33,7 @@ public class Jugador {
     private List<Camino>  caminos  = new ArrayList<>();
     private List<Carta> cartasDesarrollo = new ArrayList<>();
     private List<Carta> cartasDesarrolloRecienCompradas = new ArrayList<>();
+    private Recurso[] recursosVector;
 
 
     public Jugador(String nombre) {
@@ -80,11 +85,19 @@ public class Jugador {
     }
 
 	private void inicializarRecursos() {
-		recursos.add(new Madera());
-        recursos.add(new Mineral());
-        recursos.add(new Ladrillo());
-        recursos.add(new Lana());
-        recursos.add(new Grano());
+        Madera  madera = new Madera();
+        Ladrillo ladrillo = new Ladrillo();
+        Lana lana = new Lana();
+        Grano grano = new Grano();
+        Mineral mineral = new Mineral();
+
+		recursos.add(madera);
+        recursos.add(ladrillo);
+        recursos.add(lana);
+        recursos.add(grano);
+        recursos.add(mineral);
+
+        recursosVector = new Recurso[]{madera, ladrillo, lana, grano, mineral};
 	}
 	
 	public void recibirRecurso(Recurso recursoARecibir, int cantidad) {
@@ -100,8 +113,8 @@ public class Jugador {
     public void construirPieza(String tipo, List<Ubicacion> ubicacion) {
         Pieza pieza = Pieza.crear(tipo, this);
         List<Recurso> precio = pieza.costoDeConstruccion();
-        pagarRecursos(precio);
         pieza.colocar(ubicacion);
+        pagarRecursos(precio);
     }
 
     public void pagarRecursos(List<Recurso> precio) {
@@ -143,26 +156,20 @@ public class Jugador {
     public void descartarMitad() {
         int total = totalRecursos();
         if (total <= 7) return;
+
         int aDescartar = total / 2;
-
         int i = 0;
-        while (aDescartar > 0 && i < recursos.size()) {
+
+        while (aDescartar > 0) {
             Recurso r = recursos.get(i);
-            int disponible = r.cantidad();
-            int tomar = Math.min(disponible, aDescartar);
-
-            if (tomar > 0) {
-                r.decrementar(tomar);
-                aDescartar -= tomar;
+            if (r.cantidad() > 0) {
+                r.decrementar(1);
+                aDescartar--;
             }
-
-            if (r.cantidad() == 0) {
-                recursos.remove(i);
-            } else {
-                i++;
-            }
+            i = (i + 1) % recursos.size();
         }
     }
+
 
     public void robarCartaAleatoriaA(Jugador victima) {
         List<Recurso> robables = new ArrayList<>();
@@ -356,6 +363,10 @@ public class Jugador {
 
     public List<Recurso> recursos(){
         return recursos;
+    }
+
+    public Recurso[]  getRecursosVector() {
+        return recursosVector;
     }
 
     public List<Carta> getCartasDesarrollo(){

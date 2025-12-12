@@ -18,7 +18,7 @@ public class VistaRecursos extends HBox {
         setSpacing(20);
         setAlignment(Pos.CENTER);
 
-        String[] recursos = {"madera", "lana", "grano", "ladrillo", "mineral"};
+        String[] recursos = {"madera",  "ladrillo", "lana", "grano", "mineral"};
 
         for (String recurso : recursos) {
             HBox panel = crearVistaDeRecursoDelJugador("recursos/" + recurso + ".png", recurso);

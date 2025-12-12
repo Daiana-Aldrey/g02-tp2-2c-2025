@@ -1,14 +1,12 @@
 package edu.fiuba.algo3.controllers;
 
 import edu.fiuba.algo3.modelo.JuegoObservable;
-import edu.fiuba.algo3.modelo.Jugador;
 import edu.fiuba.algo3.modelo.Ubicacion.UbicacionVertice;
 import edu.fiuba.algo3.Excepciones.VictimaInvalida;
 import edu.fiuba.algo3.Excepciones.ColocacionInvalida;
 import edu.fiuba.algo3.vistas.VistaLadron;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ChoiceDialog;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -49,9 +47,9 @@ public class ControladorMoverLadron {
             vista.colocarLadron();
 
         } catch (VictimaInvalida e) {
-            mostrarAlerta("Error de Robo", "Ese jugador no tiene construcciones adyacentes.");
+            mostrarAlerta("Error de Robo", "No hay a quien robar.");
         } catch (ColocacionInvalida e) {
-            mostrarAlerta("Movimiento Inválido", "El ladrón ya está aquí o posición inválida.");
+            mostrarAlerta("Movimiento Inválido", "El ladrón ya está aquí");
         } catch (Exception e) {
             mostrarAlerta("Error", e.getMessage());
         }

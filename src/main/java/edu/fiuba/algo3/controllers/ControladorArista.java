@@ -7,6 +7,7 @@ import edu.fiuba.algo3.modelo.NoJugador;
 import edu.fiuba.algo3.modelo.Tablero.Arista;
 import edu.fiuba.algo3.modelo.Ubicacion.Ubicacion;
 import edu.fiuba.algo3.vistas.VistaArista;
+import edu.fiuba.algo3.vistas.VistaJuego;
 import edu.fiuba.algo3.vistas.VistaRecursos;
 import javafx.scene.control.Button;
 import edu.fiuba.algo3.Excepciones.*;
@@ -17,6 +18,7 @@ import java.util.List;
 
 public class ControladorArista {
     private VistaArista vista;
+    private VistaJuego vistaJuego;
     private Arista modelo;
     private Jugador jugador;
     private Ubicacion ubicacion1;
@@ -52,21 +54,23 @@ public class ControladorArista {
 
     public void construirPieza(String tipoPieza, VistaRecursos vistaRecursos) {
         boton.setOnAction(e -> {
-            try {//PARA CARTA CONTRUCCION CARRETERA
+            try {
                 if (modeloObservable.estaEnModoConstruccionCarreteras()) {
                     modeloObservable.registrarCaminoParaCarta(ubicaciones);
                     vista.cambiarFormaYColor(modeloObservable.juego().jugadorActual().obtenerColor());
                     return;
                 }
-                jugador.construirPieza(tipoPieza, ubicaciones);
+                modeloObservable.construirPiezaObervable(tipoPieza, ubicaciones);
                 vista.cambiarFormaYColor(jugador.obtenerColor());
-                vistaRecursos.actualizarRecursos(jugador.recursos());
                 bonificador.bonificarPorRutaMayor();
             } catch (RecursoIncorrecto | SinRecursos error) {
-                System.out.println("Faltan recursos para el camino");
+                vistaJuego.mostrarAviso("Faltan recursos para el camino");
+            } catch (ColocacionInvalida error) {
+                vistaJuego.mostrarAviso("No puede colocar un camino independiente");
             } catch (Exception error) {
                  System.out.println("Error: " + error.getMessage());
             }
+            vistaRecursos.actualizarRecursos(jugador.recursos());
         });
     }
 
@@ -84,5 +88,9 @@ public class ControladorArista {
     public void setBonificador(BonificadorRutaMayor bonificador) {
         this.bonificador = bonificador;
 
+    }
+
+    public void setVistaJuego(VistaJuego vistaJuego) {
+        this.vistaJuego = vistaJuego;
     }
 }
